@@ -54,3 +54,19 @@ test("includes local persistence and installable offline support", async () => {
   assert.match(worker, /"\/manifest\.webmanifest"/);
   assert.doesNotMatch(packageJson, /react-loading-skeleton/);
 });
+
+test("includes a dedicated one-page A4 PASS print report", async () => {
+  const [page, css] = await Promise.all([
+    readFile(new URL("../app/page.tsx", import.meta.url), "utf8"),
+    readFile(new URL("../app/globals.css", import.meta.url), "utf8"),
+  ]);
+
+  assert.match(page, /className="pass-print-report"/);
+  assert.match(page, /length=\{30\} variant="focus"/);
+  assert.match(page, /length=\{80\} variant="lifetime"/);
+  assert.match(page, /PrintMonthSection/);
+  assert.match(css, /@page \{ size: A4 portrait; margin: 0; \}/);
+  assert.match(css, /\.chart-view > :not\(\.pass-print-report\)/);
+  assert.match(css, /width: 210mm;/);
+  assert.match(css, /height: 297mm;/);
+});

@@ -75,4 +75,56 @@ test("matches the original Roman Peter Vaughan report exactly", () => {
     personalMonthEssence: "345678912345",
     combined: "792468135792",
   });
+
+  const lifetime = report.getYearSet(0, 80);
+  assert.equal(lifetime.names.length, 3);
+  assert.equal(lifetime.combined[0], "/");
+  for (const row of [
+    ...lifetime.names,
+    lifetime.essence,
+    lifetime.combined,
+    lifetime.personalYear,
+    lifetime.calendarYear,
+  ]) {
+    assert.equal(row.length, 80);
+  }
+});
+
+test("matches the Alexander print-chart values and builds the 80-year footer", () => {
+  const report = new Report("Alexander Joshua olson", "02/09/1992", 2026);
+  assert.deepEqual(
+    {
+      hdc: report.hdc,
+      hdcTotal: report.hdcTotal,
+      fullLetters: report.fullLetters,
+      fullLettersTotal: report.fullLettersTotal,
+      fullLettersTotalPart: report.fullLettersTotalPart,
+      pmei: report.pmei,
+      birthForce: report.birthForce,
+      pin: report.pin,
+      cha: report.cha,
+      ultimateGoal: report.ultimateGoal,
+      seasons: report.seasons,
+    },
+    {
+      hdc: "1 5 1  5   6  31 6  6 ",
+      hdcTotal: "34/7",
+      fullLetters: "135615459 161831 63165",
+      fullLettersTotal: "80/8",
+      fullLettersTotalPart: "39/12/3   20/2   21/3 ",
+      pmei: ["1   4 = 5", "6   1 = 7", "0 3 4 = 7", "0   1 = 1"],
+      birthForce: "2  9  21/3 32/5",
+      pin: "257-3",
+      cha: "716-6",
+      ultimateGoal: "112/4",
+      seasons: ["0 ~ 31", "32 ~ 40", "41 ~ 49", "50 ~~"],
+    },
+  );
+
+  const lifetime = report.getYearSet(0, 80);
+  assert.match(lifetime.names[0], /^ ALLLEEEEEXXXXXXANNNNNDDDDEEEEERRRRRRRRR/);
+  assert.equal(lifetime.essence.length, 80);
+  assert.equal(lifetime.combined.length, 80);
+  assert.equal(lifetime.personalYear.length, 80);
+  assert.equal(lifetime.calendarYear.length, 80);
 });

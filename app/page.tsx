@@ -148,6 +148,149 @@ function MonthBand({ report, focusAge }: { report: Report; focusAge: number }) {
   );
 }
 
+type PrintTone = "black" | "red" | "blue" | "cyan" | "green";
+
+function PrintCharacterRow({
+  value,
+  length,
+  tone = "black",
+  label = "",
+}: {
+  value: string;
+  length: number;
+  tone?: PrintTone;
+  label?: string;
+}) {
+  const characters = Array.from(value.padEnd(length, " ").slice(0, length));
+  const style = { "--print-columns": length } as CSSProperties;
+  return (
+    <div className="print-data-row">
+      <div className={`print-character-row print-tone-${tone}`} style={style}>
+        {characters.map((character, index) => (
+          <span key={index}>{character === " " ? "\u00a0" : character}</span>
+        ))}
+      </div>
+      <span className={`print-row-label print-tone-${tone}`}>{label}</span>
+    </div>
+  );
+}
+
+function ageMarker(start: number, length: number, kind: "tens" | "ones"): string {
+  return Array.from({ length }, (_, index) => {
+    const age = start + index;
+    if (kind === "ones") return String(age % 10);
+    return age % 10 === 0 ? String(Math.floor(age / 10) % 10) : " ";
+  }).join("");
+}
+
+function PrintYearSection({
+  report,
+  start,
+  length,
+  variant,
+}: {
+  report: Report;
+  start: number;
+  length: number;
+  variant: "focus" | "lifetime";
+}) {
+  const set = report.getYearSet(start, length);
+  const nameRows = Array.from({ length: 8 }, (_, index) => set.names[index] ?? ":".repeat(length));
+  const markerIndex = report.age - start;
+  const marker = markerIndex >= 0 && markerIndex < length
+    ? `${" ".repeat(markerIndex)}*`
+    : "";
+
+  return (
+    <section className={`print-year-section print-year-${variant}`} aria-label={`${variant} year cycles`}>
+      {variant === "focus" && <PrintCharacterRow value={marker} length={length} tone="red" />}
+      <PrintCharacterRow value={ageMarker(start, length, "tens")} length={length} />
+      <PrintCharacterRow value={ageMarker(start, length, "ones")} length={length} />
+      {nameRows.map((value, index) => (
+        <PrintCharacterRow key={`name-${index}`} value={value} length={length} tone="red" />
+      ))}
+      <PrintCharacterRow value={":".repeat(length)} length={length} tone="red" />
+      <PrintCharacterRow value={set.essence} length={length} tone="blue" label="ESS" />
+      <PrintCharacterRow value={set.combined} length={length} tone="cyan" label="COM" />
+      <PrintCharacterRow value={set.personalYear} length={length} tone="blue" label="PY" />
+      <PrintCharacterRow value={set.calendarYear} length={length} tone="green" label="CY" />
+    </section>
+  );
+}
+
+function PrintMonthSection({ report, currentYear }: { report: Report; currentYear: number }) {
+  const ages = [report.age - 1, report.age, report.age + 1];
+  const sets = ages.map((age) => age < 0 ? EMPTY_MONTH : report.getMonthSet(age));
+  const join = (select: (set: MonthsSet) => string) => sets.map(select).join("");
+  const birthYear = currentYear - report.age;
+
+  return (
+    <section className="print-month-section" aria-label="Three year monthly cycles">
+      <PrintCharacterRow value={join((set) => set.essence)} length={36} tone="red" label="ESS" />
+      <PrintCharacterRow value={join((set) => set.personalMonthEssence)} length={36} tone="blue" label="PME" />
+      <PrintCharacterRow value={join((set) => set.combined)} length={36} tone="cyan" label="MCOM" />
+      <PrintCharacterRow value={join((set) => set.personalMonth)} length={36} tone="blue" label="PM" />
+      <PrintCharacterRow value={MONTHS.join("").repeat(3)} length={36} tone="green" label="CM" />
+      <PrintCharacterRow value={join((set) => set.personalYear)} length={36} tone="red" label="PY" />
+      <div className="print-month-years">
+        {ages.map((age) => <span key={age}>{birthYear + age}</span>)}
+      </div>
+    </section>
+  );
+}
+
+function PassPrintReport({
+  client,
+  report,
+  currentYear,
+  chartDate,
+}: {
+  client: Client;
+  report: Report;
+  currentYear: number;
+  chartDate: string;
+}) {
+  const focusStart = Math.max(0, report.age - 14);
+  return (
+    <article className="pass-print-report" aria-label={`Printable PASS chart for ${client.fullName}`}>
+      <div className="print-watermark">PASS 7</div>
+      <header className="print-report-summary">
+        <div className="print-summary-identity">
+          <code>{report.hdc}  {report.hdcTotal}</code>
+          <code>{client.fullName.toUpperCase()}</code>
+          <code>{report.fullLetters}  {report.fullLettersTotal}</code>
+          <code className="print-summary-parts">{report.fullLettersTotalPart}</code>
+        </div>
+        <div className="print-summary-meta">
+          <time>{chartDate}</time>
+          <code>UG : {report.ultimateGoal}</code>
+        </div>
+        <div className="print-summary-pmei">
+          {report.pmei.map((value, index) => <code key={value}>{["P", "M", "E", "I"][index]} {value}</code>)}
+        </div>
+        <div className="print-summary-birth">
+          <code>{report.dob}</code>
+          <code>{report.birthForce}</code>
+        </div>
+        <div className="print-summary-pincha">
+          <code>P: {spacedSequence(report.pin)}</code>
+          <code>C: {spacedSequence(report.cha)}</code>
+        </div>
+        <div className="print-summary-seasons">
+          <code>Age : {report.age}</code>
+          {report.seasons.map((season) => <code key={season}>{season}</code>)}
+        </div>
+      </header>
+      <PrintYearSection report={report} start={focusStart} length={30} variant="focus" />
+      <PrintMonthSection report={report} currentYear={currentYear} />
+      <PrintYearSection report={report} start={0} length={80} variant="lifetime" />
+      <footer className="print-report-footer">
+        All mapped data remains the property of Peter Vaughan. Private and confidential.
+      </footer>
+    </article>
+  );
+}
+
 function PersonForm({
   person,
   onCancel,
@@ -513,6 +656,13 @@ export default function Home() {
               <p className="scroll-hint no-print">Swipe sideways to compare the previous, selected, and following year.</p>
               <MonthBand report={selectedReport} focusAge={Math.max(0, focusAge)} />
             </section>
+
+            <PassPrintReport
+              client={selectedClient}
+              report={selectedReport}
+              currentYear={currentYear}
+              chartDate={chartDate}
+            />
           </section>
         )}
 
