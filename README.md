@@ -1,11 +1,11 @@
-# PASS 7 Mobile
+# Aionis Timeline Formula
 
-An installable phone version of Peter Vaughan's original PASS numerology chart creator.
+An installable timeline chart creator for phone and desktop web browsers.
 
 ## Features
 
 - Exact port of the original name, birth-date, pinnacle, challenge, essence, personal-year, calendar-year, and monthly calculations
-- Individual QuickChart and Multi Chart comparisons
+- Individual timeline charts and multi-chart comparisons
 - Touch-friendly phone layout with larger-screen support
 - Private on-device person storage using browser local storage
 - Install-to-home-screen support and offline caching

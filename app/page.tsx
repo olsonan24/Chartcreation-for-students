@@ -252,8 +252,11 @@ function PassPrintReport({
 }) {
   const focusStart = Math.max(0, report.age - 14);
   return (
-    <article className="pass-print-report" aria-label={`Printable PASS chart for ${client.fullName}`}>
-      <div className="print-watermark">PASS 7</div>
+    <article className="pass-print-report" aria-label={`Printable Aionis timeline chart for ${client.fullName}`}>
+      <div className="print-brand" aria-label="Aionis Timeline Formula">
+        <Image src="/aionis-timeline-formula-logo.jpg" alt="" width={72} height={83} unoptimized />
+        <span><strong>AIONIS</strong><small>TIMELINE FORMULA</small></span>
+      </div>
       <header className="print-report-summary">
         <div className="print-summary-identity">
           <code>{report.hdc}  {report.hdcTotal}</code>
@@ -285,7 +288,7 @@ function PassPrintReport({
       <PrintMonthSection report={report} currentYear={currentYear} />
       <PrintYearSection report={report} start={0} length={80} variant="lifetime" />
       <footer className="print-report-footer">
-        All mapped data remains the property of Peter Vaughan. Private and confidential.
+        Aionis Timeline Formula · Private and confidential.
       </footer>
     </article>
   );
@@ -345,7 +348,7 @@ function PersonForm({
               autoCapitalize="words"
               value={fullName}
               onChange={(event) => setFullName(event.target.value)}
-              placeholder="Roman Peter Vaughan"
+              placeholder="Alexander Morgan Hale"
             />
           </label>
           <label>
@@ -356,7 +359,7 @@ function PersonForm({
               autoCapitalize="words"
               value={calledName}
               onChange={(event) => setCalledName(event.target.value)}
-              placeholder="Roman Vaughan"
+              placeholder="Alexander Hale"
             />
           </label>
           <label>
@@ -388,7 +391,7 @@ function InstallHelp({ onClose }: { onClose: () => void }) {
         <div className="section-heading">
           <div>
             <p className="eyebrow">Phone installation</p>
-            <h2 id="install-title">Add PASS 7 to your home screen</h2>
+            <h2 id="install-title">Add Aionis to your home screen</h2>
           </div>
           <button className="text-button" type="button" onClick={onClose}>Done</button>
         </div>
@@ -507,10 +510,10 @@ export default function Home() {
     <main className="app-shell">
       <header className="app-header no-print">
         <button className="brand-button" type="button" onClick={() => setView("people")} aria-label="Open people list">
-          <Image src="/pass-logo.jpg" alt="PASS" width={50} height={50} priority />
+          <Image src="/aionis-timeline-formula-logo.jpg" alt="Aionis Timeline Formula" width={50} height={50} priority unoptimized />
           <span>
-            <strong>PASS 7</strong>
-            <small>Numerology charts</small>
+            <strong>AIONIS</strong>
+            <small>Timeline Formula</small>
           </span>
         </button>
         <button className="install-button" type="button" onClick={installApp}>Install</button>
@@ -520,9 +523,12 @@ export default function Home() {
         {view === "people" && (
           <section className="people-view view-section">
             <div className="hero-card">
-              <p className="eyebrow">Peter Vaughan&apos;s original system</p>
-              <h1>Your numerology chart creator, now in your pocket.</h1>
-              <p>Exact PASS calculations. Your people stay saved privately on this phone.</p>
+              <Image className="hero-logo" src="/aionis-timeline-formula-logo.jpg" alt="The Timeline Formula - Predictive Insight" width={220} height={253} priority unoptimized />
+              <div className="hero-copy">
+                <p className="eyebrow">Aionis Timeline Formula</p>
+                <h1>Map the patterns that shape a lifetime.</h1>
+                <p>Precise timeline calculations with private, device-only storage on phone and web.</p>
+              </div>
               <div className="hero-actions">
                 <button className="primary-button" type="button" onClick={() => setEditing("new")}>+ Add person</button>
                 <button className="secondary-button" type="button" onClick={installApp}>Add to phone</button>
@@ -542,9 +548,9 @@ export default function Home() {
               <div className="empty-card"><p>Loading your saved people…</p></div>
             ) : clients.length === 0 ? (
               <div className="empty-card">
-                <div className="empty-mark">7</div>
+                <div className="empty-mark">T</div>
                 <h3>Add your first person</h3>
-                <p>Enter a full birth name and date of birth to create the original PASS chart.</p>
+                <p>Enter a full birth name and date of birth to create an Aionis timeline chart.</p>
                 <button className="primary-button" type="button" onClick={() => setEditing("new")}>Add person</button>
               </div>
             ) : (
@@ -585,7 +591,7 @@ export default function Home() {
             <div className="chart-title-row">
               <button className="back-button no-print" type="button" onClick={() => setView("people")}>‹ People</button>
               <div className="print-title">
-                <p className="eyebrow">QuickChart · PASS 7</p>
+                <p className="eyebrow">Aionis Timeline Formula</p>
                 <h1>{selectedClient.fullName}</h1>
                 <p>{selectedClient.dob} · Age {selectedReport.age}</p>
               </div>
@@ -594,7 +600,7 @@ export default function Home() {
 
             <section className="profile-panel original-profile-panel">
               <p className="original-profile-hint no-print">Swipe sideways to view the original chart header.</p>
-              <div className="original-profile-scroll" tabIndex={0} aria-label={`Original PASS chart header for ${selectedClient.fullName}`}>
+              <div className="original-profile-scroll" tabIndex={0} aria-label={`Timeline chart header for ${selectedClient.fullName}`}>
                 <div className="original-profile-sheet">
                   <div className="original-identity">
                     <code>{selectedReport.hdc}  {selectedReport.hdcTotal}</code>
@@ -676,7 +682,7 @@ export default function Home() {
             <div className="chart-title-row">
               <button className="back-button no-print" type="button" onClick={() => setView("people")}>‹ People</button>
               <div className="print-title">
-                <p className="eyebrow">Multi Chart · PASS 7</p>
+                <p className="eyebrow">Aionis Timeline Comparison</p>
                 <h1>Compare people</h1>
                 <p>{compareClients.length} selected</p>
               </div>
@@ -696,7 +702,7 @@ export default function Home() {
               <div className="empty-card">
                 <div className="empty-mark">2</div>
                 <h3>Select at least two people</h3>
-                <p>Choose the people above to align their numerology cycles around one year.</p>
+                <p>Choose the people above to align their timeline cycles around one year.</p>
               </div>
             ) : (
               <>

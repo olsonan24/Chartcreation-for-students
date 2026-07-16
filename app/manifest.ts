@@ -2,9 +2,9 @@ import type { MetadataRoute } from "next";
 
 export default function manifest(): MetadataRoute.Manifest {
   return {
-    name: "PASS 7 Numerology Charts",
-    short_name: "PASS 7",
-    description: "Peter Vaughan's original PASS numerology chart creator.",
+    name: "Aionis Timeline Formula",
+    short_name: "Aionis",
+    description: "A private timeline chart creator for phone and web.",
     start_url: "/",
     display: "standalone",
     background_color: "#f3f4f6",
@@ -12,10 +12,10 @@ export default function manifest(): MetadataRoute.Manifest {
     orientation: "portrait-primary",
     icons: [
       {
-        src: "/app.ico",
-        sizes: "any",
-        type: "image/x-icon",
-        purpose: "any maskable",
+        src: "/aionis-timeline-formula-logo.jpg",
+        sizes: "1065x1225",
+        type: "image/jpeg",
+        purpose: "any",
       },
     ],
   };

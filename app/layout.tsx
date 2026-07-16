@@ -2,20 +2,20 @@ import type { Metadata, Viewport } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "PASS 7 Numerology Charts",
-  description: "Peter Vaughan's original PASS numerology chart creator for your phone.",
-  applicationName: "PASS 7",
+  title: "Aionis Timeline Formula",
+  description: "A private timeline chart creator for phone and web.",
+  applicationName: "Aionis Timeline Formula",
   manifest: "/manifest.webmanifest",
   appleWebApp: {
     capable: true,
     statusBarStyle: "default",
-    title: "PASS 7",
+    title: "Aionis",
   },
   formatDetection: { telephone: false },
   icons: {
-    icon: "/app.ico",
-    shortcut: "/app.ico",
-    apple: "/pass-logo.jpg",
+    icon: "/aionis-timeline-formula-logo.jpg",
+    shortcut: "/aionis-timeline-formula-logo.jpg",
+    apple: "/aionis-timeline-formula-logo.jpg",
   },
 };
 

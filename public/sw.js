@@ -1,5 +1,5 @@
-const CACHE_NAME = "pass7-mobile-v1";
-const APP_SHELL = ["/", "/manifest.webmanifest", "/app.ico", "/pass-logo.jpg"];
+const CACHE_NAME = "aionis-timeline-v2";
+const APP_SHELL = ["/", "/manifest.webmanifest", "/aionis-timeline-formula-logo.jpg"];
 
 self.addEventListener("install", (event) => {
   event.waitUntil(caches.open(CACHE_NAME).then((cache) => cache.addAll(APP_SHELL)));
