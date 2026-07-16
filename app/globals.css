@@ -267,18 +267,19 @@ code, .number-grid, .month-grid { font-family: "Courier New", Courier, monospace
 
 @media print {
   @page { size: A4 portrait; margin: 0; }
-  html, body { width: 210mm; height: 297mm; background: white; }
+  html, body { width: 210mm; min-height: 0 !important; height: auto; background: white; }
   body { margin: 0; print-color-adjust: exact; -webkit-print-color-adjust: exact; }
   .no-print, .bottom-nav, .app-header, .chart-view > :not(.pass-print-report) { display: none !important; }
-  .app-shell, .content-shell { width: 210mm; min-height: 0; margin: 0; padding: 0; }
+  .app-shell, .content-shell, .chart-view { width: 210mm; min-height: 0 !important; height: auto; margin: 0; padding: 0; }
   .content-shell, .chart-view { display: block; max-width: none; }
   .pass-print-report {
     position: relative;
     width: 210mm;
-    height: 297mm;
-    padding: 8mm 7mm 6mm;
+    height: 290mm;
+    max-height: 290mm;
+    padding: 7mm 7mm 5mm;
     display: grid !important;
-    grid-template-rows: 60mm 78mm 42mm 78mm 1fr;
+    grid-template-rows: 58mm 76mm 40mm 76mm 1fr;
     align-content: start;
     gap: 3mm;
     overflow: hidden;
@@ -287,6 +288,8 @@ code, .number-grid, .month-grid { font-family: "Courier New", Courier, monospace
     font-family: "Courier New", Courier, monospace;
     break-after: avoid-page;
     break-inside: avoid-page;
+    page-break-after: avoid;
+    page-break-inside: avoid;
   }
   .print-watermark {
     position: absolute;

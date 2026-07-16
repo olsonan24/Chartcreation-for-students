@@ -77,5 +77,8 @@ test("includes a dedicated one-page A4 PASS print report", async () => {
   assert.match(css, /@page \{ size: A4 portrait; margin: 0; \}/);
   assert.match(css, /\.chart-view > :not\(\.pass-print-report\)/);
   assert.match(css, /width: 210mm;/);
-  assert.match(css, /height: 297mm;/);
+  assert.match(css, /height: 290mm;/);
+  assert.match(css, /max-height: 290mm;/);
+  assert.match(css, /grid-template-rows: 58mm 76mm 40mm 76mm 1fr;/);
+  assert.doesNotMatch(css, /height: 297mm;/);
 });
