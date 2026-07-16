@@ -151,16 +151,21 @@ button:focus-visible, input:focus-visible, .chart-scroll:focus-visible {
 .profile-panel { padding: 18px; display: grid; gap: 17px; }
 .formula-stack { display: grid; gap: 8px; }
 .formula-stack > div { display: grid; grid-template-columns: 56px minmax(0,1fr); gap: 8px; align-items: baseline; }
-.formula-stack span, .metric span, .season-strip span { color: var(--muted-ink); font-size: 10px; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase; }
+.formula-stack span, .legacy-value span, .season-strip span { color: var(--muted-ink); font-size: 10px; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase; }
 code, .number-grid, .month-grid { font-family: "Courier New", Courier, monospace; }
 .formula-stack code { overflow-x: auto; white-space: pre; color: var(--ink); font-weight: 700; }
-.metric-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 9px; }
-.metric { min-height: 74px; padding: 12px; display: grid; align-content: center; gap: 6px; border-radius: 14px; background: var(--soft); }
-.metric strong { font: 800 17px/1.1 "Courier New", monospace; }
-.pmei-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 7px; }
-.pmei-grid > div { min-width: 0; padding: 10px 5px; display: grid; justify-items: center; gap: 5px; border: 1px solid var(--border); border-radius: 12px; }
-.pmei-grid span { width: 26px; height: 26px; display: grid; place-items: center; border-radius: 8px; background: var(--ink); color: white; font-weight: 850; }
-.pmei-grid code { max-width: 100%; overflow: hidden; white-space: pre; font-size: 11px; font-weight: 750; }
+.legacy-chart-core { overflow: hidden; display: grid; grid-template-columns: minmax(0, 0.86fr) minmax(0, 1.3fr); grid-template-areas: "pmei birth" "pmei destiny"; border: 1px solid var(--border); border-radius: 15px; background: #fbfbfc; }
+.legacy-pmei { grid-area: pmei; padding: 12px 10px; display: grid; align-content: center; gap: 5px; border-right: 1px solid var(--border); }
+.legacy-pmei > div { min-width: 0; display: grid; grid-template-columns: 30px minmax(0, 1fr); align-items: center; gap: 5px; }
+.legacy-pmei span { width: 27px; height: 27px; display: grid; place-items: center; border-radius: 8px; background: var(--ink); color: white; font-size: 12px; font-weight: 850; }
+.legacy-pmei code { overflow: hidden; white-space: pre; color: var(--ink); font-size: clamp(10px, 2.8vw, 12px); font-weight: 750; }
+.legacy-birth-block { grid-area: birth; border-bottom: 1px solid var(--border); }
+.legacy-destiny-block { grid-area: destiny; }
+.legacy-birth-block, .legacy-destiny-block { padding: 11px 12px; display: grid; gap: 11px; align-content: center; }
+.legacy-destiny-block { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.ultimate-value { grid-column: 1 / -1; }
+.legacy-value { min-width: 0; display: grid; gap: 4px; }
+.legacy-value strong { overflow-wrap: anywhere; white-space: pre-wrap; color: var(--ink); font: 800 clamp(13px, 4vw, 17px)/1.2 "Courier New", Courier, monospace; }
 .season-strip { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); border: 1px solid var(--border); border-radius: 14px; overflow: hidden; }
 .season-strip > div { min-width: 0; padding: 10px 6px; display: grid; gap: 5px; text-align: center; border-right: 1px solid var(--border); }
 .season-strip > div:last-child { border-right: 0; }
@@ -250,7 +255,10 @@ code, .number-grid, .month-grid { font-family: "Courier New", Courier, monospace
   .hero-card { padding: 44px; }
   .people-list { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .profile-panel { padding: 24px; }
-  .metric-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+  .legacy-chart-core { grid-template-columns: minmax(210px, 0.85fr) minmax(260px, 1.1fr) minmax(300px, 1.25fr); grid-template-areas: "pmei birth destiny"; }
+  .legacy-birth-block { border-right: 1px solid var(--border); border-bottom: 0; }
+  .legacy-destiny-block { grid-template-columns: 1fr; }
+  .ultimate-value { grid-column: auto; }
   .compare-toolbar { grid-template-columns: 1fr 320px; align-items: center; }
   .month-card { flex-basis: 390px; }
   .modal-backdrop { align-items: center; }

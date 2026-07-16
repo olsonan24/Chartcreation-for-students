@@ -29,6 +29,11 @@ type InstallPrompt = Event & {
 
 const STORAGE_KEY = "pass7-mobile-clients-v1";
 const MONTHS = ["J", "F", "M", "A", "M", "J", "J", "A", "S", "O", "N", "D"];
+
+function spacedSequence(value: string): string {
+  return value.split("").join(" ");
+}
+
 const EMPTY_MONTH: MonthsSet = {
   essence: "............",
   personalYear: "............",
@@ -440,16 +445,39 @@ export default function Home() {
                 <div><span>Name</span><code>{selectedReport.fullLetters}  {selectedReport.fullLettersTotal}</code></div>
                 <div><span>Parts</span><code>{selectedReport.fullLettersTotalPart}</code></div>
               </div>
-              <div className="metric-grid">
-                <div className="metric"><span>Birth force</span><strong>{selectedReport.birthForce}</strong></div>
-                <div className="metric"><span>Pinnacles</span><strong>{selectedReport.pin}</strong></div>
-                <div className="metric"><span>Challenges</span><strong>{selectedReport.cha}</strong></div>
-                <div className="metric"><span>Ultimate goal</span><strong>{selectedReport.ultimateGoal}</strong></div>
-              </div>
-              <div className="pmei-grid">
-                {selectedReport.pmei.map((value, index) => (
-                  <div key={value}><span>{["P", "M", "E", "I"][index]}</span><code>{value}</code></div>
-                ))}
+              <div className="legacy-chart-core">
+                <div className="legacy-pmei" aria-label="Physical, mental, emotional, and intuitive values">
+                  {selectedReport.pmei.map((value, index) => (
+                    <div key={value}>
+                      <span>{["P", "M", "E", "I"][index]}</span>
+                      <code>{value}</code>
+                    </div>
+                  ))}
+                </div>
+                <div className="legacy-birth-block">
+                  <div className="legacy-value">
+                    <span>Birth date</span>
+                    <strong>{selectedReport.dob}</strong>
+                  </div>
+                  <div className="legacy-value">
+                    <span>Birth force</span>
+                    <strong>{selectedReport.birthForce}</strong>
+                  </div>
+                </div>
+                <div className="legacy-destiny-block">
+                  <div className="legacy-value ultimate-value">
+                    <span>Ultimate goal</span>
+                    <strong>{selectedReport.ultimateGoal}</strong>
+                  </div>
+                  <div className="legacy-value">
+                    <span>Pinnacles</span>
+                    <strong>{spacedSequence(selectedReport.pin)}</strong>
+                  </div>
+                  <div className="legacy-value">
+                    <span>Challenges</span>
+                    <strong>{spacedSequence(selectedReport.cha)}</strong>
+                  </div>
+                </div>
               </div>
               <div className="season-strip">
                 {selectedReport.seasons.map((season, index) => (
