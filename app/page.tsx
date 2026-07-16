@@ -29,9 +29,30 @@ type InstallPrompt = Event & {
 
 const STORAGE_KEY = "pass7-mobile-clients-v1";
 const MONTHS = ["J", "F", "M", "A", "M", "J", "J", "A", "S", "O", "N", "D"];
+const PRINT_DOTTED_ROWS = 2;
 
 function spacedSequence(value: string): string {
   return value.split("").join(" ");
+}
+
+function NameNumberStack({ report }: { report: Report }) {
+  const letterGroups = report.fullLetters.trim().split(/\s+/);
+  const partTotals = report.fullLettersTotalPart.trim().split(/\s+/);
+  const style = {
+    gridTemplateColumns: `repeat(${letterGroups.length}, max-content) max-content`,
+  } as CSSProperties;
+
+  return (
+    <div className="name-number-stack" style={style} aria-label="Name numbers and centered reductions">
+      {letterGroups.map((value, index) => (
+        <code key={`letters-${index}`} style={{ gridColumn: index + 1, gridRow: 1 }}>{value}</code>
+      ))}
+      <code className="name-grand-total" style={{ gridColumn: letterGroups.length + 1, gridRow: 1 }}>{report.fullLettersTotal}</code>
+      {partTotals.map((value, index) => (
+        <code className="name-part-total" key={`total-${index}`} style={{ gridColumn: index + 1, gridRow: 2 }}>{value}</code>
+      ))}
+    </div>
+  );
 }
 
 const EMPTY_MONTH: MonthsSet = {
@@ -195,7 +216,6 @@ function PrintYearSection({
   variant: "focus" | "lifetime";
 }) {
   const set = report.getYearSet(start, length);
-  const nameRows = Array.from({ length: 8 }, (_, index) => set.names[index] ?? ":".repeat(length));
   const markerIndex = report.age - start;
   const marker = markerIndex >= 0 && markerIndex < length
     ? `${" ".repeat(markerIndex)}*`
@@ -206,10 +226,12 @@ function PrintYearSection({
       {variant === "focus" && <PrintCharacterRow value={marker} length={length} tone="red" />}
       <PrintCharacterRow value={ageMarker(start, length, "tens")} length={length} />
       <PrintCharacterRow value={ageMarker(start, length, "ones")} length={length} />
-      {nameRows.map((value, index) => (
+      {set.names.map((value, index) => (
         <PrintCharacterRow key={`name-${index}`} value={value} length={length} tone="red" />
       ))}
-      <PrintCharacterRow value={":".repeat(length)} length={length} tone="red" />
+      {Array.from({ length: PRINT_DOTTED_ROWS }, (_, index) => (
+        <PrintCharacterRow key={`dots-${index}`} value={":".repeat(length)} length={length} tone="red" />
+      ))}
       <PrintCharacterRow value={set.essence} length={length} tone="blue" label="ESS" />
       <PrintCharacterRow value={set.combined} length={length} tone="cyan" label="COM" />
       <PrintCharacterRow value={set.personalYear} length={length} tone="blue" label="PY" />
@@ -253,6 +275,9 @@ function PassPrintReport({
   const focusStart = Math.max(0, report.age - 14);
   return (
     <article className="pass-print-report" aria-label={`Printable Aionis timeline chart for ${client.fullName}`}>
+      <div className="print-ornaments" aria-hidden="true">
+        <span>Ω</span><span>Φ</span><span>Ψ</span><span>Δ</span>
+      </div>
       <div className="print-brand" aria-label="Aionis Timeline Formula">
         <Image src="/aionis-timeline-formula-logo.jpg" alt="" width={72} height={83} unoptimized />
         <span><strong>AIONIS</strong><small>TIMELINE FORMULA</small></span>
@@ -261,8 +286,7 @@ function PassPrintReport({
         <div className="print-summary-identity">
           <code>{report.hdc}  {report.hdcTotal}</code>
           <code>{client.fullName.toUpperCase()}</code>
-          <code>{report.fullLetters}  {report.fullLettersTotal}</code>
-          <code className="print-summary-parts">{report.fullLettersTotalPart}</code>
+          <NameNumberStack report={report} />
         </div>
         <div className="print-summary-meta">
           <time>{chartDate}</time>
@@ -508,6 +532,9 @@ export default function Home() {
 
   return (
     <main className="app-shell">
+      <div className="cosmic-glyphs no-print" aria-hidden="true">
+        <span>Ω</span><span>Φ</span><span>Ψ</span><span>Δ</span>
+      </div>
       <header className="app-header no-print">
         <button className="brand-button" type="button" onClick={() => setView("people")} aria-label="Open people list">
           <Image src="/aionis-timeline-formula-logo.jpg" alt="Aionis Timeline Formula" width={50} height={50} priority unoptimized />
@@ -516,6 +543,12 @@ export default function Home() {
             <small>Timeline Formula</small>
           </span>
         </button>
+        <nav className="desktop-nav" aria-label="Primary desktop navigation">
+          <button className={view === "people" ? "active" : ""} type="button" onClick={() => setView("people")}>Dashboard</button>
+          <button type="button" onClick={() => setView("people")}>People</button>
+          <button className={view === "chart" ? "active" : ""} type="button" disabled={!selectedClient} onClick={() => setView("chart")}>Charts</button>
+          <button className={view === "compare" ? "active" : ""} type="button" onClick={() => setView("compare")}>Compare</button>
+        </nav>
         <button className="install-button" type="button" onClick={installApp}>Install</button>
       </header>
 
@@ -523,7 +556,8 @@ export default function Home() {
         {view === "people" && (
           <section className="people-view view-section">
             <div className="hero-card">
-              <Image className="hero-logo" src="/aionis-timeline-formula-logo.jpg" alt="The Timeline Formula - Predictive Insight" width={220} height={253} priority unoptimized />
+              <Image className="hero-cosmos" src="/aionis-cosmic-body.png" alt="" width={944} height={1684} priority unoptimized />
+              <div className="hero-ornaments" aria-hidden="true"><span>Ω</span><span>Φ</span></div>
               <div className="hero-copy">
                 <p className="eyebrow">Aionis Timeline Formula</p>
                 <h1>Map the patterns that shape a lifetime.</h1>
@@ -534,6 +568,12 @@ export default function Home() {
                 <button className="secondary-button" type="button" onClick={installApp}>Add to phone</button>
               </div>
               <div className="privacy-line"><span className="privacy-dot" /> Saved on this device · works offline</div>
+            </div>
+
+            <div className="aionis-trust-ribbon" aria-label="Aionis principles">
+              <article><span aria-hidden="true">Ω</span><div><strong>Private by design</strong><small>Your chart data never leaves this device.</small></div></article>
+              <article><span aria-hidden="true">Φ</span><div><strong>Precision</strong><small>Exact timeline mathematics, preserved.</small></div></article>
+              <article><span aria-hidden="true">Ψ</span><div><strong>Sovereign</strong><small>Your people and timelines remain yours.</small></div></article>
             </div>
 
             <div className="section-heading people-heading">
@@ -589,6 +629,7 @@ export default function Home() {
         {view === "chart" && selectedClient && selectedReport && (
           <section className="chart-view view-section">
             <div className="chart-title-row">
+              <Image className="chart-title-art" src="/aionis-rhythm.png" alt="" width={944} height={1684} unoptimized />
               <button className="back-button no-print" type="button" onClick={() => setView("people")}>‹ People</button>
               <div className="print-title">
                 <p className="eyebrow">Aionis Timeline Formula</p>
@@ -599,14 +640,18 @@ export default function Home() {
             </div>
 
             <section className="profile-panel original-profile-panel">
+              <div className="chart-surface-banner no-print">
+                <Image src="/aionis-timeline-formula-logo.jpg" alt="" width={56} height={64} unoptimized />
+                <span><strong>AIONIS</strong><small>TIMELINE FORMULA · PERSONAL MATRIX</small></span>
+                <i aria-hidden="true">Φ</i>
+              </div>
               <p className="original-profile-hint no-print">Swipe sideways to view the original chart header.</p>
               <div className="original-profile-scroll" tabIndex={0} aria-label={`Timeline chart header for ${selectedClient.fullName}`}>
                 <div className="original-profile-sheet">
                   <div className="original-identity">
                     <code>{selectedReport.hdc}  {selectedReport.hdcTotal}</code>
                     <code>{selectedClient.fullName}</code>
-                    <code>{selectedReport.fullLetters}  {selectedReport.fullLettersTotal}</code>
-                    <code className="original-parts">{selectedReport.fullLettersTotalPart}</code>
+                    <NameNumberStack report={selectedReport} />
                   </div>
                   <div className="original-meta">
                     <time>{chartDate}</time>

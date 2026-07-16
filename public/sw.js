@@ -1,5 +1,11 @@
-const CACHE_NAME = "aionis-timeline-v2";
-const APP_SHELL = ["/", "/manifest.webmanifest", "/aionis-timeline-formula-logo.jpg"];
+const CACHE_NAME = "aionis-timeline-v3";
+const APP_SHELL = [
+  "/",
+  "/manifest.webmanifest",
+  "/aionis-timeline-formula-logo.jpg",
+  "/aionis-cosmic-body.png",
+  "/aionis-rhythm.png",
+];
 
 self.addEventListener("install", (event) => {
   event.waitUntil(caches.open(CACHE_NAME).then((cache) => cache.addAll(APP_SHELL)));

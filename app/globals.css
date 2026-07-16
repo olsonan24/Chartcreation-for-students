@@ -161,6 +161,10 @@ code, .number-grid, .month-grid { font-family: "Courier New", Courier, monospace
 .original-profile-scroll { overflow-x: auto; overscroll-behavior-x: contain; scrollbar-color: #9aa3b1 transparent; }
 .original-profile-sheet { width: max(760px, 100%); min-height: 238px; padding: 22px 24px 18px; display: grid; grid-template-columns: 1.22fr 0.9fr 1.05fr; grid-template-rows: auto 1fr auto; grid-template-areas: "identity blank meta" "pmei birth pincha" "seasons seasons seasons"; column-gap: 28px; row-gap: 12px; background: #fbfbfc; color: #111827; }
 .original-profile-sheet code, .original-profile-sheet time { display: block; white-space: pre; color: inherit; font: 750 14px/1.45 "Courier New", Courier, monospace; }
+.name-number-stack { width: max-content; display: grid; column-gap: 1.75ch; row-gap: 0.12em; align-items: center; }
+.name-number-stack code { min-width: 0; text-align: center; }
+.name-number-stack .name-grand-total { padding-left: 0.5ch; }
+.name-number-stack .name-part-total { opacity: 0.9; }
 .original-identity { grid-area: identity; align-self: start; }
 .original-identity code { min-height: 20px; }
 .original-parts { padding-left: 20px; }
@@ -276,7 +280,7 @@ code, .number-grid, .month-grid { font-family: "Courier New", Courier, monospace
 
 @media print {
   @page { size: A4 portrait; margin: 0; }
-  html, body { width: 210mm; min-height: 0 !important; height: auto; background: white; }
+  html, body { width: 210mm; min-height: 0 !important; height: auto; background: #f7f5ee; }
   body { margin: 0; print-color-adjust: exact; -webkit-print-color-adjust: exact; }
   .no-print, .bottom-nav, .app-header, .chart-view > :not(.pass-print-report) { display: none !important; }
   .app-shell, .content-shell, .chart-view { width: 210mm; min-height: 0 !important; height: auto; margin: 0; padding: 0; }
@@ -288,39 +292,48 @@ code, .number-grid, .month-grid { font-family: "Courier New", Courier, monospace
     max-height: 266mm;
     padding: 5mm 7mm;
     display: grid !important;
-    grid-template-rows: 36mm 76mm 40mm 76mm 1fr;
+    grid-template-rows: 50mm 68mm 42mm 70mm 1fr;
     align-content: start;
     gap: 3mm;
     overflow: hidden;
-    background: white;
-    color: #000;
+    background: radial-gradient(circle at 50% 0%, rgba(52, 113, 178, 0.08), transparent 25%), #fbfaf5;
+    color: #07111c;
+    border: 0.35mm solid rgba(151, 104, 34, 0.52);
+    box-shadow: inset 0 0 0 1.2mm #fbfaf5, inset 0 0 0 1.45mm rgba(151, 104, 34, 0.23);
     font-family: "Courier New", Courier, monospace;
     break-after: avoid-page;
     break-inside: avoid-page;
     page-break-after: avoid;
     page-break-inside: avoid;
   }
+  .pass-print-report::before { content: ""; position: absolute; z-index: 0; inset: 0 0 auto; height: 55mm; background: linear-gradient(90deg, rgba(3,10,22,0.98), rgba(4,16,32,0.9) 54%, rgba(3,10,22,0.76)), url('/aionis-rhythm.png') center 46% / cover no-repeat; border-bottom: 0.45mm solid rgba(195, 145, 54, 0.7); pointer-events: none; }
+  .print-ornaments { position: absolute; z-index: 2; inset: 4mm; color: rgba(137, 91, 25, 0.42); font: 400 10pt/1 Georgia, serif; pointer-events: none; }
+  .print-ornaments span { position: absolute; }
+  .print-ornaments span:nth-child(1) { top: 0; left: 0; }
+  .print-ornaments span:nth-child(2) { top: 0; right: 0; }
+  .print-ornaments span:nth-child(3) { bottom: 0; left: 0; }
+  .print-ornaments span:nth-child(4) { right: 0; bottom: 0; }
   .print-brand {
     position: absolute;
     z-index: 2;
-    top: 3.5mm;
+    top: 2.7mm;
     left: 50%;
-    width: 47mm;
+    width: 86mm;
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 2mm;
-    color: #6f4917;
+    gap: 3mm;
+    color: #f1cf87;
     transform: translateX(-50%);
   }
-  .print-brand img { width: 9mm; height: 10.5mm; object-fit: cover; border-radius: 1.2mm; }
+  .print-brand img { width: 18mm; height: 20.7mm; object-fit: cover; border: 0.25mm solid rgba(235, 196, 119, 0.72); border-radius: 2.2mm; box-shadow: 0 1.2mm 4mm rgba(0,0,0,0.38), 0 0 4mm rgba(203,150,54,0.1); }
   .print-brand span { display: grid; line-height: 1; }
-  .print-brand strong { font: 800 7pt/1 Arial, sans-serif; letter-spacing: 0.16em; }
-  .print-brand small { margin-top: 1mm; font: 700 4.5pt/1 Arial, sans-serif; letter-spacing: 0.1em; }
+  .print-brand strong { font: 450 15pt/1 "Avenir Next", "Segoe UI", Arial, sans-serif; letter-spacing: 0.32em; }
+  .print-brand small { margin-top: 1.5mm; color: #d6ad59; font: 650 6.8pt/1 "Avenir Next", "Segoe UI", Arial, sans-serif; letter-spacing: 0.2em; }
   .print-report-summary {
     position: relative;
     z-index: 1;
-    padding-top: 2mm;
+    padding-top: 3mm;
     display: grid;
     grid-template-columns: 1.25fr 0.9fr 1.05fr;
     grid-template-rows: auto 1fr auto;
@@ -330,28 +343,27 @@ code, .number-grid, .month-grid { font-family: "Courier New", Courier, monospace
   .print-report-summary code, .print-report-summary time {
     display: block;
     white-space: pre;
-    color: #000;
+    color: #f1f5fb;
     font: 700 7.5pt/1.28 "Courier New", Courier, monospace;
   }
+  .print-summary-identity > code:nth-child(2) { margin: 0.7mm 0; color: #f7dfa8; font-size: 9pt; letter-spacing: 0.045em; }
   .print-summary-identity { grid-area: identity; }
-  .print-summary-parts { padding-left: 5mm; }
+  .print-report-summary .name-number-stack { column-gap: 1.7ch; }
+  .print-report-summary .name-number-stack code { text-align: center; }
   .print-summary-meta { grid-area: meta; display: grid; justify-items: end; align-content: start; gap: 3mm; }
   .print-summary-pmei { grid-area: pmei; align-self: end; }
   .print-summary-birth { grid-area: birth; align-self: end; padding-bottom: 2mm; }
   .print-summary-pincha { grid-area: pincha; align-self: end; padding-bottom: 2mm; }
   .print-summary-seasons { grid-area: seasons; display: grid; grid-template-columns: 1fr repeat(4, 1fr); align-items: end; }
   .print-summary-seasons code:not(:first-child) { text-align: center; }
-  .print-year-section, .print-month-section { width: 100%; min-width: 0; display: flex; flex-direction: column; justify-content: space-between; }
-  .print-data-row { min-height: 3mm; display: grid; grid-template-columns: minmax(0, 1fr) 10mm; align-items: center; }
-  .print-character-row { min-width: 0; display: grid; grid-template-columns: repeat(var(--print-columns), minmax(0, 1fr)); align-items: center; color: #000; font: 700 7.2pt/1 "Courier New", Courier, monospace; }
+  .print-year-section, .print-month-section { position: relative; z-index: 1; width: 100%; min-width: 0; padding: 2mm 1.5mm 1.5mm; display: flex; flex-direction: column; justify-content: space-between; border: 0.22mm solid rgba(126, 88, 33, 0.28); border-radius: 1.8mm; background: rgba(255,255,255,0.5); }
+  .print-data-row { min-height: 3.35mm; display: grid; grid-template-columns: minmax(0, 1fr) 10mm; align-items: center; }
+  .print-character-row { min-width: 0; display: grid; grid-template-columns: repeat(var(--print-columns), minmax(0, 1fr)); align-items: center; color: #07111c; font: 700 7pt/1 "Courier New", Courier, monospace; }
   .print-character-row span { min-width: 0; text-align: center; }
   .print-row-label { padding-left: 1.5mm; font: 700 7pt/1 "Courier New", Courier, monospace; }
-  .print-year-focus .print-data-row { min-height: 3.25mm; }
-  .print-year-focus .print-character-row { font-size: 8.5pt; }
-  .print-year-lifetime .print-data-row { min-height: 2.55mm; }
-  .print-year-lifetime .print-character-row { font-size: 5.7pt; }
-  .print-year-lifetime .print-row-label { font-size: 6pt; }
-  .print-month-section { position: relative; padding-top: 1mm; }
+  .print-year-focus .print-data-row, .print-year-lifetime .print-data-row { min-height: 3.35mm; }
+  .print-year-focus .print-character-row, .print-year-lifetime .print-character-row, .print-year-lifetime .print-row-label { font-size: 7pt; }
+  .print-month-section { position: relative; padding-top: 2mm; }
   .print-month-section::after {
     content: "";
     position: absolute;
@@ -362,12 +374,179 @@ code, .number-grid, .month-grid { font-family: "Courier New", Courier, monospace
     border: 0.35mm solid #16803b;
     pointer-events: none;
   }
-  .print-month-section .print-character-row { font-size: 7.8pt; }
-  .print-month-years { width: calc(100% - 10mm); display: grid; grid-template-columns: repeat(3, 1fr); padding-top: 1mm; color: #000; font: 700 7.5pt/1 "Courier New", Courier, monospace; text-align: center; }
-  .print-tone-black { color: #000; }
+  .print-month-section .print-character-row { font-size: 7pt; }
+  .print-month-years { width: calc(100% - 10mm); display: grid; grid-template-columns: repeat(3, 1fr); padding-top: 1mm; color: #07111c; font: 700 7pt/1 "Courier New", Courier, monospace; text-align: center; }
+  .print-tone-black { color: #07111c; }
   .print-tone-red { color: #e00000; }
   .print-tone-blue { color: #153dd1; }
   .print-tone-cyan { color: #16a7b8; }
   .print-tone-green { color: #16a02e; }
-  .print-report-footer { align-self: end; padding-top: 1.5mm; border-top: 0.25mm solid rgba(138, 90, 24, 0.38); color: #76501f; font: 650 5.5pt/1.2 Arial, sans-serif; letter-spacing: 0.035em; text-align: center; }
+  .print-report-footer { position: relative; z-index: 1; align-self: end; padding-top: 2mm; border-top: 0.25mm solid rgba(138, 90, 24, 0.42); color: #76501f; font: 650 5.8pt/1.2 "Avenir Next", "Segoe UI", Arial, sans-serif; letter-spacing: 0.08em; text-align: center; }
+}
+
+@media screen {
+  html { color-scheme: dark; background: #020711; }
+  body { background: #020711; color: #edf4ff; }
+  body::before {
+    content: "";
+    position: fixed;
+    z-index: -2;
+    inset: 0;
+    background:
+      radial-gradient(circle at 70% 8%, rgba(35, 112, 203, 0.18), transparent 31%),
+      radial-gradient(circle at 16% 58%, rgba(111, 69, 175, 0.12), transparent 34%),
+      linear-gradient(180deg, #050b16 0%, #020711 48%, #030914 100%);
+  }
+  button, input { transition: border-color 180ms ease, background 180ms ease, color 180ms ease, transform 180ms ease, box-shadow 180ms ease; }
+  button:active { transform: scale(0.985); }
+  button:focus-visible, input:focus-visible, .chart-scroll:focus-visible, .original-profile-scroll:focus-visible { outline-color: rgba(231, 192, 116, 0.75); }
+  .app-shell { position: relative; isolation: isolate; min-height: 100dvh; background: transparent; }
+  .cosmic-glyphs { position: fixed; z-index: -1; inset: 0; overflow: hidden; pointer-events: none; color: rgba(218, 175, 91, 0.08); font: 300 clamp(56px, 8vw, 130px)/1 Georgia, serif; }
+  .cosmic-glyphs span { position: absolute; filter: drop-shadow(0 0 22px rgba(58, 152, 255, 0.18)); }
+  .cosmic-glyphs span:nth-child(1) { top: 15%; left: -1%; }
+  .cosmic-glyphs span:nth-child(2) { top: 19%; right: 2%; }
+  .cosmic-glyphs span:nth-child(3) { bottom: 12%; left: 3%; }
+  .cosmic-glyphs span:nth-child(4) { right: 1%; bottom: 8%; }
+  .app-header {
+    height: calc(76px + env(safe-area-inset-top));
+    padding: env(safe-area-inset-top) 18px 0;
+    background: rgba(3, 9, 19, 0.88);
+    border-bottom-color: rgba(218, 175, 91, 0.27);
+    box-shadow: 0 8px 34px rgba(0, 0, 0, 0.28);
+  }
+  .brand-button { min-height: 58px; gap: 12px; }
+  .brand-button img { width: 52px; height: 52px; border-radius: 50%; border-color: rgba(225, 183, 102, 0.8); box-shadow: 0 0 24px rgba(211, 164, 75, 0.2); }
+  .brand-button strong { font: 500 18px/1 "Avenir Next", "Segoe UI", sans-serif; letter-spacing: 0.32em; }
+  .brand-button small { color: #c9a65f; font: 600 9px/1.1 "Avenir Next", "Segoe UI", sans-serif; letter-spacing: 0.2em; text-transform: uppercase; }
+  .desktop-nav { display: none; align-self: stretch; align-items: center; gap: 6px; }
+  .desktop-nav button { height: 100%; padding: 0 14px; border: 0; border-bottom: 2px solid transparent; background: transparent; color: #97a5bd; font-size: 12px; }
+  .desktop-nav button:hover, .desktop-nav button.active { color: #f2d59a; border-bottom-color: #c8933f; }
+  .desktop-nav button:disabled { opacity: 0.35; }
+  .install-button { min-height: 44px; border-color: rgba(239, 205, 138, 0.72); background: linear-gradient(135deg, #b17a28, #6e4715); color: #fff8e8; box-shadow: 0 0 22px rgba(189, 133, 43, 0.17); }
+  .content-shell { width: min(100%, 1220px); padding: calc(96px + env(safe-area-inset-top)) 16px 30px; }
+  .view-section { gap: 16px; }
+  .hero-card {
+    min-height: 510px;
+    padding: 30px 24px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    background: #040a14;
+    border-color: rgba(221, 178, 94, 0.38);
+    box-shadow: 0 22px 70px rgba(0, 0, 0, 0.46), inset 0 0 60px rgba(37, 117, 208, 0.055);
+  }
+  .hero-card::before { content: ""; position: absolute; z-index: 1; inset: 0; background: linear-gradient(180deg, rgba(2,7,17,0.08), rgba(2,7,17,0.45) 47%, #040a14 82%); pointer-events: none; }
+  .hero-card::after { content: none; }
+  .hero-cosmos { position: absolute; z-index: 0; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: center 51%; opacity: 0.66; filter: saturate(1.08) contrast(1.05); }
+  .hero-ornaments { position: absolute; z-index: 2; inset: 18px; display: flex; justify-content: space-between; color: rgba(224, 181, 96, 0.38); font: 300 22px/1 Georgia, serif; pointer-events: none; }
+  .hero-copy { z-index: 3; max-width: 680px; }
+  .hero-card .eyebrow { color: #e3bd73; letter-spacing: 0.22em; }
+  .hero-card h1 { margin-top: 12px; color: #f7f5ef; font: 400 clamp(38px, 10vw, 60px)/0.98 Georgia, "Times New Roman", serif; text-shadow: 0 0 28px rgba(90, 160, 255, 0.12); }
+  .hero-card h1::first-line { color: #fff; }
+  .hero-copy > p:not(.eyebrow) { color: #b9c6d8; font: 400 16px/1.65 "Avenir Next", "Segoe UI", sans-serif; }
+  .hero-actions { z-index: 3; }
+  .hero-card .primary-button { border-color: rgba(236, 201, 130, 0.58); background: linear-gradient(135deg, #b57e2c, #6e4513); box-shadow: 0 8px 28px rgba(166, 108, 25, 0.32); }
+  .hero-card .secondary-button { border-color: rgba(113, 144, 188, 0.42); background: rgba(7, 18, 34, 0.68); color: #e8f0fc; backdrop-filter: blur(12px); }
+  .privacy-line { z-index: 3; color: #aebcd0; }
+  .aionis-trust-ribbon { display: grid; grid-template-columns: 1fr; gap: 10px; }
+  .aionis-trust-ribbon article { min-height: 74px; padding: 14px 16px; display: flex; align-items: center; gap: 13px; border: 1px solid rgba(107, 135, 176, 0.24); border-radius: 15px; background: linear-gradient(145deg, rgba(12,25,45,0.84), rgba(5,13,27,0.9)); box-shadow: inset 0 1px rgba(255,255,255,0.025); }
+  .aionis-trust-ribbon article > span { width: 42px; height: 42px; flex: 0 0 42px; display: grid; place-items: center; border: 1px solid rgba(204, 160, 77, 0.42); border-radius: 50%; color: #d0a456; font: 400 19px/1 Georgia, serif; box-shadow: inset 0 0 14px rgba(44, 137, 236, 0.08); }
+  .aionis-trust-ribbon article div { display: grid; gap: 4px; }
+  .aionis-trust-ribbon strong { color: #e9eef7; font-size: 12px; letter-spacing: 0.07em; text-transform: uppercase; }
+  .aionis-trust-ribbon small { color: #8492a8; font-size: 11px; }
+  .section-heading h2, .empty-card h3, .comparison-person h2 { color: #eef3fb; }
+  .eyebrow { color: #d7a84e; }
+  .count-badge, .focus-pill { border: 1px solid rgba(199, 151, 65, 0.35); background: rgba(13, 28, 48, 0.88); color: #e4c17f; }
+  .empty-card { border-color: rgba(95, 131, 182, 0.34); background: linear-gradient(rgba(3,10,22,0.82), rgba(3,10,22,0.9)), url('/aionis-rhythm.png') center 46% / cover; box-shadow: inset 0 0 70px rgba(38, 119, 213, 0.08); }
+  .empty-card p { color: #9eacc0; }
+  .empty-mark { border: 1px solid rgba(220, 176, 90, 0.5); background: rgba(6, 17, 32, 0.85); color: #e4c27d; box-shadow: 0 0 30px rgba(39, 133, 233, 0.13); }
+  .person-card, .profile-panel, .chart-panel, .comparison-card { border-color: rgba(86, 119, 165, 0.32); background: linear-gradient(145deg, rgba(12,25,44,0.95), rgba(5,13,27,0.97)); box-shadow: 0 14px 38px rgba(0,0,0,0.28), inset 0 1px rgba(255,255,255,0.025); }
+  .person-card:hover { border-color: rgba(210, 164, 79, 0.5); box-shadow: 0 14px 42px rgba(0,0,0,0.34), 0 0 24px rgba(49, 137, 233, 0.06); }
+  .person-main { color: #eef3fb; }
+  .person-initials { border: 1px solid rgba(211, 166, 78, 0.52); background: rgba(5, 16, 32, 0.88); color: #e4c27f; }
+  .person-copy small, .section-heading > div > p:not(.eyebrow), .comparison-person p { color: #8391a6; }
+  .person-actions { border-top-color: rgba(88, 116, 157, 0.23); }
+  .person-actions button, .compare-check { color: #9eacc0; }
+  .bottom-nav { background: rgba(3, 9, 19, 0.94); border-top-color: rgba(89, 118, 160, 0.3); }
+  .bottom-nav button { color: #77859a; }
+  .bottom-nav button.active { background: linear-gradient(180deg, rgba(184, 128, 39, 0.2), rgba(33, 91, 166, 0.08)); color: #f0cf8b; }
+  .chart-title-row { position: relative; min-height: 210px; overflow: hidden; padding: 24px; align-items: end; border: 1px solid rgba(211, 167, 81, 0.38); border-radius: 22px; background: #050b16; box-shadow: 0 18px 54px rgba(0,0,0,0.35); }
+  .chart-title-row::after { content: ""; position: absolute; z-index: 1; inset: 0; background: linear-gradient(90deg, #050b16 5%, rgba(5,11,22,0.9) 42%, rgba(5,11,22,0.18)); pointer-events: none; }
+  .chart-title-art { position: absolute; z-index: 0; inset: 0 0 0 auto; width: 70%; height: 100%; object-fit: cover; object-position: center 50%; opacity: 0.66; }
+  .chart-title-row > :not(.chart-title-art) { position: relative; z-index: 2; }
+  .chart-title-row .print-title h1 { color: #f8f5ec; font: 400 clamp(30px, 7vw, 48px)/1 Georgia, serif; }
+  .chart-title-row .print-title > p:last-child { color: #a4b2c6; }
+  .back-button { color: #d8b56e; }
+  .chart-surface-banner { min-height: 74px; padding: 10px 16px; display: flex; align-items: center; gap: 13px; border-bottom: 1px solid rgba(95, 126, 170, 0.26); background: radial-gradient(circle at 80% 50%, rgba(48, 137, 236, 0.11), transparent 35%); }
+  .chart-surface-banner img { width: 50px; height: 56px; object-fit: cover; border: 1px solid rgba(216, 171, 83, 0.5); border-radius: 12px; }
+  .chart-surface-banner span { display: grid; gap: 5px; }
+  .chart-surface-banner strong { color: #f1d28f; font: 500 17px/1 "Avenir Next", "Segoe UI", sans-serif; letter-spacing: 0.3em; }
+  .chart-surface-banner small { color: #8290a5; font-size: 9px; letter-spacing: 0.16em; }
+  .chart-surface-banner i { margin-left: auto; color: rgba(220, 175, 86, 0.5); font: normal 34px/1 Georgia, serif; }
+  .original-profile-hint { border-bottom-color: rgba(85, 116, 159, 0.24); color: #78869b; }
+  .original-profile-sheet { background: radial-gradient(circle at 52% 25%, rgba(42,128,226,0.1), transparent 30%), transparent; color: #e9eff8; }
+  .original-profile-sheet code, .original-profile-sheet time { color: #e9eff8; text-shadow: 0 0 12px rgba(75, 151, 239, 0.08); }
+  .name-number-stack { column-gap: 2ch; }
+  .chart-panel { background: linear-gradient(145deg, rgba(11,24,43,0.96), rgba(4,12,25,0.98)); }
+  .focus-controls button, .year-stepper > button { border-color: rgba(103, 133, 174, 0.38); background: rgba(8,20,37,0.9); color: #d8b46c; }
+  .scroll-hint { color: #758399; }
+  .chart-scroll { border-top-color: rgba(80, 111, 154, 0.28); background: rgba(2, 8, 18, 0.38); }
+  .grid-label { background: #091528; border-right-color: rgba(78,108,151,0.32); border-bottom-color: rgba(67,96,137,0.23); color: #95a5ba; }
+  .number-cell { border-right-color: rgba(69,98,139,0.17); border-bottom-color: rgba(69,98,139,0.18); color: #dfe8f5; }
+  .age-cell { background: #081326; color: #9cabc0; }
+  .current-cell, .current-column { background: rgba(184, 127, 38, 0.16); }
+  .current-cell { color: #f0c979; }
+  .current-cell::after { background: #d4a34b; }
+  .tone-name { color: #ff6f7b; }
+  .tone-essence { color: #6fa6ff; }
+  .tone-combined { color: #48d5e8; }
+  .tone-personal { color: #8eaaff; }
+  .tone-calendar { color: #67dc8e; }
+  .month-card { border-color: rgba(84,116,160,0.34); background: rgba(5,16,31,0.9); }
+  .month-card h4 { color: #edcf8f; }
+  .compare-picker label, .year-stepper label { border-color: rgba(89,121,165,0.35); background: rgba(8,20,38,0.9); color: #dce5f2; }
+  .segmented-control { background: #061326; }
+  .segmented-control button { color: #7f8da2; }
+  .segmented-control button.active { background: rgba(177,123,38,0.2); color: #edcf8c; box-shadow: inset 0 0 0 1px rgba(207,160,71,0.28); }
+  .sheet { background: linear-gradient(160deg, #0c1a2e, #040b16); border: 1px solid rgba(112,142,182,0.35); color: #eef4fc; }
+  .sheet-handle { background: #62728a; }
+  .person-form label { color: #c2cede; }
+  .person-form input { border-color: rgba(103,134,176,0.48); background: rgba(2,9,20,0.76); color: #f1f5fb; }
+  .person-form input::placeholder { color: #6f7d91; }
+  .install-steps > div { background: rgba(10,25,45,0.82); }
+}
+
+@media screen and (min-width: 900px) {
+  .app-header { padding-inline: 28px; }
+  .desktop-nav { display: flex; }
+  .content-shell { padding-top: calc(100px + env(safe-area-inset-top)); }
+  .hero-card { min-height: 400px; padding: 46px; justify-content: center; }
+  .hero-card::before { background: linear-gradient(90deg, #040a14 4%, rgba(4,10,20,0.92) 43%, rgba(4,10,20,0.05) 78%); }
+  .hero-cosmos { left: auto; width: 65%; object-position: center 53%; opacity: 0.88; mask-image: linear-gradient(90deg, transparent, black 26%); }
+  .hero-copy { max-width: 52%; }
+  .hero-card h1 { font-size: clamp(46px, 5vw, 68px); }
+  .aionis-trust-ribbon { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .people-list { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+}
+
+@media screen and (max-width: 540px) {
+  .app-header { padding-inline: 12px; }
+  .brand-button { gap: 9px; }
+  .brand-button img { width: 48px; height: 48px; }
+  .brand-button strong { font-size: 15px; letter-spacing: 0.25em; }
+  .brand-button small { font-size: 7px; letter-spacing: 0.15em; }
+  .install-button { padding-inline: 14px; font-size: 13px; }
+  .content-shell { padding-inline: 12px; }
+  .hero-card { min-height: 520px; padding: 26px 22px; }
+  .hero-cosmos { object-position: center 47%; opacity: 0.54; }
+  .hero-card h1 { font-size: 41px; }
+  .hero-copy > p:not(.eyebrow) { font-size: 15px; }
+  .hero-actions { display: grid; grid-template-columns: 1fr 1fr; }
+  .hero-actions button { padding-inline: 10px; font-size: 14px; }
+  .chart-title-row { min-height: 240px; padding: 18px; }
+  .chart-title-art { width: 100%; opacity: 0.46; }
+  .chart-title-row::after { background: linear-gradient(180deg, rgba(5,11,22,0.2), #050b16 86%); }
+  .chart-title-row .print-title { margin-top: 78px; }
+  .chart-surface-banner strong { font-size: 14px; letter-spacing: 0.22em; }
+  .chart-surface-banner small { letter-spacing: 0.08em; }
 }
