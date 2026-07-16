@@ -261,6 +261,11 @@ function InstallHelp({ onClose }: { onClose: () => void }) {
 
 export default function Home() {
   const currentYear = new Date().getFullYear();
+  const chartDate = new Intl.DateTimeFormat("en-US", {
+    month: "short",
+    day: "numeric",
+    year: "numeric",
+  }).format(new Date());
   const [clients, setClients] = useState<Client[]>([]);
   const [hydrated, setHydrated] = useState(false);
   const [view, setView] = useState<AppView>("people");
@@ -439,50 +444,38 @@ export default function Home() {
               <button className="secondary-button compact-button no-print" type="button" onClick={() => window.print()}>Print / PDF</button>
             </div>
 
-            <section className="profile-panel">
-              <div className="formula-stack">
-                <div><span>HDC</span><code>{selectedReport.hdc}  {selectedReport.hdcTotal}</code></div>
-                <div><span>Name</span><code>{selectedReport.fullLetters}  {selectedReport.fullLettersTotal}</code></div>
-                <div><span>Parts</span><code>{selectedReport.fullLettersTotalPart}</code></div>
-              </div>
-              <div className="legacy-chart-core">
-                <div className="legacy-pmei" aria-label="Physical, mental, emotional, and intuitive values">
-                  {selectedReport.pmei.map((value, index) => (
-                    <div key={value}>
-                      <span>{["P", "M", "E", "I"][index]}</span>
-                      <code>{value}</code>
-                    </div>
-                  ))}
-                </div>
-                <div className="legacy-birth-block">
-                  <div className="legacy-value">
-                    <span>Birth date</span>
-                    <strong>{selectedReport.dob}</strong>
+            <section className="profile-panel original-profile-panel">
+              <p className="original-profile-hint no-print">Swipe sideways to view the original chart header.</p>
+              <div className="original-profile-scroll" tabIndex={0} aria-label={`Original PASS chart header for ${selectedClient.fullName}`}>
+                <div className="original-profile-sheet">
+                  <div className="original-identity">
+                    <code>{selectedReport.hdc}  {selectedReport.hdcTotal}</code>
+                    <code>{selectedClient.fullName}</code>
+                    <code>{selectedReport.fullLetters}  {selectedReport.fullLettersTotal}</code>
+                    <code className="original-parts">{selectedReport.fullLettersTotalPart}</code>
                   </div>
-                  <div className="legacy-value">
-                    <span>Birth force</span>
-                    <strong>{selectedReport.birthForce}</strong>
+                  <div className="original-meta">
+                    <time>{chartDate}</time>
+                    <code>UG : {selectedReport.ultimateGoal}</code>
                   </div>
-                </div>
-                <div className="legacy-destiny-block">
-                  <div className="legacy-value ultimate-value">
-                    <span>Ultimate goal</span>
-                    <strong>{selectedReport.ultimateGoal}</strong>
+                  <div className="original-pmei" aria-label="Physical, mental, emotional, and intuitive values">
+                    {selectedReport.pmei.map((value, index) => (
+                      <code key={value}>{["P", "M", "E", "I"][index]} {value}</code>
+                    ))}
                   </div>
-                  <div className="legacy-value">
-                    <span>Pinnacles</span>
-                    <strong>{spacedSequence(selectedReport.pin)}</strong>
+                  <div className="original-birth-values">
+                    <code>{selectedReport.dob}</code>
+                    <code>{selectedReport.birthForce}</code>
                   </div>
-                  <div className="legacy-value">
-                    <span>Challenges</span>
-                    <strong>{spacedSequence(selectedReport.cha)}</strong>
+                  <div className="original-pincha">
+                    <code>P: {spacedSequence(selectedReport.pin)}</code>
+                    <code>C: {spacedSequence(selectedReport.cha)}</code>
+                  </div>
+                  <div className="original-season-row">
+                    <code>Age : {selectedReport.age}</code>
+                    {selectedReport.seasons.map((season) => <code key={season}>{season}</code>)}
                   </div>
                 </div>
-              </div>
-              <div className="season-strip">
-                {selectedReport.seasons.map((season, index) => (
-                  <div key={season}><span>Season {index + 1}</span><strong>{season}</strong></div>
-                ))}
               </div>
             </section>
 

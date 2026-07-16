@@ -29,8 +29,8 @@ body {
 button, input { font: inherit; }
 button { cursor: pointer; }
 button:disabled { cursor: not-allowed; opacity: 0.45; }
-button, input, .chart-scroll { outline: none; }
-button:focus-visible, input:focus-visible, .chart-scroll:focus-visible {
+button, input, .chart-scroll, .original-profile-scroll { outline: none; }
+button:focus-visible, input:focus-visible, .chart-scroll:focus-visible, .original-profile-scroll:focus-visible {
   outline: 3px solid rgba(194, 65, 12, 0.35);
   outline-offset: 2px;
 }
@@ -148,28 +148,22 @@ button:focus-visible, input:focus-visible, .chart-scroll:focus-visible {
 .print-title h1 { margin: 3px 0 3px; overflow: hidden; text-overflow: ellipsis; font: 720 clamp(22px, 6vw, 34px)/1.05 Georgia, serif; }
 .print-title > p:last-child { margin: 0; color: var(--muted-ink); font-size: 12px; }
 .profile-panel, .chart-panel, .comparison-card { border: 1px solid var(--border); border-radius: 20px; background: var(--surface); box-shadow: 0 6px 22px rgba(17,24,39,0.055); }
-.profile-panel { padding: 18px; display: grid; gap: 17px; }
-.formula-stack { display: grid; gap: 8px; }
-.formula-stack > div { display: grid; grid-template-columns: 56px minmax(0,1fr); gap: 8px; align-items: baseline; }
-.formula-stack span, .legacy-value span, .season-strip span { color: var(--muted-ink); font-size: 10px; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase; }
 code, .number-grid, .month-grid { font-family: "Courier New", Courier, monospace; }
-.formula-stack code { overflow-x: auto; white-space: pre; color: var(--ink); font-weight: 700; }
-.legacy-chart-core { overflow: hidden; display: grid; grid-template-columns: minmax(0, 0.86fr) minmax(0, 1.3fr); grid-template-areas: "pmei birth" "pmei destiny"; border: 1px solid var(--border); border-radius: 15px; background: #fbfbfc; }
-.legacy-pmei { grid-area: pmei; padding: 12px 10px; display: grid; align-content: center; gap: 5px; border-right: 1px solid var(--border); }
-.legacy-pmei > div { min-width: 0; display: grid; grid-template-columns: 30px minmax(0, 1fr); align-items: center; gap: 5px; }
-.legacy-pmei span { width: 27px; height: 27px; display: grid; place-items: center; border-radius: 8px; background: var(--ink); color: white; font-size: 12px; font-weight: 850; }
-.legacy-pmei code { overflow: hidden; white-space: pre; color: var(--ink); font-size: clamp(10px, 2.8vw, 12px); font-weight: 750; }
-.legacy-birth-block { grid-area: birth; border-bottom: 1px solid var(--border); }
-.legacy-destiny-block { grid-area: destiny; }
-.legacy-birth-block, .legacy-destiny-block { padding: 11px 12px; display: grid; gap: 11px; align-content: center; }
-.legacy-destiny-block { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-.ultimate-value { grid-column: 1 / -1; }
-.legacy-value { min-width: 0; display: grid; gap: 4px; }
-.legacy-value strong { overflow-wrap: anywhere; white-space: pre-wrap; color: var(--ink); font: 800 clamp(13px, 4vw, 17px)/1.2 "Courier New", Courier, monospace; }
-.season-strip { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); border: 1px solid var(--border); border-radius: 14px; overflow: hidden; }
-.season-strip > div { min-width: 0; padding: 10px 6px; display: grid; gap: 5px; text-align: center; border-right: 1px solid var(--border); }
-.season-strip > div:last-child { border-right: 0; }
-.season-strip strong { white-space: nowrap; font: 750 12px/1.1 "Courier New", monospace; }
+.original-profile-panel { overflow: hidden; padding: 0; }
+.original-profile-hint { margin: 0; padding: 11px 16px 10px; border-bottom: 1px solid var(--border); color: var(--muted-ink); font-size: 11px; font-weight: 700; }
+.original-profile-scroll { overflow-x: auto; overscroll-behavior-x: contain; scrollbar-color: #9aa3b1 transparent; }
+.original-profile-sheet { width: max(760px, 100%); min-height: 238px; padding: 22px 24px 18px; display: grid; grid-template-columns: 1.22fr 0.9fr 1.05fr; grid-template-rows: auto 1fr auto; grid-template-areas: "identity blank meta" "pmei birth pincha" "seasons seasons seasons"; column-gap: 28px; row-gap: 12px; background: #fbfbfc; color: #111827; }
+.original-profile-sheet code, .original-profile-sheet time { display: block; white-space: pre; color: inherit; font: 750 14px/1.45 "Courier New", Courier, monospace; }
+.original-identity { grid-area: identity; align-self: start; }
+.original-identity code { min-height: 20px; }
+.original-parts { padding-left: 20px; }
+.original-meta { grid-area: meta; display: grid; justify-items: end; align-content: start; gap: 8px; }
+.original-meta time { font-weight: 700; }
+.original-pmei { grid-area: pmei; align-self: end; }
+.original-birth-values { grid-area: birth; align-self: end; padding-bottom: 22px; }
+.original-pincha { grid-area: pincha; align-self: end; padding-bottom: 22px; }
+.original-season-row { grid-area: seasons; display: grid; grid-template-columns: 1fr repeat(4, 1fr); align-items: end; }
+.original-season-row code:not(:first-child) { text-align: center; }
 
 .chart-panel { overflow: hidden; padding: 18px 0 0; }
 .chart-panel > .section-heading, .chart-panel > .scroll-hint, .chart-panel > .focus-controls { margin-inline: 18px; }
@@ -254,11 +248,6 @@ code, .number-grid, .month-grid { font-family: "Courier New", Courier, monospace
   .content-shell { padding-inline: 24px; }
   .hero-card { padding: 44px; }
   .people-list { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-  .profile-panel { padding: 24px; }
-  .legacy-chart-core { grid-template-columns: minmax(210px, 0.85fr) minmax(260px, 1.1fr) minmax(300px, 1.25fr); grid-template-areas: "pmei birth destiny"; }
-  .legacy-birth-block { border-right: 1px solid var(--border); border-bottom: 0; }
-  .legacy-destiny-block { grid-template-columns: 1fr; }
-  .ultimate-value { grid-column: auto; }
   .compare-toolbar { grid-template-columns: 1fr 320px; align-items: center; }
   .month-card { flex-basis: 390px; }
   .modal-backdrop { align-items: center; }
@@ -268,6 +257,7 @@ code, .number-grid, .month-grid { font-family: "Courier New", Courier, monospace
 @media (min-width: 1080px) {
   .people-list { grid-template-columns: repeat(3, minmax(0, 1fr)); }
   .comparison-stack { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .original-profile-hint { display: none; }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -284,7 +274,9 @@ code, .number-grid, .month-grid { font-family: "Courier New", Courier, monospace
   .chart-title-row { grid-template-columns: 1fr; }
   .print-title { text-align: left; }
   .profile-panel, .chart-panel, .comparison-card { box-shadow: none; break-inside: avoid; }
-  .chart-scroll, .month-band { overflow: visible; }
+  .chart-scroll, .month-band, .original-profile-scroll { overflow: visible; }
+  .original-profile-sheet { width: 100%; min-width: 0; min-height: 0; padding: 5mm; column-gap: 5mm; row-gap: 2mm; }
+  .original-profile-sheet code, .original-profile-sheet time { font-size: 8pt; }
   .number-grid { transform-origin: left top; }
   .month-card { flex-basis: 31%; break-inside: avoid; }
   .month-band { gap: 2%; }
