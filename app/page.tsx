@@ -339,8 +339,10 @@ function PersonForm({
           <label>
             Full birth name
             <input
-              autoFocus
+              type="text"
+              inputMode="text"
               autoComplete="name"
+              autoCapitalize="words"
               value={fullName}
               onChange={(event) => setFullName(event.target.value)}
               placeholder="Roman Peter Vaughan"
@@ -349,6 +351,9 @@ function PersonForm({
           <label>
             Called name <span className="optional">Optional</span>
             <input
+              type="text"
+              inputMode="text"
+              autoCapitalize="words"
               value={calledName}
               onChange={(event) => setCalledName(event.target.value)}
               placeholder="Roman Vaughan"

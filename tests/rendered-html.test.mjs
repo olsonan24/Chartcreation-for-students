@@ -55,6 +55,15 @@ test("includes local persistence and installable offline support", async () => {
   assert.doesNotMatch(packageJson, /react-loading-skeleton/);
 });
 
+test("lets iOS open the keyboard from a real tap on the name fields", async () => {
+  const page = await readFile(new URL("../app/page.tsx", import.meta.url), "utf8");
+
+  assert.doesNotMatch(page, /autoFocus/);
+  assert.match(page, /type="text"\s+inputMode="text"\s+autoComplete="name"/);
+  assert.match(page, /autoCapitalize="words"/);
+  assert.match(page, /inputMode="numeric"/);
+});
+
 test("includes a dedicated one-page A4 PASS print report", async () => {
   const [page, css] = await Promise.all([
     readFile(new URL("../app/page.tsx", import.meta.url), "utf8"),
