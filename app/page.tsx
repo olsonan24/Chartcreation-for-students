@@ -1,8 +1,7 @@
 "use client";
 
-import type { CSSProperties, FormEvent } from "react";
-import { useEffect, useMemo, useState } from "react";
-import Image from "next/image";
+import type { CSSProperties, FormEvent, ImgHTMLAttributes } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 
 import {
   type MonthsSet,
@@ -26,6 +25,64 @@ type InstallPrompt = Event & {
   prompt: () => Promise<void>;
   userChoice: Promise<{ outcome: "accepted" | "dismissed" }>;
 };
+
+type StaticImageProps = ImgHTMLAttributes<HTMLImageElement> & {
+  priority?: boolean;
+  unoptimized?: boolean;
+};
+
+function Image({ priority = false, unoptimized: _unoptimized, loading, ...props }: StaticImageProps) {
+  return <img {...props} loading={priority ? "eager" : (loading ?? "lazy")} decoding="async" />;
+}
+
+function useDialogFocus(onClose: () => void) {
+  const dialogRef = useRef<HTMLElement>(null);
+
+  useEffect(() => {
+    const dialog = dialogRef.current;
+    if (!dialog) return;
+
+    const previouslyFocused = document.activeElement instanceof HTMLElement ? document.activeElement : null;
+    const previousOverflow = document.body.style.overflow;
+    const focusableSelector =
+      'button:not([disabled]), input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [href], [tabindex]:not([tabindex="-1"])';
+    const focusables = () => Array.from(dialog.querySelectorAll<HTMLElement>(focusableSelector));
+    const initialTarget = dialog.querySelector<HTMLElement>("input") ?? dialog.querySelector<HTMLElement>("button");
+
+    document.body.style.overflow = "hidden";
+    initialTarget?.focus({ preventScroll: true });
+
+    function handleKeyDown(event: globalThis.KeyboardEvent) {
+      if (event.key === "Escape") {
+        event.preventDefault();
+        onClose();
+        return;
+      }
+      if (event.key !== "Tab") return;
+
+      const items = focusables();
+      if (items.length === 0) return;
+      const first = items[0];
+      const last = items[items.length - 1];
+      if (event.shiftKey && document.activeElement === first) {
+        event.preventDefault();
+        last.focus();
+      } else if (!event.shiftKey && document.activeElement === last) {
+        event.preventDefault();
+        first.focus();
+      }
+    }
+
+    dialog.addEventListener("keydown", handleKeyDown);
+    return () => {
+      dialog.removeEventListener("keydown", handleKeyDown);
+      document.body.style.overflow = previousOverflow;
+      previouslyFocused?.focus({ preventScroll: true });
+    };
+  }, [onClose]);
+
+  return dialogRef;
+}
 
 const STORAGE_KEY = "pass7-mobile-clients-v1";
 const MONTHS = ["J", "F", "M", "A", "M", "J", "J", "A", "S", "O", "N", "D"];
@@ -157,7 +214,7 @@ function MonthCard({ title, set }: { title: string; set: MonthsSet }) {
 function MonthBand({ report, focusAge }: { report: Report; focusAge: number }) {
   const birthYear = new Date().getFullYear() - report.age;
   return (
-    <div className="month-band">
+    <div className="month-band" tabIndex={0} role="region" aria-label="Three-year monthly cycle chart; scroll horizontally to explore">
       {[focusAge - 1, focusAge, focusAge + 1].map((age) => (
         <MonthCard
           key={age}
@@ -331,6 +388,7 @@ function PersonForm({
   const [calledName, setCalledName] = useState(person?.calledName ?? "");
   const [dob, setDob] = useState(person?.dob ?? "");
   const [error, setError] = useState("");
+  const dialogRef = useDialogFocus(onCancel);
 
   function submit(event: FormEvent) {
     event.preventDefault();
@@ -353,7 +411,7 @@ function PersonForm({
 
   return (
     <div className="modal-backdrop" role="presentation">
-      <section className="sheet" role="dialog" aria-modal="true" aria-labelledby="person-form-title">
+      <section ref={dialogRef} className="sheet" role="dialog" aria-modal="true" aria-labelledby="person-form-title">
         <div className="sheet-handle" />
         <div className="section-heading">
           <div>
@@ -408,9 +466,11 @@ function PersonForm({
 }
 
 function InstallHelp({ onClose }: { onClose: () => void }) {
+  const dialogRef = useDialogFocus(onClose);
+
   return (
     <div className="modal-backdrop" role="presentation">
-      <section className="sheet install-sheet" role="dialog" aria-modal="true" aria-labelledby="install-title">
+      <section ref={dialogRef} className="sheet install-sheet" role="dialog" aria-modal="true" aria-labelledby="install-title">
         <div className="sheet-handle" />
         <div className="section-heading">
           <div>
@@ -544,10 +604,10 @@ export default function Home() {
           </span>
         </button>
         <nav className="desktop-nav" aria-label="Primary desktop navigation">
-          <button className={view === "people" ? "active" : ""} type="button" onClick={() => setView("people")}>Dashboard</button>
+          <button className={view === "people" ? "active" : ""} aria-current={view === "people" ? "page" : undefined} type="button" onClick={() => setView("people")}>Dashboard</button>
           <button type="button" onClick={() => setView("people")}>People</button>
-          <button className={view === "chart" ? "active" : ""} type="button" disabled={!selectedClient} onClick={() => setView("chart")}>Charts</button>
-          <button className={view === "compare" ? "active" : ""} type="button" onClick={() => setView("compare")}>Compare</button>
+          <button className={view === "chart" ? "active" : ""} aria-current={view === "chart" ? "page" : undefined} type="button" disabled={!selectedClient} onClick={() => setView("chart")}>Charts</button>
+          <button className={view === "compare" ? "active" : ""} aria-current={view === "compare" ? "page" : undefined} type="button" onClick={() => setView("compare")}>Compare</button>
         </nav>
         <button className="install-button" type="button" onClick={installApp}>Install</button>
       </header>
@@ -731,7 +791,6 @@ export default function Home() {
                 <h1>Compare people</h1>
                 <p>{compareClients.length} selected</p>
               </div>
-              {compareClients.length >= 2 && <button className="secondary-button compact-button no-print" type="button" onClick={() => window.print()}>Print / PDF</button>}
             </div>
 
             <div className="compare-picker no-print">
@@ -753,8 +812,8 @@ export default function Home() {
               <>
                 <div className="compare-toolbar no-print">
                   <div className="segmented-control" aria-label="Comparison mode">
-                    <button className={compareMode === "years" ? "active" : ""} type="button" onClick={() => setCompareMode("years")}>Years</button>
-                    <button className={compareMode === "months" ? "active" : ""} type="button" onClick={() => setCompareMode("months")}>Months</button>
+                    <button className={compareMode === "years" ? "active" : ""} aria-pressed={compareMode === "years"} type="button" onClick={() => setCompareMode("years")}>Years</button>
+                    <button className={compareMode === "months" ? "active" : ""} aria-pressed={compareMode === "months"} type="button" onClick={() => setCompareMode("months")}>Months</button>
                   </div>
                   <div className="year-stepper">
                     <button type="button" aria-label="Previous year" onClick={() => setFocusYear((year) => year - 1)}>−</button>
@@ -791,9 +850,9 @@ export default function Home() {
       </div>
 
       <nav className="bottom-nav no-print" aria-label="Primary navigation">
-        <button className={view === "people" ? "active" : ""} type="button" onClick={() => setView("people")}><span>People</span><small>{clients.length}</small></button>
-        <button className={view === "chart" ? "active" : ""} type="button" disabled={!selectedClient} onClick={() => setView("chart")}><span>Chart</span><small>{selectedClient ? "Open" : "—"}</small></button>
-        <button className={view === "compare" ? "active" : ""} type="button" onClick={() => setView("compare")}><span>Compare</span><small>{compareIds.length}</small></button>
+        <button className={view === "people" ? "active" : ""} aria-current={view === "people" ? "page" : undefined} type="button" onClick={() => setView("people")}><span>People</span><small>{clients.length}</small></button>
+        <button className={view === "chart" ? "active" : ""} aria-current={view === "chart" ? "page" : undefined} type="button" disabled={!selectedClient} onClick={() => setView("chart")}><span>Chart</span><small>{selectedClient ? "Open" : "—"}</small></button>
+        <button className={view === "compare" ? "active" : ""} aria-current={view === "compare" ? "page" : undefined} type="button" onClick={() => setView("compare")}><span>Compare</span><small>{compareIds.length}</small></button>
       </nav>
 
       {editing && <PersonForm person={editing === "new" ? null : editing} onCancel={() => setEditing(null)} onSave={saveClient} />}
