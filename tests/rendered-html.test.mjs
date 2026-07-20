@@ -27,7 +27,9 @@ test("uses the Aionis brand throughout every user-facing surface", async () => {
   const userFacing = [page, html, manifest, readme].join("\n");
 
   assert.match(userFacing, /Aionis Timeline Formula/);
-  assert.match(userFacing, /aionis-timeline-formula-logo\.jpg/);
+  assert.match(userFacing, /aionis-logo-transparent\.png/);
+  assert.match(userFacing, /aionis-report-seal\.png/);
+  assert.match(userFacing, /aionis-app-icon\.png/);
   assert.doesNotMatch(userFacing, /Peter Vaughan|Peter Vaughn|PASS 7/i);
 });
 
@@ -50,7 +52,10 @@ test("includes local persistence and build-time offline precaching", async () =>
   assert.match(worker, /precacheAndRoute/);
   assert.match(worker, /index\.html/);
   assert.match(worker, /assets\/index-/);
-  assert.match(worker, /aionis-cosmic-body\.png/);
+  assert.match(worker, /dashboard-hero-desktop\.png/);
+  assert.match(worker, /dashboard-hero-mobile\.png/);
+  assert.match(worker, /report-paper-texture\.png/);
+  assert.doesNotMatch(worker, /aionis-cosmic-body\.png|aionis-rhythm\.png|aionis-timeline-formula-logo\.jpg/);
   assert.doesNotMatch(packageJson, /vinext|cloudflare|wrangler|next|drizzle/i);
 });
 
@@ -96,28 +101,34 @@ test("includes a dedicated AirPrint-safe one-page Aionis report", async () => {
   assert.equal((page.match(/window\.print\(\)/g) ?? []).length, 1);
 });
 
-test("ships the matching cosmic dashboard artwork for phone and web", async () => {
+test("ships purpose-built responsive Aionis artwork for phone, web, comparison, and reports", async () => {
   const [page, css, manifest] = await Promise.all([
     read("../app/page.tsx"),
     read("../app/globals.css"),
     read("../public/manifest.webmanifest"),
   ]);
 
-  assert.match(page, /aionis-cosmic-body\.png/);
-  assert.match(css, /aionis-rhythm\.png/);
+  assert.match(page, /aionis-logo-transparent\.png/);
+  assert.match(page, /aionis-report-seal\.png/);
   assert.match(page, /className="desktop-nav"/);
   assert.match(page, /className="aionis-trust-ribbon"/);
-  assert.match(page, /className="hero-visual"/);
   assert.match(page, /className="chart-report-hint no-print"/);
   assert.match(css, /@media screen/);
-  assert.match(css, /background: #020711/);
-  assert.match(css, /\.hero-cosmos \{[\s\S]*?object-fit: contain;/);
-  assert.match(css, /\.empty-card::before \{[\s\S]*?\/ contain no-repeat;/);
+  assert.match(css, /app-background-desktop\.png/);
+  assert.match(css, /app-background-mobile\.png/);
+  assert.match(css, /dashboard-hero-desktop\.png/);
+  assert.match(css, /dashboard-hero-mobile\.png/);
+  assert.match(css, /compare-background-desktop\.png/);
+  assert.match(css, /compare-background-mobile\.png/);
+  assert.match(css, /report-header-desktop\.png/);
+  assert.match(css, /report-header-mobile\.png/);
+  assert.match(css, /report-paper-texture\.png/);
   assert.match(css, /overflow-y: auto !important;/);
   assert.match(css, /@media screen and \(min-width: 900px\)[\s\S]*?\.bottom-nav \{ display: none; \}/);
   assert.match(css, /\.person-main \{ background: transparent; color: #eef3fb; \}/);
   assert.doesNotMatch(page, /document\.body\.style\.overflow\s*=\s*"hidden"/);
   assert.match(manifest, /Aionis Timeline Formula/);
+  assert.match(manifest, /aionis-app-icon\.png/);
 });
 
 test("is ready for a zero-configuration Vercel Vite deployment", async () => {

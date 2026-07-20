@@ -333,8 +333,8 @@ function PassPrintReport({
         <span>Ω</span><span>Φ</span><span>Ψ</span><span>Δ</span>
       </div>
       <header className="print-report-masthead">
+        <Image className="print-report-seal" src="/aionis-report-seal.png" alt="" width={120} height={140} unoptimized />
         <div className="print-brand" aria-label="Aionis Timeline Formula">
-          <Image src="/aionis-timeline-formula-logo.jpg" alt="" width={72} height={83} unoptimized />
           <span><strong>AIONIS</strong><small>TIMELINE FORMULA</small></span>
         </div>
         <p className="print-tagline">You are time in motion.</p>
@@ -624,7 +624,7 @@ export default function Home() {
       </div>
       <header className="app-header no-print">
         <button className="brand-button" type="button" onClick={() => setView("people")} aria-label="Open people list">
-          <Image src="/aionis-timeline-formula-logo.jpg" alt="Aionis Timeline Formula" width={50} height={50} priority unoptimized />
+          <Image src="/aionis-logo-transparent.png" alt="Aionis Timeline Formula" width={50} height={50} priority unoptimized />
           <span>
             <strong>AIONIS</strong>
             <small>Timeline Formula</small>
@@ -655,17 +655,6 @@ export default function Home() {
                   <button className="secondary-button" type="button" onClick={installApp}>Add to phone</button>
                 </div>
                 <div className="privacy-line"><span className="privacy-dot" /> Saved on this device · works offline</div>
-              </div>
-              <div className="hero-visual">
-                <Image
-                  className="hero-cosmos"
-                  src="/aionis-cosmic-body.png"
-                  alt="A luminous Aionis figure surrounded by timeline rings; you are more than a body."
-                  width={941}
-                  height={1672}
-                  priority
-                  unoptimized
-                />
               </div>
             </div>
 

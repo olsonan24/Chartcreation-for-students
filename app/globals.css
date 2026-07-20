@@ -294,7 +294,10 @@ code, .number-grid, .month-grid { font-family: "Courier New", Courier, monospace
     align-content: start;
     gap: 1.2mm;
     overflow: hidden;
-    background: radial-gradient(circle at 50% 0%, rgba(52, 113, 178, 0.06), transparent 25%), #fbf7ed;
+    background:
+      linear-gradient(rgba(255,252,244,0.72), rgba(255,252,244,0.72)),
+      url('/report-paper-texture.png') center / 86mm 86mm repeat,
+      #fbf7ed;
     color: #07111c;
     border: 0.35mm solid rgba(151, 104, 34, 0.52);
     box-shadow: inset 0 0 0 1mm #fbf7ed, inset 0 0 0 1.3mm rgba(151, 104, 34, 0.23);
@@ -320,10 +323,11 @@ code, .number-grid, .month-grid { font-family: "Courier New", Courier, monospace
     overflow: hidden;
     color: #f3d187;
     background:
-      linear-gradient(90deg, rgba(2,9,20,0.97), rgba(5,20,37,0.88) 50%, rgba(2,9,20,0.97)),
-      url('/aionis-rhythm.png') center 48% / cover no-repeat;
+      linear-gradient(90deg, rgba(2,9,20,0.72), rgba(5,20,37,0.56) 50%, rgba(2,9,20,0.72)),
+      url('/report-header-desktop.png') center / cover no-repeat;
     border-bottom: 0.45mm solid rgba(195, 145, 54, 0.72);
   }
+  .print-report-seal { position: absolute; left: 7mm; top: 50%; width: 19mm; height: 24mm; object-fit: contain; transform: translateY(-50%); filter: drop-shadow(0 1mm 2mm rgba(0,0,0,0.38)); }
   .print-brand {
     display: flex;
     align-items: center;
@@ -331,11 +335,10 @@ code, .number-grid, .month-grid { font-family: "Courier New", Courier, monospace
     gap: 3mm;
     color: #f1cf87;
   }
-  .print-brand img { width: 17mm; height: 19.7mm; object-fit: cover; border: 0.25mm solid rgba(235, 196, 119, 0.78); border-radius: 2.2mm; box-shadow: 0 1.2mm 4mm rgba(0,0,0,0.38); }
   .print-brand span { display: grid; line-height: 1; }
   .print-brand strong { font: 450 19pt/1 "Avenir Next", "Segoe UI", Arial, sans-serif; letter-spacing: 0.34em; }
   .print-brand small { margin-top: 1.4mm; color: #d6ad59; font: 650 7.4pt/1 "Avenir Next", "Segoe UI", Arial, sans-serif; letter-spacing: 0.22em; }
-  .print-tagline { margin: -1.8mm 0 0 20mm; color: #f7ead0; font: italic 600 7.5pt/1 Georgia, serif; }
+  .print-tagline { margin: 1.5mm 0 0; color: #f7ead0; font: italic 600 7.5pt/1 Georgia, serif; }
   .print-masthead-meta { position: absolute; top: 5mm; right: 7mm; display: grid; justify-items: end; gap: 2mm; color: #f1cf87; }
   .print-masthead-meta time, .print-masthead-meta code { color: inherit; font: 700 7.2pt/1.2 Georgia, serif; }
   .print-report-summary {
@@ -470,7 +473,7 @@ code, .number-grid, .month-grid { font-family: "Courier New", Courier, monospace
   .section-heading h2, .empty-card h3, .comparison-person h2 { color: #eef3fb; }
   .eyebrow { color: #d7a84e; }
   .count-badge, .focus-pill { border: 1px solid rgba(199, 151, 65, 0.35); background: rgba(13, 28, 48, 0.88); color: #e4c17f; }
-  .empty-card { border-color: rgba(95, 131, 182, 0.34); background: linear-gradient(rgba(3,10,22,0.82), rgba(3,10,22,0.9)), url('/aionis-rhythm.png') center 46% / cover; box-shadow: inset 0 0 70px rgba(38, 119, 213, 0.08); }
+  .empty-card { border-color: rgba(95, 131, 182, 0.34); background: linear-gradient(rgba(3,10,22,0.82), rgba(3,10,22,0.9)), url('/compare-background-desktop.png') center / cover; box-shadow: inset 0 0 70px rgba(38, 119, 213, 0.08); }
   .empty-card p { color: #9eacc0; }
   .empty-mark { border: 1px solid rgba(220, 176, 90, 0.5); background: rgba(6, 17, 32, 0.85); color: #e4c27d; box-shadow: 0 0 30px rgba(39, 133, 233, 0.13); }
   .person-card, .profile-panel, .chart-panel, .comparison-card { border-color: rgba(86, 119, 165, 0.32); background: linear-gradient(145deg, rgba(12,25,44,0.95), rgba(5,13,27,0.97)); box-shadow: 0 14px 38px rgba(0,0,0,0.28), inset 0 1px rgba(255,255,255,0.025); }
@@ -568,17 +571,28 @@ code, .number-grid, .month-grid { font-family: "Courier New", Courier, monospace
 
 /* Final responsive composition: preserve portrait artwork instead of cropping it. */
 @media screen {
-  html, body { min-height: 100%; overflow-x: hidden; overflow-y: auto !important; }
+  html, body {
+    min-height: 100%;
+    overflow-x: hidden;
+    overflow-y: auto !important;
+    background:
+      linear-gradient(rgba(1,7,18,0.72), rgba(1,7,18,0.8)),
+      url('/app-background-desktop.png') center top / cover fixed no-repeat,
+      #020711;
+  }
+  .brand-button img { width: 52px; height: 52px; object-fit: contain; object-position: center; border: 0; border-radius: 0; box-shadow: none; filter: drop-shadow(0 0 10px rgba(225,177,80,0.28)); }
   .hero-card {
-    min-height: 0;
+    min-height: 590px;
     padding: 0;
-    display: grid;
-    grid-template-columns: 1fr;
+    display: block;
     align-items: stretch;
-    background: linear-gradient(145deg, #040a14, #071426);
+    background:
+      linear-gradient(90deg, rgba(2,8,20,0.5) 0%, rgba(2,8,20,0.18) 58%, rgba(2,8,20,0.03) 100%),
+      url('/dashboard-hero-desktop.png') center / cover no-repeat,
+      #020711;
   }
   .hero-card::before, .hero-card::after { content: none; }
-  .hero-content { position: relative; z-index: 3; padding: 34px 26px 28px; display: flex; flex-direction: column; justify-content: center; }
+  .hero-content { position: relative; z-index: 3; width: 56%; min-height: 590px; padding: 48px 46px; display: flex; flex-direction: column; justify-content: center; }
   .hero-visual { position: relative; z-index: 1; min-height: 610px; overflow: hidden; background: radial-gradient(circle at 50% 45%, rgba(51,139,234,0.16), transparent 42%), #020711; border-top: 1px solid rgba(209,164,79,0.25); }
   .hero-visual::after { content: ""; position: absolute; inset: 0; pointer-events: none; box-shadow: inset 0 0 44px 22px #020711; }
   .hero-cosmos { position: absolute; inset: 14px; width: calc(100% - 28px); height: calc(100% - 28px); object-fit: contain; object-position: center; opacity: 1; filter: none; mask-image: none; }
@@ -586,8 +600,8 @@ code, .number-grid, .month-grid { font-family: "Courier New", Courier, monospace
   .hero-card h1 { max-width: 660px; font-size: clamp(40px, 10vw, 66px); }
   .hero-ornaments { z-index: 4; }
 
-  .empty-card { position: relative; overflow: hidden; background: linear-gradient(145deg, rgba(7,19,36,0.98), rgba(2,9,20,0.98)); }
-  .empty-card::before { content: ""; position: absolute; inset: 14px; background: url('/aionis-rhythm.png') center / contain no-repeat; opacity: 0.13; pointer-events: none; }
+  .empty-card { position: relative; overflow: hidden; background: linear-gradient(145deg, rgba(7,19,36,0.9), rgba(2,9,20,0.94)); }
+  .empty-card::before { content: ""; position: absolute; inset: 0; background: linear-gradient(rgba(2,8,20,0.48), rgba(2,8,20,0.62)), url('/compare-background-desktop.png') center / cover no-repeat; opacity: 0.7; pointer-events: none; }
   .empty-card > * { position: relative; z-index: 1; }
 
   .chart-report-toolbar { min-height: 104px; padding: 18px 20px; display: grid; grid-template-columns: auto minmax(0, 1fr) auto; align-items: center; gap: 18px; border: 1px solid rgba(202,157,72,0.42); border-radius: 20px; background: linear-gradient(145deg, rgba(11,24,43,0.98), rgba(3,10,22,0.98)); box-shadow: 0 18px 48px rgba(0,0,0,0.3); }
@@ -604,7 +618,10 @@ code, .number-grid, .month-grid { font-family: "Courier New", Courier, monospace
     display: grid;
     gap: 14px;
     overflow: hidden;
-    background: radial-gradient(circle at 50% 0%, rgba(58,118,182,0.07), transparent 24%), #fbf7ed;
+    background:
+      linear-gradient(rgba(255,252,244,0.74), rgba(255,252,244,0.74)),
+      url('/report-paper-texture.png') center / 720px 720px repeat,
+      #fbf7ed;
     color: #07111c;
     border: 1px solid rgba(189,129,41,0.72);
     border-radius: 22px;
@@ -617,13 +634,13 @@ code, .number-grid, .month-grid { font-family: "Courier New", Courier, monospace
   .print-ornaments span:nth-child(2) { top: 0; right: 0; }
   .print-ornaments span:nth-child(3) { bottom: 0; left: 0; }
   .print-ornaments span:nth-child(4) { right: 0; bottom: 0; }
-  .print-report-masthead { position: relative; min-height: 190px; margin: -18px -18px 0; padding: 24px 34px; display: grid; place-items: center; align-content: center; overflow: hidden; color: #f2ce83; background: linear-gradient(90deg, rgba(2,9,20,0.97), rgba(5,20,37,0.86) 50%, rgba(2,9,20,0.97)), url('/aionis-rhythm.png') center 49% / cover no-repeat; border-bottom: 2px solid rgba(195,145,54,0.76); }
+  .print-report-masthead { position: relative; min-height: 190px; margin: -18px -18px 0; padding: 24px 34px; display: grid; place-items: center; align-content: center; overflow: hidden; color: #f2ce83; background: linear-gradient(90deg, rgba(2,9,20,0.72), rgba(5,20,37,0.56) 50%, rgba(2,9,20,0.72)), url('/report-header-desktop.png') center / cover no-repeat; border-bottom: 2px solid rgba(195,145,54,0.76); }
+  .print-report-seal { position: absolute; left: 26px; top: 50%; width: 108px; height: 132px; object-fit: contain; transform: translateY(-50%); filter: drop-shadow(0 8px 18px rgba(0,0,0,0.42)); }
   .print-brand { display: flex; align-items: center; justify-content: center; gap: 18px; color: #f1cf87; }
-  .print-brand img { width: 88px; height: 102px; object-fit: cover; border: 1px solid rgba(235,196,119,0.8); border-radius: 13px; box-shadow: 0 8px 30px rgba(0,0,0,0.46); }
   .print-brand span { display: grid; line-height: 1; }
   .print-brand strong { font: 450 clamp(30px, 5vw, 54px)/1 "Avenir Next", "Segoe UI", Arial, sans-serif; letter-spacing: 0.34em; }
   .print-brand small { margin-top: 10px; color: #d6ad59; font: 650 clamp(10px, 1.4vw, 15px)/1 "Avenir Next", "Segoe UI", Arial, sans-serif; letter-spacing: 0.22em; }
-  .print-tagline { margin: -7px 0 0 100px; color: #f5e6c8; font: italic 600 15px/1 Georgia, serif; }
+  .print-tagline { margin: 10px 0 0; color: #f5e6c8; font: italic 600 15px/1 Georgia, serif; }
   .print-masthead-meta { position: absolute; top: 28px; right: 30px; display: grid; justify-items: end; gap: 8px; color: #efcb81; }
   .print-masthead-meta time, .print-masthead-meta code { color: inherit; font: 700 13px/1.2 Georgia, serif; }
 
@@ -663,16 +680,27 @@ code, .number-grid, .month-grid { font-family: "Courier New", Courier, monospace
 }
 
 @media screen and (min-width: 900px) {
-  .hero-card { grid-template-columns: minmax(0, 1.03fr) minmax(390px, 0.97fr); }
+  .hero-card { min-height: 590px; }
   .hero-content { padding: 58px 46px; }
-  .hero-visual { min-height: 680px; border-top: 0; border-left: 1px solid rgba(209,164,79,0.25); }
   .hero-copy { max-width: none; }
   .hero-card h1 { font-size: clamp(50px, 5.3vw, 72px); }
 }
 
 @media screen and (max-width: 640px) {
-  .hero-content { padding: 32px 22px 28px; }
-  .hero-visual { min-height: 590px; }
+  html, body {
+    background:
+      linear-gradient(rgba(1,7,18,0.64), rgba(1,7,18,0.76)),
+      url('/app-background-mobile.png') center top / cover fixed no-repeat,
+      #020711;
+  }
+  .hero-card {
+    min-height: 820px;
+    background:
+      linear-gradient(180deg, rgba(2,8,20,0.92) 0%, rgba(2,8,20,0.66) 38%, rgba(2,8,20,0.08) 68%, rgba(2,8,20,0.22) 100%),
+      url('/dashboard-hero-mobile.png') center / cover no-repeat,
+      #020711;
+  }
+  .hero-content { width: 100%; min-height: 820px; padding: 32px 22px 28px; justify-content: flex-start; }
   .hero-card h1 { font-size: 42px; }
   .hero-actions { display: grid; grid-template-columns: 1fr 1fr; }
   .chart-report-toolbar { grid-template-columns: 1fr auto; padding: 18px; }
@@ -680,7 +708,9 @@ code, .number-grid, .month-grid { font-family: "Courier New", Courier, monospace
   .chart-report-toolbar .back-button { grid-column: 1; grid-row: 2; justify-self: start; }
   .chart-report-toolbar .compact-button { grid-column: 2; grid-row: 2; }
   .pass-print-report { padding: 10px; gap: 10px; border-radius: 16px; }
-  .print-report-masthead { min-height: 260px; margin: -10px -10px 0; padding: 24px 18px; }
+  .empty-card::before { background: linear-gradient(rgba(2,8,20,0.44), rgba(2,8,20,0.62)), url('/compare-background-mobile.png') center / cover no-repeat; opacity: 0.72; }
+  .print-report-masthead { min-height: 300px; margin: -10px -10px 0; padding: 24px 18px; background: linear-gradient(rgba(2,9,20,0.54), rgba(2,9,20,0.64)), url('/report-header-mobile.png') center / cover no-repeat; }
+  .print-report-seal { position: static; width: 108px; height: 126px; margin-bottom: 5px; transform: none; }
   .print-brand { gap: 12px; }
   .print-brand img { width: 68px; height: 79px; }
   .print-brand strong { font-size: 25px; letter-spacing: 0.24em; }
