@@ -278,7 +278,7 @@ code, .number-grid, .month-grid { font-family: "Courier New", Courier, monospace
 
 @media print {
   @page { size: A4 portrait; margin: 0; }
-  html, body { width: 210mm; min-height: 0 !important; height: auto; background: #f7f5ee; }
+  html, body { width: 210mm; min-height: 0 !important; height: auto; overflow: visible !important; background: #f7f2e7; }
   body { margin: 0; print-color-adjust: exact; -webkit-print-color-adjust: exact; }
   .no-print, .bottom-nav, .app-header, .chart-view > :not(.pass-print-report) { display: none !important; }
   .app-shell, .content-shell, .chart-view { width: 210mm; min-height: 0 !important; height: auto; margin: 0; padding: 0; }
@@ -286,100 +286,115 @@ code, .number-grid, .month-grid { font-family: "Courier New", Courier, monospace
   .pass-print-report {
     position: relative;
     width: 210mm;
-    height: 266mm;
-    max-height: 266mm;
-    padding: 5mm 7mm;
+    height: 287mm;
+    max-height: 287mm;
+    padding: 3mm 5mm;
     display: grid !important;
-    grid-template-rows: 50mm 68mm 42mm 70mm 1fr;
+    grid-template-rows: 34mm 42mm 58mm 46mm 82mm 1fr;
     align-content: start;
-    gap: 3mm;
+    gap: 1.2mm;
     overflow: hidden;
-    background: radial-gradient(circle at 50% 0%, rgba(52, 113, 178, 0.08), transparent 25%), #fbfaf5;
+    background: radial-gradient(circle at 50% 0%, rgba(52, 113, 178, 0.06), transparent 25%), #fbf7ed;
     color: #07111c;
     border: 0.35mm solid rgba(151, 104, 34, 0.52);
-    box-shadow: inset 0 0 0 1.2mm #fbfaf5, inset 0 0 0 1.45mm rgba(151, 104, 34, 0.23);
+    box-shadow: inset 0 0 0 1mm #fbf7ed, inset 0 0 0 1.3mm rgba(151, 104, 34, 0.23);
     font-family: "Courier New", Courier, monospace;
     break-after: avoid-page;
     break-inside: avoid-page;
     page-break-after: avoid;
     page-break-inside: avoid;
   }
-  .pass-print-report::before { content: ""; position: absolute; z-index: 0; inset: 0 0 auto; height: 55mm; background: linear-gradient(90deg, rgba(3,10,22,0.98), rgba(4,16,32,0.9) 54%, rgba(3,10,22,0.76)), url('/aionis-rhythm.png') center 46% / cover no-repeat; border-bottom: 0.45mm solid rgba(195, 145, 54, 0.7); pointer-events: none; }
-  .print-ornaments { position: absolute; z-index: 2; inset: 4mm; color: rgba(137, 91, 25, 0.42); font: 400 10pt/1 Georgia, serif; pointer-events: none; }
+  .print-ornaments { position: absolute; z-index: 5; inset: 3.5mm; color: rgba(139, 91, 24, 0.5); font: 400 9pt/1 Georgia, serif; pointer-events: none; }
   .print-ornaments span { position: absolute; }
   .print-ornaments span:nth-child(1) { top: 0; left: 0; }
   .print-ornaments span:nth-child(2) { top: 0; right: 0; }
   .print-ornaments span:nth-child(3) { bottom: 0; left: 0; }
   .print-ornaments span:nth-child(4) { right: 0; bottom: 0; }
+  .print-report-masthead {
+    position: relative;
+    z-index: 1;
+    margin: -3mm -5mm 0;
+    display: grid;
+    place-items: center;
+    align-content: center;
+    overflow: hidden;
+    color: #f3d187;
+    background:
+      linear-gradient(90deg, rgba(2,9,20,0.97), rgba(5,20,37,0.88) 50%, rgba(2,9,20,0.97)),
+      url('/aionis-rhythm.png') center 48% / cover no-repeat;
+    border-bottom: 0.45mm solid rgba(195, 145, 54, 0.72);
+  }
   .print-brand {
-    position: absolute;
-    z-index: 2;
-    top: 2.7mm;
-    left: 50%;
-    width: 86mm;
     display: flex;
     align-items: center;
     justify-content: center;
     gap: 3mm;
     color: #f1cf87;
-    transform: translateX(-50%);
   }
-  .print-brand img { width: 18mm; height: 20.7mm; object-fit: cover; border: 0.25mm solid rgba(235, 196, 119, 0.72); border-radius: 2.2mm; box-shadow: 0 1.2mm 4mm rgba(0,0,0,0.38), 0 0 4mm rgba(203,150,54,0.1); }
+  .print-brand img { width: 17mm; height: 19.7mm; object-fit: cover; border: 0.25mm solid rgba(235, 196, 119, 0.78); border-radius: 2.2mm; box-shadow: 0 1.2mm 4mm rgba(0,0,0,0.38); }
   .print-brand span { display: grid; line-height: 1; }
-  .print-brand strong { font: 450 15pt/1 "Avenir Next", "Segoe UI", Arial, sans-serif; letter-spacing: 0.32em; }
-  .print-brand small { margin-top: 1.5mm; color: #d6ad59; font: 650 6.8pt/1 "Avenir Next", "Segoe UI", Arial, sans-serif; letter-spacing: 0.2em; }
+  .print-brand strong { font: 450 19pt/1 "Avenir Next", "Segoe UI", Arial, sans-serif; letter-spacing: 0.34em; }
+  .print-brand small { margin-top: 1.4mm; color: #d6ad59; font: 650 7.4pt/1 "Avenir Next", "Segoe UI", Arial, sans-serif; letter-spacing: 0.22em; }
+  .print-tagline { margin: -1.8mm 0 0 20mm; color: #f7ead0; font: italic 600 7.5pt/1 Georgia, serif; }
+  .print-masthead-meta { position: absolute; top: 5mm; right: 7mm; display: grid; justify-items: end; gap: 2mm; color: #f1cf87; }
+  .print-masthead-meta time, .print-masthead-meta code { color: inherit; font: 700 7.2pt/1.2 Georgia, serif; }
   .print-report-summary {
     position: relative;
     z-index: 1;
-    padding-top: 3mm;
+    padding: 2mm 3mm 1.5mm;
     display: grid;
     grid-template-columns: 1.25fr 0.9fr 1.05fr;
     grid-template-rows: auto 1fr auto;
-    grid-template-areas: "identity empty meta" "pmei birth pincha" "seasons seasons seasons";
-    column-gap: 8mm;
+    grid-template-areas: "identity birth pincha" "pmei birth pincha" "seasons seasons seasons";
+    column-gap: 5mm;
+    background: rgba(255,255,255,0.28);
   }
-  .print-report-summary code, .print-report-summary time {
+  .print-report-summary code {
     display: block;
     white-space: pre;
-    color: #f1f5fb;
-    font: 700 7.5pt/1.28 "Courier New", Courier, monospace;
+    color: #07111c;
+    font: 700 7.2pt/1.22 "Courier New", Courier, monospace;
   }
-  .print-summary-identity > code:nth-child(2) { margin: 0.7mm 0; color: #f7dfa8; font-size: 9pt; letter-spacing: 0.045em; }
+  .print-summary-identity > code:nth-child(2) { margin: 0.6mm 0; color: #15213a; font: 700 8.3pt/1.15 Georgia, serif; letter-spacing: 0.04em; }
   .print-summary-identity { grid-area: identity; }
-  .print-report-summary .name-number-stack { column-gap: 1.7ch; }
+  .print-report-summary .name-number-stack { column-gap: 1.6ch; }
   .print-report-summary .name-number-stack code { text-align: center; }
-  .print-summary-meta { grid-area: meta; display: grid; justify-items: end; align-content: start; gap: 3mm; }
   .print-summary-pmei { grid-area: pmei; align-self: end; }
-  .print-summary-birth { grid-area: birth; align-self: end; padding-bottom: 2mm; }
-  .print-summary-pincha { grid-area: pincha; align-self: end; padding-bottom: 2mm; }
+  .print-summary-birth { grid-area: birth; align-self: center; justify-self: center; }
+  .print-summary-pincha { grid-area: pincha; align-self: center; }
   .print-summary-seasons { grid-area: seasons; display: grid; grid-template-columns: 1fr repeat(4, 1fr); align-items: end; }
   .print-summary-seasons code:not(:first-child) { text-align: center; }
-  .print-year-section, .print-month-section { position: relative; z-index: 1; width: 100%; min-width: 0; padding: 2mm 1.5mm 1.5mm; display: flex; flex-direction: column; justify-content: space-between; border: 0.22mm solid rgba(126, 88, 33, 0.28); border-radius: 1.8mm; background: rgba(255,255,255,0.5); }
-  .print-data-row { min-height: 3.35mm; display: grid; grid-template-columns: minmax(0, 1fr) 10mm; align-items: center; }
-  .print-character-row { min-width: 0; display: grid; grid-template-columns: repeat(var(--print-columns), minmax(0, 1fr)); align-items: center; color: #07111c; font: 700 7pt/1 "Courier New", Courier, monospace; }
+  .print-report-panel { position: relative; z-index: 1; min-width: 0; padding: 5mm 2mm 1.5mm; border: 0.25mm solid rgba(171, 112, 28, 0.58); border-radius: 2.5mm; background: rgba(255,255,255,0.3); }
+  .print-report-panel > h2 { position: absolute; top: 1.2mm; left: 0; right: 0; margin: 0; color: #8b591c; font: 600 8.2pt/1 Georgia, serif; letter-spacing: 0.12em; text-align: center; text-transform: uppercase; }
+  .print-panel-scroll { height: 100%; overflow: visible; }
+  .print-year-section, .print-month-section { position: relative; width: 100%; height: 100%; min-width: 0; padding: 0; display: flex; flex-direction: column; justify-content: space-between; }
+  .print-data-row { min-height: 3.1mm; display: grid; grid-template-columns: minmax(0, 1fr) 10mm; align-items: center; }
+  .print-character-row { min-width: 0; display: grid; grid-template-columns: repeat(var(--print-columns), minmax(0, 1fr)); align-items: center; color: #07111c; font: 700 6.8pt/1 "Courier New", Courier, monospace; }
   .print-character-row span { min-width: 0; text-align: center; }
-  .print-row-label { padding-left: 1.5mm; font: 700 7pt/1 "Courier New", Courier, monospace; }
-  .print-year-focus .print-data-row, .print-year-lifetime .print-data-row { min-height: 3.35mm; }
-  .print-year-focus .print-character-row, .print-year-lifetime .print-character-row, .print-year-lifetime .print-row-label { font-size: 7pt; }
-  .print-month-section { position: relative; padding-top: 2mm; }
+  .print-row-label { padding-left: 1.3mm; font: 700 6.8pt/1 "Courier New", Courier, monospace; }
+  .print-year-focus .print-data-row { min-height: 3.5mm; }
+  .print-year-lifetime .print-data-row { min-height: 4.15mm; }
+  .print-year-focus .print-character-row, .print-year-lifetime .print-character-row, .print-year-lifetime .print-row-label { font-size: 6.8pt; }
+  .print-month-section { position: relative; }
   .print-month-section::after {
     content: "";
     position: absolute;
-    top: 0;
-    bottom: 5mm;
+    top: -0.5mm;
+    bottom: 4mm;
     left: calc((100% - 10mm) / 3);
     width: calc((100% - 10mm) / 3);
-    border: 0.35mm solid #16803b;
+    border: 0.3mm solid #b7791f;
     pointer-events: none;
   }
-  .print-month-section .print-character-row { font-size: 7pt; }
-  .print-month-years { width: calc(100% - 10mm); display: grid; grid-template-columns: repeat(3, 1fr); padding-top: 1mm; color: #07111c; font: 700 7pt/1 "Courier New", Courier, monospace; text-align: center; }
+  .print-month-section .print-character-row { font-size: 6.8pt; }
+  .print-month-years { width: calc(100% - 10mm); display: grid; grid-template-columns: repeat(3, 1fr); padding-top: 0.8mm; color: #07111c; font: 700 6.8pt/1 "Courier New", Courier, monospace; text-align: center; }
   .print-tone-black { color: #07111c; }
   .print-tone-red { color: #e00000; }
   .print-tone-blue { color: #153dd1; }
   .print-tone-cyan { color: #16a7b8; }
   .print-tone-green { color: #16a02e; }
-  .print-report-footer { position: relative; z-index: 1; align-self: end; padding-top: 2mm; border-top: 0.25mm solid rgba(138, 90, 24, 0.42); color: #76501f; font: 650 5.8pt/1.2 "Avenir Next", "Segoe UI", Arial, sans-serif; letter-spacing: 0.08em; text-align: center; }
+  .print-report-footer { position: relative; z-index: 1; align-self: end; padding-top: 2.5mm; border-top: 0.25mm solid rgba(138, 90, 24, 0.52); color: #263451; font: 650 6.2pt/1.2 Georgia, serif; letter-spacing: 0.14em; text-align: center; text-transform: uppercase; }
+  .print-report-footer span { color: #b7791f; }
 }
 
 @media screen {
@@ -549,4 +564,137 @@ code, .number-grid, .month-grid { font-family: "Courier New", Courier, monospace
   .chart-title-row .print-title { margin-top: 78px; }
   .chart-surface-banner strong { font-size: 14px; letter-spacing: 0.22em; }
   .chart-surface-banner small { letter-spacing: 0.08em; }
+}
+
+/* Final responsive composition: preserve portrait artwork instead of cropping it. */
+@media screen {
+  html, body { min-height: 100%; overflow-x: hidden; overflow-y: auto !important; }
+  .hero-card {
+    min-height: 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: 1fr;
+    align-items: stretch;
+    background: linear-gradient(145deg, #040a14, #071426);
+  }
+  .hero-card::before, .hero-card::after { content: none; }
+  .hero-content { position: relative; z-index: 3; padding: 34px 26px 28px; display: flex; flex-direction: column; justify-content: center; }
+  .hero-visual { position: relative; z-index: 1; min-height: 610px; overflow: hidden; background: radial-gradient(circle at 50% 45%, rgba(51,139,234,0.16), transparent 42%), #020711; border-top: 1px solid rgba(209,164,79,0.25); }
+  .hero-visual::after { content: ""; position: absolute; inset: 0; pointer-events: none; box-shadow: inset 0 0 44px 22px #020711; }
+  .hero-cosmos { position: absolute; inset: 14px; width: calc(100% - 28px); height: calc(100% - 28px); object-fit: contain; object-position: center; opacity: 1; filter: none; mask-image: none; }
+  .hero-copy { max-width: 660px; }
+  .hero-card h1 { max-width: 660px; font-size: clamp(40px, 10vw, 66px); }
+  .hero-ornaments { z-index: 4; }
+
+  .empty-card { position: relative; overflow: hidden; background: linear-gradient(145deg, rgba(7,19,36,0.98), rgba(2,9,20,0.98)); }
+  .empty-card::before { content: ""; position: absolute; inset: 14px; background: url('/aionis-rhythm.png') center / contain no-repeat; opacity: 0.13; pointer-events: none; }
+  .empty-card > * { position: relative; z-index: 1; }
+
+  .chart-report-toolbar { min-height: 104px; padding: 18px 20px; display: grid; grid-template-columns: auto minmax(0, 1fr) auto; align-items: center; gap: 18px; border: 1px solid rgba(202,157,72,0.42); border-radius: 20px; background: linear-gradient(145deg, rgba(11,24,43,0.98), rgba(3,10,22,0.98)); box-shadow: 0 18px 48px rgba(0,0,0,0.3); }
+  .chart-report-toolbar h1 { margin: 4px 0 2px; overflow: hidden; color: #f7f2e6; font: 500 clamp(26px, 4vw, 42px)/1.05 Georgia, serif; text-overflow: ellipsis; white-space: nowrap; }
+  .chart-report-toolbar p:not(.eyebrow) { margin: 0; color: #91a0b5; }
+  .chart-report-hint { margin: -4px 4px 0; color: #91a0b5; font-size: 12px; line-height: 1.55; }
+
+  .pass-print-report {
+    position: relative;
+    width: 100%;
+    max-width: 1180px;
+    margin: 0 auto;
+    padding: 18px;
+    display: grid;
+    gap: 14px;
+    overflow: hidden;
+    background: radial-gradient(circle at 50% 0%, rgba(58,118,182,0.07), transparent 24%), #fbf7ed;
+    color: #07111c;
+    border: 1px solid rgba(189,129,41,0.72);
+    border-radius: 22px;
+    box-shadow: inset 0 0 0 4px #fbf7ed, inset 0 0 0 5px rgba(171,112,28,0.22), 0 28px 80px rgba(0,0,0,0.38);
+    font-family: "Courier New", Courier, monospace;
+  }
+  .print-ornaments { position: absolute; z-index: 5; inset: 12px; color: rgba(158,104,26,0.5); font: 400 22px/1 Georgia, serif; pointer-events: none; }
+  .print-ornaments span { position: absolute; }
+  .print-ornaments span:nth-child(1) { top: 0; left: 0; }
+  .print-ornaments span:nth-child(2) { top: 0; right: 0; }
+  .print-ornaments span:nth-child(3) { bottom: 0; left: 0; }
+  .print-ornaments span:nth-child(4) { right: 0; bottom: 0; }
+  .print-report-masthead { position: relative; min-height: 190px; margin: -18px -18px 0; padding: 24px 34px; display: grid; place-items: center; align-content: center; overflow: hidden; color: #f2ce83; background: linear-gradient(90deg, rgba(2,9,20,0.97), rgba(5,20,37,0.86) 50%, rgba(2,9,20,0.97)), url('/aionis-rhythm.png') center 49% / cover no-repeat; border-bottom: 2px solid rgba(195,145,54,0.76); }
+  .print-brand { display: flex; align-items: center; justify-content: center; gap: 18px; color: #f1cf87; }
+  .print-brand img { width: 88px; height: 102px; object-fit: cover; border: 1px solid rgba(235,196,119,0.8); border-radius: 13px; box-shadow: 0 8px 30px rgba(0,0,0,0.46); }
+  .print-brand span { display: grid; line-height: 1; }
+  .print-brand strong { font: 450 clamp(30px, 5vw, 54px)/1 "Avenir Next", "Segoe UI", Arial, sans-serif; letter-spacing: 0.34em; }
+  .print-brand small { margin-top: 10px; color: #d6ad59; font: 650 clamp(10px, 1.4vw, 15px)/1 "Avenir Next", "Segoe UI", Arial, sans-serif; letter-spacing: 0.22em; }
+  .print-tagline { margin: -7px 0 0 100px; color: #f5e6c8; font: italic 600 15px/1 Georgia, serif; }
+  .print-masthead-meta { position: absolute; top: 28px; right: 30px; display: grid; justify-items: end; gap: 8px; color: #efcb81; }
+  .print-masthead-meta time, .print-masthead-meta code { color: inherit; font: 700 13px/1.2 Georgia, serif; }
+
+  .print-report-summary { min-height: 230px; padding: 24px 30px; display: grid; grid-template-columns: 1.3fr 0.85fr 1fr; grid-template-rows: auto 1fr auto; grid-template-areas: "identity birth pincha" "pmei birth pincha" "seasons seasons seasons"; gap: 18px 36px; border-bottom: 1px solid rgba(170,111,27,0.28); }
+  .print-report-summary code { display: block; white-space: pre; color: #0d1930; font: 700 14px/1.42 "Courier New", Courier, monospace; }
+  .print-summary-identity { grid-area: identity; min-width: 0; overflow-x: auto; }
+  .print-summary-identity > code:nth-child(2) { margin: 7px 0; color: #17223b; font: 700 17px/1.2 Georgia, serif; letter-spacing: 0.05em; }
+  .print-report-summary .name-number-stack { column-gap: 2ch; }
+  .print-report-summary .name-number-stack code { text-align: center; }
+  .print-summary-pmei { grid-area: pmei; align-self: end; }
+  .print-summary-birth { grid-area: birth; align-self: center; justify-self: center; }
+  .print-summary-pincha { grid-area: pincha; align-self: center; }
+  .print-summary-seasons { grid-area: seasons; display: grid; grid-template-columns: 1fr repeat(4, 1fr); align-items: end; }
+  .print-summary-seasons code:not(:first-child) { text-align: center; }
+
+  .print-report-panel { position: relative; min-width: 0; padding: 48px 16px 16px; border: 1px solid rgba(181,119,30,0.62); border-radius: 16px; background: rgba(255,255,255,0.38); box-shadow: inset 0 1px rgba(255,255,255,0.7); }
+  .print-report-panel > h2 { position: absolute; top: 15px; left: 18px; right: 18px; margin: 0; color: #8b591c; font: 600 clamp(14px, 2vw, 18px)/1 Georgia, serif; letter-spacing: 0.12em; text-align: center; text-transform: uppercase; }
+  .print-panel-scroll { width: 100%; overflow-x: auto; overscroll-behavior-x: contain; scrollbar-color: #ae7a2e rgba(201,154,75,0.1); }
+  .print-panel-scroll:focus-visible { outline: 3px solid rgba(183,121,31,0.42); outline-offset: 4px; }
+  .print-year-section, .print-month-section { width: 100%; padding: 4px 0; display: flex; flex-direction: column; justify-content: space-between; }
+  .print-year-focus { min-width: 720px; min-height: 350px; }
+  .print-month-section { position: relative; min-width: 760px; min-height: 270px; }
+  .print-year-lifetime { min-width: 1120px; min-height: 390px; }
+  .print-data-row { min-height: 28px; display: grid; grid-template-columns: minmax(0, 1fr) 58px; align-items: center; }
+  .print-character-row { min-width: 0; display: grid; grid-template-columns: repeat(var(--print-columns), minmax(0, 1fr)); align-items: center; color: #07111c; font: 700 12px/1 "Courier New", Courier, monospace; }
+  .print-character-row span { min-width: 0; text-align: center; }
+  .print-row-label { padding-left: 10px; font: 700 12px/1 "Courier New", Courier, monospace; }
+  .print-month-section::after { content: ""; position: absolute; top: 0; bottom: 34px; left: calc((100% - 58px) / 3); width: calc((100% - 58px) / 3); border: 2px solid #b7791f; pointer-events: none; }
+  .print-month-years { width: calc(100% - 58px); display: grid; grid-template-columns: repeat(3, 1fr); padding-top: 8px; color: #07111c; font: 700 12px/1 "Courier New", Courier, monospace; text-align: center; }
+  .print-tone-black { color: #07111c; }
+  .print-tone-red { color: #d60000; }
+  .print-tone-blue { color: #153dd1; }
+  .print-tone-cyan { color: #008ea1; }
+  .print-tone-green { color: #078a24; }
+  .print-report-footer { padding: 22px 16px 12px; border-top: 1px solid rgba(138,90,24,0.48); color: #293651; font: 650 11px/1.2 Georgia, serif; letter-spacing: 0.14em; text-align: center; text-transform: uppercase; }
+  .print-report-footer span { color: #b7791f; }
+}
+
+@media screen and (min-width: 900px) {
+  .hero-card { grid-template-columns: minmax(0, 1.03fr) minmax(390px, 0.97fr); }
+  .hero-content { padding: 58px 46px; }
+  .hero-visual { min-height: 680px; border-top: 0; border-left: 1px solid rgba(209,164,79,0.25); }
+  .hero-copy { max-width: none; }
+  .hero-card h1 { font-size: clamp(50px, 5.3vw, 72px); }
+}
+
+@media screen and (max-width: 640px) {
+  .hero-content { padding: 32px 22px 28px; }
+  .hero-visual { min-height: 590px; }
+  .hero-card h1 { font-size: 42px; }
+  .hero-actions { display: grid; grid-template-columns: 1fr 1fr; }
+  .chart-report-toolbar { grid-template-columns: 1fr auto; padding: 18px; }
+  .chart-report-toolbar > div { grid-column: 1 / -1; grid-row: 1; }
+  .chart-report-toolbar .back-button { grid-column: 1; grid-row: 2; justify-self: start; }
+  .chart-report-toolbar .compact-button { grid-column: 2; grid-row: 2; }
+  .pass-print-report { padding: 10px; gap: 10px; border-radius: 16px; }
+  .print-report-masthead { min-height: 260px; margin: -10px -10px 0; padding: 24px 18px; }
+  .print-brand { gap: 12px; }
+  .print-brand img { width: 68px; height: 79px; }
+  .print-brand strong { font-size: 25px; letter-spacing: 0.24em; }
+  .print-brand small { font-size: 9px; letter-spacing: 0.16em; }
+  .print-tagline { margin: 9px 0 0; font-size: 14px; }
+  .print-masthead-meta { position: static; margin-top: 18px; justify-items: center; }
+  .print-report-summary { min-height: 0; padding: 20px 16px; grid-template-columns: 1fr 1fr; grid-template-rows: auto auto auto auto; grid-template-areas: "identity identity" "pmei birth" "pincha pincha" "seasons seasons"; gap: 18px 14px; }
+  .print-report-summary code { font-size: 12px; }
+  .print-summary-identity > code:nth-child(2) { font-size: 15px; }
+  .print-summary-birth { justify-self: start; }
+  .print-summary-pincha { display: grid; grid-template-columns: 1fr 1fr; }
+  .print-summary-seasons { min-width: 600px; }
+  .print-report-summary { overflow-x: auto; }
+  .print-report-panel { padding: 44px 10px 12px; border-radius: 13px; }
+  .print-report-panel > h2 { font-size: 13px; letter-spacing: 0.07em; }
+  .print-report-footer { font-size: 9px; letter-spacing: 0.08em; }
 }

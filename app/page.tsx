@@ -43,13 +43,11 @@ function useDialogFocus(onClose: () => void) {
     if (!dialog) return;
 
     const previouslyFocused = document.activeElement instanceof HTMLElement ? document.activeElement : null;
-    const previousOverflow = document.body.style.overflow;
     const focusableSelector =
       'button:not([disabled]), input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [href], [tabindex]:not([tabindex="-1"])';
     const focusables = () => Array.from(dialog.querySelectorAll<HTMLElement>(focusableSelector));
     const initialTarget = dialog.querySelector<HTMLElement>("input") ?? dialog.querySelector<HTMLElement>("button");
 
-    document.body.style.overflow = "hidden";
     initialTarget?.focus({ preventScroll: true });
 
     function handleKeyDown(event: globalThis.KeyboardEvent) {
@@ -76,7 +74,6 @@ function useDialogFocus(onClose: () => void) {
     dialog.addEventListener("keydown", handleKeyDown);
     return () => {
       dialog.removeEventListener("keydown", handleKeyDown);
-      document.body.style.overflow = previousOverflow;
       previouslyFocused?.focus({ preventScroll: true });
     };
   }, [onClose]);
@@ -335,19 +332,22 @@ function PassPrintReport({
       <div className="print-ornaments" aria-hidden="true">
         <span>Ω</span><span>Φ</span><span>Ψ</span><span>Δ</span>
       </div>
-      <div className="print-brand" aria-label="Aionis Timeline Formula">
-        <Image src="/aionis-timeline-formula-logo.jpg" alt="" width={72} height={83} unoptimized />
-        <span><strong>AIONIS</strong><small>TIMELINE FORMULA</small></span>
-      </div>
-      <header className="print-report-summary">
+      <header className="print-report-masthead">
+        <div className="print-brand" aria-label="Aionis Timeline Formula">
+          <Image src="/aionis-timeline-formula-logo.jpg" alt="" width={72} height={83} unoptimized />
+          <span><strong>AIONIS</strong><small>TIMELINE FORMULA</small></span>
+        </div>
+        <p className="print-tagline">You are time in motion.</p>
+        <div className="print-masthead-meta">
+          <time>{chartDate}</time>
+          <code>UG: {report.ultimateGoal}</code>
+        </div>
+      </header>
+      <section className="print-report-summary" aria-label="Chart identity and birth calculations">
         <div className="print-summary-identity">
           <code>{report.hdc}  {report.hdcTotal}</code>
           <code>{client.fullName.toUpperCase()}</code>
           <NameNumberStack report={report} />
-        </div>
-        <div className="print-summary-meta">
-          <time>{chartDate}</time>
-          <code>UG : {report.ultimateGoal}</code>
         </div>
         <div className="print-summary-pmei">
           {report.pmei.map((value, index) => <code key={value}>{["P", "M", "E", "I"][index]} {value}</code>)}
@@ -364,12 +364,27 @@ function PassPrintReport({
           <code>Age : {report.age}</code>
           {report.seasons.map((season) => <code key={season}>{season}</code>)}
         </div>
-      </header>
-      <PrintYearSection report={report} start={focusStart} length={30} variant="focus" />
-      <PrintMonthSection report={report} currentYear={currentYear} />
-      <PrintYearSection report={report} start={0} length={80} variant="lifetime" />
+      </section>
+      <section className="print-report-panel print-focus-panel">
+        <h2>Yearly Timeline - Personal Cycles</h2>
+        <div className="print-panel-scroll" tabIndex={0} role="region" aria-label="Yearly personal cycles; scroll horizontally on small screens">
+          <PrintYearSection report={report} start={focusStart} length={30} variant="focus" />
+        </div>
+      </section>
+      <section className="print-report-panel print-month-panel">
+        <h2>Yearly / Monthly Timeline Summary</h2>
+        <div className="print-panel-scroll" tabIndex={0} role="region" aria-label="Three year monthly timeline; scroll horizontally on small screens">
+          <PrintMonthSection report={report} currentYear={currentYear} />
+        </div>
+      </section>
+      <section className="print-report-panel print-lifetime-panel">
+        <h2>Sequence Timeline - Extended Cycles</h2>
+        <div className="print-panel-scroll" tabIndex={0} role="region" aria-label="Extended sequence timeline; scroll horizontally on small screens">
+          <PrintYearSection report={report} start={0} length={80} variant="lifetime" />
+        </div>
+      </section>
       <footer className="print-report-footer">
-        Aionis Timeline Formula · Private and confidential.
+        <span aria-hidden="true">✦</span> Aionis Timeline Formula · Private and confidential. <span aria-hidden="true">✦</span>
       </footer>
     </article>
   );
@@ -507,7 +522,6 @@ export default function Home() {
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const [compareIds, setCompareIds] = useState<string[]>([]);
   const [editing, setEditing] = useState<Client | "new" | null>(null);
-  const [focusAge, setFocusAge] = useState(0);
   const [focusYear, setFocusYear] = useState(currentYear);
   const [compareMode, setCompareMode] = useState<CompareMode>("years");
   const [installPrompt, setInstallPrompt] = useState<InstallPrompt | null>(null);
@@ -523,14 +537,32 @@ export default function Home() {
       }
       setHydrated(true);
     });
-    if ("serviceWorker" in navigator) navigator.serviceWorker.register("/sw.js").catch(() => undefined);
+    let removeServiceWorkerListener: () => void = () => undefined;
+    if ("serviceWorker" in navigator) {
+      const hadController = Boolean(navigator.serviceWorker.controller);
+      let refreshedForUpdate = false;
+      const acceptUpdatedApp = () => {
+        if (!hadController || refreshedForUpdate) return;
+        refreshedForUpdate = true;
+        window.location.reload();
+      };
+      navigator.serviceWorker.addEventListener("controllerchange", acceptUpdatedApp);
+      removeServiceWorkerListener = () => navigator.serviceWorker.removeEventListener("controllerchange", acceptUpdatedApp);
+      navigator.serviceWorker
+        .register("/sw.js", { updateViaCache: "none" })
+        .then((registration) => registration.update())
+        .catch(() => undefined);
+    }
 
     const captureInstall = (event: Event) => {
       event.preventDefault();
       setInstallPrompt(event as InstallPrompt);
     };
     window.addEventListener("beforeinstallprompt", captureInstall);
-    return () => window.removeEventListener("beforeinstallprompt", captureInstall);
+    return () => {
+      removeServiceWorkerListener();
+      window.removeEventListener("beforeinstallprompt", captureInstall);
+    };
   }, []);
 
   useEffect(() => {
@@ -545,9 +577,7 @@ export default function Home() {
   const compareClients = clients.filter((client) => compareIds.includes(client.id));
 
   function openChart(client: Client) {
-    const report = new Report(client.fullName, client.dob, currentYear);
     setSelectedId(client.id);
-    setFocusAge(report.age);
     setView("chart");
     window.scrollTo({ top: 0, behavior: "smooth" });
   }
@@ -587,9 +617,6 @@ export default function Home() {
     setInstallPrompt(null);
   }
 
-  const chartStart = selectedReport ? Math.max(0, focusAge - 9) : 0;
-  const chartYear = selectedReport ? currentYear - selectedReport.age + focusAge : currentYear;
-
   return (
     <main className="app-shell">
       <div className="cosmic-glyphs no-print" aria-hidden="true">
@@ -616,18 +643,30 @@ export default function Home() {
         {view === "people" && (
           <section className="people-view view-section">
             <div className="hero-card">
-              <Image className="hero-cosmos" src="/aionis-cosmic-body.png" alt="" width={944} height={1684} priority unoptimized />
               <div className="hero-ornaments" aria-hidden="true"><span>Ω</span><span>Φ</span></div>
-              <div className="hero-copy">
-                <p className="eyebrow">Aionis Timeline Formula</p>
-                <h1>Map the patterns that shape a lifetime.</h1>
-                <p>Precise timeline calculations with private, device-only storage on phone and web.</p>
+              <div className="hero-content">
+                <div className="hero-copy">
+                  <p className="eyebrow">Aionis Timeline Formula</p>
+                  <h1>Map the patterns that shape a lifetime.</h1>
+                  <p>Precise timeline calculations with private, device-only storage on phone and web.</p>
+                </div>
+                <div className="hero-actions">
+                  <button className="primary-button" type="button" onClick={() => setEditing("new")}>+ Add person</button>
+                  <button className="secondary-button" type="button" onClick={installApp}>Add to phone</button>
+                </div>
+                <div className="privacy-line"><span className="privacy-dot" /> Saved on this device · works offline</div>
               </div>
-              <div className="hero-actions">
-                <button className="primary-button" type="button" onClick={() => setEditing("new")}>+ Add person</button>
-                <button className="secondary-button" type="button" onClick={installApp}>Add to phone</button>
+              <div className="hero-visual">
+                <Image
+                  className="hero-cosmos"
+                  src="/aionis-cosmic-body.png"
+                  alt="A luminous Aionis figure surrounded by timeline rings; you are more than a body."
+                  width={941}
+                  height={1672}
+                  priority
+                  unoptimized
+                />
               </div>
-              <div className="privacy-line"><span className="privacy-dot" /> Saved on this device · works offline</div>
             </div>
 
             <div className="aionis-trust-ribbon" aria-label="Aionis principles">
@@ -688,91 +727,16 @@ export default function Home() {
 
         {view === "chart" && selectedClient && selectedReport && (
           <section className="chart-view view-section">
-            <div className="chart-title-row">
-              <Image className="chart-title-art" src="/aionis-rhythm.png" alt="" width={944} height={1684} unoptimized />
+            <div className="chart-report-toolbar no-print">
               <button className="back-button no-print" type="button" onClick={() => setView("people")}>‹ People</button>
-              <div className="print-title">
-                <p className="eyebrow">Aionis Timeline Formula</p>
+              <div>
+                <p className="eyebrow">Complete Aionis report</p>
                 <h1>{selectedClient.fullName}</h1>
                 <p>{selectedClient.dob} · Age {selectedReport.age}</p>
               </div>
               <button className="secondary-button compact-button no-print" type="button" onClick={() => window.print()}>Print / PDF</button>
             </div>
-
-            <section className="profile-panel original-profile-panel">
-              <div className="chart-surface-banner no-print">
-                <Image src="/aionis-timeline-formula-logo.jpg" alt="" width={56} height={64} unoptimized />
-                <span><strong>AIONIS</strong><small>TIMELINE FORMULA · PERSONAL MATRIX</small></span>
-                <i aria-hidden="true">Φ</i>
-              </div>
-              <p className="original-profile-hint no-print">Swipe sideways to view the original chart header.</p>
-              <div className="original-profile-scroll" tabIndex={0} aria-label={`Timeline chart header for ${selectedClient.fullName}`}>
-                <div className="original-profile-sheet">
-                  <div className="original-identity">
-                    <code>{selectedReport.hdc}  {selectedReport.hdcTotal}</code>
-                    <code>{selectedClient.fullName}</code>
-                    <NameNumberStack report={selectedReport} />
-                  </div>
-                  <div className="original-meta">
-                    <time>{chartDate}</time>
-                    <code>UG : {selectedReport.ultimateGoal}</code>
-                  </div>
-                  <div className="original-pmei" aria-label="Physical, mental, emotional, and intuitive values">
-                    {selectedReport.pmei.map((value, index) => (
-                      <code key={value}>{["P", "M", "E", "I"][index]} {value}</code>
-                    ))}
-                  </div>
-                  <div className="original-birth-values">
-                    <code>{selectedReport.dob}</code>
-                    <code>{selectedReport.birthForce}</code>
-                  </div>
-                  <div className="original-pincha">
-                    <code>P: {spacedSequence(selectedReport.pin)}</code>
-                    <code>C: {spacedSequence(selectedReport.cha)}</code>
-                  </div>
-                  <div className="original-season-row">
-                    <code>Age : {selectedReport.age}</code>
-                    {selectedReport.seasons.map((season) => <code key={season}>{season}</code>)}
-                  </div>
-                </div>
-              </div>
-            </section>
-
-            <section className="chart-panel">
-              <div className="section-heading">
-                <div>
-                  <p className="eyebrow">Name cycles</p>
-                  <h2>Year chart</h2>
-                </div>
-                <div className="focus-pill">{chartYear} · age {focusAge}</div>
-              </div>
-              <div className="focus-controls no-print">
-                <button type="button" aria-label="Previous age" onClick={() => setFocusAge((age) => Math.max(0, age - 1))}>−</button>
-                <input
-                  aria-label="Focus age"
-                  type="range"
-                  min="0"
-                  max="150"
-                  value={focusAge}
-                  onChange={(event) => setFocusAge(Number(event.target.value))}
-                />
-                <button type="button" aria-label="Next age" onClick={() => setFocusAge((age) => Math.min(150, age + 1))}>+</button>
-              </div>
-              <p className="scroll-hint no-print">Swipe sideways across the chart to explore all 20 years.</p>
-              <YearGrid report={selectedReport} start={chartStart} length={20} label={`Year chart for ${selectedClient.fullName}`} />
-            </section>
-
-            <section className="chart-panel month-panel">
-              <div className="section-heading">
-                <div>
-                  <p className="eyebrow">Monthly cycles</p>
-                  <h2>Three-year view</h2>
-                </div>
-              </div>
-              <p className="scroll-hint no-print">Swipe sideways to compare the previous, selected, and following year.</p>
-              <MonthBand report={selectedReport} focusAge={Math.max(0, focusAge)} />
-            </section>
-
+            <p className="chart-report-hint no-print">This is the complete print-ready report. On smaller screens, swipe inside a timeline panel to read every cycle.</p>
             <PassPrintReport
               client={selectedClient}
               report={selectedReport}

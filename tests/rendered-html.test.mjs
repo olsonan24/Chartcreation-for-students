@@ -41,7 +41,9 @@ test("includes local persistence and build-time offline precaching", async () =>
   ]);
 
   assert.match(page, /localStorage\.setItem/);
-  assert.match(page, /navigator\.serviceWorker\.register\("\/sw\.js"\)/);
+  assert.match(page, /register\("\/sw\.js", \{ updateViaCache: "none" \}\)/);
+  assert.match(page, /controllerchange/);
+  assert.match(page, /registration\.update\(\)/);
   assert.match(page, /beforeinstallprompt/);
   assert.match(html, /rel="manifest" href="\/manifest\.webmanifest"/);
   assert.equal(JSON.parse(manifest).display, "standalone");
@@ -68,6 +70,11 @@ test("includes a dedicated AirPrint-safe one-page Aionis report", async () => {
   const [page, css] = await Promise.all([read("../app/page.tsx"), read("../app/globals.css")]);
 
   assert.match(page, /className="pass-print-report"/);
+  assert.match(page, /className="print-report-masthead"/);
+  assert.match(page, /Yearly Timeline - Personal Cycles/);
+  assert.match(page, /Yearly \/ Monthly Timeline Summary/);
+  assert.match(page, /Sequence Timeline - Extended Cycles/);
+  assert.match(page, /className="chart-report-toolbar no-print"/);
   assert.match(page, /length=\{30\} variant="focus"/);
   assert.match(page, /length=\{80\} variant="lifetime"/);
   assert.match(page, /PrintMonthSection/);
@@ -78,10 +85,12 @@ test("includes a dedicated AirPrint-safe one-page Aionis report", async () => {
   assert.match(css, /@page \{ size: A4 portrait; margin: 0; \}/);
   assert.match(css, /\.chart-view > :not\(\.pass-print-report\)/);
   assert.match(css, /width: 210mm;/);
-  assert.match(css, /height: 266mm;/);
-  assert.match(css, /max-height: 266mm;/);
-  assert.match(css, /grid-template-rows: 50mm 68mm 42mm 70mm 1fr;/);
+  assert.match(css, /height: 287mm;/);
+  assert.match(css, /max-height: 287mm;/);
+  assert.match(css, /grid-template-rows: 34mm 42mm 58mm 46mm 82mm 1fr;/);
   assert.match(css, /\.print-brand/);
+  assert.match(css, /\.print-report-panel/);
+  assert.match(css, /\.print-report-panel > h2/);
   assert.match(css, /\.print-year-focus \.print-character-row, \.print-year-lifetime \.print-character-row/);
   assert.doesNotMatch(css, /height: 297mm;/);
   assert.equal((page.match(/window\.print\(\)/g) ?? []).length, 1);
@@ -95,14 +104,19 @@ test("ships the matching cosmic dashboard artwork for phone and web", async () =
   ]);
 
   assert.match(page, /aionis-cosmic-body\.png/);
-  assert.match(page, /aionis-rhythm\.png/);
+  assert.match(css, /aionis-rhythm\.png/);
   assert.match(page, /className="desktop-nav"/);
   assert.match(page, /className="aionis-trust-ribbon"/);
-  assert.match(page, /className="chart-surface-banner no-print"/);
+  assert.match(page, /className="hero-visual"/);
+  assert.match(page, /className="chart-report-hint no-print"/);
   assert.match(css, /@media screen/);
   assert.match(css, /background: #020711/);
+  assert.match(css, /\.hero-cosmos \{[\s\S]*?object-fit: contain;/);
+  assert.match(css, /\.empty-card::before \{[\s\S]*?\/ contain no-repeat;/);
+  assert.match(css, /overflow-y: auto !important;/);
   assert.match(css, /@media screen and \(min-width: 900px\)[\s\S]*?\.bottom-nav \{ display: none; \}/);
   assert.match(css, /\.person-main \{ background: transparent; color: #eef3fb; \}/);
+  assert.doesNotMatch(page, /document\.body\.style\.overflow\s*=\s*"hidden"/);
   assert.match(manifest, /Aionis Timeline Formula/);
 });
 
