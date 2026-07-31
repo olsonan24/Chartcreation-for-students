@@ -3,6 +3,10 @@
 import type { CSSProperties, FormEvent, ImgHTMLAttributes } from "react";
 import { useEffect, useMemo, useRef, useState } from "react";
 
+import { useAuth } from "../features/auth/useAuth";
+import { LegacyImportDialog } from "../features/people/LegacyImportDialog";
+import type { Client, PersonInput } from "../features/people/people.types";
+import { usePeople } from "../features/people/usePeople";
 import {
   type MonthsSet,
   Report,
@@ -10,13 +14,6 @@ import {
   normalizeDob,
   normalizeName,
 } from "../lib/numerology";
-
-type Client = {
-  id: string;
-  fullName: string;
-  calledName: string;
-  dob: string;
-};
 
 type AppView = "people" | "chart" | "compare";
 type CompareMode = "years" | "months";
@@ -81,7 +78,6 @@ function useDialogFocus(onClose: () => void) {
   return dialogRef;
 }
 
-const STORAGE_KEY = "pass7-mobile-clients-v1";
 const MONTHS = ["J", "F", "M", "A", "M", "J", "J", "A", "S", "O", "N", "D"];
 const PRINT_DOTTED_ROWS = 2;
 
@@ -116,10 +112,6 @@ const EMPTY_MONTH: MonthsSet = {
   personalMonthEssence: "............",
   combined: "............",
 };
-
-function makeId() {
-  return globalThis.crypto?.randomUUID?.() ?? `${Date.now()}-${Math.random()}`;
-}
 
 function YearGrid({
   report,
@@ -397,15 +389,16 @@ function PersonForm({
 }: {
   person: Client | null;
   onCancel: () => void;
-  onSave: (client: Client) => void;
+  onSave: (input: PersonInput) => Promise<Client>;
 }) {
   const [fullName, setFullName] = useState(person?.fullName ?? "");
   const [calledName, setCalledName] = useState(person?.calledName ?? "");
   const [dob, setDob] = useState(person?.dob ?? "");
   const [error, setError] = useState("");
+  const [saving, setSaving] = useState(false);
   const dialogRef = useDialogFocus(onCancel);
 
-  function submit(event: FormEvent) {
+  async function submit(event: FormEvent) {
     event.preventDefault();
     const normalizedName = normalizeName(fullName);
     if (!normalizedName) {
@@ -416,12 +409,15 @@ function PersonForm({
       setError("Enter a valid date in DD/MM/YYYY format.");
       return;
     }
-    onSave({
-      id: person?.id ?? makeId(),
-      fullName: normalizedName,
-      calledName: normalizeName(calledName),
-      dob,
-    });
+    setSaving(true);
+    setError("");
+    try {
+      await onSave({ fullName: normalizedName, calledName: normalizeName(calledName), dob });
+    } catch (caught) {
+      setError(caught instanceof Error ? caught.message : "This person could not be saved. Retry when online.");
+    } finally {
+      setSaving(false);
+    }
   }
 
   return (
@@ -471,8 +467,8 @@ function PersonForm({
             />
           </label>
           {error && <p className="form-error" role="alert">{error}</p>}
-          <button className="primary-button full-button" type="submit">
-            {person ? "Save changes" : "Create chart"}
+          <button className="primary-button full-button" type="submit" disabled={saving}>
+            {saving ? "Saving…" : person ? "Save changes" : "Create chart"}
           </button>
         </form>
       </section>
@@ -510,14 +506,27 @@ function InstallHelp({ onClose }: { onClose: () => void }) {
 }
 
 export default function Home() {
+  const { user, signOut } = useAuth();
+  const {
+    people: clients,
+    loading: peopleLoading,
+    loadError,
+    operationError,
+    mutation,
+    legacyOffer,
+    retry,
+    createPerson,
+    updatePerson,
+    deletePerson,
+    importLegacyPeople,
+    skipLegacyImport,
+  } = usePeople();
   const currentYear = new Date().getFullYear();
   const chartDate = new Intl.DateTimeFormat("en-US", {
     month: "short",
     day: "numeric",
     year: "numeric",
   }).format(new Date());
-  const [clients, setClients] = useState<Client[]>([]);
-  const [hydrated, setHydrated] = useState(false);
   const [view, setView] = useState<AppView>("people");
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const [compareIds, setCompareIds] = useState<string[]>([]);
@@ -528,15 +537,6 @@ export default function Home() {
   const [showInstallHelp, setShowInstallHelp] = useState(false);
 
   useEffect(() => {
-    queueMicrotask(() => {
-      try {
-        const stored = localStorage.getItem(STORAGE_KEY);
-        if (stored) setClients(JSON.parse(stored) as Client[]);
-      } catch {
-        localStorage.removeItem(STORAGE_KEY);
-      }
-      setHydrated(true);
-    });
     let removeServiceWorkerListener: () => void = () => undefined;
     if ("serviceWorker" in navigator) {
       const hadController = Boolean(navigator.serviceWorker.controller);
@@ -566,8 +566,12 @@ export default function Home() {
   }, []);
 
   useEffect(() => {
-    if (hydrated) localStorage.setItem(STORAGE_KEY, JSON.stringify(clients));
-  }, [clients, hydrated]);
+    if (selectedId && !clients.some((client) => client.id === selectedId)) {
+      setSelectedId(null);
+      setView("people");
+    }
+    setCompareIds((current) => current.filter((id) => clients.some((client) => client.id === id)));
+  }, [clients, selectedId]);
 
   const selectedClient = clients.find((client) => client.id === selectedId) ?? null;
   const selectedReport = useMemo(
@@ -582,20 +586,22 @@ export default function Home() {
     window.scrollTo({ top: 0, behavior: "smooth" });
   }
 
-  function saveClient(client: Client) {
-    setClients((current) => {
-      const exists = current.some((item) => item.id === client.id);
-      return exists
-        ? current.map((item) => (item.id === client.id ? client : item))
-        : [...current, client].sort((a, b) => a.fullName.localeCompare(b.fullName));
-    });
+  async function saveClient(input: PersonInput) {
+    const saved = editing && editing !== "new"
+      ? await updatePerson(editing.id, input)
+      : await createPerson(input);
     setEditing(null);
-    openChart(client);
+    openChart(saved);
+    return saved;
   }
 
-  function deleteClient(client: Client) {
-    if (!window.confirm(`Remove ${client.fullName} from this phone?`)) return;
-    setClients((current) => current.filter((item) => item.id !== client.id));
+  async function deleteClient(client: Client) {
+    if (!window.confirm(`Remove ${client.fullName} from your private account?`)) return;
+    try {
+      await deletePerson(client.id);
+    } catch {
+      return;
+    }
     setCompareIds((current) => current.filter((id) => id !== client.id));
     if (selectedId === client.id) {
       setSelectedId(null);
@@ -636,7 +642,11 @@ export default function Home() {
           <button className={view === "chart" ? "active" : ""} aria-current={view === "chart" ? "page" : undefined} type="button" disabled={!selectedClient} onClick={() => setView("chart")}>Charts</button>
           <button className={view === "compare" ? "active" : ""} aria-current={view === "compare" ? "page" : undefined} type="button" onClick={() => setView("compare")}>Compare</button>
         </nav>
-        <button className="install-button" type="button" onClick={installApp}>Install</button>
+        <div className="cloud-account-controls">
+          <span className="cloud-account-email" title={user?.email}>{user?.email}</span>
+          <button className="text-button cloud-sign-out" type="button" onClick={() => void signOut()}>Sign out</button>
+          <button className="install-button" type="button" onClick={installApp}>Install</button>
+        </div>
       </header>
 
       <div className="content-shell">
@@ -648,18 +658,18 @@ export default function Home() {
                 <div className="hero-copy">
                   <p className="eyebrow">Aionis Timeline Formula</p>
                   <h1>Map the patterns that shape a lifetime.</h1>
-                  <p>Precise timeline calculations with private, device-only storage on phone and web.</p>
+                  <p>Precise timeline calculations with records saved to your private signed-in account.</p>
                 </div>
                 <div className="hero-actions">
                   <button className="primary-button" type="button" onClick={() => setEditing("new")}>+ Add person</button>
                   <button className="secondary-button" type="button" onClick={installApp}>Add to phone</button>
                 </div>
-                <div className="privacy-line"><span className="privacy-dot" /> Saved on this device · works offline</div>
+                <div className="privacy-line"><span className="privacy-dot" /> Private account storage · cloud access requires connectivity</div>
               </div>
             </div>
 
             <div className="aionis-trust-ribbon" aria-label="Aionis principles">
-              <article><span aria-hidden="true">Ω</span><div><strong>Private by design</strong><small>Your chart data never leaves this device.</small></div></article>
+              <article><span aria-hidden="true">Ω</span><div><strong>Private by design</strong><small>Account records are isolated by database access policies.</small></div></article>
               <article><span aria-hidden="true">Φ</span><div><strong>Precision</strong><small>Exact timeline mathematics, preserved.</small></div></article>
               <article><span aria-hidden="true">Ψ</span><div><strong>Sovereign</strong><small>Your people and timelines remain yours.</small></div></article>
             </div>
@@ -672,8 +682,16 @@ export default function Home() {
               <span className="count-badge">{clients.length}</span>
             </div>
 
-            {!hydrated ? (
-              <div className="empty-card"><p>Loading your saved people…</p></div>
+            {operationError && <p className="cloud-status-message" role="alert">{operationError}</p>}
+
+            {peopleLoading ? (
+              <div className="empty-card" role="status"><p>Loading your saved people…</p></div>
+            ) : loadError ? (
+              <div className="empty-card" role="alert">
+                <h3>Saved people could not be loaded</h3>
+                <p>{loadError}</p>
+                <button className="primary-button" type="button" onClick={() => void retry()}>Retry</button>
+              </div>
             ) : clients.length === 0 ? (
               <div className="empty-card">
                 <div className="empty-mark">T</div>
@@ -698,8 +716,8 @@ export default function Home() {
                         <input type="checkbox" checked={compareIds.includes(client.id)} onChange={() => toggleCompare(client.id)} />
                         Compare
                       </label>
-                      <button type="button" onClick={() => setEditing(client)}>Edit</button>
-                      <button className="danger-text" type="button" onClick={() => deleteClient(client)}>Remove</button>
+                      <button type="button" disabled={Boolean(mutation)} onClick={() => setEditing(client)}>Edit</button>
+                      <button className="danger-text" type="button" disabled={Boolean(mutation)} onClick={() => void deleteClient(client)}>Remove</button>
                     </div>
                   </article>
                 ))}
@@ -810,6 +828,14 @@ export default function Home() {
 
       {editing && <PersonForm person={editing === "new" ? null : editing} onCancel={() => setEditing(null)} onSave={saveClient} />}
       {showInstallHelp && <InstallHelp onClose={() => setShowInstallHelp(false)} />}
+      {legacyOffer && (
+        <LegacyImportDialog
+          offer={legacyOffer}
+          importing={mutation === "import"}
+          onImport={importLegacyPeople}
+          onSkip={skipLegacyImport}
+        />
+      )}
     </main>
   );
 }

@@ -4,85 +4,64 @@ Updated: 2026-07-31
 
 ## Products
 
-- Student app: `Pass7-Mobile/`
-- Private owner console: `Aionis-Owner-Console/`
-- Recovered reference: `Pass7-Recreated/`
+- Student app: this repository root (`Chartcreation-for-students`)
+- Private owner console: separate local workspace, never deployed with this app
+- Recovered formula reference: `reference/Pass7-Recreated/`
 
 ## Student App Checkpoint
 
-- Branch: `codex/vite-vercel-student-release`
-- Current published source-bundle commit: `afaadf5`
+- Feature branch: `feature/supabase-user-persistence`
+- Published `main` baseline: `2250222`
 - Formula engine is unchanged from its approved port.
 - Formula baseline SHA-256: `F7A0965F01AA4410BB38CEF05FF832F51A5EAFF6CC2E8E10238DB79EF7E5644A`
-- Existing checks: 3 formula tests and 7 rendered-app/PWA/print/Vercel tests.
-- Standard Vite production build outputs `dist/index.html`; Workbox precaches the app shell and artwork for offline reloads.
-- `vercel.json` is committed with Vite build/output settings and the SPA fallback.
-- Local phone URL when running: `http://10.0.0.178:4173`
-- Saved people remain in browser `localStorage` under `pass7-mobile-clients-v1`.
+- Standard Vite production build outputs `dist/index.html`; Workbox precaches the app shell and artwork.
+- `vercel.json` retains the Vite build/output settings and SPA fallback.
+- Local app URL: `http://localhost:4173` (LAN address varies by workstation).
 
-## Current Mission
+## Supabase Persistence Milestone
 
-The student application is locally ready for GitHub and Vercel publication:
+The feature branch adds a narrow authentication/persistence boundary without changing formulas or report rendering:
 
-- concise `AGENTS.md` plus task-specific contracts;
-- project skills `aionis-feature-orchestrator` and `aionis-formula-auditor`;
-- four read-only custom agents for investigation, formulas, experience, and verification;
-- separate private owner console at `http://127.0.0.1:4180`;
-- formula fingerprint and golden fixtures remain unchanged;
-- phone and desktop browser checks pass without document overflow or browser errors;
-- a real A4 browser PDF was rendered and visually verified as one page;
-- published to GitHub `main` at `olsonan24/Chartcreation-for-students` with automatic root-level Vercel configuration.
+- one typed browser client using `VITE_SUPABASE_URL` and `VITE_SUPABASE_PUBLISHABLE_KEY`;
+- email/password sign-up, sign-in, restored sessions, auth subscription, and immediate in-memory clearing on sign-out;
+- typed people mapper, repository, and React loading/mutation hook outside `app/page.tsx`;
+- confirmed create/update/delete behavior that preserves visible records on remote failure;
+- committed `public.people` migration with explicit authenticated grants, RLS, trigger, ownership index, and minimal source fields;
+- generated TypeScript database types from the applied local migration;
+- consent-based legacy import that never deletes `pass7-mobile-clients-v1` and prevents normalized duplicates;
+- accurate private-account/cloud-connectivity language and isolated additive auth/import styling.
 
-The current working milestone also:
+Local database verification currently passes:
 
-- shows the complete ivory-and-gold `PassPrintReport` as the normal Chart screen on phone and desktop;
-- preserves every summary, yearly, monthly, and extended-cycle row on screen and in print;
-- displays portrait cosmic artwork uncropped with `contain` instead of stretching it through landscape `cover` boxes;
-- keeps document scrolling enabled after dialogs close;
-- reloads an installed PWA once when a newly claimed service worker replaces an older offline build;
-- passes lint, all 3 formula fixtures, all 7 rendered-app tests, desktop/mobile browser checks, and a one-page A4 PDF inspection.
+- schema migration applies to an isolated Supabase stack on ports `55320`–`55329`;
+- schema lint reports no warnings;
+- pgTAP proves eight own-row, cross-user, foreign-owner, and unauthenticated access cases;
+- 21 mapper, repository, auth, hook, account-race, partial-import, and legacy-import tests pass;
+- locked formula fixtures and SHA guard remain in the test chain.
 
-Latest artwork milestone:
+Authenticated production-preview verification also passes: session persistence, create/edit/delete behavior, two-account isolation, comparison rendering, a 390x844 layout with no document-level horizontal overflow, a registered/controlling PWA after refresh, no browser console errors, no service-role credentials in browser requests, and a freshly rendered one-page A4 PDF.
 
-- imports purpose-built desktop and phone backgrounds for the app shell, dashboard hero, comparison state, and report masthead;
-- uses the supplied true-transparent Aionis crest and vertical report seal plus a dedicated install icon;
-- applies the supplied ivory paper texture to the same shared screen/print report without changing chart colors or values;
-- keeps legacy artwork out of the Workbox precache while caching the complete new asset set for offline reloads;
-- visually passes desktop dashboard, phone dashboard, phone comparison, phone report, desktop report, scroll, and browser-console checks;
-- renders `Pass7-Mobile/output/pdf/Aionis-artwork-release-proof.pdf` as one unclipped A4 page.
+## Remote Project Gate
 
-Latest knowledge-transfer milestone:
+The configured Supabase MCP targets project `frejicmqhsenqmdmqmfe`, but its callable tools were not loaded into the already-running Codex task. The locally authenticated Supabase CLI belongs to another account and cannot see that project. Therefore the hosted schema has not been inspected or mutated from this task yet. Do not apply the migration remotely until authenticated tooling can first verify that `public.people` and policy names do not conflict.
 
-- adds `.agents/skills/aionis-timeline-chart-builder/` as a portable chart-construction skill;
-- bundles the approved formula engine at its unchanged SHA-256, executable golden fixtures, formula and chart contracts, pattern-analysis guardrails, and phone/desktop/A4 requirements;
-- exports a shareable single `SKILL.md` and complete ZIP package under `deliverables/`;
-- passes the skill validator and all three bundled formula fixtures.
+After that non-destructive inspection, the remaining hosted steps are: dry-run/apply the migration, regenerate types from the linked schema, run RLS checks with two users and an unauthenticated client, and run Supabase security/performance advisors.
 
-Latest repository-release milestone:
+## Immutable Experience Contracts
 
-- makes the public repository root directly deployable by Vercel with `npm ci`, `npm run build`, and `dist`;
-- includes the complete student source, tests, PWA artwork/cache configuration, project contracts, portable Aionis chart skill, GitHub verification workflow, and recovered C# source reference;
-- excludes the private loopback owner console from the public student repository and deployment;
-- requires no environment variables and preserves the approved formula SHA-256;
-- passes a clean install, production dependency audit, lint, 3 formula fixtures, production PWA build, 7 rendered output checks, and the portable skill's 3 fixtures.
+- `lib/numerology.ts` and recovered formula provenance remain unchanged.
+- Screen, comparison, and print continue to construct the same `Report` values.
+- `PassPrintReport` and `app/globals.css` print rules retain the one-page A4 contract.
+- Existing colors, typography, layouts, breakpoints, animations, assets, mobile/desktop navigation, and chart styling remain locked.
+- The PWA shell can load offline; authentication and cloud records require connectivity.
 
-## Owner Console Checkpoint
+## Known Risks and Follow-up
 
-- Binds only to `127.0.0.1:4180`; it is not reachable through the phone/LAN address.
-- Reads no names, dates of birth, saved people, charts, or browser local storage.
-- Shows local experimental Codex input/cache/output counters for matching workspace tasks.
-- Explicitly labels those counters as not billing or API spend.
-- Shows Git checkpoint, formula fingerprint, agent profiles, startup-context estimate, app health, and verification status.
-- Full student verification passed from the console on 2026-07-19 in 7.8 seconds.
-- Phone breakpoint: no document-level horizontal overflow and no browser console errors.
-
-## Known Risks
-
-- GitHub publication is verified at source-bundle commit `afaadf5289e6633d8e06dda547aebfe54ccd0b33`; the repository is public and its verification workflow passed.
-- Git commands must run inside `Pass7-Mobile/`; the parent tree can fall through to an unrelated `C:\Users\olson` repository.
-- Keep the one-page browser PDF check in the release routine even though the latest A4 proof passed.
-- Saved people are tied to the exact browser origin; changing host or port can make them appear absent.
-- Codex session/cache telemetry is local, experimental, and not billing data.
+- Vercel must receive both browser-safe Supabase variables for Preview and Production before deployment.
+- Hosted email confirmation and allowed redirect/site URLs must be verified in Supabase Auth settings.
+- Hosted RLS proof and hosted browser flows cannot be claimed until the target project is reachable through authenticated tooling.
+- Keep the authenticated production-preview phone/PWA/PDF proof in the release gate and rerun it against the hosted deployment.
+- Git commands must run inside this repository root; the parent workspace contains unrelated projects.
 
 ## Read Next By Task
 
