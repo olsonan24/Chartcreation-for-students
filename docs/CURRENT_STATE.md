@@ -11,7 +11,7 @@ Updated: 2026-07-31
 ## Student App Checkpoint
 
 - Branch: `codex/vite-vercel-student-release`
-- Current known commit: `58046e3`
+- Current published source-bundle commit: `afaadf5`
 - Formula engine is unchanged from its approved port.
 - Formula baseline SHA-256: `F7A0965F01AA4410BB38CEF05FF832F51A5EAFF6CC2E8E10238DB79EF7E5644A`
 - Existing checks: 3 formula tests and 7 rendered-app/PWA/print/Vercel tests.
@@ -31,7 +31,7 @@ The student application is locally ready for GitHub and Vercel publication:
 - formula fingerprint and golden fixtures remain unchanged;
 - phone and desktop browser checks pass without document overflow or browser errors;
 - a real A4 browser PDF was rendered and visually verified as one page;
-- prepared for GitHub `main` at `olsonan24/Chartcreation-for-students` with automatic root-level Vercel configuration.
+- published to GitHub `main` at `olsonan24/Chartcreation-for-students` with automatic root-level Vercel configuration.
 
 The current working milestone also:
 
@@ -78,7 +78,7 @@ Latest repository-release milestone:
 
 ## Known Risks
 
-- The prior artwork release was verified at commit `58046e3f210299b084e9681bf7eca2584c97217c`; publication now targets the public `olsonan24/Chartcreation-for-students` repository.
+- GitHub publication is verified at source-bundle commit `afaadf5289e6633d8e06dda547aebfe54ccd0b33`; the repository is public and its verification workflow passed.
 - Git commands must run inside `Pass7-Mobile/`; the parent tree can fall through to an unrelated `C:\Users\olson` repository.
 - Keep the one-page browser PDF check in the release routine even though the latest A4 proof passed.
 - Saved people are tied to the exact browser origin; changing host or port can make them appear absent.
