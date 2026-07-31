@@ -1,0 +1,4 @@
+interface:
+  display_name: "Aionis Timeline Chart Builder"
+  short_description: "Build exact Aionis timeline charts"
+  default_prompt: "Use $aionis-timeline-chart-builder to build and verify a complete Aionis timeline chart from a full birth name and DD/MM/YYYY date of birth."

@@ -44,3 +44,6 @@ next-env.d.ts
 .preview.*.log
 /output/
 /tmp/
+/reference/Pass7-Recreated/bin/
+/reference/Pass7-Recreated/obj/
+/reference/Pass7-Recreated/release/

@@ -1,0 +1,10 @@
+.agents/
+docs/
+reference/
+tests/
+examples/
+db/
+drizzle/
+output/
+tmp/
+*.log
