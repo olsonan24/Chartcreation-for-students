@@ -48,6 +48,10 @@ The Vercel Marketplace resource `supabase-chart-builder` is connected to the `ch
 
 Remote project `frejicmqhsenqmdmqmfe` has both committed migrations applied. Live schema inspection confirms `public.people`, the `updated_at` trigger, RLS enabled, four authenticated owner policies, no `anon` table grant, authenticated CRUD-only table privileges, and no trigger-function execution for `anon` or `authenticated`. Remote `public` schema type generation matches the committed `lib/supabase/database.types.ts`.
 
+The same eight pgTAP ownership cases pass against the hosted database inside a rolled-back transaction, including cross-user read/update/delete denial, foreign-owner insert denial, and unauthenticated read/insert denial. Hosted security and performance advisors report no warning- or error-level findings.
+
+Vercel Preview deployment `dpl_44A8mzTZNyXVhFnfrcPp6ju5Zwib` is ready. Its compiled Vite bundle contains the intended Supabase project URL and authentication UI and contains no secret-key or service-role credential pattern. Browser navigation to raw Preview URLs remains behind Vercel Deployment Protection; authenticated CLI retrieval verifies the deployed artifact without changing that protection setting.
+
 The Supabase CLI account can list the Vercel-managed project but cannot use the project-management endpoint required by `supabase link`. Database migration and verification therefore use the Vercel-provided non-pooling Postgres connection; no RLS or authentication bypass was introduced.
 
 ## Immutable Experience Contracts
@@ -61,7 +65,7 @@ The Supabase CLI account can list the Vercel-managed project but cannot use the 
 ## Known Risks and Follow-up
 
 - Hosted email confirmation and allowed redirect/site URLs must be verified in Supabase Auth settings.
-- The remote policy definitions and grants are verified directly, while full hosted two-account CRUD isolation still needs an end-to-end run against the redeployed Vercel preview.
+- The remote policies have direct two-user and unauthenticated database proof; a final hosted browser registration/session/CRUD pass remains for the release gate once Preview access and Auth email settings are confirmed.
 - Keep the authenticated phone/PWA/PDF proof in the release gate and rerun it against the hosted deployment.
 - Git commands must run inside this repository root; the parent workspace contains unrelated projects.
 
