@@ -27,6 +27,7 @@ The feature branch adds a narrow authentication/persistence boundary without cha
 - typed people mapper, repository, and React loading/mutation hook outside `app/page.tsx`;
 - confirmed create/update/delete behavior that preserves visible records on remote failure;
 - committed `public.people` migration with explicit authenticated grants, RLS, trigger, ownership index, and minimal source fields;
+- follow-up grant hardening that removes Supabase default table privileges beyond SELECT, INSERT, UPDATE, and DELETE and prevents API roles from executing the trigger function directly;
 - generated TypeScript database types from the applied local migration;
 - consent-based legacy import that never deletes `pass7-mobile-clients-v1` and prevents normalized duplicates;
 - accurate private-account/cloud-connectivity language and isolated additive auth/import styling.
@@ -41,11 +42,13 @@ Local database verification currently passes:
 
 Authenticated production-preview verification also passes: session persistence, create/edit/delete behavior, two-account isolation, comparison rendering, a 390x844 layout with no document-level horizontal overflow, a registered/controlling PWA after refresh, no browser console errors, no service-role credentials in browser requests, and a freshly rendered one-page A4 PDF.
 
-## Remote Project Gate
+## Hosted Supabase and Vercel
 
-The configured Supabase MCP targets project `frejicmqhsenqmdmqmfe`, but its callable tools were not loaded into the already-running Codex task. The locally authenticated Supabase CLI belongs to another account and cannot see that project. Therefore the hosted schema has not been inspected or mutated from this task yet. Do not apply the migration remotely until authenticated tooling can first verify that `public.people` and policy names do not conflict.
+The Vercel Marketplace resource `supabase-chart-builder` is connected to the `chartcreation-for-students` project for Production, Preview, and Development. Vercel now supplies the managed Supabase variables plus the browser-safe `VITE_SUPABASE_URL` and `VITE_SUPABASE_PUBLISHABLE_KEY` aliases required by this Vite application.
 
-After that non-destructive inspection, the remaining hosted steps are: dry-run/apply the migration, regenerate types from the linked schema, run RLS checks with two users and an unauthenticated client, and run Supabase security/performance advisors.
+Remote project `frejicmqhsenqmdmqmfe` has both committed migrations applied. Live schema inspection confirms `public.people`, the `updated_at` trigger, RLS enabled, four authenticated owner policies, no `anon` table grant, authenticated CRUD-only table privileges, and no trigger-function execution for `anon` or `authenticated`. Remote `public` schema type generation matches the committed `lib/supabase/database.types.ts`.
+
+The Supabase CLI account can list the Vercel-managed project but cannot use the project-management endpoint required by `supabase link`. Database migration and verification therefore use the Vercel-provided non-pooling Postgres connection; no RLS or authentication bypass was introduced.
 
 ## Immutable Experience Contracts
 
@@ -57,10 +60,9 @@ After that non-destructive inspection, the remaining hosted steps are: dry-run/a
 
 ## Known Risks and Follow-up
 
-- Vercel must receive both browser-safe Supabase variables for Preview and Production before deployment.
 - Hosted email confirmation and allowed redirect/site URLs must be verified in Supabase Auth settings.
-- Hosted RLS proof and hosted browser flows cannot be claimed until the target project is reachable through authenticated tooling.
-- Keep the authenticated production-preview phone/PWA/PDF proof in the release gate and rerun it against the hosted deployment.
+- The remote policy definitions and grants are verified directly, while full hosted two-account CRUD isolation still needs an end-to-end run against the redeployed Vercel preview.
+- Keep the authenticated phone/PWA/PDF proof in the release gate and rerun it against the hosted deployment.
 - Git commands must run inside this repository root; the parent workspace contains unrelated projects.
 
 ## Read Next By Task
