@@ -1,0 +1,24 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://aionis.local/schemas/analytics-event.schema.json",
+  "title": "Aionis Analytics Event",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["eventId", "eventName", "schemaVersion", "eventClass", "target", "occurredAt", "environment", "tenantScope", "purpose", "properties", "prohibitedSensitiveFieldsPresent", "retentionPolicy"],
+  "properties": {
+    "eventId": {"type": "string", "minLength": 1},
+    "eventName": {"type": "string", "pattern": "^[a-z][a-z0-9._-]*$"},
+    "schemaVersion": {"type": "string", "minLength": 1},
+    "eventClass": {"enum": ["operational", "product-and-intelligence"]},
+    "target": {"enum": ["DEV_TOOLING", "PUBLIC_STUDENT_APP", "PRIVATE_AIONIS_BACKEND", "PRIVATE_OWNER_CONSOLE"]},
+    "occurredAt": {"type": "string", "format": "date-time"},
+    "environment": {"enum": ["development", "preview", "staging", "production"]},
+    "tenantScope": {"type": "string", "minLength": 1},
+    "purpose": {"type": "string", "minLength": 1},
+    "consentId": {"type": ["string", "null"]},
+    "properties": {"type": "object"},
+    "prohibitedSensitiveFieldsPresent": {"const": false},
+    "retentionPolicy": {"type": "string", "minLength": 1},
+    "contractId": {"type": "string", "minLength": 1}
+  }
+}

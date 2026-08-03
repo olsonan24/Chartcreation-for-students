@@ -1,0 +1,34 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://aionis.local/schemas/feature-specification.schema.json",
+  "title": "Aionis Feature Specification",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["featureId", "version", "title", "status", "target", "owner", "problem", "outcome", "inScope", "outOfScope", "acceptanceCriteria", "protectedContracts", "requiredGates", "risks"],
+  "properties": {
+    "featureId": {"type": "string", "minLength": 1},
+    "version": {"type": "string", "minLength": 1},
+    "title": {"type": "string", "minLength": 1},
+    "status": {"enum": ["draft", "plan-approved", "building", "code-approved", "staged", "release-approved", "released", "closed", "rejected"]},
+    "target": {"$ref": "#/$defs/target"},
+    "owner": {"type": "string", "minLength": 1},
+    "problem": {"type": "string", "minLength": 1},
+    "outcome": {"type": "string", "minLength": 1},
+    "inScope": {"$ref": "#/$defs/nonEmptyStrings"},
+    "outOfScope": {"$ref": "#/$defs/strings"},
+    "acceptanceCriteria": {"$ref": "#/$defs/nonEmptyStrings"},
+    "protectedContracts": {"$ref": "#/$defs/strings"},
+    "requiredGates": {"type": "array", "uniqueItems": true, "items": {"enum": ["PLAN_GATE", "CODE_GATE", "RELEASE_GATE", "DREAM_GATE"]}},
+    "risks": {"type": "array", "items": {"type": "object", "additionalProperties": false, "required": ["riskId", "summary", "owner"], "properties": {"riskId": {"type": "string"}, "summary": {"type": "string"}, "owner": {"type": "string"}, "mitigation": {"type": "string"}}}},
+    "dataClassification": {"type": "array", "uniqueItems": true, "items": {"enum": ["public", "internal", "confidential", "restricted"]}},
+    "buildTimeAi": {"type": "boolean"},
+    "runtimeAi": {"type": "boolean"},
+    "rollbackPlanId": {"type": ["string", "null"]},
+    "supersedes": {"type": ["string", "null"]}
+  },
+  "$defs": {
+    "target": {"enum": ["DEV_TOOLING", "PUBLIC_STUDENT_APP", "PRIVATE_AIONIS_BACKEND", "PRIVATE_OWNER_CONSOLE", "SHARED_CONTRACT"]},
+    "strings": {"type": "array", "uniqueItems": true, "items": {"type": "string", "minLength": 1}},
+    "nonEmptyStrings": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"type": "string", "minLength": 1}}
+  }
+}

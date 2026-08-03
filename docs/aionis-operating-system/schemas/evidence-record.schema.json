@@ -1,0 +1,27 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://aionis.local/schemas/evidence-record.schema.json",
+  "title": "Aionis Evidence Record",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["evidenceId", "version", "recordedAt", "sourceType", "provenance", "knowledgePlane", "memoryForm", "target", "tenantScope", "classification", "contentDigest", "immutable", "retentionPolicy"],
+  "properties": {
+    "evidenceId": {"type": "string", "minLength": 1},
+    "version": {"type": "string", "minLength": 1},
+    "recordedAt": {"type": "string", "format": "date-time"},
+    "sourceType": {"enum": ["user-statement", "calculation", "system-observation", "user-feedback", "development-event", "aggregate-outcome", "external-source"]},
+    "provenance": {"type": "object", "minProperties": 1},
+    "knowledgePlane": {"enum": ["constitutional", "operational", "personal"]},
+    "memoryForm": {"enum": ["episodic", "semantic", "procedural", "governance"]},
+    "target": {"enum": ["DEV_TOOLING", "PUBLIC_STUDENT_APP", "PRIVATE_AIONIS_BACKEND", "PRIVATE_OWNER_CONSOLE", "SHARED_CONTRACT"]},
+    "tenantScope": {"type": "string", "minLength": 1},
+    "classification": {"enum": ["public", "internal", "confidential", "restricted"]},
+    "contentDigest": {"type": "string", "minLength": 1},
+    "contentLocation": {"type": ["string", "null"]},
+    "immutable": {"const": true},
+    "consentId": {"type": ["string", "null"]},
+    "retentionPolicy": {"type": "string", "minLength": 1},
+    "supersededBy": {"type": ["string", "null"]},
+    "accessPolicyId": {"type": ["string", "null"]}
+  }
+}

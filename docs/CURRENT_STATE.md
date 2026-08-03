@@ -10,7 +10,7 @@ Updated: 2026-08-03
 
 ## Student App Checkpoint
 
-- Feature branch: `feature/supabase-user-persistence`
+- Current documentation branch: `docs/aionis-ai-operating-system` (stacked on `feature/supabase-user-persistence`)
 - Published `main` baseline: `2250222`
 - Formula engine is unchanged from its approved port.
 - Formula baseline SHA-256: `F7A0965F01AA4410BB38CEF05FF832F51A5EAFF6CC2E8E10238DB79EF7E5644A`
@@ -84,12 +84,26 @@ node --test .agents/skills/aionis-ai-workflow/scripts/telemetry.test.mjs
 node .agents/skills/aionis-ai-workflow/scripts/verify-workflow.mjs
 ```
 
+## Aionis AI Operating System Foundation
+
+Prompt 1 adds development contracts only and does not implement runtime behavior:
+
+- `docs/aionis-operating-system/` contains 17 progressively routed governance/lifecycle documents, 10 Markdown work-product templates, 9 draft JSON Schema contracts, and an intentionally empty future-audits directory;
+- eight concise project-local skills cover orchestration, planning, intelligence, security, both Dream reviews, release gating, and analytics review;
+- every capability is routed to one of five explicit targets, with four independent system loops, three knowledge planes, evidence lineage, human gates, privacy boundaries, and a twelve-phase roadmap that does not authorize later phases;
+- existing architecture, formula, print, persistence, and token-efficient workflow sources remain authoritative and are linked rather than copied;
+- the AI-workflow scope guard recognizes only the exact new Prompt 1 documentation and skill directories in addition to its prior allowed paths.
+
+Verified on 2026-08-03: all 9 schemas pass JSON parsing and Draft 2020-12 meta-validation; all 8 new skills pass the Codex skill validator; all referenced repository paths resolve; the workflow validator and 4 telemetry tests pass; lint, 4 formula fixtures, 21 unit tests, 8 rendered-artifact tests, and the production PWA build pass. No application, formula, UI, CSS, authentication, database/RLS, PWA, print, or deployment file changed in Prompt 1.
+
 ## Known Risks and Follow-up
 
 - Hosted email confirmation and allowed redirect/site URLs must be verified in Supabase Auth settings.
 - The remote policies have direct two-user and unauthenticated database proof; a final hosted browser registration/session/CRUD pass remains for the release gate once Preview access and Auth email settings are confirmed.
 - Keep the authenticated phone/PWA/PDF proof in the release gate and rerun it against the hosted deployment.
 - Git commands must run inside this repository root; the parent workspace contains unrelated projects.
+- The operating-system schemas are draft shared contracts only; they have no database, service, analytics, Dream, or runtime persistence implementation.
+- The next action is human review of the Prompt 1 draft foundation. Do not start the repository gap audit or Prompts 2 through 12 without separate authorization.
 
 ## Read Next By Task
 
@@ -98,3 +112,4 @@ node .agents/skills/aionis-ai-workflow/scripts/verify-workflow.mjs
 - Print/PDF: `docs/PRINT_CONTRACT.md`
 - General feature: `.agents/skills/aionis-feature-orchestrator/SKILL.md`
 - AI workflow and token efficiency: `.agents/skills/aionis-ai-workflow/SKILL.md`, then `docs/ai-context/WORKFLOW.md`
+- Aionis operating-system governance: `docs/aionis-operating-system/00-START-HERE.md`

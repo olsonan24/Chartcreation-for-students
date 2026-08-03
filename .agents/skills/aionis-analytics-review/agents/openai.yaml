@@ -1,0 +1,4 @@
+interface:
+  display_name: "Aionis Analytics Review"
+  short_description: "Review analytics contracts"
+  default_prompt: "Use $aionis-analytics-review to classify analytics, prohibit sensitive fields, and verify consent, retention, and access."

@@ -1,0 +1,4 @@
+interface:
+  display_name: "Aionis Operating System"
+  short_description: "Orchestrate governed Aionis work"
+  default_prompt: "Use $aionis-operating-system to route this feature through targets, ownership, evidence, and approval gates."

@@ -1,0 +1,4 @@
+interface:
+  display_name: "Aionis Product Planning"
+  short_description: "Plan governed Aionis features"
+  default_prompt: "Use $aionis-product-planning to create a bounded feature specification, risks, ownership, and approval plan."

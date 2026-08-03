@@ -1,0 +1,4 @@
+interface:
+  display_name: "Aionis Security Review"
+  short_description: "Review Aionis security boundaries"
+  default_prompt: "Use $aionis-security-review to assess privacy, tenant isolation, secrets, access, logging, and reversibility."
