@@ -1,0 +1,4 @@
+interface:
+  display_name: "Aionis AI Workflow"
+  short_description: "Token-efficient Aionis development workflow"
+  default_prompt: "Use $aionis-ai-workflow to plan and execute this Aionis task with bounded context, telemetry, and safe checkpoints."

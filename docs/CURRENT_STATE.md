@@ -1,6 +1,6 @@
 # Current State
 
-Updated: 2026-07-31
+Updated: 2026-08-03
 
 ## Products
 
@@ -62,6 +62,28 @@ The Supabase CLI account can list the Vercel-managed project but cannot use the 
 - Existing colors, typography, layouts, breakpoints, animations, assets, mobile/desktop navigation, and chart styling remain locked.
 - The PWA shell can load offline; authentication and cloud records require connectivity.
 
+## AI Workflow Milestone
+
+Token-efficiency controls now live only in repository development artifacts; they do not run in or appear in the student application.
+
+- `.agents/skills/aionis-ai-workflow/` provides the on-demand Level 2 workflow, deterministic audit, and privacy-safe telemetry utility.
+- `docs/ai-context/CRITICAL_STATE.md` is the bounded, loss-aware checkpoint to read before and after compaction.
+- `docs/ai-context/ACCEPTED_ANSWERS.json` stores a bounded, versioned registry whose entries must be revalidated before reuse.
+- `docs/ai-context/TOOL_PROFILES.md` defines minimal coding, database, UI-verification, research, and release-verification profiles while documenting that an in-thread skill cannot unload tools already in the request envelope.
+- `docs/ai-context/LEVEL3_GATEWAY_SPEC.md` is an optional pre-model gateway design only; no gateway or production service was deployed.
+- Local telemetry is summary-only, excludes prompts and source content, and writes by default to the ignored `.ai-context/telemetry/` directory.
+- Fresh threads are conditional on a material job/context change; active debugging remains in the current thread when its environment state is still needed.
+
+Verified on 2026-08-03: the skill validator passed; all four workflow telemetry tests passed; the workflow scope guard found zero product paths; lint and production build passed; and the unchanged application test chain passed 4 formula, 21 unit, and 8 rendered-artifact checks. The formula SHA-256 still matches the protected value above.
+
+Verification commands:
+
+```text
+python C:\Users\olson\.codex\skills\.system\skill-creator\scripts\quick_validate.py .agents\skills\aionis-ai-workflow
+node --test .agents/skills/aionis-ai-workflow/scripts/telemetry.test.mjs
+node .agents/skills/aionis-ai-workflow/scripts/verify-workflow.mjs
+```
+
 ## Known Risks and Follow-up
 
 - Hosted email confirmation and allowed redirect/site URLs must be verified in Supabase Auth settings.
@@ -75,3 +97,4 @@ The Supabase CLI account can list the Vercel-managed project but cannot use the 
 - File ownership and data flow: `docs/ARCHITECTURE.md`
 - Print/PDF: `docs/PRINT_CONTRACT.md`
 - General feature: `.agents/skills/aionis-feature-orchestrator/SKILL.md`
+- AI workflow and token efficiency: `.agents/skills/aionis-ai-workflow/SKILL.md`, then `docs/ai-context/WORKFLOW.md`

@@ -56,6 +56,21 @@ Before applying to a linked project, inspect existing tables/policies and use a 
 
 For print changes, generate and inspect a real one-page A4 PDF. For UI changes, verify phone and desktop layouts without document-level horizontal overflow.
 
+## AI development workflow
+
+Use `.agents/skills/aionis-ai-workflow/SKILL.md` for substantial repository work, context recovery, accepted-answer reuse, or efficiency review.
+
+- Continue the current thread while the same tightly scoped problem and live debugging state remain useful. Start a clean thread only when the primary job changes, a verified artifact replaces the conversation, or obsolete material dominates. Never restart mid-debug when current runtime state is still required.
+- Before compaction or context editing, update `docs/ai-context/CRITICAL_STATE.md`. Afterward, reread it and reconcile every protected fact before continuing.
+- Correct misunderstandings at the source: stop the wrong path, rewrite the complete corrected request, preserve only accepted work, and use a clean task when rejected reasoning has polluted the thread.
+- Define the smallest sufficient deliverable before substantial work. Routine updates stay short; specifications and verification reports may be as long as needed.
+- Select the smallest applicable tool profile from `docs/ai-context/TOOL_PROFILES.md`. Repository instructions cannot unload tools already placed in the request envelope.
+- Recommend the least expensive model likely to succeed after considering ambiguity, risk, context, retries, and verification. Never silently change the active model.
+- Validate entries in `docs/ai-context/ACCEPTED_ANSWERS.json` before reuse and summarize the reused decision. Ask when current intent is ambiguous.
+- Record only privacy-safe efficiency summaries with the workflow telemetry script. Keep telemetry outside the student application and out of Git.
+- Treat prompt caching as an API optimization for stable repeated prefixes, not the default remedy for an interactive coding thread.
+- Treat repository skills as Level 2 controls. History/tool reduction before a model call requires the optional Level 3 gateway described in `docs/ai-context/LEVEL3_GATEWAY_SPEC.md`.
+
 ## Vercel
 
 Vercel uses the repository root, `npm ci`, `npm run build`, and `dist`. It requires browser-safe `VITE_SUPABASE_URL` and `VITE_SUPABASE_PUBLISHABLE_KEY` variables for Production and Preview. Cloud records and authentication require connectivity; only the PWA application shell is cached for offline loading.
