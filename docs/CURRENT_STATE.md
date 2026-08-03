@@ -40,17 +40,21 @@ Local database verification currently passes:
 - 21 mapper, repository, auth, hook, account-race, partial-import, and legacy-import tests pass;
 - locked formula fixtures and SHA guard remain in the test chain.
 
-Authenticated production-preview verification also passes: session persistence, create/edit/delete behavior, two-account isolation, comparison rendering, a 390x844 layout with no document-level horizontal overflow, a registered/controlling PWA after refresh, no browser console errors, no service-role credentials in browser requests, and a freshly rendered one-page A4 PDF.
+Earlier authenticated preview evidence covered session persistence, create/edit/delete behavior, two-account isolation, comparison rendering, a 390x844 layout with no document-level horizontal overflow, a registered/controlling PWA after refresh, no browser console errors, no service-role credentials in browser requests, and a one-page A4 PDF. This evidence is retained as regression history, but the release gate remains open until the hosted Auth URL configuration is corrected and the flow is rerun against the current PR deployment.
 
 ## Hosted Supabase and Vercel
 
-The Vercel Marketplace resource `supabase-chart-builder` is connected to the `chartcreation-for-students` project for Production, Preview, and Development. Vercel now supplies the managed Supabase variables plus the browser-safe `VITE_SUPABASE_URL` and `VITE_SUPABASE_PUBLISHABLE_KEY` aliases required by this Vite application.
+The Vercel Marketplace resource `supabase-chart-builder` is connected to the `chartcreation-for-students` project for Production, Preview, and Development. The browser-safe `VITE_SUPABASE_URL` and `VITE_SUPABASE_PUBLISHABLE_KEY` variables are present in all three environments, point to the intended hosted project, and use a publishable rather than secret key.
 
-Remote project `frejicmqhsenqmdmqmfe` has both committed migrations applied. Live schema inspection confirms `public.people`, the `updated_at` trigger, RLS enabled, four authenticated owner policies, no `anon` table grant, authenticated CRUD-only table privileges, and no trigger-function execution for `anon` or `authenticated`. Remote `public` schema type generation matches the committed `lib/supabase/database.types.ts`.
+Release blocker: the same static Vercel project also receives privileged/server-only Marketplace variables in every environment, including Supabase secret/service-role/JWT credentials and direct Postgres connection credentials. The deployed Vite bundle does not contain those values, but keeping them in a static-browser project's Vercel environment violates least privilege. Removing or unlinking those managed variables requires explicit human approval because it is a destructive environment-configuration change.
+
+Remote project `frejicmqhsenqmdmqmfe` has both committed migrations applied. Live schema inspection on 2026-08-03 confirms `public.people` has zero rows, the `updated_at` trigger, RLS enabled, four authenticated owner policies, no `anon` table grant, authenticated CRUD-only table privileges, and no trigger-function execution for `anon` or `authenticated`. Remote `public` schema type generation exactly matches the committed `lib/supabase/database.types.ts`.
 
 The same eight pgTAP ownership cases pass against the hosted database inside a rolled-back transaction, including cross-user read/update/delete denial, foreign-owner insert denial, and unauthenticated read/insert denial. Hosted security and performance advisors report no warning- or error-level findings.
 
-Vercel Preview deployment `dpl_44A8mzTZNyXVhFnfrcPp6ju5Zwib` is ready. Its compiled Vite bundle contains the intended Supabase project URL and authentication UI and contains no secret-key or service-role credential pattern. Browser navigation to raw Preview URLs remains behind Vercel Deployment Protection; authenticated CLI retrieval verifies the deployed artifact without changing that protection setting.
+Vercel Preview deployment `dpl_CHmjt46CByKkbBjvT1BTRt6e35gn` is Ready for verified product head `7f3116d96a28a1d44d052dc1597379bf0a2811d9`. Its compiled Vite bundle contains the intended Supabase project URL, one publishable key, and the authentication UI, with no actual secret key, service-role JWT, or Postgres credential. Browser navigation to raw Preview URLs remains behind Vercel Deployment Protection; authenticated CLI retrieval verifies the deployed artifact without changing that protection setting. The subsequent readiness-checkpoint commit changes only this document and does not alter deployment inputs.
+
+Supabase Auth is reachable, email/password signup is enabled, and email confirmation is required. Release blocker: the hosted Site URL is still `http://localhost:3000` and the redirect allow-list is empty. Because signup does not pass an explicit redirect URL, confirmation emails currently fall back to the incorrect localhost Site URL.
 
 The Supabase CLI account can list the Vercel-managed project but cannot use the project-management endpoint required by `supabase link`. Database migration and verification therefore use the Vercel-provided non-pooling Postgres connection; no RLS or authentication bypass was introduced.
 
@@ -86,8 +90,11 @@ node .agents/skills/aionis-ai-workflow/scripts/verify-workflow.mjs
 
 ## Known Risks and Follow-up
 
-- Hosted email confirmation and allowed redirect/site URLs must be verified in Supabase Auth settings.
-- The remote policies have direct two-user and unauthenticated database proof; a final hosted browser registration/session/CRUD pass remains for the release gate once Preview access and Auth email settings are confirmed.
+- Human approval is required to set the Supabase Site URL to the canonical production origin and add narrowly scoped production, PR-preview, and local redirect URLs.
+- Human approval is required to unlink or remove privileged Supabase/Postgres Marketplace variables from this static Vercel project while retaining only the two browser-safe `VITE_` variables.
+- Hosted `public` default privileges remain broad for future tables/functions even though the current `people` table and trigger function are explicitly hardened. A separately reviewed migration should make future public objects deny-by-default before another public object is added.
+- After those configuration changes, redeploy the PR head and rerun hosted email confirmation, session restore, CRUD persistence, refresh, two-account switching/isolation, phone/PWA checks, and the one-page PDF proof.
+- The current hosted database and committed migrations are aligned; do not reapply or reset them.
 - Keep the authenticated phone/PWA/PDF proof in the release gate and rerun it against the hosted deployment.
 - Git commands must run inside this repository root; the parent workspace contains unrelated projects.
 
