@@ -137,7 +137,7 @@ button:focus-visible, input:focus-visible, .chart-scroll:focus-visible, .origina
 .chevron { color: #8a94a4; font-size: 26px; }
 .person-actions { min-height: 48px; padding: 5px 10px; display: flex; align-items: center; border-top: 1px solid var(--soft); }
 .person-actions button, .compare-check { min-height: 44px; border: 0; background: transparent; color: var(--muted-ink); font-size: 12px; font-weight: 700; }
-.person-actions button { padding: 0 10px; }
+.person-actions button { min-width: 44px; padding: 0 10px; }
 .compare-check { margin-right: auto; display: inline-flex; align-items: center; gap: 8px; padding: 0 6px; }
 .compare-check input, .compare-picker input { width: 20px; height: 20px; accent-color: var(--red); }
 .person-actions .danger-text { color: #a11d2a; }
