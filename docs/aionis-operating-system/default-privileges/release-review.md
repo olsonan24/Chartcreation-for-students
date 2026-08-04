@@ -1,0 +1,13 @@
+# Release Review: FPR-SEC-default-privileges-postgres-v1
+
+- Release manifest / commit / artifact digest / environment: `release-manifest.json`; migration commit `25bc261d9a0a108174bf7e545b3da0e75615cd04`; SHA-256 `5dfbcc97fc5a60709fc99d4b75ba9004f2ea2be271955df95ade3a271f48f358`; intended hosted production project `frejicmqhsenqmdmqmfe`.
+- Feature and contract versions: `FPR-SEC-default-privileges@1.0.0`; release-manifest contract `1.0.0`; operating-system manifest `1.3.0`.
+- Automated verification and preview/staging evidence: isolated local reset/lint/type parity passed; 10 future-object and 8 existing people pgTAP cases passed; shared contracts/manifest, evidence-lineage, orchestrator, workflow, lint, formulas, unit tests, production build, and rendered assertions passed. Production dependencies are clean; the full audit retains one pre-existing moderate PostCSS development advisory. The user-attested rollback-only hosted SQL Editor probe, visibly running as `postgres`, returned false for all 10 future-object checks.
+- Security / intelligence / formula / analytics decisions: Security approves with conditions in `security-review.md`. Intelligence, formula, analytics, UI, accessibility, print, and PWA impacts are none/not applicable.
+- Migrations and compatibility: one new four-statement imperative migration; no schema object or generated-type change; existing-object privileges are unchanged.
+- Configuration and secret checks: no environment, Vercel, hosted setting, key, token, or credential change. No secret is present in the diff.
+- Rollout, monitoring, alerts, owner, and stop conditions: private-platform owner executes the exact migration once in the hosted SQL Editor only after Release Gate approval. Stop on creator-role/digest mismatch, SQL error, any true verification result, current-object drift, or advisor warning/error.
+- Rollback target and rehearsal evidence: `rollback-plan.md`; rollback-only local/hosted probes demonstrate reversibility. Prefer explicit object grants over restoring broad defaults.
+- Known limitations and unresolved risks: `supabase_admin` is deliberately unchanged. The approved application creator path is the SQL Editor `postgres` role; re-open Security review if that path changes. No persistent staging environment exists.
+- Release Gate decision / approver / timestamp: pending. The hosted mutation has not been automatically applied.
+- Post-release observation and consolidation owner: private-platform owner must preserve verification/advisor evidence, update migration/application state, and authorize merge only after exact PR and hosted-state review.

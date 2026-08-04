@@ -1,6 +1,6 @@
 {
   "manifestId": "aionis-operating-system",
-  "version": "1.2.0",
+  "version": "1.3.0",
   "status": "draft",
   "constitutionVersion": "1.0.0",
   "documents": [
@@ -44,7 +44,7 @@
     {"capabilityId": "shared-contract-validation", "owner": "shared-contract-governance", "target": "SHARED_CONTRACT", "contractVersion": "1.0.0", "implementationStatus": "implemented", "requiredGate": "CODE_GATE", "relevantSource": ".agents/skills/aionis-operating-system/scripts/validate-contracts.mjs", "dependencies": ["development-ai-workflow"]},
     {"capabilityId": "owner-console-review", "owner": "owner-operations", "target": "PRIVATE_OWNER_CONSOLE", "contractVersion": "1.0.0", "implementationStatus": "implemented", "requiredGate": "CODE_GATE", "relevantSource": "docs/ARCHITECTURE.md", "dependencies": []},
     {"capabilityId": "build-dependency-maintenance", "owner": "development-operations", "target": "DEV_TOOLING", "contractVersion": "1.0.0", "implementationStatus": "planned", "requiredGate": "CODE_GATE", "relevantSource": "docs/aionis-operating-system/audits/recommended-pr-sequence.md", "dependencies": []},
-    {"capabilityId": "future-default-privilege-hardening", "owner": "private-platform", "target": "PRIVATE_AIONIS_BACKEND", "contractVersion": "1.0.0", "implementationStatus": "blocked", "requiredGate": "RELEASE_GATE", "relevantSource": "docs/aionis-operating-system/audits/dependency-map.md", "dependencies": ["shared-contract-validation"]},
+    {"capabilityId": "future-default-privilege-hardening", "owner": "private-platform", "target": "PRIVATE_AIONIS_BACKEND", "contractVersion": "1.0.0", "implementationStatus": "partially-implemented", "requiredGate": "RELEASE_GATE", "relevantSource": "supabase/migrations/20260804191700_harden_postgres_default_privileges.sql", "dependencies": ["shared-contract-validation"]},
     {"capabilityId": "orchestrator-lifecycle", "owner": "development-operations", "target": "DEV_TOOLING", "contractVersion": "1.0.0", "implementationStatus": "implemented", "requiredGate": "CODE_GATE", "relevantSource": ".agents/skills/aionis-operating-system/scripts/orchestrator/cli.mjs", "dependencies": ["shared-contract-validation"]},
     {"capabilityId": "evidence-lineage", "owner": "private-platform", "target": "PRIVATE_AIONIS_BACKEND", "contractVersion": "1.0.0", "implementationStatus": "implemented", "requiredGate": "CODE_GATE", "relevantSource": ".agents/skills/aionis-operating-system/scripts/evidence-lineage/core.mjs", "dependencies": ["shared-contract-validation"]},
     {"capabilityId": "personal-memory", "owner": "private-platform", "target": "PRIVATE_AIONIS_BACKEND", "contractVersion": "1.0.0", "implementationStatus": "blocked", "requiredGate": "PLAN_GATE", "relevantSource": "docs/aionis-operating-system/06-knowledge-and-memory-architecture.md", "dependencies": ["evidence-lineage", "future-default-privilege-hardening"]},
@@ -56,6 +56,6 @@
     {"capabilityId": "staged-release-pipeline", "owner": "release-operations", "target": "DEV_TOOLING", "contractVersion": "1.0.0", "implementationStatus": "planned", "requiredGate": "RELEASE_GATE", "relevantSource": "docs/aionis-operating-system/14-release-and-environment-strategy.md", "dependencies": ["orchestrator-lifecycle", "runtime-intelligence", "analytics-observability", "development-dreaming", "human-pattern-dreaming", "global-learning", "build-dependency-maintenance"]}
   ],
   "supersedes": null,
-  "updatedAt": "2026-08-04T12:00:00Z",
+  "updatedAt": "2026-08-04T19:23:19Z",
   "approvalIds": []
 }

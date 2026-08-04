@@ -13,32 +13,31 @@ This bounded file contains facts that cannot safely be approximated. Refresh it 
 - Legacy key `pass7-mobile-clients-v1` is never uploaded without explicit consent.
 - Browser code may use only the Supabase URL and publishable key; secret/service-role credentials are forbidden.
 - The private owner console remains outside this repository and student UI.
-- The blocked future-default-privilege issue is separate; create no new `public` object and do not attempt the platform mutation here.
+- The current authorized task is the future-default-privilege security prerequisite. Create no persistent application `public` object; only rollback-only probes may create temporary objects.
 
 ## Current governed task
 
-- Starting `main`: `098a99107277e719bd2495de9f1144d46d5da270`, the merge commit for PR #6.
-- Branch: `backend/aionis-evidence-lineage`; target: `PRIVATE_AIONIS_BACKEND` contracts and repository-local development verification only.
-- Human authorization: Plan Gate is explicit; Security, Intelligence, Code, and automatic merge gates are conditional on every acceptance, verification, privacy, scope, and GitHub-diff requirement in the attached brief.
-- Goal: backend-neutral immutable evidence, canonical digests, lineage, exact component versions, generation manifests, deterministic/stochastic reproduction comparison, append-only supersession/negative knowledge, rollback planning/history, and minimal orchestrator reference resolution.
-- Allowed paths: purpose-built evidence-lineage core/interfaces/adapters/CLI/tests/synthetic fixtures, minimal orchestrator contract-reference integration, bounded operating-system docs/manifest/capability inventory, `docs/CURRENT_STATE.md`, this file, `package.json`, and `.github/workflows/verify.yml`.
-- Prohibited: application/formula/UI/CSS/auth/database/migration/generated-type/print/PWA/Vercel/environment/hosted/production changes; production persistence, personal profiles, runtime AI/provider calls, analytics, Dreaming, global learning, dependency upgrades, and the blocked default-privilege mutation.
+- Starting `main`: `7b40f3987b55141aee27aa81761cc3ea55385622`, the merge commit for PR #7.
+- Branch: `security/supabase-future-default-privileges`; target: `PRIVATE_AIONIS_BACKEND` privilege hardening only.
+- Human authorization: Plan Gate is explicit for `FPR-SEC-default-privileges`. Security approves the bounded implementation with conditions. Code and production Release Gates require the final PR/digest evidence; hosted application and merge are not automatic.
+- Goal: make future `postgres`-owned `public` tables, sequences, and functions deny-by-default for Data API roles while preserving every existing object and application behavior.
+- Allowed paths: one exact migration; future-object pgTAP; minimal local verifier coverage; bounded feature/security/release/rollback/state/manifest docs; workflow telemetry outside Git.
+- Prohibited: `supabase_admin` alteration; new persistent application objects; existing grants/RLS/policies/triggers; generated types; product/formula/UI/CSS/auth/print/PWA/Vercel/environment/dependency changes; private evidence, entitlements, timelines, runtime AI, analytics, Dreaming, global learning; automatic hosted mutation or merge.
 
 ## Current implementation checkpoint
 
-- Preflight: PR #6 is merged; GitHub `origin/main` is current; the starting tree was clean; no open PR or branch overlaps evidence-lineage work.
-- Required shared contracts, operating-system manifest/capability inventory, deterministic validator, local database CI, and orchestrator are present on `main`.
-- The auxiliary `internal` remote could not authenticate non-interactively; the GitHub `origin` fetch, fast-forward-only pull, PR inspection, and branch inspection succeeded.
-- Core/CLI/tests: `.agents/skills/aionis-operating-system/scripts/evidence-lineage/`.
-- Synthetic fixtures and architecture/reviews: `docs/aionis-operating-system/evidence-lineage/`.
-- Minimal artifact-reference integration: orchestrator core/schema/test plus `synthetic-ready-feature.json`.
-- Local proof: 49 evidence/CLI tests, 32 orchestrator tests, 4 shared validator tests, 12 shared schemas/manifest checks, 4 telemetry privacy tests, lint, 4 locked formula tests, 21 unit tests, production PWA build, 8 rendered checks, local database verifier plus 8 pgTAP cases, and production dependency audit pass.
-- Full dependency audit: one pre-existing moderate PostCSS development advisory; no automatic fix.
-- Early diff guard: no protected product, formula, database, auth, UI/CSS, print, PWA, Vercel, lockfile, environment, generated-build, cache, or deployment path changed.
+- Preflight: PR #7 is merged; local `main` equals `origin/main`; the starting tree was clean; no open PR or existing target branch overlapped this work.
+- Implementation commit: `25bc261d9a0a108174bf7e545b3da0e75615cd04`; migration SQL SHA-256: `5dfbcc97fc5a60709fc99d4b75ba9004f2ea2be271955df95ade3a271f48f358`.
+- Migration: `supabase/migrations/20260804191700_harden_postgres_default_privileges.sql`; exact four approved statements only.
+- Test: `supabase/tests/database/future_default_privileges.test.sql`; 10 false effective-privilege assertions in a rolled-back transaction.
+- Local proof: isolated reset and all three migrations pass; public schema lint has zero findings; 10 future-object plus 8 existing people pgTAP cases pass; generated types match; cleanup succeeds.
+- Full proof: 5 shared-validator tests, 12 shared schemas/manifest checks, 49 evidence-lineage tests, 32 orchestrator tests, 4 telemetry tests, workflow scope check, lint, 4 formula tests, 21 unit tests, production build, and 8 rendered checks pass. Production audit is clean; full audit has the pre-existing one moderate PostCSS development advisory.
+- Hosted evidence supplied by the user and read back in the SQL Editor: role `postgres`; rollback-only probe returned false for all 10 table/sequence/function checks.
+- Hosted mutation status: not applied. `supabase_admin` is unchanged. Existing `public.people` and `public.set_people_updated_at` are untouched.
 
 ## Remaining proof and release work
 
-- Rerun the complete local validation chain after this checkpoint update and stage only the authorized file list.
-- Before commit, confirm the staged diff has no product, formula, database, auth, UI, CSS, print, PWA, Vercel, environment, hosted-service, generated, or private-data file change and no unexplained deletion/rename.
-- After PR checks and exact GitHub diff review, record the conditional Code Gate comment, merge only if every condition is green, then synchronize and clean local `main`.
-- Exact next proposed phase after this task: `FPR-06-private-evidence-memory` on a separately authorized branch, but only after the blocked default-privilege/security dependency and private identity/storage design are resolved. Do not begin it here.
+- Confirm the final diff contains only authorized migration/test/verifier/governance files and rerun the shared validator after the final state update.
+- Commit documentation, push the requested branch, create a draft PR against `main`, and inspect the full GitHub diff/check state.
+- Stop before hosted mutation and merge. Hand off the exact one-time SQL, read-only/default inspection query, rollback SQL labeled not to run, digest, proof, and PR link for explicit Release Gate review.
+- Do not begin private evidence/memory, entitlements, timeline tables, or any other capability here.

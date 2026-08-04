@@ -161,15 +161,30 @@ Local proof on 2026-08-04: 49 evidence-lineage/CLI tests, 32 orchestrator tests,
 
 No application, formula, UI/CSS, authentication, database/RLS, migration, generated type, print, PWA, Vercel, hosted-service, runtime-model, personal-memory, analytics, Dreaming, global-learning, or production behavior changed.
 
+## Future Default-Privilege Hardening Checkpoint
+
+The separately authorized `FPR-SEC-default-privileges` branch starts from merged PR #7 on `main` at `7b40f3987b55141aee27aa81761cc3ea55385622` and targets `PRIVATE_AIONIS_BACKEND` only.
+
+- Migration `20260804191700_harden_postgres_default_privileges.sql` removes implicit future table CRUD, sequence use/select, and function execution for `anon`, `authenticated`, and `service_role` on `postgres`-owned `public` objects. It also removes PostgreSQL's global future-function `PUBLIC EXECUTE` default for `postgres`.
+- The migration is bound to implementation commit `25bc261d9a0a108174bf7e545b3da0e75615cd04` and SQL SHA-256 `5dfbcc97fc5a60709fc99d4b75ba9004f2ea2be271955df95ade3a271f48f358`.
+- A new rollback-only pgTAP probe creates one future table, sequence, and function and proves all 10 effective privilege checks are false. The local database verifier now runs every database test file.
+- Local isolated verification passes migration reset, schema lint with zero findings, 10 future-object assertions, all 8 unchanged `people` ownership/RLS assertions, generated-type parity, and cleanup.
+- Full regression verification passes 5 shared-validator tests, all 12 shared schemas/manifest checks, 49 evidence-lineage tests, 32 orchestrator tests, 4 workflow telemetry tests, TypeScript lint, 4 locked formula tests, 21 application unit tests, the production PWA build, and 8 rendered/PWA/print/Vercel assertions. Production dependencies have zero vulnerabilities; the full audit retains the pre-existing single moderate PostCSS development advisory and no automatic fix ran.
+- The user-attested rollback-only hosted probe visibly ran in the SQL Editor as `postgres` and returned false for the same 10 future-object checks.
+- Security, release, rollback, feature, and implementation artifacts are under `docs/aionis-operating-system/default-privileges/`. The capability is `partially-implemented` until the production Release Gate approves and verifies the hosted application.
+- `supabase_admin` is deliberately unchanged. Application-created public objects must continue through the reviewed SQL Editor `postgres` path; any creator-role change reopens the Security Gate.
+
+No hosted mutation, new persistent application object, existing-object grant/RLS/policy/trigger change, application/formula/UI/auth/print/PWA/Vercel/dependency change, or generated-type change has occurred on this branch.
+
 ## Known Risks and Follow-up
 
-- Hosted default privileges for future `public` objects remain broad for both creator roles `postgres` and `supabase_admin`: API roles can inherit table DML, sequence use, and function execution. Existing `public.people` and `public.set_people_updated_at` are explicitly hardened, so this is not a PR #1 release blocker.
-- A default-privilege migration is not yet safe to approve: the migration connection can change `postgres` defaults but cannot change `supabase_admin` defaults, and removing the built-in `PUBLIC EXECUTE` default for future functions requires a global role-level change rather than a `public`-schema-only change. Keep this as a separate platform-hardening follow-up; no migration was created, committed, or applied.
+- Hosted `postgres` defaults remain unchanged until the digest-bound migration receives explicit Release Gate approval and is executed once in the SQL Editor. Do not create another application `public` object before hosted verification is complete.
+- `supabase_admin` remains a managed-platform boundary outside this approved migration. If application migrations stop running as `postgres`, treat that as a blocking creator-role mismatch and reopen Security review.
 - The current hosted database and committed migrations are aligned; do not reapply or reset them.
-- The shared-contract foundation, local database CI, and orchestrator are merged into `main`; `FPR-05-evidence-lineage` is the currently authorized operating-system implementation scope.
+- The shared-contract foundation, local database CI, orchestrator, and evidence-lineage capability are merged into `main`; only `FPR-SEC-default-privileges` is authorized on the current branch.
 - Git commands must run inside this repository root; the parent workspace contains unrelated projects.
 - The operating-system schemas are draft shared contracts only; they have no database, service, analytics, Dream, or runtime persistence implementation.
-- The default-privilege security lane remains blocked and separate; do not attempt it or create another `public` object. After the evidence-lineage PR is merged, the exact recommended next capability PR is `FPR-06-private-evidence-memory`, but it must not begin until private identity/storage design is separately authorized and the default-privilege security dependency is resolved or explicitly dispositioned at its required gate.
+- Do not begin private evidence/memory, entitlements, timelines, or another capability in this branch. The next product capability requires separate authorization after this security prerequisite is released.
 
 ## Read Next By Task
 

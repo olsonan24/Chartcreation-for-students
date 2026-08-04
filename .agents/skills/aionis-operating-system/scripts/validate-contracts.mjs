@@ -1,4 +1,5 @@
 import fs from 'node:fs'
+import crypto from 'node:crypto'
 import path from 'node:path'
 import process from 'node:process'
 import { createRequire } from 'node:module'
@@ -215,6 +216,39 @@ function gitLines(args) {
   catch { return [] }
 }
 
+function assertReleaseArtifacts(ajv, schemas) {
+  const releaseSchema = schemas.get('release-manifest.schema.json')
+  const validate = ajv.getSchema(releaseSchema.$id)
+  const manifests = listFiles(path.join(repoRoot, 'docs/aionis-operating-system'), (item) => path.basename(item) === 'release-manifest.json')
+  for (const file of manifests) {
+    const manifest = readJson(file)
+    if (!validate(manifest)) throw new Error(`${path.relative(repoRoot, file)} fails release-manifest validation: ${ajv.errorsText(validate.errors)}`)
+
+    if (manifest.migrationIds?.includes('20260804191700')) {
+      const migration = path.join(repoRoot, 'supabase/migrations/20260804191700_harden_postgres_default_privileges.sql')
+      const digest = `sha256:${crypto.createHash('sha256').update(fs.readFileSync(migration)).digest('hex')}`
+      if (manifest.artifactDigest !== digest) throw new Error(`${path.relative(repoRoot, file)} has a stale migration digest`)
+    }
+  }
+}
+
+export function classifyScopeChanges(files) {
+  const approvedSecurityPrerequisite = [
+    /^supabase\/migrations\/20260804191700_harden_postgres_default_privileges\.sql$/,
+    /^supabase\/tests\/database\/future_default_privileges\.test\.sql$/
+  ]
+  const isApprovedSecurityPrerequisite = (file) => approvedSecurityPrerequisite.some((pattern) => pattern.test(file))
+  const allowed = [
+    /^docs\/aionis-operating-system\//, /^docs\/ai-context\/CRITICAL_STATE\.md$/, /^docs\/CURRENT_STATE\.md$/,
+    /^docs\/FORMULA_GUARDRAILS\.md$/, /^docs\/PRINT_CONTRACT\.md$/, /^\.agents\/skills\/aionis-operating-system\//,
+    /^\.github\/workflows\/verify\.yml$/, /^package\.json$/
+  ]
+  const unauthorized = files.filter((file) => !allowed.some((pattern) => pattern.test(file)) && !isApprovedSecurityPrerequisite(file))
+  const protectedPatterns = [/^app\//, /^features\//, /^lib\//, /^supabase\//, /^vite\.config\./, /^vercel\.json$/, /^public\//]
+  const product = files.filter((file) => protectedPatterns.some((pattern) => pattern.test(file)) && !isApprovedSecurityPrerequisite(file))
+  return { unauthorized, product }
+}
+
 function assertScope() {
   const base = process.env.AIONIS_BASE_SHA || 'origin/main'
   const changed = new Set([
@@ -222,15 +256,8 @@ function assertScope() {
     ...gitLines(['diff', '--name-only']),
     ...gitLines(['ls-files', '--others', '--exclude-standard'])
   ].map((item) => item.replaceAll('\\', '/')))
-  const allowed = [
-    /^docs\/aionis-operating-system\//, /^docs\/ai-context\/CRITICAL_STATE\.md$/, /^docs\/CURRENT_STATE\.md$/,
-    /^docs\/FORMULA_GUARDRAILS\.md$/, /^docs\/PRINT_CONTRACT\.md$/, /^\.agents\/skills\/aionis-operating-system\//,
-    /^\.github\/workflows\/verify\.yml$/, /^package\.json$/
-  ]
-  const unauthorized = [...changed].filter((file) => !allowed.some((pattern) => pattern.test(file)))
-  if (unauthorized.length) throw new Error(`unauthorized Prompt 3 paths changed: ${unauthorized.join(', ')}`)
-  const protectedPatterns = [/^app\//, /^features\//, /^lib\//, /^supabase\//, /^vite\.config\./, /^vercel\.json$/, /^public\//]
-  const product = [...changed].filter((file) => protectedPatterns.some((pattern) => pattern.test(file)))
+  const { unauthorized, product } = classifyScopeChanges([...changed])
+  if (unauthorized.length) throw new Error(`unauthorized governed paths changed: ${unauthorized.join(', ')}`)
   if (product.length) throw new Error(`application product paths changed: ${product.join(', ')}`)
 }
 
@@ -274,6 +301,7 @@ export function runAllValidations() {
   const { ajv, schemas } = assertSchemasAndFixtures()
   assertContradictionContracts(schemas)
   assertManifest(ajv, schemas)
+  assertReleaseArtifacts(ajv, schemas)
   assertSkills()
   assertMarkdownLinks()
   assertScope()
