@@ -1,0 +1,17 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://aionis.local/schemas/analytics-contract.schema.json",
+  "x-contractVersion": "1.0.0",
+  "title": "Aionis Analytics Contract",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["contractId", "version", "status", "eventClass", "target", "purposeKey", "purpose", "owner", "lawfulOrConsentBasis", "tenantHandling", "eventNames", "permittedFields", "prohibitedFields", "sampling", "aggregation", "retention", "deletion", "access", "alerts"],
+  "properties": {
+    "contractId": {"type": "string", "minLength": 1}, "version": {"type": "string", "minLength": 1}, "status": {"enum": ["current", "superseded", "retired"]},
+    "eventClass": {"enum": ["operational", "product-and-intelligence"]}, "target": {"enum": ["DEV_TOOLING", "PUBLIC_STUDENT_APP", "PRIVATE_AIONIS_BACKEND", "PRIVATE_OWNER_CONSOLE"]},
+    "purposeKey": {"type": "string", "pattern": "^[a-z][a-z0-9._-]*$"}, "purpose": {"type": "string", "minLength": 1}, "owner": {"type": "string", "minLength": 1}, "lawfulOrConsentBasis": {"type": "string", "minLength": 1}, "tenantHandling": {"type": "string", "minLength": 1},
+    "eventNames": {"$ref": "#/$defs/nonEmptyStrings"}, "permittedFields": {"$ref": "#/$defs/strings"}, "prohibitedFields": {"$ref": "#/$defs/nonEmptyStrings"},
+    "sampling": {"type": "string", "minLength": 1}, "aggregation": {"type": "string", "minLength": 1}, "retention": {"type": "string", "minLength": 1}, "deletion": {"type": "string", "minLength": 1}, "access": {"type": "string", "minLength": 1}, "alerts": {"type": "string", "minLength": 1}
+  },
+  "$defs": {"strings": {"type": "array", "uniqueItems": true, "items": {"type": "string", "minLength": 1}}, "nonEmptyStrings": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"type": "string", "minLength": 1}}}
+}

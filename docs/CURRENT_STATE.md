@@ -1,6 +1,6 @@
 # Current State
 
-Updated: 2026-08-03
+Updated: 2026-08-04
 
 ## Products
 
@@ -10,8 +10,8 @@ Updated: 2026-08-03
 
 ## Student App Checkpoint
 
-- Current documentation branch: `docs/aionis-ai-operating-system` (stacked on `feature/supabase-user-persistence`)
-- Published `main` baseline: `2250222`
+- Prompt 3 starting `main` commit: `50fcda1bdff39989a184dc90994a8f0e5a1de045` (Prompt 2 audit merged as PR #3)
+- Prompt 3 target: `SHARED_CONTRACT`; bounded implementation branch `contracts/aionis-shared-contracts-and-validators`
 - Formula engine is unchanged from its approved port.
 - Formula baseline SHA-256: `F7A0965F01AA4410BB38CEF05FF832F51A5EAFF6CC2E8E10238DB79EF7E5644A`
 - Standard Vite production build outputs `dist/index.html`; Workbox precaches the app shell and artwork.
@@ -98,15 +98,31 @@ Prompt 1 adds development contracts only and does not implement runtime behavior
 
 Verified on 2026-08-03: all 9 schemas pass JSON parsing and Draft 2020-12 meta-validation; all 8 new skills pass the Codex skill validator; all referenced repository paths resolve; the workflow validator and 4 telemetry tests pass; lint, 4 formula fixtures, 21 unit tests, 8 rendered-artifact tests, and the production PWA build pass. No application, formula, UI, CSS, authentication, database/RLS, PWA, print, or deployment file changed in Prompt 1.
 
+## Shared Contract Validation Milestone
+
+Prompt 3 is the first approved prerequisite from the Prompt 2 audit and remains contract-only:
+
+- CR-01 through CR-07 are reconciled without changing runtime behavior;
+- agent, lifecycle, Dream, generation, and analytics contracts carry their documented fields;
+- new approval-record, memory-record, and analytics-contract schemas establish versioned shapes without persistence;
+- the analytics event envelope must reference the exact current governing contract and immutable purpose;
+- a versioned operating-system manifest includes the complete capability inventory, exactly one target and owner per capability, dependencies, gates, sources, and truthful implementation status;
+- synthetic golden fixtures cover valid, invalid, stale, invalidated, illegal-transition, unknown-contract, purpose-drift, and prohibited-field cases;
+- `npm run validate:aionis` enforces schema meta-validation, fixtures, cross-instance references, skills, links/paths, protected product scope, privacy, audit statuses, and stale baseline/cache statements before the unchanged application checks.
+
+Verified locally on 2026-08-04: all 12 schemas and the manifest meta/instance checks pass; 4 validator self-tests and every golden/semantic case pass; 10 Aionis skills, repository links, protected paths, capability/contract/approval references, fixture privacy, and Prompt 3 scope pass; the existing 4 telemetry privacy tests, TypeScript lint, 4 locked formula tests, 21 unit tests, production PWA build, and 8 rendered/PWA/print/Vercel assertions pass. The full dependency audit reports the pre-existing single moderate PostCSS development advisory; the production-only audit reports zero vulnerabilities. No automatic dependency fix was run.
+
+No orchestrator, backend, persistence, runtime AI, analytics ingestion, Dream executor, global learning, database object, staging, or release behavior is implemented by this milestone.
+
 ## Known Risks and Follow-up
 
 - Hosted default privileges for future `public` objects remain broad for both creator roles `postgres` and `supabase_admin`: API roles can inherit table DML, sequence use, and function execution. Existing `public.people` and `public.set_people_updated_at` are explicitly hardened, so this is not a PR #1 release blocker.
 - A default-privilege migration is not yet safe to approve: the migration connection can change `postgres` defaults but cannot change `supabase_admin` defaults, and removing the built-in `PUBLIC EXECUTE` default for future functions requires a global role-level change rather than a `public`-schema-only change. Keep this as a separate platform-hardening follow-up; no migration was created, committed, or applied.
 - The current hosted database and committed migrations are aligned; do not reapply or reset them.
-- The production origin still serves `main`. PR #1 should receive human review before merge/promotion.
+- Prompts 1 and 2 are merged into `main`; Prompt 3 is the only currently authorized operating-system implementation scope.
 - Git commands must run inside this repository root; the parent workspace contains unrelated projects.
 - The operating-system schemas are draft shared contracts only; they have no database, service, analytics, Dream, or runtime persistence implementation.
-- The next action is human review of the Prompt 1 draft foundation. Do not start the repository gap audit or Prompts 2 through 12 without separate authorization.
+- The exact recommended next PR after Prompt 3 is the separate `FPR-SEC-default-privileges` security prerequisite; it remains blocked on platform-owner authority and must not be folded into contract validation. Do not begin it or `FPR-04-orchestrator-lifecycle` without separate authorization.
 
 ## Read Next By Task
 

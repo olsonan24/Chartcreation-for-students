@@ -2,10 +2,10 @@
 
 ## Canonical Sources
 
-- Current engine: `Pass7-Mobile/lib/numerology.ts`
-- Original number rules: `Pass7-Recreated/Pass/Numerology.cs`
-- Original cycles/report: `Pass7-Recreated/Pass/Report.cs`
-- Original PDF composition: `Pass7-Recreated/Pass/PdfDocument.cs`
+- Current engine: `lib/numerology.ts`
+- Original number rules: `reference/Pass7-Recreated/Pass/Numerology.cs`
+- Original cycles/report: `reference/Pass7-Recreated/Pass/Report.cs`
+- Original PDF composition: `reference/Pass7-Recreated/Pass/PdfDocument.cs`
 
 Treat the C# files and approved golden fixtures as formula provenance. Presentation may evolve; calculation behavior may not drift accidentally.
 

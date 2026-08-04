@@ -1,6 +1,6 @@
 # Aionis AI Operating System
 
-Status: Prompt 1 foundation. These contracts are future-facing and create no runtime behavior.
+Status: Prompt 3 shared-contract foundation. These contracts and validators create no product or runtime behavior.
 
 ## Read progressively
 
@@ -29,7 +29,9 @@ This operating system links to those sources instead of copying them. Conflicts 
 - `11`–`15`: security, model/cost routing, analytics, release, and quality.
 - `16`: phased implementation roadmap; it is not authorization to begin another phase.
 - `templates/`: reviewable Markdown work products.
-- `schemas/`: draft JSON Schema contracts with no persistence implementation.
-- `audits/`: future dated audit outputs; no gap audit is created in Prompt 1.
+- `schemas/`: versioned JSON Schema contracts with no persistence implementation.
+- `fixtures/`: synthetic valid, invalid, transition, approval, and analytics-linkage cases.
+- `manifests/`: the versioned operating-system manifest and complete capability inventory.
+- `audits/`: historical audit evidence, resolved contradictions, and the separately authorized future PR sequence.
 
 Every capability must declare exactly one target: `DEV_TOOLING`, `PUBLIC_STUDENT_APP`, `PRIVATE_AIONIS_BACKEND`, `PRIVATE_OWNER_CONSOLE`, or `SHARED_CONTRACT`.

@@ -1,6 +1,7 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://aionis.local/schemas/release-manifest.schema.json",
+  "x-contractVersion": "1.0.0",
   "title": "Aionis Release Manifest",
   "type": "object",
   "additionalProperties": false,

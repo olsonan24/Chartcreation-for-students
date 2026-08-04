@@ -6,6 +6,8 @@ The orchestrator owns shared feature state, artifact handoffs, task sequencing, 
 
 For each assignment it must record: feature ID, artifact version, target, owner, allowed paths, prohibited paths, inputs, outputs, dependencies, required checks, current gate, and handoff recipient.
 
+The assignment also records approval references bound to the current artifact version. A reference to a stale, rejected, or invalidated approval cannot satisfy a gate.
+
 Parallel agents must have non-overlapping ownership unless a written integration contract defines the shared interface, merge order, conflict owner, and verification responsibility.
 
 ## Machine-readable contract

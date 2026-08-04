@@ -1,0 +1,18 @@
+[
+  {"caseId":"agent-missing-feature","baseCaseId":"agent-valid","validation":"schema","operation":{"type":"remove","path":"featureId"},"expectedError":"required"},
+  {"caseId":"feature-missing-analytics","baseCaseId":"feature-observing-valid","validation":"schema","operation":{"type":"remove","path":"analytics"},"expectedError":"required"},
+  {"caseId":"feature-illegal-transition","validation":"lifecycle-transition","data":{"from":"DRAFT","to":"RELEASED"},"expectedError":"illegal lifecycle transition"},
+  {"caseId":"approval-missing-approver","baseCaseId":"approval-current-valid","validation":"schema","operation":{"type":"remove","path":"approver"},"expectedError":"required"},
+  {"caseId":"approval-stale-version","baseCaseId":"approval-current-valid","validation":"approval-reference","operation":{"type":"replace","path":"artifactVersion","value":"0.9.0"},"artifact":{"artifactId":"FPR-03-contracts-validators","version":"1.0.0"},"expectedError":"stale artifact version"},
+  {"caseId":"approval-invalidated","baseCaseId":"approval-invalidated-valid-record","validation":"approval-reference","artifact":{"artifactId":"FPR-03-contracts-validators","version":"0.9.0"},"expectedError":"approval is invalidated"},
+  {"caseId":"dream-missing-required-gate","baseCaseId":"dream-valid","validation":"schema","operation":{"type":"replace","path":"requestedApprovalGate","value":"NONE"},"expectedError":"const"},
+  {"caseId":"generation-missing-timeout","baseCaseId":"generation-valid","validation":"schema","operation":{"type":"remove","path":"timeoutMs"},"expectedError":"required"},
+  {"caseId":"analytics-unknown-contract","baseCaseId":"analytics-event-valid","validation":"analytics-link","operation":{"type":"replace","path":"contractId","value":"analytics-unknown"},"expectedError":"unknown analytics contract"},
+  {"caseId":"analytics-stale-contract","baseCaseId":"analytics-event-valid","validation":"analytics-link","operation":{"type":"replace","path":"contractVersion","value":"0.9.0"},"expectedError":"stale analytics contract"},
+  {"caseId":"analytics-purpose-change","baseCaseId":"analytics-event-valid","validation":"analytics-link","operation":{"type":"replace","path":"purposeKey","value":"different-purpose"},"expectedError":"purpose mismatch"},
+  {"caseId":"analytics-prohibited-sensitive-field","baseCaseId":"analytics-event-valid","validation":"analytics-link","operation":{"type":"replace","path":"payload","value":{"name":"synthetic-sensitive-value"}},"expectedError":"prohibited analytics field"},
+  {"caseId":"evidence-mutable-invalid","baseCaseId":"evidence-valid","validation":"schema","operation":{"type":"replace","path":"immutable","value":false},"expectedError":"const"},
+  {"caseId":"pattern-missing-evidence-invalid","baseCaseId":"pattern-ledger-valid","validation":"schema","operation":{"type":"remove","path":"patterns.0.evidenceIds"},"expectedError":"required"},
+  {"caseId":"release-missing-approval-invalid","baseCaseId":"release-manifest-valid","validation":"schema","operation":{"type":"remove","path":"approvalIds"},"expectedError":"required"},
+  {"caseId":"operating-system-manifest-missing-version","validation":"manifest-schema","operation":{"type":"remove","path":"version"},"expectedError":"required"}
+]

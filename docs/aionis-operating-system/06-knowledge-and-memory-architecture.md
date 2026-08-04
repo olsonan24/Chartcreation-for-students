@@ -15,6 +15,8 @@
 
 Every record declares plane, memory form, target, owner/tenant boundary, provenance, status, confidence where applicable, created time, version, retention, and supersession link. Immutable evidence is never overwritten. Derived records point to evidence IDs and may be superseded or rolled back.
 
+Use `schemas/memory-record.schema.json` for the general machine-readable contract. It also records observed time, staleness, negative knowledge, and consent or routing restrictions where applicable. This schema does not create persistence.
+
 Staleness checks compare age, source availability, dependency versions, contradictions, and current constitutional version. Confidence decay is explicit and explainable; it never silently converts a hypothesis into a fact.
 
 Development memory accepts only approved, sanitized development events. Personal memory accepts private evidence only through the authorized backend. Global learning receives only consented, de-identified aggregates.
