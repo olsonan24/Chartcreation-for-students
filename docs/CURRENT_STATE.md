@@ -126,15 +126,33 @@ The database-CI follow-up starts from merged PR #4 on `main` at `ea7462a9e9e69f2
 
 Verified locally on 2026-08-03: both committed migrations applied from a clean state; database lint returned no findings; all 8 ownership/RLS pgTAP cases passed; generated types matched materially; comparison self-tests passed; and the isolated stack was stopped and removed. No hosted Supabase command, hosted credential, migration, generated type, product, formula, UI, CSS, print, PWA, authentication, Vercel, environment, or production behavior changed.
 
+## Development Orchestrator and Lifecycle Milestone
+
+The authorized `FPR-04-orchestrator-lifecycle` implementation starts from merged PR #5 on `main` at `0a801a543899c16efce8a5cd7dd36bf2242b8aa3` and targets `DEV_TOOLING` only.
+
+- A purpose-built Node CLI creates and validates repository-local feature workspaces, proposes dry-run mutations, performs accepted mutations through atomic JSON replacement, rejects repository path escapes, and exits nonzero with actionable errors.
+- Workspaces bind the merged feature, agent, and approval contracts to implementation plans, assignments, file ownership, dependencies, handoffs, checks, gate state, approval expiry metadata, and append-only history.
+- Lifecycle enforcement uses the exact canonical states from the merged feature schema, rejects illegal transitions, preserves failed attempts and failed-gate return reasons, and records rollback release/restore identity.
+- Collision detection covers exact files, parent/child paths, and incompatible glob/directory ownership. Intentional overlap requires an explicit integration contract with participants, overlap, merge order, integration owner, and verification owner.
+- Hard dependencies must exist, match the required artifact version, be complete, and remain acyclic. Soft dependencies remain visible without blocking.
+- Producers can create only pending handoffs; the named consumer must accept or reject. A material artifact-version change invalidates old handoff acceptance and approvals while retaining history.
+- Plan, Code, Release, and Dream gates require matching current-version, exact-gate, approved, evidenced, non-invalidated, unexpired approval records. Privileged assignment booleans stay false without separately scoped approval.
+- Integration readiness reports state, dependency status/cycles, collisions, handoffs, checks, approvals, failed gates, risks, exact blockers, and a machine-readable `integrationAllowed` decision.
+- Three synthetic tracked workspaces cover completed-upstream, integration-ready, and integration-blocked state without student or production information.
+
+Local proof on 2026-08-04: 31 orchestrator tests pass; all three tracked workspaces validate; `npm run validate:aionis` passes the 12 shared schemas, golden fixtures, manifest/inventory, scope/privacy rules, and orchestrator validation; the existing four telemetry privacy tests pass. Full application/database regression, audit, diff, GitHub, and merge evidence remains to be completed in this branch lifecycle.
+
+No student application, formula, authentication, database/RLS, migration, generated type, UI/CSS, print, PWA, Vercel, hosted-service, or production behavior is part of this milestone.
+
 ## Known Risks and Follow-up
 
 - Hosted default privileges for future `public` objects remain broad for both creator roles `postgres` and `supabase_admin`: API roles can inherit table DML, sequence use, and function execution. Existing `public.people` and `public.set_people_updated_at` are explicitly hardened, so this is not a PR #1 release blocker.
 - A default-privilege migration is not yet safe to approve: the migration connection can change `postgres` defaults but cannot change `supabase_admin` defaults, and removing the built-in `PUBLIC EXECUTE` default for future functions requires a global role-level change rather than a `public`-schema-only change. Keep this as a separate platform-hardening follow-up; no migration was created, committed, or applied.
 - The current hosted database and committed migrations are aligned; do not reapply or reset them.
-- Prompts 1 and 2 are merged into `main`; Prompt 3 is the only currently authorized operating-system implementation scope.
+- The shared-contract foundation and local database CI are merged into `main`; `FPR-04-orchestrator-lifecycle` is the currently authorized operating-system implementation scope.
 - Git commands must run inside this repository root; the parent workspace contains unrelated projects.
 - The operating-system schemas are draft shared contracts only; they have no database, service, analytics, Dream, or runtime persistence implementation.
-- Local database CI is now the enforced follow-up to Prompt 3. The exact recommended next PR remains the separate `FPR-SEC-default-privileges` security prerequisite, blocked on platform-owner authority and a reviewed global/default-privilege dry run and rollback plan. Do not begin it or `FPR-04-orchestrator-lifecycle` without separate authorization.
+- The default-privilege security lane remains blocked and separate; do not attempt it or create another `public` object. After the orchestrator is merged, the exact next sequential capability PR is `FPR-05-evidence-lineage`, subject to separate authorization. Do not begin it here.
 
 ## Read Next By Task
 

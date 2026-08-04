@@ -1,0 +1,181 @@
+{
+  "schemaVersion": "1.0.0",
+  "feature": {
+    "featureId": "SYNTHETIC-ready-feature",
+    "version": "2.0.0",
+    "title": "Synthetic integration-ready feature",
+    "status": "CODE_APPROVED",
+    "target": "DEV_TOOLING",
+    "owner": "synthetic-integration-owner",
+    "problem": "Integration readiness needs a complete positive fixture.",
+    "outcome": "The readiness report permits deterministic integration.",
+    "inScope": ["synthetic orchestration records"],
+    "outOfScope": ["student application behavior", "production deployment"],
+    "acceptanceCriteria": ["Every required check and gate is current.", "The consumer accepts the current artifact version."],
+    "protectedContracts": ["lib/numerology.ts", "app/page.tsx"],
+    "requiredGates": ["PLAN_GATE", "CODE_GATE"],
+    "risks": [],
+    "failedGateHistory": [],
+    "approvalInvalidations": [
+      {"approvalId": "synthetic-ready-code-old", "invalidatedAt": "2026-08-04T00:00:00Z", "reason": "Artifact version changed"}
+    ],
+    "analytics": {"applies": false, "notApplicableReason": "Synthetic repository fixture only"},
+    "rollbackIdentity": null,
+    "dataClassification": ["internal"],
+    "buildTimeAi": false,
+    "runtimeAi": false,
+    "rollbackPlanId": "synthetic-ready-rollback",
+    "supersedes": null
+  },
+  "implementationPlan": {
+    "artifactId": "SYNTHETIC-ready-feature",
+    "version": "2.0.0",
+    "summary": "Exercise lifecycle, ownership, handoff, approval, and readiness behavior.",
+    "dependencies": [
+      {"featureId": "SYNTHETIC-foundation", "type": "HARD", "requiredArtifactVersion": "1.0.0"}
+    ],
+    "parallelSafeWith": ["SYNTHETIC-blocked-feature"],
+    "fileOwnershipRecord": "Two non-overlapping synthetic paths are assigned."
+  },
+  "assignments": [
+    {
+      "agentId": "synthetic-state-worker",
+      "version": "1.0.0",
+      "featureId": "SYNTHETIC-ready-feature",
+      "artifactVersion": "2.0.0",
+      "purpose": "Maintain synthetic lifecycle state",
+      "target": "DEV_TOOLING",
+      "owner": "synthetic-state-owner",
+      "requiredInputs": ["synthetic-plan"],
+      "requiredOutputs": ["synthetic-state-output"],
+      "allowedPaths": ["synthetic/ready/state/**"],
+      "prohibitedPaths": ["lib/numerology.ts", "app/**", "supabase/**"],
+      "allowedTools": ["node"],
+      "dependencies": ["SYNTHETIC-foundation"],
+      "requiredChecks": ["lifecycle-check"],
+      "currentGate": "CODE_GATE",
+      "handoffRecipient": "synthetic-integration-owner",
+      "approvalReferences": ["synthetic-ready-code-approval"],
+      "mayDeploy": false,
+      "mayModifyFormulas": false,
+      "mayModifyConstitutionalMethodology": false,
+      "mayAccessPrivateUserInformation": false,
+      "integrationContractId": null
+    },
+    {
+      "agentId": "synthetic-check-worker",
+      "version": "1.0.0",
+      "featureId": "SYNTHETIC-ready-feature",
+      "artifactVersion": "2.0.0",
+      "purpose": "Verify synthetic readiness evidence",
+      "target": "DEV_TOOLING",
+      "owner": "synthetic-check-owner",
+      "requiredInputs": ["synthetic-state-output"],
+      "requiredOutputs": ["synthetic-readiness-evidence"],
+      "allowedPaths": ["synthetic/ready/checks/**"],
+      "prohibitedPaths": ["lib/numerology.ts", "app/**", "supabase/**"],
+      "allowedTools": ["node"],
+      "dependencies": ["synthetic-state-worker"],
+      "requiredChecks": ["readiness-check"],
+      "currentGate": "CODE_GATE",
+      "handoffRecipient": "synthetic-integration-owner",
+      "approvalReferences": ["synthetic-ready-code-approval"],
+      "mayDeploy": false,
+      "mayModifyFormulas": false,
+      "mayModifyConstitutionalMethodology": false,
+      "mayAccessPrivateUserInformation": false,
+      "integrationContractId": null
+    }
+  ],
+  "integrationContracts": [],
+  "approvals": [
+    {
+      "approvalId": "synthetic-ready-plan-approval",
+      "artifactId": "SYNTHETIC-ready-feature",
+      "artifactVersion": "2.0.0",
+      "scope": "Synthetic plan fixture",
+      "gate": "PLAN_GATE",
+      "approver": {"approvedActorReference": "synthetic-human-reviewer"},
+      "timestamp": "2026-08-04T00:00:00Z",
+      "decision": "APPROVED",
+      "conditions": [],
+      "evidenceReferences": ["synthetic-ready-plan-evidence"],
+      "invalidatedAt": null,
+      "invalidationReason": null
+    },
+    {
+      "approvalId": "synthetic-ready-code-old",
+      "artifactId": "SYNTHETIC-ready-feature",
+      "artifactVersion": "1.0.0",
+      "scope": "Superseded synthetic code fixture",
+      "gate": "CODE_GATE",
+      "approver": {"approvedActorReference": "synthetic-human-reviewer"},
+      "timestamp": "2026-08-04T00:00:00Z",
+      "decision": "APPROVED",
+      "conditions": [],
+      "evidenceReferences": ["synthetic-old-code-evidence"],
+      "invalidatedAt": "2026-08-04T00:00:00Z",
+      "invalidationReason": "Artifact version changed"
+    },
+    {
+      "approvalId": "synthetic-ready-code-approval",
+      "artifactId": "SYNTHETIC-ready-feature",
+      "artifactVersion": "2.0.0",
+      "scope": "Synthetic code fixture",
+      "gate": "CODE_GATE",
+      "approver": {"approvedActorReference": "synthetic-human-reviewer"},
+      "timestamp": "2026-08-04T00:00:00Z",
+      "decision": "APPROVED",
+      "conditions": [],
+      "evidenceReferences": ["synthetic-ready-code-evidence"],
+      "invalidatedAt": null,
+      "invalidationReason": null
+    }
+  ],
+  "approvalMetadata": [
+    {"approvalId": "synthetic-ready-plan-approval", "expiresAt": "2099-01-01T00:00:00Z"},
+    {"approvalId": "synthetic-ready-code-old", "expiresAt": null},
+    {"approvalId": "synthetic-ready-code-approval", "expiresAt": "2099-01-01T00:00:00Z"}
+  ],
+  "handoffs": [
+    {
+      "handoffId": "synthetic-ready-handoff",
+      "producer": "synthetic-state-worker",
+      "consumer": "synthetic-integration-owner",
+      "artifactId": "SYNTHETIC-ready-feature",
+      "artifactVersion": "2.0.0",
+      "outputReferences": ["synthetic-state-output", "synthetic-readiness-evidence"],
+      "checksCompleted": ["lifecycle-check", "readiness-check"],
+      "knownRisks": [],
+      "openQuestions": [],
+      "acceptanceStatus": "ACCEPTED",
+      "acceptedAt": "2026-08-04T00:00:00Z",
+      "rejectionReason": null,
+      "createdAt": "2026-08-04T00:00:00Z"
+    }
+  ],
+  "requiredChecks": [
+    {"checkId": "lifecycle-check", "status": "PASSED", "evidenceReferences": ["synthetic-lifecycle-evidence"]},
+    {"checkId": "readiness-check", "status": "PASSED", "evidenceReferences": ["synthetic-readiness-evidence"]}
+  ],
+  "gateState": {"currentGate": "NONE", "failedGates": []},
+  "history": {
+    "transitions": [
+      {"previousState": "BUILDING", "newState": "CODE_APPROVED", "timestamp": "2026-08-04T00:00:00Z", "actor": "synthetic-integration-owner", "reason": "Synthetic checks passed", "requiredApproval": "synthetic-ready-code-approval", "evidenceReferences": ["synthetic-ready-code-evidence"], "failedGateDetails": null, "rollbackTarget": null}
+    ],
+    "failedTransitions": [
+      {"previousState": "DRAFT", "attemptedState": "RELEASED", "timestamp": "2026-08-04T00:00:00Z", "actor": "synthetic-state-worker", "reason": "Exercise illegal transition history", "requiredApproval": null, "evidenceReferences": [], "failedGateDetails": null, "rollbackTarget": null}
+    ],
+    "handoffs": [
+      {"timestamp": "2026-08-04T00:00:00Z", "event": "HANDOFF_ACCEPTED", "handoffId": "synthetic-ready-handoff", "actor": "synthetic-integration-owner"}
+    ],
+    "approvalInvalidations": [
+      {"timestamp": "2026-08-04T00:00:00Z", "event": "APPROVAL_INVALIDATED", "approvalId": "synthetic-ready-code-old", "actor": "synthetic-integration-owner", "reason": "Artifact version changed"}
+    ],
+    "artifactVersions": [
+      {"version": "1.0.0", "recordedAt": "2026-08-04T00:00:00Z", "reason": "Synthetic feature initialized", "supersedes": null},
+      {"version": "2.0.0", "recordedAt": "2026-08-04T00:00:00Z", "reason": "Synthetic artifact superseded", "supersedes": "1.0.0"}
+    ],
+    "rollbacks": []
+  }
+}

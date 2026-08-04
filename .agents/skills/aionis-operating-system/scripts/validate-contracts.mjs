@@ -4,6 +4,7 @@ import process from 'node:process'
 import { createRequire } from 'node:module'
 import { execFileSync } from 'node:child_process'
 import { fileURLToPath } from 'node:url'
+import { validateAllTrackedWorkspaces } from './orchestrator/core.mjs'
 
 const scriptDir = path.dirname(fileURLToPath(import.meta.url))
 export const repoRoot = path.resolve(scriptDir, '../../../..')
@@ -270,10 +271,11 @@ export function runAllValidations() {
   assertScope()
   assertPrivacy()
   assertAuditAndState()
-  return { schemas: schemas.size }
+  const orchestrator = validateAllTrackedWorkspaces()
+  return { schemas: schemas.size, orchestratorWorkspaces: orchestrator.count }
 }
 
 if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.meta.url)) {
   const result = runAllValidations()
-  console.log(`Aionis validation passed: ${result.schemas} schemas, golden fixtures, manifest, inventory, skills, links, scope, privacy, audit state, and shared-contract semantics.`)
+  console.log(`Aionis validation passed: ${result.schemas} shared schemas, ${result.orchestratorWorkspaces} orchestrator workspaces, golden fixtures, manifest, inventory, skills, links, scope, privacy, audit state, and contract semantics.`)
 }

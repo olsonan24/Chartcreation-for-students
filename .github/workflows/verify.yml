@@ -19,7 +19,7 @@ jobs:
           node-version: 22
           cache: npm
       - run: npm ci
-      - name: Validate Aionis shared contracts and development privacy
+      - name: Validate Aionis contracts, orchestrator, and development privacy
         run: npm run validate:aionis
         env:
           AIONIS_BASE_SHA: ${{ github.event.pull_request.base.sha || github.event.before }}

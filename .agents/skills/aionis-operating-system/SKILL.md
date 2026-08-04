@@ -15,4 +15,6 @@ description: Orchestrate multi-target Aionis features, reviews, Dream proposals,
 
 For shared-contract work, run `npm run validate:aionis`. It meta-validates every Draft 2020-12 schema, executes golden and semantic fixtures, resolves manifest/capability/contract references, validates skills and links, protects product scope, scans synthetic instances for secrets/private data, and detects resolved-audit or stale-baseline drift. A passing validator is evidence; it never creates human approval.
 
+For governed feature state, use `npm run aionis:orchestrator -- help`. Version-controlled synthetic workspaces live under `docs/aionis-operating-system/orchestrator/features/`; the CLI validates merged feature, agent, and approval contracts before making an atomic repository-local write. Dry-run is required when reviewing a proposed mutation before acceptance.
+
 Load only the numbered document, template, or schema needed for the current stage. Never treat `docs/aionis-operating-system/16-complete-implementation-roadmap.md` as authorization to start a later phase.

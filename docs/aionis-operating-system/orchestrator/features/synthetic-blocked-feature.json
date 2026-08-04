@@ -1,0 +1,121 @@
+{
+  "schemaVersion": "1.0.0",
+  "feature": {
+    "featureId": "SYNTHETIC-blocked-feature",
+    "version": "1.0.0",
+    "title": "Synthetic integration-blocked feature",
+    "status": "BUILDING",
+    "target": "DEV_TOOLING",
+    "owner": "synthetic-blocked-owner",
+    "problem": "Readiness reporting needs a fixture with multiple exact blockers.",
+    "outcome": "The readiness report explains every synthetic blocker.",
+    "inScope": ["synthetic blocked state"],
+    "outOfScope": ["student application behavior", "production behavior"],
+    "acceptanceCriteria": ["Readiness is denied with exact reasons."],
+    "protectedContracts": ["lib/numerology.ts"],
+    "requiredGates": ["PLAN_GATE", "CODE_GATE"],
+    "risks": [
+      {"riskId": "synthetic-open-risk", "summary": "Synthetic verification remains pending.", "owner": "synthetic-blocked-owner", "mitigation": "Complete the synthetic check."}
+    ],
+    "failedGateHistory": [],
+    "approvalInvalidations": [],
+    "analytics": {"applies": false, "notApplicableReason": "Synthetic repository fixture only"},
+    "rollbackIdentity": null,
+    "dataClassification": ["internal"],
+    "buildTimeAi": false,
+    "runtimeAi": false,
+    "rollbackPlanId": null,
+    "supersedes": null
+  },
+  "implementationPlan": {
+    "artifactId": "SYNTHETIC-blocked-feature",
+    "version": "1.0.0",
+    "summary": "Retain deterministic blockers for negative readiness coverage.",
+    "dependencies": [
+      {"featureId": "SYNTHETIC-ready-feature", "type": "HARD", "requiredArtifactVersion": "2.0.0"}
+    ],
+    "parallelSafeWith": ["SYNTHETIC-foundation"],
+    "fileOwnershipRecord": "synthetic-blocked-worker owns synthetic/blocked/**"
+  },
+  "assignments": [
+    {
+      "agentId": "synthetic-blocked-worker",
+      "version": "1.0.0",
+      "featureId": "SYNTHETIC-blocked-feature",
+      "artifactVersion": "1.0.0",
+      "purpose": "Exercise blocked readiness state",
+      "target": "DEV_TOOLING",
+      "owner": "synthetic-blocked-owner",
+      "requiredInputs": ["synthetic-ready-output"],
+      "requiredOutputs": ["synthetic-blocked-output"],
+      "allowedPaths": ["synthetic/blocked/**"],
+      "prohibitedPaths": ["lib/numerology.ts", "app/**", "supabase/**"],
+      "allowedTools": ["node"],
+      "dependencies": ["SYNTHETIC-ready-feature"],
+      "requiredChecks": ["synthetic-blocked-check"],
+      "currentGate": "CODE_GATE",
+      "handoffRecipient": "synthetic-blocked-consumer",
+      "approvalReferences": [],
+      "mayDeploy": false,
+      "mayModifyFormulas": false,
+      "mayModifyConstitutionalMethodology": false,
+      "mayAccessPrivateUserInformation": false,
+      "integrationContractId": null
+    }
+  ],
+  "integrationContracts": [],
+  "approvals": [
+    {
+      "approvalId": "synthetic-blocked-plan-approval",
+      "artifactId": "SYNTHETIC-blocked-feature",
+      "artifactVersion": "1.0.0",
+      "scope": "Synthetic blocked plan fixture",
+      "gate": "PLAN_GATE",
+      "approver": {"approvedActorReference": "synthetic-human-reviewer"},
+      "timestamp": "2026-08-04T00:00:00Z",
+      "decision": "APPROVED",
+      "conditions": [],
+      "evidenceReferences": ["synthetic-blocked-plan-evidence"],
+      "invalidatedAt": null,
+      "invalidationReason": null
+    }
+  ],
+  "approvalMetadata": [
+    {"approvalId": "synthetic-blocked-plan-approval", "expiresAt": "2099-01-01T00:00:00Z"}
+  ],
+  "handoffs": [
+    {
+      "handoffId": "synthetic-blocked-handoff",
+      "producer": "synthetic-blocked-worker",
+      "consumer": "synthetic-blocked-consumer",
+      "artifactId": "SYNTHETIC-blocked-feature",
+      "artifactVersion": "1.0.0",
+      "outputReferences": ["synthetic-blocked-output"],
+      "checksCompleted": [],
+      "knownRisks": ["Synthetic verification remains pending."],
+      "openQuestions": ["Will the consumer accept after verification?"],
+      "acceptanceStatus": "PENDING",
+      "acceptedAt": null,
+      "rejectionReason": null,
+      "createdAt": "2026-08-04T00:00:00Z"
+    }
+  ],
+  "requiredChecks": [
+    {"checkId": "synthetic-blocked-check", "status": "PENDING", "evidenceReferences": []}
+  ],
+  "gateState": {"currentGate": "CODE_GATE", "failedGates": []},
+  "history": {
+    "transitions": [
+      {"previousState": "PLAN_APPROVED", "newState": "BUILDING", "timestamp": "2026-08-04T00:00:00Z", "actor": "synthetic-blocked-owner", "reason": "Synthetic build began", "requiredApproval": null, "evidenceReferences": ["synthetic-blocked-plan-evidence"], "failedGateDetails": null, "rollbackTarget": null}
+    ],
+    "failedTransitions": [],
+    "handoffs": [
+      {"timestamp": "2026-08-04T00:00:00Z", "event": "HANDOFF_CREATED", "handoffId": "synthetic-blocked-handoff", "actor": "synthetic-blocked-worker"}
+    ],
+    "approvalInvalidations": [],
+    "artifactVersions": [
+      {"version": "1.0.0", "recordedAt": "2026-08-04T00:00:00Z", "reason": "Synthetic blocked feature initialized", "supersedes": null}
+    ],
+    "rollbacks": []
+  }
+}

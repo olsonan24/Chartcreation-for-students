@@ -1,0 +1,132 @@
+{
+  "schemaVersion": "1.0.0",
+  "feature": {
+    "featureId": "SYNTHETIC-foundation",
+    "version": "1.0.0",
+    "title": "Synthetic completed foundation",
+    "status": "CLOSED",
+    "target": "DEV_TOOLING",
+    "owner": "synthetic-foundation-owner",
+    "problem": "A deterministic completed dependency is needed for orchestration fixtures.",
+    "outcome": "Dependent fixtures can prove hard dependency sequencing.",
+    "inScope": ["synthetic dependency state"],
+    "outOfScope": ["student application behavior", "production behavior"],
+    "acceptanceCriteria": ["The synthetic dependency validates as closed."],
+    "protectedContracts": ["lib/numerology.ts"],
+    "requiredGates": ["PLAN_GATE", "CODE_GATE"],
+    "risks": [],
+    "failedGateHistory": [],
+    "approvalInvalidations": [],
+    "analytics": {"applies": false, "notApplicableReason": "Synthetic repository fixture only"},
+    "rollbackIdentity": null,
+    "dataClassification": ["internal"],
+    "buildTimeAi": false,
+    "runtimeAi": false,
+    "rollbackPlanId": null,
+    "supersedes": null
+  },
+  "implementationPlan": {
+    "artifactId": "SYNTHETIC-foundation",
+    "version": "1.0.0",
+    "summary": "Provide a completed synthetic upstream artifact.",
+    "dependencies": [],
+    "parallelSafeWith": ["SYNTHETIC-blocked-feature"],
+    "fileOwnershipRecord": "synthetic-foundation-owner owns synthetic/foundation/**"
+  },
+  "assignments": [
+    {
+      "agentId": "synthetic-foundation-worker",
+      "version": "1.0.0",
+      "featureId": "SYNTHETIC-foundation",
+      "artifactVersion": "1.0.0",
+      "purpose": "Produce a completed synthetic artifact",
+      "target": "DEV_TOOLING",
+      "owner": "synthetic-foundation-owner",
+      "requiredInputs": ["synthetic-plan"],
+      "requiredOutputs": ["synthetic-foundation-output"],
+      "allowedPaths": ["synthetic/foundation/**"],
+      "prohibitedPaths": ["lib/numerology.ts", "app/**", "supabase/**"],
+      "allowedTools": ["node"],
+      "dependencies": [],
+      "requiredChecks": ["foundation-check"],
+      "currentGate": "CODE_GATE",
+      "handoffRecipient": "synthetic-ready-consumer",
+      "approvalReferences": ["synthetic-foundation-code-approval"],
+      "mayDeploy": false,
+      "mayModifyFormulas": false,
+      "mayModifyConstitutionalMethodology": false,
+      "mayAccessPrivateUserInformation": false,
+      "integrationContractId": null
+    }
+  ],
+  "integrationContracts": [],
+  "approvals": [
+    {
+      "approvalId": "synthetic-foundation-plan-approval",
+      "artifactId": "SYNTHETIC-foundation",
+      "artifactVersion": "1.0.0",
+      "scope": "Synthetic plan fixture",
+      "gate": "PLAN_GATE",
+      "approver": {"approvedActorReference": "synthetic-human-reviewer"},
+      "timestamp": "2026-08-04T00:00:00Z",
+      "decision": "APPROVED",
+      "conditions": [],
+      "evidenceReferences": ["synthetic-plan-evidence"],
+      "invalidatedAt": null,
+      "invalidationReason": null
+    },
+    {
+      "approvalId": "synthetic-foundation-code-approval",
+      "artifactId": "SYNTHETIC-foundation",
+      "artifactVersion": "1.0.0",
+      "scope": "Synthetic code fixture",
+      "gate": "CODE_GATE",
+      "approver": {"approvedActorReference": "synthetic-human-reviewer"},
+      "timestamp": "2026-08-04T00:00:00Z",
+      "decision": "APPROVED",
+      "conditions": [],
+      "evidenceReferences": ["synthetic-code-evidence"],
+      "invalidatedAt": null,
+      "invalidationReason": null
+    }
+  ],
+  "approvalMetadata": [
+    {"approvalId": "synthetic-foundation-plan-approval", "expiresAt": "2099-01-01T00:00:00Z"},
+    {"approvalId": "synthetic-foundation-code-approval", "expiresAt": "2099-01-01T00:00:00Z"}
+  ],
+  "handoffs": [
+    {
+      "handoffId": "synthetic-foundation-handoff",
+      "producer": "synthetic-foundation-worker",
+      "consumer": "synthetic-ready-consumer",
+      "artifactId": "SYNTHETIC-foundation",
+      "artifactVersion": "1.0.0",
+      "outputReferences": ["synthetic-foundation-output"],
+      "checksCompleted": ["foundation-check"],
+      "knownRisks": [],
+      "openQuestions": [],
+      "acceptanceStatus": "ACCEPTED",
+      "acceptedAt": "2026-08-04T00:00:00Z",
+      "rejectionReason": null,
+      "createdAt": "2026-08-04T00:00:00Z"
+    }
+  ],
+  "requiredChecks": [
+    {"checkId": "foundation-check", "status": "PASSED", "evidenceReferences": ["synthetic-foundation-check-evidence"]}
+  ],
+  "gateState": {"currentGate": "NONE", "failedGates": []},
+  "history": {
+    "transitions": [
+      {"previousState": "OBSERVING", "newState": "CLOSED", "timestamp": "2026-08-04T00:00:00Z", "actor": "synthetic-foundation-owner", "reason": "Synthetic observation completed", "requiredApproval": null, "evidenceReferences": ["synthetic-observation-evidence"], "failedGateDetails": null, "rollbackTarget": null}
+    ],
+    "failedTransitions": [],
+    "handoffs": [
+      {"timestamp": "2026-08-04T00:00:00Z", "event": "HANDOFF_ACCEPTED", "handoffId": "synthetic-foundation-handoff", "actor": "synthetic-ready-consumer"}
+    ],
+    "approvalInvalidations": [],
+    "artifactVersions": [
+      {"version": "1.0.0", "recordedAt": "2026-08-04T00:00:00Z", "reason": "Synthetic foundation initialized", "supersedes": null}
+    ],
+    "rollbacks": []
+  }
+}
