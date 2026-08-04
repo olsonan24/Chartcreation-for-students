@@ -173,6 +173,7 @@ The separately authorized `FPR-SEC-default-privileges` branch starts from merged
 - The user-attested rollback-only hosted probe visibly ran in the SQL Editor as `postgres` and returned false for the same 10 future-object checks.
 - Security, release, rollback, feature, and implementation artifacts are under `docs/aionis-operating-system/default-privileges/`. The capability is `partially-implemented` until the production Release Gate approves and verifies the hosted application.
 - `supabase_admin` is deliberately unchanged. Application-created public objects must continue through the reviewed SQL Editor `postgres` path; any creator-role change reopens the Security Gate.
+- Draft PR #8 targets `main`; the exact remote file list matches the authorized scope, and GitHub's application/governance job, isolated Supabase database job, and Vercel checks are green.
 
 No hosted mutation, new persistent application object, existing-object grant/RLS/policy/trigger change, application/formula/UI/auth/print/PWA/Vercel/dependency change, or generated-type change has occurred on this branch.
 

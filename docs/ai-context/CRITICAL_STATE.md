@@ -34,10 +34,9 @@ This bounded file contains facts that cannot safely be approximated. Refresh it 
 - Full proof: 5 shared-validator tests, 12 shared schemas/manifest checks, 49 evidence-lineage tests, 32 orchestrator tests, 4 telemetry tests, workflow scope check, lint, 4 formula tests, 21 unit tests, production build, and 8 rendered checks pass. Production audit is clean; full audit has the pre-existing one moderate PostCSS development advisory.
 - Hosted evidence supplied by the user and read back in the SQL Editor: role `postgres`; rollback-only probe returned false for all 10 table/sequence/function checks.
 - Hosted mutation status: not applied. `supabase_admin` is unchanged. Existing `public.people` and `public.set_people_updated_at` are untouched.
+- Draft PR: `https://github.com/olsonan24/Chartcreation-for-students/pull/8`; exact remote file list matches scope; application/governance, isolated database, and Vercel checks are green.
 
 ## Remaining proof and release work
 
-- Confirm the final diff contains only authorized migration/test/verifier/governance files and rerun the shared validator after the final state update.
-- Commit documentation, push the requested branch, create a draft PR against `main`, and inspect the full GitHub diff/check state.
 - Stop before hosted mutation and merge. Hand off the exact one-time SQL, read-only/default inspection query, rollback SQL labeled not to run, digest, proof, and PR link for explicit Release Gate review.
 - Do not begin private evidence/memory, entitlements, timeline tables, or any other capability here.
