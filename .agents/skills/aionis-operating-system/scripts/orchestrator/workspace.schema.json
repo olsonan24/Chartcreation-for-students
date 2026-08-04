@@ -33,6 +33,19 @@
         "fileOwnershipRecord": {"type": "string", "minLength": 1}
       }
     },
+    "evidenceLineageReferences": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["registryPath", "evidenceIds", "manifestIds", "componentVersions", "reproductionResultIds", "rollbackPlanIds"],
+      "properties": {
+        "registryPath": {"type": "string", "minLength": 1},
+        "evidenceIds": {"$ref": "#/$defs/strings"},
+        "manifestIds": {"$ref": "#/$defs/strings"},
+        "componentVersions": {"type": "array", "uniqueItems": true, "items": {"$ref": "#/$defs/componentVersionReference"}},
+        "reproductionResultIds": {"$ref": "#/$defs/strings"},
+        "rollbackPlanIds": {"$ref": "#/$defs/strings"}
+      }
+    },
     "assignments": {"type": "array", "items": {"type": "object"}},
     "integrationContracts": {"type": "array", "items": {"$ref": "#/$defs/integrationContract"}},
     "approvals": {"type": "array", "items": {"type": "object"}},
@@ -64,6 +77,15 @@
   },
   "$defs": {
     "strings": {"type": "array", "uniqueItems": true, "items": {"type": "string", "minLength": 1}},
+    "componentVersionReference": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["componentId", "version"],
+      "properties": {
+        "componentId": {"type": "string", "minLength": 1},
+        "version": {"type": "string", "minLength": 1}
+      }
+    },
     "dependency": {
       "type": "object",
       "additionalProperties": false,

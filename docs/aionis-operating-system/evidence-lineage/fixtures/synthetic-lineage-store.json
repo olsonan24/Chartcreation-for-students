@@ -1,0 +1,284 @@
+{
+  "schemaVersion": "1.0.0",
+  "evidence": [
+    {
+      "record": {
+        "evidenceId": "synthetic-evidence-source-v0",
+        "version": "1.0.0",
+        "recordedAt": "2026-08-04T00:00:00Z",
+        "sourceType": "system-observation",
+        "provenance": {
+          "sourceIdentity": "synthetic-source-system",
+          "sourceVersion": "1.0.0",
+          "observedAt": "2026-08-04T00:00:00Z",
+          "actorIdentity": "synthetic-fixture-actor",
+          "deletionPolicyReference": "synthetic-deletion-policy"
+        },
+        "knowledgePlane": "operational",
+        "memoryForm": "episodic",
+        "target": "PRIVATE_AIONIS_BACKEND",
+        "tenantScope": "synthetic-tenant-alpha",
+        "classification": "internal",
+        "contentDigest": "sha256:c14n-json-v1:6ccb14353478bf18a7ca7f95ab3e629b469976e4e7219a6932dbccd0388d531a",
+        "contentLocation": null,
+        "immutable": true,
+        "consentId": null,
+        "retentionPolicy": "synthetic-retention-policy",
+        "supersededBy": "synthetic-evidence-source-v1",
+        "accessPolicyId": "synthetic-access-policy"
+      },
+      "content": {"kind": "synthetic-source", "value": 6}
+    },
+    {
+      "record": {
+        "evidenceId": "synthetic-evidence-source-v1",
+        "version": "2.0.0",
+        "recordedAt": "2026-08-04T01:00:00Z",
+        "sourceType": "system-observation",
+        "provenance": {
+          "sourceIdentity": "synthetic-source-system",
+          "sourceVersion": "1.0.0",
+          "observedAt": "2026-08-04T01:00:00Z",
+          "actorIdentity": "synthetic-fixture-actor",
+          "deletionPolicyReference": "synthetic-deletion-policy"
+        },
+        "knowledgePlane": "operational",
+        "memoryForm": "episodic",
+        "target": "PRIVATE_AIONIS_BACKEND",
+        "tenantScope": "synthetic-tenant-alpha",
+        "classification": "internal",
+        "contentDigest": "sha256:c14n-json-v1:9cc529e1dd83ae0514eba8dde998015b879e01f0ee282e7d35d9113de9be2c67",
+        "contentLocation": null,
+        "immutable": true,
+        "consentId": null,
+        "retentionPolicy": "synthetic-retention-policy",
+        "supersededBy": null,
+        "accessPolicyId": "synthetic-access-policy"
+      },
+      "content": {"kind": "synthetic-source", "value": 7}
+    },
+    {
+      "record": {
+        "evidenceId": "synthetic-evidence-contradiction-v1",
+        "version": "1.0.0",
+        "recordedAt": "2026-08-04T01:05:00Z",
+        "sourceType": "system-observation",
+        "provenance": {
+          "sourceIdentity": "synthetic-counterpoint-system",
+          "sourceVersion": "1.0.0",
+          "observedAt": "2026-08-04T01:05:00Z",
+          "actorIdentity": "synthetic-fixture-actor",
+          "deletionPolicyReference": "synthetic-deletion-policy"
+        },
+        "knowledgePlane": "operational",
+        "memoryForm": "episodic",
+        "target": "PRIVATE_AIONIS_BACKEND",
+        "tenantScope": "synthetic-tenant-alpha",
+        "classification": "internal",
+        "contentDigest": "sha256:c14n-json-v1:f21e3f68ef59eabc05d406370ffb110f146f7819fce05e2dbed53413fd83e0fb",
+        "contentLocation": null,
+        "immutable": true,
+        "consentId": null,
+        "retentionPolicy": "synthetic-retention-policy",
+        "supersededBy": null,
+        "accessPolicyId": "synthetic-access-policy"
+      },
+      "content": {"kind": "synthetic-counterpoint", "value": 2}
+    }
+  ],
+  "artifacts": [
+    {
+      "artifactId": "synthetic-conclusion",
+      "version": "1.0.0",
+      "artifactType": "generated-conclusion",
+      "knowledgePlane": "operational",
+      "target": "PRIVATE_AIONIS_BACKEND",
+      "tenantScope": "synthetic-tenant-alpha",
+      "accessScope": "synthetic-private-backend",
+      "classification": "internal",
+      "retentionPolicy": "synthetic-retention-policy",
+      "deletionPolicyReference": "synthetic-deletion-policy",
+      "contentDigest": "sha256:c14n-json-v1:910516d4a51faa80f6db52e098cc7aaf1f3fffc3d075de06d6a2bfcb8457fe9e",
+      "status": "superseded",
+      "createdAt": "2026-08-04T01:10:00Z",
+      "actorIdentity": "synthetic-generation-system",
+      "generationManifestId": "synthetic-generation-manifest-v1",
+      "content": {"label": "synthetic-baseline", "score": 7}
+    },
+    {
+      "artifactId": "synthetic-conclusion",
+      "version": "2.0.0",
+      "artifactType": "generated-conclusion",
+      "knowledgePlane": "operational",
+      "target": "PRIVATE_AIONIS_BACKEND",
+      "tenantScope": "synthetic-tenant-alpha",
+      "accessScope": "synthetic-private-backend",
+      "classification": "internal",
+      "retentionPolicy": "synthetic-retention-policy",
+      "deletionPolicyReference": "synthetic-deletion-policy",
+      "contentDigest": "sha256:c14n-json-v1:83434a9e451fc1da5dc312816251138e47cfc213931e7a62f09ddb9157585fc1",
+      "status": "accepted",
+      "createdAt": "2026-08-04T02:00:00Z",
+      "actorIdentity": "synthetic-generation-system",
+      "generationManifestId": "synthetic-generation-manifest-v2",
+      "content": {"label": "synthetic-current", "score": 8}
+    }
+  ],
+  "components": [
+    {"componentId": "synthetic-calculation-engine", "componentType": "calculation-engine", "version": "1.0.0", "contentDigest": null, "effectiveAt": "2026-08-04T00:00:00Z", "supersessionStatus": "active", "environmentApplicability": ["development"], "provenance": {"sourceIdentity": "synthetic-registry"}, "approvalReference": null},
+    {"componentId": "synthetic-formula-baseline", "componentType": "formula-baseline", "version": "1.0.0", "contentDigest": null, "effectiveAt": "2026-08-04T00:00:00Z", "supersessionStatus": "active", "environmentApplicability": ["development"], "provenance": {"sourceIdentity": "synthetic-registry"}, "approvalReference": null},
+    {"componentId": "synthetic-constitution", "componentType": "constitution", "version": "1.0.0", "contentDigest": null, "effectiveAt": "2026-08-04T00:00:00Z", "supersessionStatus": "active", "environmentApplicability": ["development"], "provenance": {"sourceIdentity": "synthetic-registry"}, "approvalReference": "synthetic-rollback-approval"},
+    {"componentId": "synthetic-rule-set", "componentType": "rule-set", "version": "1.0.0", "contentDigest": null, "effectiveAt": "2026-08-04T00:00:00Z", "supersessionStatus": "active", "environmentApplicability": ["development"], "provenance": {"sourceIdentity": "synthetic-registry"}, "approvalReference": null},
+    {"componentId": "synthetic-modifier-set", "componentType": "modifier-set", "version": "1.0.0", "contentDigest": null, "effectiveAt": "2026-08-04T00:00:00Z", "supersessionStatus": "active", "environmentApplicability": ["development"], "provenance": {"sourceIdentity": "synthetic-registry"}, "approvalReference": null},
+    {"componentId": "synthetic-synthesis-engine", "componentType": "synthesis-engine", "version": "1.0.0", "contentDigest": null, "effectiveAt": "2026-08-04T00:00:00Z", "supersessionStatus": "active", "environmentApplicability": ["development"], "provenance": {"sourceIdentity": "synthetic-registry"}, "approvalReference": null},
+    {"componentId": "synthetic-prompt", "componentType": "prompt", "version": "1.0.0", "contentDigest": null, "effectiveAt": "2026-08-04T00:00:00Z", "supersessionStatus": "active", "environmentApplicability": ["development"], "provenance": {"sourceIdentity": "synthetic-registry"}, "approvalReference": null},
+    {"componentId": "synthetic-provider", "componentType": "model-provider", "version": "synthetic-provider-v1", "contentDigest": null, "effectiveAt": "2026-08-04T00:00:00Z", "supersessionStatus": "active", "environmentApplicability": ["development"], "provenance": {"sourceIdentity": "synthetic-registry"}, "approvalReference": null},
+    {"componentId": "synthetic-model", "componentType": "model-identity", "version": "synthetic-model-v1", "contentDigest": null, "effectiveAt": "2026-08-04T00:00:00Z", "supersessionStatus": "active", "environmentApplicability": ["development"], "provenance": {"sourceIdentity": "synthetic-registry"}, "approvalReference": null},
+    {"componentId": "synthetic-model-configuration", "componentType": "model-configuration", "version": "1.0.0", "contentDigest": "sha256:c14n-json-v1:160affd87ef7600b9af25bd367055c21a3c62f3ffd84abb41506af4f4d187d24", "effectiveAt": "2026-08-04T00:00:00Z", "supersessionStatus": "active", "environmentApplicability": ["development"], "provenance": {"sourceIdentity": "synthetic-registry"}, "approvalReference": null},
+    {"componentId": "synthetic-knowledge-snapshot", "componentType": "knowledge-snapshot", "version": "synthetic-knowledge-v1", "contentDigest": null, "effectiveAt": "2026-08-04T00:00:00Z", "supersessionStatus": "active", "environmentApplicability": ["development"], "provenance": {"sourceIdentity": "synthetic-registry"}, "approvalReference": null},
+    {"componentId": "synthetic-canonicalization", "componentType": "canonicalization-algorithm", "version": "c14n-json-v1", "contentDigest": null, "effectiveAt": "2026-08-04T00:00:00Z", "supersessionStatus": "active", "environmentApplicability": ["all"], "provenance": {"sourceIdentity": "synthetic-registry"}, "approvalReference": null},
+    {"componentId": "synthetic-evidence-schema", "componentType": "evidence-schema", "version": "1.0.0", "contentDigest": null, "effectiveAt": "2026-08-04T00:00:00Z", "supersessionStatus": "active", "environmentApplicability": ["all"], "provenance": {"sourceIdentity": "synthetic-registry"}, "approvalReference": null},
+    {"componentId": "synthetic-generation-schema", "componentType": "generation-manifest-schema", "version": "1.0.0", "contentDigest": null, "effectiveAt": "2026-08-04T00:00:00Z", "supersessionStatus": "active", "environmentApplicability": ["all"], "provenance": {"sourceIdentity": "synthetic-registry"}, "approvalReference": null},
+    {"componentId": "synthetic-release", "componentType": "release", "version": "synthetic-release-v1", "contentDigest": null, "effectiveAt": "2026-08-04T00:00:00Z", "supersessionStatus": "active", "environmentApplicability": ["development"], "provenance": {"sourceIdentity": "synthetic-registry"}, "approvalReference": null}
+  ],
+  "manifests": [
+    {
+      "manifestId": "synthetic-generation-manifest-v2",
+      "artifactId": "synthetic-conclusion",
+      "artifactVersion": "2.0.0",
+      "manifest": {
+        "findingId": "synthetic-conclusion",
+        "timestamp": "2026-08-04T02:00:00Z",
+        "provider": "synthetic-provider-v1",
+        "exactModelId": "synthetic-model-v1",
+        "modelConfiguration": {"seed": 7, "temperature": 0},
+        "promptVersion": "1.0.0",
+        "constitutionVersion": "1.0.0",
+        "calculationEngineVersion": "1.0.0",
+        "synthesisEngineVersion": "1.0.0",
+        "knowledgeSnapshot": "synthetic-knowledge-v1",
+        "evidenceIds": ["synthetic-evidence-source-v1", "synthetic-evidence-contradiction-v1"],
+        "ruleIds": ["synthetic-rule-1"],
+        "modifierIds": ["synthetic-modifier-1"],
+        "languageTier": "synthetic-neutral",
+        "confidence": 0.8,
+        "timeoutMs": 1000,
+        "retryCeiling": 0,
+        "tokenBudget": {"input": 100, "output": 50},
+        "costBudget": {"currency": "USD", "maximum": 0},
+        "fallback": {"used": false, "provider": null, "exactModelId": null, "disclosure": "Synthetic fallback was not used."},
+        "environment": "development",
+        "releaseVersion": "synthetic-release-v1",
+        "acceptancePolicy": {"policyId": "synthetic-exact-output", "comparisonMethod": "normalized-exact"},
+        "supersedes": null
+      },
+      "componentVersions": [
+        {"role": "calculation-engine", "componentId": "synthetic-calculation-engine", "version": "1.0.0"},
+        {"role": "formula-baseline", "componentId": "synthetic-formula-baseline", "version": "1.0.0"},
+        {"role": "constitution", "componentId": "synthetic-constitution", "version": "1.0.0"},
+        {"role": "rule-set", "componentId": "synthetic-rule-set", "version": "1.0.0"},
+        {"role": "modifier-set", "componentId": "synthetic-modifier-set", "version": "1.0.0"},
+        {"role": "synthesis-engine", "componentId": "synthetic-synthesis-engine", "version": "1.0.0"},
+        {"role": "prompt", "componentId": "synthetic-prompt", "version": "1.0.0"},
+        {"role": "model-provider", "componentId": "synthetic-provider", "version": "synthetic-provider-v1"},
+        {"role": "model-identity", "componentId": "synthetic-model", "version": "synthetic-model-v1"},
+        {"role": "model-configuration", "componentId": "synthetic-model-configuration", "version": "1.0.0"},
+        {"role": "knowledge-snapshot", "componentId": "synthetic-knowledge-snapshot", "version": "synthetic-knowledge-v1"},
+        {"role": "canonicalization-algorithm", "componentId": "synthetic-canonicalization", "version": "c14n-json-v1"},
+        {"role": "evidence-schema", "componentId": "synthetic-evidence-schema", "version": "1.0.0"},
+        {"role": "generation-manifest-schema", "componentId": "synthetic-generation-schema", "version": "1.0.0"},
+        {"role": "release", "componentId": "synthetic-release", "version": "synthetic-release-v1"}
+      ],
+      "determinism": {"kind": "deterministic", "acceptancePolicyVersion": null}
+    },
+    {
+      "manifestId": "synthetic-generation-manifest-v1",
+      "artifactId": "synthetic-conclusion",
+      "artifactVersion": "1.0.0",
+      "manifest": {
+        "findingId": "synthetic-conclusion",
+        "timestamp": "2026-08-04T01:10:00Z",
+        "provider": "synthetic-provider-v1",
+        "exactModelId": "synthetic-model-v1",
+        "modelConfiguration": {"seed": 7, "temperature": 0},
+        "promptVersion": "1.0.0",
+        "constitutionVersion": "1.0.0",
+        "calculationEngineVersion": "1.0.0",
+        "synthesisEngineVersion": "1.0.0",
+        "knowledgeSnapshot": "synthetic-knowledge-v1",
+        "evidenceIds": ["synthetic-evidence-source-v0"],
+        "ruleIds": ["synthetic-rule-1"],
+        "modifierIds": ["synthetic-modifier-1"],
+        "languageTier": "synthetic-neutral",
+        "confidence": 0.7,
+        "timeoutMs": 1000,
+        "retryCeiling": 0,
+        "tokenBudget": {"input": 100, "output": 50},
+        "costBudget": {"currency": "USD", "maximum": 0},
+        "fallback": {"used": false, "provider": null, "exactModelId": null, "disclosure": "Synthetic fallback was not used."},
+        "environment": "development",
+        "releaseVersion": "synthetic-release-v1",
+        "acceptancePolicy": {"policyId": "synthetic-exact-output", "comparisonMethod": "normalized-exact"},
+        "supersedes": null
+      },
+      "componentVersions": [
+        {"role": "calculation-engine", "componentId": "synthetic-calculation-engine", "version": "1.0.0"},
+        {"role": "formula-baseline", "componentId": "synthetic-formula-baseline", "version": "1.0.0"},
+        {"role": "constitution", "componentId": "synthetic-constitution", "version": "1.0.0"},
+        {"role": "rule-set", "componentId": "synthetic-rule-set", "version": "1.0.0"},
+        {"role": "modifier-set", "componentId": "synthetic-modifier-set", "version": "1.0.0"},
+        {"role": "synthesis-engine", "componentId": "synthetic-synthesis-engine", "version": "1.0.0"},
+        {"role": "prompt", "componentId": "synthetic-prompt", "version": "1.0.0"},
+        {"role": "model-provider", "componentId": "synthetic-provider", "version": "synthetic-provider-v1"},
+        {"role": "model-identity", "componentId": "synthetic-model", "version": "synthetic-model-v1"},
+        {"role": "model-configuration", "componentId": "synthetic-model-configuration", "version": "1.0.0"},
+        {"role": "knowledge-snapshot", "componentId": "synthetic-knowledge-snapshot", "version": "synthetic-knowledge-v1"},
+        {"role": "canonicalization-algorithm", "componentId": "synthetic-canonicalization", "version": "c14n-json-v1"},
+        {"role": "evidence-schema", "componentId": "synthetic-evidence-schema", "version": "1.0.0"},
+        {"role": "generation-manifest-schema", "componentId": "synthetic-generation-schema", "version": "1.0.0"},
+        {"role": "release", "componentId": "synthetic-release", "version": "synthetic-release-v1"}
+      ],
+      "determinism": {"kind": "deterministic", "acceptancePolicyVersion": null}
+    }
+  ],
+  "lineage": [
+    {"relationshipId": "synthetic-lineage-support", "fromId": "synthetic-conclusion@2.0.0", "toId": "synthetic-evidence-source-v1", "relationshipType": "supported-by"},
+    {"relationshipId": "synthetic-lineage-contradiction", "fromId": "synthetic-conclusion@2.0.0", "toId": "synthetic-evidence-contradiction-v1", "relationshipType": "contradicted-by"},
+    {"relationshipId": "synthetic-lineage-manifest", "fromId": "synthetic-conclusion@2.0.0", "toId": "synthetic-generation-manifest-v2", "relationshipType": "manifested-by"},
+    {"relationshipId": "synthetic-lineage-calculation", "fromId": "synthetic-conclusion@2.0.0", "toId": "synthetic-calculation-engine@1.0.0", "relationshipType": "calculated-with"},
+    {"relationshipId": "synthetic-lineage-rule", "fromId": "synthetic-conclusion@2.0.0", "toId": "synthetic-rule-set@1.0.0", "relationshipType": "uses-rule"},
+    {"relationshipId": "synthetic-lineage-modifier", "fromId": "synthetic-conclusion@2.0.0", "toId": "synthetic-modifier-set@1.0.0", "relationshipType": "uses-modifier"},
+    {"relationshipId": "synthetic-lineage-prompt", "fromId": "synthetic-conclusion@2.0.0", "toId": "synthetic-prompt@1.0.0", "relationshipType": "uses-prompt"},
+    {"relationshipId": "synthetic-lineage-constitution", "fromId": "synthetic-conclusion@2.0.0", "toId": "synthetic-constitution@1.0.0", "relationshipType": "uses-constitution"},
+    {"relationshipId": "synthetic-lineage-synthesis", "fromId": "synthetic-conclusion@2.0.0", "toId": "synthetic-synthesis-engine@1.0.0", "relationshipType": "uses-synthesis"},
+    {"relationshipId": "synthetic-lineage-supersedes", "fromId": "synthetic-conclusion@2.0.0", "toId": "synthetic-conclusion@1.0.0", "relationshipType": "supersedes"},
+    {"relationshipId": "synthetic-lineage-approval", "fromId": "synthetic-conclusion@2.0.0", "toId": "synthetic-rollback-approval", "relationshipType": "approved-by"},
+    {"relationshipId": "synthetic-lineage-release", "fromId": "synthetic-conclusion@2.0.0", "toId": "synthetic-release-record", "relationshipType": "released-by"},
+    {"relationshipId": "synthetic-lineage-rollback-failed", "fromId": "synthetic-rollback-plan", "toId": "synthetic-conclusion@2.0.0", "relationshipType": "rollback-of"},
+    {"relationshipId": "synthetic-lineage-rollback-restored", "fromId": "synthetic-rollback-plan", "toId": "synthetic-conclusion@1.0.0", "relationshipType": "restores"},
+    {"relationshipId": "synthetic-lineage-prior-manifest", "fromId": "synthetic-conclusion@1.0.0", "toId": "synthetic-generation-manifest-v1", "relationshipType": "manifested-by"},
+    {"relationshipId": "synthetic-lineage-prior-support", "fromId": "synthetic-conclusion@1.0.0", "toId": "synthetic-evidence-source-v0", "relationshipType": "supported-by"}
+  ],
+  "supersessions": [
+    {"supersessionId": "synthetic-evidence-correction", "kind": "evidence", "predecessorId": "synthetic-evidence-source-v0", "successorId": "synthetic-evidence-source-v1", "reason": "Synthetic corrected observation", "recordedAt": "2026-08-04T01:00:00Z", "negativeKnowledge": {"retained": true, "reason": "Synthetic prior observation rejected", "reconsiderationConditions": ["New synthetic verification evidence"]}},
+    {"supersessionId": "synthetic-artifact-correction", "kind": "artifact", "predecessorId": "synthetic-conclusion@1.0.0", "successorId": "synthetic-conclusion@2.0.0", "reason": "Synthetic conclusion corrected", "recordedAt": "2026-08-04T02:00:00Z", "negativeKnowledge": {"retained": false, "reason": null, "reconsiderationConditions": []}}
+  ],
+  "acceptancePolicies": [
+    {"policyId": "synthetic-exact-output", "version": "1.0.0", "approved": true, "comparisonMethod": "normalized-exact", "metrics": [{"metricId": "synthetic-score", "path": "score", "kind": "numeric-tolerance", "tolerance": 1}, {"metricId": "synthetic-label", "path": "label", "kind": "exact"}]}
+  ],
+  "reproductionResults": [
+    {"reproductionResultId": "synthetic-reproduction-result-v2", "artifactId": "synthetic-conclusion", "artifactVersion": "2.0.0", "status": "accepted", "recordedAt": "2026-08-04T02:10:00Z"}
+  ],
+  "approvals": [
+    {"approvalId": "synthetic-rollback-approval", "artifactId": "synthetic-rollback-plan", "artifactVersion": "1.0.0", "scope": "Synthetic rollback planning only", "gate": "CODE_GATE", "approver": {"approvedActorReference": "synthetic-human-reviewer"}, "timestamp": "2026-08-04T02:15:00Z", "decision": "APPROVED", "conditions": [], "evidenceReferences": ["synthetic-evidence-source-v1"], "invalidatedAt": null, "invalidationReason": null}
+  ],
+  "releases": [
+    {"releaseId": "synthetic-release-record", "version": "1.0.0", "status": "verified", "target": "PRIVATE_AIONIS_BACKEND", "environment": "development", "commit": "deadbee", "artifactDigest": "sha256:c14n-json-v1:83434a9e451fc1da5dc312816251138e47cfc213931e7a62f09ddb9157585fc1", "featureSpecificationIds": ["synthetic-feature-spec"], "contractVersions": {"evidence-record": "1.0.0", "generation-manifest": "1.0.0"}, "intelligenceVersion": "1.0.0", "verificationEvidenceIds": ["synthetic-evidence-source-v1"], "securityReviewId": "synthetic-security-review", "intelligenceReviewId": "synthetic-intelligence-review", "approvalIds": ["synthetic-rollback-approval"], "migrationIds": [], "rolloutStrategy": "Synthetic development verification only", "rollbackPlanId": "synthetic-rollback-plan", "analyticsContractIds": [], "createdAt": "2026-08-04T02:25:00Z", "releasedAt": null, "supersedes": null}
+  ],
+  "rollbackPlans": [
+    {"rollbackPlanId": "synthetic-rollback-plan", "failedArtifact": {"artifactId": "synthetic-conclusion", "version": "2.0.0"}, "priorKnownGoodArtifact": {"artifactId": "synthetic-conclusion", "version": "1.0.0"}, "reason": "Synthetic rollback exercise", "trigger": "Synthetic reproduction mismatch", "approvalReference": "synthetic-rollback-approval", "evidenceIds": ["synthetic-evidence-source-v1"], "actor": "synthetic-rollback-actor", "timestamp": "2026-08-04T02:20:00Z", "forwardFixStatus": "planned", "restorationStatus": "planned", "postRollbackVerification": {"checks": ["synthetic-digest-check", "synthetic-lineage-check"], "status": "planned"}}
+  ],
+  "rollbackHistory": [
+    {"historyId": "synthetic-rollback-history", "rollbackPlanId": "synthetic-rollback-plan", "failedArtifact": "synthetic-conclusion@2.0.0", "restoredArtifact": "synthetic-conclusion@1.0.0", "reason": "Synthetic rollback exercise", "actor": "synthetic-rollback-actor", "recordedAt": "2026-08-04T02:30:00Z", "restorationStatus": "verified", "forwardFixStatus": "planned", "postRollbackVerification": {"checks": ["synthetic-digest-check", "synthetic-lineage-check"], "status": "passed"}}
+  ]
+}

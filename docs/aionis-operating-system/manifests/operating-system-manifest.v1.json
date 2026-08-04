@@ -1,6 +1,6 @@
 {
   "manifestId": "aionis-operating-system",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "status": "draft",
   "constitutionVersion": "1.0.0",
   "documents": [
@@ -46,7 +46,7 @@
     {"capabilityId": "build-dependency-maintenance", "owner": "development-operations", "target": "DEV_TOOLING", "contractVersion": "1.0.0", "implementationStatus": "planned", "requiredGate": "CODE_GATE", "relevantSource": "docs/aionis-operating-system/audits/recommended-pr-sequence.md", "dependencies": []},
     {"capabilityId": "future-default-privilege-hardening", "owner": "private-platform", "target": "PRIVATE_AIONIS_BACKEND", "contractVersion": "1.0.0", "implementationStatus": "blocked", "requiredGate": "RELEASE_GATE", "relevantSource": "docs/aionis-operating-system/audits/dependency-map.md", "dependencies": ["shared-contract-validation"]},
     {"capabilityId": "orchestrator-lifecycle", "owner": "development-operations", "target": "DEV_TOOLING", "contractVersion": "1.0.0", "implementationStatus": "implemented", "requiredGate": "CODE_GATE", "relevantSource": ".agents/skills/aionis-operating-system/scripts/orchestrator/cli.mjs", "dependencies": ["shared-contract-validation"]},
-    {"capabilityId": "evidence-lineage", "owner": "private-platform", "target": "PRIVATE_AIONIS_BACKEND", "contractVersion": "1.0.0", "implementationStatus": "planned", "requiredGate": "PLAN_GATE", "relevantSource": "docs/aionis-operating-system/07-evidence-lineage-and-versioning.md", "dependencies": ["shared-contract-validation"]},
+    {"capabilityId": "evidence-lineage", "owner": "private-platform", "target": "PRIVATE_AIONIS_BACKEND", "contractVersion": "1.0.0", "implementationStatus": "implemented", "requiredGate": "CODE_GATE", "relevantSource": ".agents/skills/aionis-operating-system/scripts/evidence-lineage/core.mjs", "dependencies": ["shared-contract-validation"]},
     {"capabilityId": "personal-memory", "owner": "private-platform", "target": "PRIVATE_AIONIS_BACKEND", "contractVersion": "1.0.0", "implementationStatus": "blocked", "requiredGate": "PLAN_GATE", "relevantSource": "docs/aionis-operating-system/06-knowledge-and-memory-architecture.md", "dependencies": ["evidence-lineage", "future-default-privilege-hardening"]},
     {"capabilityId": "runtime-intelligence", "owner": "private-platform", "target": "PRIVATE_AIONIS_BACKEND", "contractVersion": "1.0.0", "implementationStatus": "planned", "requiredGate": "PLAN_GATE", "relevantSource": "docs/aionis-operating-system/12-model-routing-cost-and-capacity.md", "dependencies": ["personal-memory"]},
     {"capabilityId": "analytics-observability", "owner": "analytics-governance", "target": "PRIVATE_AIONIS_BACKEND", "contractVersion": "1.0.0", "implementationStatus": "planned", "requiredGate": "PLAN_GATE", "relevantSource": "docs/aionis-operating-system/13-analytics-and-observability.md", "dependencies": ["personal-memory"]},

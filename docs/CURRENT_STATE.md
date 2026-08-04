@@ -144,15 +144,32 @@ Local proof on 2026-08-04: 31 orchestrator tests pass; all three tracked workspa
 
 No student application, formula, authentication, database/RLS, migration, generated type, UI/CSS, print, PWA, Vercel, hosted-service, or production behavior is part of this milestone.
 
+## Evidence Lineage and Reproducibility Milestone
+
+The authorized `FPR-05-evidence-lineage` implementation starts from merged PR #6 on `main` at `098a99107277e719bd2495de9f1144d46d5da270` and targets `PRIVATE_AIONIS_BACKEND` domain rules with repository-local development verification only.
+
+- A backend-neutral core validates immutable merged evidence records, artifact versions, exact component registries, generation-manifest wrappers, lineage graphs, reproducibility plans/comparisons, append-only supersession and negative knowledge, and rollback plans/history.
+- SHA-256 digests bind deterministic `c14n-json-v1` structured content; key order is stable, array order is meaningful, ambiguous values fail, and fixed golden digests detect drift and tampering.
+- Lineage resolves direct/transitive ancestors while separating supporting from contradictory evidence and rejecting missing/duplicate IDs, self-support, cycles, broken references, and cross-tenant links.
+- All 15 result-affecting component roles require exact versions; `latest` aliases fail. Current and superseded generated artifacts retain exact historical manifests.
+- Deterministic reproduction requires exact normalized equality. Stochastic reproduction requires an approved versioned measurable policy and never claims byte equality or uses a model judge.
+- In-memory and repository-local synthetic fixture adapters are the only adapters. The CLI rejects path escapes, defaults to dry-run mutation, and atomically writes only validated synthetic state below the fixture directory.
+- The existing orchestrator can resolve exact evidence IDs, manifest IDs, component versions, reproduction-result IDs, and rollback-plan IDs through a bounded artifact-contract reference.
+- Security and intelligence review artifacts approve only this synthetic, non-runtime foundation subject to the complete PR diff and GitHub checks; production identity, authorization, encrypted storage, retention execution, audit logging, and incident ownership remain future-gate work.
+
+Local proof on 2026-08-04: 49 evidence-lineage/CLI tests, 32 orchestrator tests, 4 shared-contract validator tests, all 12 shared schemas/fixtures/manifest checks, 4 telemetry privacy tests, TypeScript lint, 4 locked formula tests, 21 application unit tests, the production PWA build, 8 rendered/PWA/print/Vercel assertions, and isolated local database verification (3 verifier tests plus 8 pgTAP ownership cases) pass. The production dependency audit reports zero vulnerabilities; the full audit reports only the pre-existing moderate PostCSS development advisory. No automatic dependency fix ran.
+
+No application, formula, UI/CSS, authentication, database/RLS, migration, generated type, print, PWA, Vercel, hosted-service, runtime-model, personal-memory, analytics, Dreaming, global-learning, or production behavior changed.
+
 ## Known Risks and Follow-up
 
 - Hosted default privileges for future `public` objects remain broad for both creator roles `postgres` and `supabase_admin`: API roles can inherit table DML, sequence use, and function execution. Existing `public.people` and `public.set_people_updated_at` are explicitly hardened, so this is not a PR #1 release blocker.
 - A default-privilege migration is not yet safe to approve: the migration connection can change `postgres` defaults but cannot change `supabase_admin` defaults, and removing the built-in `PUBLIC EXECUTE` default for future functions requires a global role-level change rather than a `public`-schema-only change. Keep this as a separate platform-hardening follow-up; no migration was created, committed, or applied.
 - The current hosted database and committed migrations are aligned; do not reapply or reset them.
-- The shared-contract foundation and local database CI are merged into `main`; `FPR-04-orchestrator-lifecycle` is the currently authorized operating-system implementation scope.
+- The shared-contract foundation, local database CI, and orchestrator are merged into `main`; `FPR-05-evidence-lineage` is the currently authorized operating-system implementation scope.
 - Git commands must run inside this repository root; the parent workspace contains unrelated projects.
 - The operating-system schemas are draft shared contracts only; they have no database, service, analytics, Dream, or runtime persistence implementation.
-- The default-privilege security lane remains blocked and separate; do not attempt it or create another `public` object. After the orchestrator is merged, the exact next sequential capability PR is `FPR-05-evidence-lineage`, subject to separate authorization. Do not begin it here.
+- The default-privilege security lane remains blocked and separate; do not attempt it or create another `public` object. After the evidence-lineage PR is merged, the exact recommended next capability PR is `FPR-06-private-evidence-memory`, but it must not begin until private identity/storage design is separately authorized and the default-privilege security dependency is resolved or explicitly dispositioned at its required gate.
 
 ## Read Next By Task
 

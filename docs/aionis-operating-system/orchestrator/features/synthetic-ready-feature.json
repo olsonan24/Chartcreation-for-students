@@ -37,6 +37,17 @@
     "parallelSafeWith": ["SYNTHETIC-blocked-feature"],
     "fileOwnershipRecord": "Two non-overlapping synthetic paths are assigned."
   },
+  "evidenceLineageReferences": {
+    "registryPath": "docs/aionis-operating-system/evidence-lineage/fixtures/synthetic-lineage-store.json",
+    "evidenceIds": ["synthetic-evidence-source-v1", "synthetic-evidence-contradiction-v1"],
+    "manifestIds": ["synthetic-generation-manifest-v2"],
+    "componentVersions": [
+      {"componentId": "synthetic-calculation-engine", "version": "1.0.0"},
+      {"componentId": "synthetic-prompt", "version": "1.0.0"}
+    ],
+    "reproductionResultIds": ["synthetic-reproduction-result-v2"],
+    "rollbackPlanIds": ["synthetic-rollback-plan"]
+  },
   "assignments": [
     {
       "agentId": "synthetic-state-worker",

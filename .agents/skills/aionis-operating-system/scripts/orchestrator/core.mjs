@@ -157,6 +157,28 @@ function assertWorkspaceSchema(workspace) {
   if (!compiled.workspace(workspace)) throw new Error(validationError('orchestrator workspace', compiled.workspace, ajv))
 }
 
+function assertEvidenceLineageReferences(workspace) {
+  const references = workspace.evidenceLineageReferences
+  if (!references) return
+  const registryFile = resolveInsideRepo(references.registryPath)
+  if (!fs.existsSync(registryFile) || !fs.statSync(registryFile).isFile()) throw new Error(`evidence-lineage registry does not resolve: ${references.registryPath}`)
+  const registry = readJson(registryFile)
+  const available = {
+    evidenceIds: new Set((registry.evidence ?? []).map((entry) => entry.record?.evidenceId)),
+    manifestIds: new Set((registry.manifests ?? []).map((entry) => entry.manifestId)),
+    componentVersions: new Set((registry.components ?? []).map((entry) => `${entry.componentId}@${entry.version}`)),
+    reproductionResultIds: new Set((registry.reproductionResults ?? []).map((entry) => entry.reproductionResultId)),
+    rollbackPlanIds: new Set((registry.rollbackPlans ?? []).map((entry) => entry.rollbackPlanId)),
+  }
+  for (const field of ['evidenceIds', 'manifestIds', 'reproductionResultIds', 'rollbackPlanIds']) {
+    for (const id of references[field]) if (!available[field].has(id)) throw new Error(`unresolved evidence-lineage ${field} reference: ${id}`)
+  }
+  for (const component of references.componentVersions) {
+    const key = `${component.componentId}@${component.version}`
+    if (!available.componentVersions.has(key)) throw new Error(`unresolved evidence-lineage component version reference: ${key}`)
+  }
+}
+
 function pathRoot(pattern) {
   return normalizeRepoPath(pattern).replace(/\/\*\*?$/, '').replace(/\*.*$/, '').replace(/\/$/, '')
 }
@@ -314,6 +336,7 @@ export function validateWorkspace(workspace, { allWorkspaces = [workspace], now 
   assertNoPrivateData(workspace)
   assertWorkspaceSchema(workspace)
   assertComponentContracts(workspace)
+  assertEvidenceLineageReferences(workspace)
   if (workspace.implementationPlan.artifactId !== workspace.feature.featureId || workspace.implementationPlan.version !== workspace.feature.version) throw new Error('implementation plan identity/version does not match feature')
   if (!workspace.history.artifactVersions.some((entry) => entry.version === workspace.feature.version)) throw new Error('current artifact version is missing from append-only history')
 
