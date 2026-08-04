@@ -114,6 +114,18 @@ Verified locally on 2026-08-04: all 12 schemas and the manifest meta/instance ch
 
 No orchestrator, backend, persistence, runtime AI, analytics ingestion, Dream executor, global learning, database object, staging, or release behavior is implemented by this milestone.
 
+## Local Database CI Milestone
+
+The database-CI follow-up starts from merged PR #4 on `main` at `ea7462a9e9e69f238729ac296df0c94013cc3a28` and adds development tooling only:
+
+- `npm run validate:database` uses the repository-pinned Supabase CLI and rejects linked-project markers or hosted credential environment variables;
+- every run removes any prior project-local stack, starts an isolated local stack, resets the database from the two committed migrations, lints `public`, and runs the exact committed eight-case pgTAP suite;
+- generated `public` TypeScript types are written only to a temporary location and compared with `lib/supabase/database.types.ts`, normalizing only CRLF/LF and exactly one trailing-newline difference;
+- failures are labeled by startup, migration, lint, pgTAP, type generation, type drift, or cleanup, and cleanup always stops the local stack without retaining its data volume;
+- GitHub Actions runs the database verifier in a separate least-privilege, time-bounded job and performs an additional always-run cleanup step.
+
+Verified locally on 2026-08-03: both committed migrations applied from a clean state; database lint returned no findings; all 8 ownership/RLS pgTAP cases passed; generated types matched materially; comparison self-tests passed; and the isolated stack was stopped and removed. No hosted Supabase command, hosted credential, migration, generated type, product, formula, UI, CSS, print, PWA, authentication, Vercel, environment, or production behavior changed.
+
 ## Known Risks and Follow-up
 
 - Hosted default privileges for future `public` objects remain broad for both creator roles `postgres` and `supabase_admin`: API roles can inherit table DML, sequence use, and function execution. Existing `public.people` and `public.set_people_updated_at` are explicitly hardened, so this is not a PR #1 release blocker.
@@ -122,7 +134,7 @@ No orchestrator, backend, persistence, runtime AI, analytics ingestion, Dream ex
 - Prompts 1 and 2 are merged into `main`; Prompt 3 is the only currently authorized operating-system implementation scope.
 - Git commands must run inside this repository root; the parent workspace contains unrelated projects.
 - The operating-system schemas are draft shared contracts only; they have no database, service, analytics, Dream, or runtime persistence implementation.
-- The exact recommended next PR after Prompt 3 is the separate `FPR-SEC-default-privileges` security prerequisite; it remains blocked on platform-owner authority and must not be folded into contract validation. Do not begin it or `FPR-04-orchestrator-lifecycle` without separate authorization.
+- Local database CI is now the enforced follow-up to Prompt 3. The exact recommended next PR remains the separate `FPR-SEC-default-privileges` security prerequisite, blocked on platform-owner authority and a reviewed global/default-privilege dry run and rollback plan. Do not begin it or `FPR-04-orchestrator-lifecycle` without separate authorization.
 
 ## Read Next By Task
 

@@ -11,6 +11,7 @@
     "preview": "vite preview",
     "start": "vite preview",
     "validate:aionis": "node --test .agents/skills/aionis-operating-system/scripts/validate-contracts.test.mjs && node .agents/skills/aionis-operating-system/scripts/validate-contracts.mjs",
+    "validate:database": "node --test .agents/skills/aionis-operating-system/scripts/database/verify-local-database.test.mjs && node .agents/skills/aionis-operating-system/scripts/database/verify-local-database.mjs",
     "test": "node --test tests/numerology.test.mjs && npm run test:unit && npm run build && node --test tests/rendered-html.test.mjs",
     "test:unit": "vitest run",
     "test:db": "supabase test db",
