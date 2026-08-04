@@ -1,0 +1,194 @@
+{
+  "schemaVersion": "1.0.0",
+  "auditId": "AOS-REPOSITORY-GAP-2026-08-03",
+  "auditType": "evidence-backed repository gap audit",
+  "repository": "olsonan24/Chartcreation-for-students",
+  "baseline": {
+    "branch": "main",
+    "commit": "9041d142f87ab48a8706a333cfebd70d702783fb",
+    "recordedBeforeAuditBranch": true,
+    "workingTreeClean": true
+  },
+  "auditBranch": "audit/aionis-operating-system-gap-analysis",
+  "pullRequestBase": "main",
+  "prerequisites": {
+    "fetchedOrigin": true,
+    "fastForwardOnlyPull": true,
+    "pr1": {
+      "number": 1,
+      "title": "Add secure Supabase user persistence",
+      "state": "MERGED",
+      "mergeCommit": "662ccb1d4c376b82a7effd3b339059a4effb99ca",
+      "mergedAt": "2026-08-04T00:56:34Z",
+      "base": "main",
+      "checks": ["Verify student app: SUCCESS", "Vercel: SUCCESS"],
+      "reviewEvidence": "Owner comment on c4ba32267a55679458e3f389faae593c6ad6cf73 states release-gate verification and readiness."
+    },
+    "pr2": {
+      "number": 2,
+      "title": "Install Aionis AI operating system foundation",
+      "state": "MERGED",
+      "mergeCommit": "9041d142f87ab48a8706a333cfebd70d702783fb",
+      "mergedAt": "2026-08-04T01:42:45Z",
+      "base": "main",
+      "checks": ["Verify student app: SUCCESS", "Vercel: SUCCESS"],
+      "reviewEvidence": "Owner comment on ce5b5376d655aa3b15f59f3ca1ae224ef9f73284 states foundation review and readiness."
+    },
+    "openPullRequestsBeforeBranch": 0,
+    "overlappingLocalAuditBranchesBeforeBranch": 0,
+    "overlappingRemoteAuditBranchesBeforeBranch": 0,
+    "foundationPresentOnMain": true
+  },
+  "scope": {
+    "requirementDocuments": [
+      "docs/aionis-operating-system/00-START-HERE.md",
+      "docs/aionis-operating-system/01-governance-and-non-negotiables.md",
+      "docs/aionis-operating-system/02-system-boundaries.md",
+      "docs/aionis-operating-system/03-agent-team-and-orchestration.md",
+      "docs/aionis-operating-system/04-feature-lifecycle.md",
+      "docs/aionis-operating-system/05-human-approval-gates.md",
+      "docs/aionis-operating-system/06-knowledge-and-memory-architecture.md",
+      "docs/aionis-operating-system/07-evidence-lineage-and-versioning.md",
+      "docs/aionis-operating-system/08-development-dreaming.md",
+      "docs/aionis-operating-system/09-human-pattern-dreaming.md",
+      "docs/aionis-operating-system/10-global-intelligence-learning.md",
+      "docs/aionis-operating-system/11-security-and-privacy.md",
+      "docs/aionis-operating-system/12-model-routing-cost-and-capacity.md",
+      "docs/aionis-operating-system/13-analytics-and-observability.md",
+      "docs/aionis-operating-system/14-release-and-environment-strategy.md",
+      "docs/aionis-operating-system/15-quality-gates-and-definition-of-done.md",
+      "docs/aionis-operating-system/16-complete-implementation-roadmap.md"
+    ],
+    "productFilesChanged": false,
+    "formulaFilesChanged": false,
+    "migrationFilesChanged": false,
+    "configurationFilesChanged": false,
+    "deploymentStateChanged": false,
+    "implementedPrompt3OrLater": false
+  },
+  "matrix": {
+    "requirementGroups": 60,
+    "counts": {
+      "IMPLEMENTED": 12,
+      "IMPLEMENTED_UNDOCUMENTED": 1,
+      "PARTIAL": 16,
+      "DOCUMENTED_ONLY": 16,
+      "MISSING": 5,
+      "CONTRADICTORY": 7,
+      "OUTDATED": 2,
+      "BLOCKED": 1
+    }
+  },
+  "implementedHighlights": [
+    "Approved formula engine and four locked fixtures",
+    "Shared Report calculations across screen, comparison, and print",
+    "Supabase authentication and immediate in-memory clearing on sign-out",
+    "Minimal people persistence with application owner filtering and database RLS",
+    "Consent-based nondestructive legacy import",
+    "Current student-app CI for lint, formula/unit/rendered tests, build, PWA, and Vercel structure",
+    "Level 2 token-efficient workflow with bounded context, accepted answers, critical state, profiles, privacy-safe telemetry tests, and scope validation",
+    "Public/private owner-console and build-time/student deployment boundaries"
+  ],
+  "documentedOnlyHighlights": [
+    "Central orchestrator and handoff state",
+    "Evidence lineage and generation-manifest plumbing",
+    "Private personal evidence and memory",
+    "Runtime AI, model routing, queues, capacity, Inquiry, and governed explanation",
+    "Operational and product/intelligence analytics platform",
+    "Development Dream executor",
+    "Human Pattern Dream executor and profile versioning",
+    "Consented de-identified global learning",
+    "Release manifest, staging, rollback rehearsal, observation, and consolidation"
+  ],
+  "highestPriorityFindings": [
+    {
+      "id": "AOS-03-02",
+      "status": "CONTRADICTORY",
+      "summary": "The agent schema cannot represent required assignment and handoff fields."
+    },
+    {
+      "id": "AOS-04-02",
+      "status": "CONTRADICTORY",
+      "summary": "The feature schema cannot represent OBSERVING, ROLLED_BACK, or failed-gate history."
+    },
+    {
+      "id": "AOS-01-06",
+      "status": "MISSING",
+      "summary": "No approval-record contract or gate ledger exists."
+    },
+    {
+      "id": "AOS-15-03",
+      "status": "MISSING",
+      "summary": "Operating-system schemas, skills, links, manifests, and scope are not validated in CI."
+    },
+    {
+      "id": "AOS-GOV-REPO-01",
+      "status": "MISSING",
+      "summary": "Main has no branch protection or rulesets, so required checks/gates are bypassable."
+    },
+    {
+      "id": "AOS-DB-DEFAULTS-01",
+      "status": "BLOCKED",
+      "summary": "Future public-object defaults remain broad for postgres and supabase_admin and require platform-owner authority."
+    },
+    {
+      "id": "AOS-DOC-01",
+      "status": "OUTDATED",
+      "summary": "The current-state checkpoint was not reconciled after PR #1 and #2 merged."
+    },
+    {
+      "id": "AOS-SEC-DEPS-01",
+      "status": "PARTIAL",
+      "summary": "The build graph has one fixable moderate PostCSS advisory; production-only dependencies are clean."
+    }
+  ],
+  "knownBlocker": {
+    "id": "AOS-DB-DEFAULTS-01",
+    "scope": "future public database objects only",
+    "currentPeopleExposure": false,
+    "reason": "The available migration connection cannot change supabase_admin defaults, and built-in PUBLIC EXECUTE needs a global role-level change.",
+    "nextOwnerTarget": "PRIVATE_AIONIS_BACKEND",
+    "futurePr": "FPR-SEC-default-privileges",
+    "stopCondition": "Do not create another public object before resolution or an explicit bounded Security Gate exception."
+  },
+  "reproducedVerification": {
+    "npmCi": {
+      "status": "PASS_WITH_ADVISORY",
+      "detail": "453 packages installed; full audit reports one moderate development vulnerability."
+    },
+    "lint": "PASS",
+    "formulaTests": {"status": "PASS", "count": 4},
+    "unitTests": {"status": "PASS", "count": 21},
+    "productionBuild": "PASS",
+    "renderedArtifactTests": {"status": "PASS", "count": 8},
+    "workflowValidator": "PASS",
+    "workflowTelemetryTests": {"status": "PASS", "count": 4},
+    "osSchemaJsonAndDraft202012MetaValidation": {"status": "PASS", "count": 9},
+    "newOperatingSystemSkillValidation": {"status": "PASS", "count": 8},
+    "npmAuditAll": {
+      "status": "ADVISORY",
+      "moderate": 1,
+      "package": "postcss@8.5.20 via vite@8.1.5",
+      "fixAvailable": true
+    },
+    "npmAuditProductionOnly": {"status": "PASS", "vulnerabilities": 0},
+    "localDatabaseTests": {
+      "status": "NOT_REPRODUCED",
+      "reason": "The isolated Supabase container supabase_db_aionis-chartcreation-for-students was not running. No stack or database state was started or mutated for this documentation-only audit.",
+      "retainedEvidence": "Committed eight-case pgTAP suite plus merged PR #1 local/hosted evidence in docs/CURRENT_STATE.md and Git history."
+    },
+    "realPdfInspection": {
+      "status": "NOT_TRIGGERED",
+      "reason": "No UI, CSS, print, or product file changed. Existing proof is historical and its local path is identified as stale evidence lineage."
+    }
+  },
+  "recommendedNextAuthorizedAction": "Human review of this Prompt 2 audit, followed only by a separately authorized shared-contract and deterministic-validator PR.",
+  "outputs": [
+    "docs/aionis-operating-system/audits/repository-gap-analysis.md",
+    "docs/aionis-operating-system/audits/requirement-matrix.json",
+    "docs/aionis-operating-system/audits/conflict-register.md",
+    "docs/aionis-operating-system/audits/dependency-map.md",
+    "docs/aionis-operating-system/audits/recommended-pr-sequence.md",
+    "docs/aionis-operating-system/audits/audit-summary.json"
+  ]
+}

@@ -1,0 +1,1015 @@
+{
+  "schemaVersion": "1.0.0",
+  "auditId": "AOS-REPOSITORY-GAP-2026-08-03",
+  "auditedRepository": "olsonan24/Chartcreation-for-students",
+  "auditedCommit": "9041d142f87ab48a8706a333cfebd70d702783fb",
+  "auditBranch": "audit/aionis-operating-system-gap-analysis",
+  "requirementSource": "docs/aionis-operating-system/00-START-HERE.md and numbered documents 01 through 16",
+  "statusDefinitions": {
+    "IMPLEMENTED": "Repository implementation and proportional evidence satisfy the requirement for its current scope.",
+    "PARTIAL": "Some required behavior or evidence exists, but material elements are absent.",
+    "MISSING": "An applicable current control or artifact is absent.",
+    "CONTRADICTORY": "Two current contracts or a contract and schema prescribe incompatible behavior.",
+    "OUTDATED": "The artifact described an earlier repository state and is no longer current.",
+    "BLOCKED": "The requirement is known but cannot safely proceed until an external authority or platform constraint is resolved.",
+    "DOCUMENTED_ONLY": "A future capability has a draft contract, schema, template, or review skill but no executing implementation.",
+    "IMPLEMENTED_UNDOCUMENTED": "Behavior exists in code or configuration but is absent from the relevant architecture or operating documentation."
+  },
+  "requirements": [
+    {
+      "id": "AOS-00-01",
+      "source": "00-START-HERE.md#Map",
+      "requirement": "Every capability declares exactly one of the five operating-system targets.",
+      "status": "PARTIAL",
+      "target": "SHARED_CONTRACT",
+      "evidence": [
+        "docs/aionis-operating-system/00-START-HERE.md:35 defines the target rule.",
+        "docs/aionis-operating-system/schemas/operating-system-manifest.schema.json defines target-bearing capability entries.",
+        "No operating-system manifest instance or complete capability inventory exists outside the draft schema."
+      ],
+      "gap": "Targets are described in prose and schema enums, but capability ownership is not instantiated or deterministically validated.",
+      "futurePr": "FPR-03-contracts-validators",
+      "dependencies": ["Approved capability inventory", "Schema reconciliation"],
+      "tests": ["Manifest instance validates", "Every capability has one target and owner"],
+      "humanGates": ["PLAN_GATE", "CODE_GATE"]
+    },
+    {
+      "id": "AOS-01-01",
+      "source": "01-governance-and-non-negotiables.md#Authority order",
+      "requirement": "Approved human and constitutional authority outranks guidance and generated proposals.",
+      "status": "PARTIAL",
+      "target": "DEV_TOOLING",
+      "evidence": [
+        "AGENTS.md:7-18 contains repository non-negotiables.",
+        ".agents/skills/aionis-operating-system/SKILL.md:6-13 blocks integration on missing approval.",
+        "GitHub PR #1 and #2 contain owner review comments bound to commits, but no approval-record contract or gate ledger exists."
+      ],
+      "gap": "Authority is advisory text; there is no versioned approval object, constitutional version instance, or automated enforcement.",
+      "futurePr": "FPR-03-contracts-validators",
+      "dependencies": ["Approval schema", "Operating-system manifest"],
+      "tests": ["Reject missing or stale approval IDs", "Reject generated proposal as approval"],
+      "humanGates": ["PLAN_GATE", "CODE_GATE"]
+    },
+    {
+      "id": "AOS-01-02",
+      "source": "01-governance-and-non-negotiables.md#Protected rules",
+      "requirement": "Formula calculations and values remain protected unless explicitly approved and audited.",
+      "status": "IMPLEMENTED",
+      "target": "PUBLIC_STUDENT_APP",
+      "evidence": [
+        "lib/numerology.ts SHA-256 is F7A0965F01AA4410BB38CEF05FF832F51A5EAFF6CC2E8E10238DB79EF7E5644A.",
+        "tests/numerology.test.mjs:14-21 enforces the byte hash; lines 23-117 cover four approved fixtures.",
+        "git diff 2250222..9041d14 -- lib/numerology.ts is empty."
+      ],
+      "gap": null,
+      "futurePr": null,
+      "dependencies": [],
+      "tests": ["npm test", "Formula SHA guard"],
+      "humanGates": ["Formula approval only if changed", "CODE_GATE"]
+    },
+    {
+      "id": "AOS-01-03",
+      "source": "01-governance-and-non-negotiables.md#Protected rules",
+      "requirement": "Raw student information is excluded from development telemetry and memory.",
+      "status": "PARTIAL",
+      "target": "DEV_TOOLING",
+      "evidence": [
+        ".agents/skills/aionis-ai-workflow/scripts/telemetry.mjs:32-41 allow-lists fields and line 114 rejects unsupported fields.",
+        ".agents/skills/aionis-ai-workflow/scripts/telemetry.test.mjs:59-66 rejects a prompt field and paths outside the repository.",
+        ".agents/skills/aionis-ai-workflow/scripts/telemetry.mjs:135 retains repository-relative file names and ranges without a sensitive-path detector."
+      ],
+      "gap": "Prompt/content fields are blocked, but PII-bearing path names are not detected and retention/deletion/access policy is not enforced by the script.",
+      "futurePr": "FPR-03-contracts-validators",
+      "dependencies": ["Telemetry data-classification policy"],
+      "tests": ["Reject names or DOB patterns in task IDs and opened paths", "Retention and deletion test"],
+      "humanGates": ["SECURITY_REVIEW", "CODE_GATE"]
+    },
+    {
+      "id": "AOS-01-04",
+      "source": "01-governance-and-non-negotiables.md#Protected rules",
+      "requirement": "Private owner systems remain outside the public student application.",
+      "status": "IMPLEMENTED",
+      "target": "PUBLIC_STUDENT_APP",
+      "evidence": [
+        "AGENTS.md:3-6 declares the repository boundary.",
+        "docs/ARCHITECTURE.md:69-72 documents the external loopback-only owner console.",
+        "Tracked production imports contain no owner-console module, owner telemetry, token, or administrative control."
+      ],
+      "gap": null,
+      "futurePr": null,
+      "dependencies": [],
+      "tests": ["Import/bundle boundary scan"],
+      "humanGates": ["CODE_GATE if boundary changes"]
+    },
+    {
+      "id": "AOS-01-05",
+      "source": "01-governance-and-non-negotiables.md#Classification language",
+      "requirement": "Facts, patterns, hypotheses, negative knowledge, confidence, staleness, supersession, and rollback use consistent classifications.",
+      "status": "DOCUMENTED_ONLY",
+      "target": "SHARED_CONTRACT",
+      "evidence": [
+        "docs/aionis-operating-system/01-governance-and-non-negotiables.md defines the vocabulary.",
+        "docs/aionis-operating-system/schemas/pattern-ledger.schema.json encodes five pattern statuses.",
+        "No runtime conclusion, ledger, or classification service exists."
+      ],
+      "gap": "Vocabulary and a draft ledger exist; executing classification, staleness, decay, and rollback behavior do not.",
+      "futurePr": "FPR-06-private-evidence-memory",
+      "dependencies": ["Shared contracts", "Private identity and storage"],
+      "tests": ["Classification transition fixtures", "Confidence-decay fixtures"],
+      "humanGates": ["PLAN_GATE", "INTELLIGENCE_REVIEW", "CODE_GATE"]
+    },
+    {
+      "id": "AOS-01-06",
+      "source": "01-governance-and-non-negotiables.md#Classification language",
+      "requirement": "Human approval identifies artifact, version, scope, gate, approver, timestamp, and decision.",
+      "status": "MISSING",
+      "target": "SHARED_CONTRACT",
+      "evidence": [
+        "No approval schema or approval-record instance is tracked.",
+        "release-manifest.schema.json accepts approvalIds but does not define their record shape.",
+        "PR #1 and #2 reviews supply approver, timestamp, commit, and prose, but use COMMENTED rather than APPROVED review state and are not a complete reusable gate ledger."
+      ],
+      "gap": "There is no authoritative approval contract or validator.",
+      "futurePr": "FPR-03-contracts-validators",
+      "dependencies": ["Approval record design"],
+      "tests": ["Approval field completeness", "Artifact version invalidation"],
+      "humanGates": ["PLAN_GATE", "CODE_GATE"]
+    },
+    {
+      "id": "AOS-02-01",
+      "source": "02-system-boundaries.md#Exclusive targets",
+      "requirement": "Cross-target flows have explicit versioned contracts, minimal data, authn/authz, validation, audit logging, and retention.",
+      "status": "DOCUMENTED_ONLY",
+      "target": "SHARED_CONTRACT",
+      "evidence": [
+        "docs/aionis-operating-system/02-system-boundaries.md states the contract.",
+        "The current app has only a direct PUBLIC_STUDENT_APP to Supabase people boundary documented in docs/ARCHITECTURE.md.",
+        "No general cross-target interface artifact or audit/retention implementation exists."
+      ],
+      "gap": "Current app ownership is secure, but the generalized operating-system cross-target contract is not implemented.",
+      "futurePr": "FPR-03-contracts-validators",
+      "dependencies": ["Capability manifest", "Interface schema package"],
+      "tests": ["Cross-target contract validation", "Minimal-field allow-list"],
+      "humanGates": ["PLAN_GATE", "SECURITY_REVIEW", "CODE_GATE"]
+    },
+    {
+      "id": "AOS-02-02",
+      "source": "02-system-boundaries.md#Required separations",
+      "requirement": "Build-time AI, runtime AI, development memory, personal memory, global learning, analytics, evidence, conclusions, public, and private concerns remain separated.",
+      "status": "PARTIAL",
+      "target": "SHARED_CONTRACT",
+      "evidence": [
+        "Token workflow and AI skills are excluded from Vercel uploads by .vercelignore:1-3.",
+        "docs/ARCHITECTURE.md:69-72 keeps the owner console outside the public app.",
+        "Personal memory, runtime AI, analytics, and global learning do not exist yet, so their executable separations cannot be proven."
+      ],
+      "gap": "Build-time/public/private boundaries are real; future private/runtime/learning planes are contracts only.",
+      "futurePr": "FPR-06-private-evidence-memory",
+      "dependencies": ["Cross-target contracts", "Private backend"],
+      "tests": ["Deployment bundle exclusion", "Cross-plane leakage tests"],
+      "humanGates": ["PLAN_GATE", "SECURITY_REVIEW", "CODE_GATE"]
+    },
+    {
+      "id": "AOS-03-01",
+      "source": "03-agent-team-and-orchestration.md#Central orchestrator",
+      "requirement": "An orchestrator owns shared state, sequencing, ownership, conflicts, handoffs, gates, integration, and release status.",
+      "status": "DOCUMENTED_ONLY",
+      "target": "DEV_TOOLING",
+      "evidence": [
+        ".agents/skills/aionis-operating-system/SKILL.md provides advisory routing steps.",
+        "No orchestrator state store, feature-state machine, handoff registry, or gate engine is tracked."
+      ],
+      "gap": "A review skill is not an executing orchestrator.",
+      "futurePr": "FPR-04-orchestrator-lifecycle",
+      "dependencies": ["FPR-03-contracts-validators"],
+      "tests": ["State transitions", "Ownership collision", "Blocked gate", "Handoff acceptance"],
+      "humanGates": ["PLAN_GATE", "CODE_GATE"]
+    },
+    {
+      "id": "AOS-03-02",
+      "source": "03-agent-team-and-orchestration.md#Central orchestrator",
+      "requirement": "Assignments record feature ID, artifact version, target, owner, paths, inputs, outputs, dependencies, checks, gate, and recipient.",
+      "status": "CONTRADICTORY",
+      "target": "SHARED_CONTRACT",
+      "evidence": [
+        "agent-contract.schema.json requires agent ID, version, purpose, target, paths, tools, checks, gate, and privilege booleans.",
+        "agent-contract.schema.json has no featureId, artifactVersion, owner, dependencies, currentGate, or handoffRecipient fields while additionalProperties is false."
+      ],
+      "gap": "A document-compliant assignment cannot validate against the current closed schema.",
+      "futurePr": "FPR-03-contracts-validators",
+      "dependencies": ["Schema field reconciliation"],
+      "tests": ["Golden valid assignment", "Reject missing orchestration fields"],
+      "humanGates": ["PLAN_GATE", "CODE_GATE"]
+    },
+    {
+      "id": "AOS-03-03",
+      "source": "03-agent-team-and-orchestration.md#Machine-readable contract",
+      "requirement": "Every agent contract explicitly declares privileged booleans, with formula and constitutional changes additionally requiring human authorization.",
+      "status": "PARTIAL",
+      "target": "SHARED_CONTRACT",
+      "evidence": [
+        "agent-contract.schema.json requires all four privileged booleans and disallows omission.",
+        "No agent contract instances or authorization cross-check validator exist."
+      ],
+      "gap": "The draft shape is correct for booleans, but no contract is issued or enforced.",
+      "futurePr": "FPR-04-orchestrator-lifecycle",
+      "dependencies": ["FPR-03-contracts-validators", "Approval records"],
+      "tests": ["False-by-explicit-value fixtures", "Formula authorization cross-check"],
+      "humanGates": ["CODE_GATE"]
+    },
+    {
+      "id": "AOS-03-04",
+      "source": "03-agent-team-and-orchestration.md#Handoff rule",
+      "requirement": "Parallel work has non-overlapping ownership or an integration contract, and handoff completion is accepted with versioned evidence and risks.",
+      "status": "DOCUMENTED_ONLY",
+      "target": "DEV_TOOLING",
+      "evidence": [
+        "templates/file-ownership.md and implementation-plan.md capture proposed ownership and integration fields.",
+        "No machine-readable ownership instance, collision checker, producer-check record, or consumer acceptance state exists."
+      ],
+      "gap": "Templates and skill guidance are not enforced workflow state.",
+      "futurePr": "FPR-04-orchestrator-lifecycle",
+      "dependencies": ["Agent contract", "Orchestrator state"],
+      "tests": ["Overlapping path block", "Ordered merge", "Consumer acceptance"],
+      "humanGates": ["CODE_GATE"]
+    },
+    {
+      "id": "AOS-04-01",
+      "source": "04-feature-lifecycle.md#Required artifacts",
+      "requirement": "Meaningful features use a specification, approved plan, focused branch, ownership, proportional evidence, preview/staging, observation, and sanitized lessons.",
+      "status": "PARTIAL",
+      "target": "DEV_TOOLING",
+      "evidence": [
+        "Feature and implementation-plan templates and a feature-specification schema are tracked.",
+        "PR #1 used a focused branch, CI, Vercel Preview, hosted security evidence, and human review.",
+        "No feature-spec instance, file-ownership instance, staging environment, observation record, or sanitized consolidation artifact is tracked."
+      ],
+      "gap": "The existing release demonstrated parts of the lifecycle informally; the governed lifecycle is not instantiated.",
+      "futurePr": "FPR-04-orchestrator-lifecycle",
+      "dependencies": ["FPR-03-contracts-validators"],
+      "tests": ["Required artifact chain", "Gate state transition", "Failed-gate return"],
+      "humanGates": ["PLAN_GATE", "CODE_GATE", "RELEASE_GATE"]
+    },
+    {
+      "id": "AOS-04-02",
+      "source": "04-feature-lifecycle.md#State model",
+      "requirement": "Feature state supports DRAFT through CLOSED, OBSERVING, and emergency ROLLED_BACK while preserving failure reasons.",
+      "status": "CONTRADICTORY",
+      "target": "SHARED_CONTRACT",
+      "evidence": [
+        "04-feature-lifecycle.md defines OBSERVING and ROLLED_BACK states.",
+        "feature-specification.schema.json status enum omits observing and rolled-back, while adding rejected.",
+        "No negative-knowledge reason or prior-state field exists in the feature schema."
+      ],
+      "gap": "The documented state machine cannot be represented by its schema.",
+      "futurePr": "FPR-03-contracts-validators",
+      "dependencies": ["State-machine decision"],
+      "tests": ["All legal transitions", "Illegal transition rejection", "Rollback history"],
+      "humanGates": ["PLAN_GATE", "CODE_GATE"]
+    },
+    {
+      "id": "AOS-04-03",
+      "source": "04-feature-lifecycle.md#Required artifacts; 05-human-approval-gates.md#Plan Gate",
+      "requirement": "Feature specifications include analytics and proposed analytics at Plan Gate.",
+      "status": "CONTRADICTORY",
+      "target": "SHARED_CONTRACT",
+      "evidence": [
+        "04-feature-lifecycle.md and 05-human-approval-gates.md require analytics in the feature/Plan artifacts.",
+        "feature-specification.schema.json has no analytics or analyticsContractIds property and disallows additional properties.",
+        "templates/feature-specification.md mentions analytics requirements but cannot map them to the schema."
+      ],
+      "gap": "The Markdown plan can record analytics, but the machine contract cannot.",
+      "futurePr": "FPR-03-contracts-validators",
+      "dependencies": ["Analytics reference design"],
+      "tests": ["Feature spec analytics reference required or explicitly none"],
+      "humanGates": ["PLAN_GATE", "CODE_GATE"]
+    },
+    {
+      "id": "AOS-05-01",
+      "source": "05-human-approval-gates.md#Human Approval Gates",
+      "requirement": "Plan, Code, Release, and Dream Gates require exact evidence and explicit scoped approval.",
+      "status": "PARTIAL",
+      "target": "DEV_TOOLING",
+      "evidence": [
+        "Gate definitions, review templates, and specialized review skills are tracked.",
+        "PR #1 review comment states release-gate verification for c4ba322 and PR #2 review comment states foundation review for ce5b537.",
+        "No gate ledger or validator binds all minimum evidence to current artifact versions."
+      ],
+      "gap": "Manual evidence exists, but approval completeness and invalidation are not enforceable or queryable.",
+      "futurePr": "FPR-04-orchestrator-lifecycle",
+      "dependencies": ["Approval schema", "Artifact registry"],
+      "tests": ["Silence is not approval", "Changed artifact reopens gate", "Evidence completeness"],
+      "humanGates": ["PLAN_GATE", "CODE_GATE"]
+    },
+    {
+      "id": "AOS-05-02",
+      "source": "05-human-approval-gates.md#Human Approval Gates",
+      "requirement": "Automatic maintenance is limited to pre-approved mechanically safe reversible operations, and rejections are retained as negative knowledge.",
+      "status": "DOCUMENTED_ONLY",
+      "target": "DEV_TOOLING",
+      "evidence": [
+        "05-human-approval-gates.md and aionis-development-dream-review/SKILL.md define the exception and exclusions.",
+        "No maintenance policy registry, automatic applier, rejection store, or reconsideration-condition record exists."
+      ],
+      "gap": "There is no executing policy or negative-knowledge store.",
+      "futurePr": "FPR-09-development-dreaming",
+      "dependencies": ["Orchestrator gates", "Evidence store"],
+      "tests": ["Allow-listed reversible operation", "Forbidden formula/security/production operation", "Rejected proposal retention"],
+      "humanGates": ["DREAM_GATE", "CODE_GATE"]
+    },
+    {
+      "id": "AOS-06-01",
+      "source": "06-knowledge-and-memory-architecture.md#Three knowledge planes",
+      "requirement": "Constitutional, operational, and personal knowledge are separately governed and routed.",
+      "status": "PARTIAL",
+      "target": "SHARED_CONTRACT",
+      "evidence": [
+        "Constitutional repository contracts and operational docs/accepted answers exist.",
+        "Personal evidence/memory has no private backend or persistence implementation.",
+        "evidence-record.schema.json can label a knowledgePlane but is draft only."
+      ],
+      "gap": "Two repository planes have artifacts; the private personal plane and enforced routing do not exist.",
+      "futurePr": "FPR-06-private-evidence-memory",
+      "dependencies": ["Evidence contracts", "Private backend identity"],
+      "tests": ["Plane routing", "Personal data rejection from DEV_TOOLING"],
+      "humanGates": ["PLAN_GATE", "SECURITY_REVIEW", "CODE_GATE"]
+    },
+    {
+      "id": "AOS-06-02",
+      "source": "06-knowledge-and-memory-architecture.md#Memory forms",
+      "requirement": "Every memory record declares plane, form, target, owner/tenant, provenance, status, confidence where applicable, time, version, retention, and supersession.",
+      "status": "MISSING",
+      "target": "SHARED_CONTRACT",
+      "evidence": [
+        "evidence-record.schema.json covers plane, form, target, tenant, provenance, time, version, retention, and supersededBy.",
+        "It lacks owner and status and has no confidence field; no general memory-record schema exists."
+      ],
+      "gap": "The only related schema cannot represent the complete required memory record.",
+      "futurePr": "FPR-03-contracts-validators",
+      "dependencies": ["Memory/evidence relationship decision"],
+      "tests": ["Record-field completeness", "Confidence required by record type"],
+      "humanGates": ["PLAN_GATE", "CODE_GATE"]
+    },
+    {
+      "id": "AOS-06-03",
+      "source": "06-knowledge-and-memory-architecture.md#Memory forms",
+      "requirement": "Staleness, dependency drift, contradictions, confidence decay, append-only evidence, supersession, and consented routing are explicit.",
+      "status": "DOCUMENTED_ONLY",
+      "target": "PRIVATE_AIONIS_BACKEND",
+      "evidence": [
+        "06-knowledge-and-memory-architecture.md defines the rules.",
+        "No staleness evaluator, dependency snapshot, contradiction service, consent router, or supersession transaction exists."
+      ],
+      "gap": "This is a private-backend capability, not implemented repository behavior.",
+      "futurePr": "FPR-06-private-evidence-memory",
+      "dependencies": ["Evidence store", "Consent model", "Constitution version"],
+      "tests": ["Staleness fixtures", "Append-only enforcement", "Supersession chain"],
+      "humanGates": ["PLAN_GATE", "SECURITY_REVIEW", "CODE_GATE"]
+    },
+    {
+      "id": "AOS-WF-01",
+      "source": "AGENTS.md#AI development workflow; docs/ai-context/WORKFLOW.md",
+      "requirement": "Repository work uses bounded context, task profiles, accepted-answer validation, conditional thread continuation, and loss-aware compaction.",
+      "status": "IMPLEMENTED",
+      "target": "DEV_TOOLING",
+      "evidence": [
+        ".agents/skills/aionis-ai-workflow/SKILL.md implements the Level 2 procedure.",
+        "docs/ai-context/TOOL_PROFILES.md, ACCEPTED_ANSWERS.json, CRITICAL_STATE.md, WORKFLOW.md, and LEVEL3_GATEWAY_SPEC.md exist.",
+        "verify-workflow.mjs and telemetry.test.mjs provide deterministic Level 2 checks."
+      ],
+      "gap": "The Level 3 pre-model gateway remains intentionally unimplemented; that does not invalidate Level 2.",
+      "futurePr": "FPR-03-contracts-validators",
+      "dependencies": [],
+      "tests": ["node .agents/skills/aionis-ai-workflow/scripts/verify-workflow.mjs", "node --test .agents/skills/aionis-ai-workflow/scripts/telemetry.test.mjs"],
+      "humanGates": ["CODE_GATE for workflow changes"]
+    },
+    {
+      "id": "AOS-WF-02",
+      "source": "docs/ai-context/LEVEL3_GATEWAY_SPEC.md",
+      "requirement": "History/tool reduction, budget enforcement, deterministic routing, and pre-model controls require a Level 3 gateway.",
+      "status": "DOCUMENTED_ONLY",
+      "target": "DEV_TOOLING",
+      "evidence": [
+        "LEVEL3_GATEWAY_SPEC.md:3 explicitly says design specification only and not implemented or deployed.",
+        "No gateway service, classifier, profile enforcement, or model router exists."
+      ],
+      "gap": "Current controls are advisory after invocation.",
+      "futurePr": "FPR-04-orchestrator-lifecycle",
+      "dependencies": ["Explicit product decision", "Provider/client integration"],
+      "tests": ["Pre-call tool filtering", "Budget rejection", "User bypass telemetry"],
+      "humanGates": ["PLAN_GATE", "SECURITY_REVIEW", "CODE_GATE"]
+    },
+    {
+      "id": "AOS-07-01",
+      "source": "07-evidence-lineage-and-versioning.md#Core rules",
+      "requirement": "Evidence is immutable, attributable, timestamped, access-scoped, and versioned with supersession.",
+      "status": "DOCUMENTED_ONLY",
+      "target": "PRIVATE_AIONIS_BACKEND",
+      "evidence": [
+        "evidence-record.schema.json is a valid draft JSON Schema and requires immutable=true.",
+        "No evidence record instance, append-only store, access policy implementation, or supersession service exists."
+      ],
+      "gap": "The schema is a contract, not lineage plumbing.",
+      "futurePr": "FPR-05-evidence-lineage",
+      "dependencies": ["FPR-03-contracts-validators", "Private storage decision"],
+      "tests": ["Digest verification", "Append-only update rejection", "Access scope"],
+      "humanGates": ["PLAN_GATE", "SECURITY_REVIEW", "CODE_GATE"]
+    },
+    {
+      "id": "AOS-07-02",
+      "source": "07-evidence-lineage-and-versioning.md#Core rules",
+      "requirement": "Significant generated conclusions record exact provider/model/configuration, prompt/constitution/engine versions, evidence, confidence, fallback, environment, and release.",
+      "status": "DOCUMENTED_ONLY",
+      "target": "SHARED_CONTRACT",
+      "evidence": [
+        "generation-manifest.schema.json covers the enumerated fields and conditionally requires fallbackModelId.",
+        "No generation manifest instance, runtime generator, or validator integrated into CI exists."
+      ],
+      "gap": "The draft shape exists without generation or persistence plumbing.",
+      "futurePr": "FPR-05-evidence-lineage",
+      "dependencies": ["Contract validator", "Version registries"],
+      "tests": ["Manifest completeness", "Fallback conditional", "Evidence IDs resolve"],
+      "humanGates": ["CODE_GATE", "INTELLIGENCE_REVIEW"]
+    },
+    {
+      "id": "AOS-07-03",
+      "source": "07-evidence-lineage-and-versioning.md#Reproducibility target",
+      "requirement": "Generated conclusions are reproducible, auditable, reversible, and rollback preserves failed and restored histories.",
+      "status": "DOCUMENTED_ONLY",
+      "target": "PRIVATE_AIONIS_BACKEND",
+      "evidence": [
+        "07-evidence-lineage-and-versioning.md defines the reproducibility and rollback semantics.",
+        "No governed generation runner, acceptance comparator, rollback execution, or history store exists."
+      ],
+      "gap": "No executable lineage or reproduction path exists yet.",
+      "futurePr": "FPR-05-evidence-lineage",
+      "dependencies": ["Evidence records", "Generation manifests", "Artifact/version registry"],
+      "tests": ["Deterministic rerun metadata", "Stochastic acceptance comparator", "Rollback history"],
+      "humanGates": ["PLAN_GATE", "CODE_GATE"]
+    },
+    {
+      "id": "AOS-08-01",
+      "source": "08-development-dreaming.md",
+      "requirement": "Development Dreaming processes only sanitized approved events with cursor, snapshot, empty-run skip, idempotency, detections, exact proposals, cost, negative knowledge, and gates.",
+      "status": "DOCUMENTED_ONLY",
+      "target": "DEV_TOOLING",
+      "evidence": [
+        "08-development-dreaming.md, dream-proposal.schema.json, dream-review.md, and aionis-development-dream-review/SKILL.md define the review surface.",
+        "No event source, cursor store, scheduler, detector, proposal producer, auto-maintenance policy, or applied-version record exists."
+      ],
+      "gap": "Review contracts exist; the Development Dream loop does not.",
+      "futurePr": "FPR-09-development-dreaming",
+      "dependencies": ["Orchestrator", "Evidence lineage", "Development-event contract"],
+      "tests": ["Empty run", "Same-range idempotency", "PII rejection", "Duplicate/contradiction/stale/TODO detection", "Cost record"],
+      "humanGates": ["DREAM_GATE", "CODE_GATE"]
+    },
+    {
+      "id": "AOS-09-01",
+      "source": "09-human-pattern-dreaming.md#Personal-understanding loop",
+      "requirement": "Human Pattern Dreaming creates versioned profile proposals from isolated evidence, calculations, synthesis, explanation, feedback, contradictions, approval, and supersession.",
+      "status": "DOCUMENTED_ONLY",
+      "target": "PRIVATE_AIONIS_BACKEND",
+      "evidence": [
+        "09-human-pattern-dreaming.md and aionis-human-pattern-dream-review/SKILL.md define the loop and review.",
+        "No personal evidence store, synthesis service, profile store, feedback evidence API, Dream executor, or approval workflow exists."
+      ],
+      "gap": "The complete personal-understanding loop is future work.",
+      "futurePr": "FPR-10-human-pattern-dreaming",
+      "dependencies": ["Private backend", "Evidence lineage", "Runtime synthesis", "Feedback contract"],
+      "tests": ["User/org isolation", "Contradictory evidence", "Inquiry state", "Sensitive approval", "Supersession"],
+      "humanGates": ["DREAM_GATE", "INTELLIGENCE_REVIEW", "SECURITY_REVIEW", "CODE_GATE"]
+    },
+    {
+      "id": "AOS-09-02",
+      "source": "09-human-pattern-dreaming.md#Required protections",
+      "requirement": "Pattern Ledger records evidence, contradictions, status, confidence/decay, sensitivity, confirmation, versions, and history.",
+      "status": "PARTIAL",
+      "target": "SHARED_CONTRACT",
+      "evidence": [
+        "pattern-ledger.schema.json contains the core pattern fields and supersession links.",
+        "No ledger instance or service exists.",
+        "The schema requires organizationScopeId as a nonempty string for every ledger and has no explicit rollback target or explanation text."
+      ],
+      "gap": "The draft captures core rows but needs applicability and contract reconciliation before implementation.",
+      "futurePr": "FPR-03-contracts-validators",
+      "dependencies": ["Identity scope design", "Explanation contract"],
+      "tests": ["Individual and organization scopes", "Supersession chain", "Contradiction IDs resolve"],
+      "humanGates": ["PLAN_GATE", "INTELLIGENCE_REVIEW", "CODE_GATE"]
+    },
+    {
+      "id": "AOS-09-03",
+      "source": "09-human-pattern-dreaming.md#Required protections",
+      "requirement": "A Human Pattern proposal states requested approval and rollback target in addition to evidence, confidence, contradictions, sensitivity, and explanation.",
+      "status": "CONTRADICTORY",
+      "target": "SHARED_CONTRACT",
+      "evidence": [
+        "09-human-pattern-dreaming.md explicitly requires requested approval and rollback target.",
+        "dream-proposal.schema.json has approvalId after a decision but no requestedApproval or rollbackTarget field and disallows additional properties."
+      ],
+      "gap": "The required proposal cannot be represented exactly by the draft schema.",
+      "futurePr": "FPR-03-contracts-validators",
+      "dependencies": ["Dream proposal lifecycle decision"],
+      "tests": ["Requested gate representation", "Rollback target required for human-pattern proposal"],
+      "humanGates": ["PLAN_GATE", "CODE_GATE"]
+    },
+    {
+      "id": "AOS-FEEDBACK-01",
+      "source": "09-human-pattern-dreaming.md; 13-analytics-and-observability.md",
+      "requirement": "Feedback is new evidence, explanations show support and contradiction, and unresolved conclusions use Inquiry instead of forced certainty.",
+      "status": "PARTIAL",
+      "target": "PRIVATE_AIONIS_BACKEND",
+      "evidence": [
+        "Human Pattern and intelligence-review documents describe feedback, explanation, contradiction, conditional synthesis, and Inquiry.",
+        "The student app implements operational notices, errors, and Retry UI in AuthProvider.tsx, usePeople.ts, and app/page.tsx:693, but no intelligence feedback/explanation capability.",
+        "No feedback-event/evidence contract, explanation schema, or Inquiry runtime exists."
+      ],
+      "gap": "Operational UX feedback exists; governed intelligence feedback and explanation do not.",
+      "futurePr": "FPR-07-runtime-intelligence-feedback",
+      "dependencies": ["Evidence lineage", "Private backend", "Runtime synthesis"],
+      "tests": ["Feedback becomes immutable evidence", "Supporting/contradictory citations", "Inquiry fallback"],
+      "humanGates": ["INTELLIGENCE_REVIEW", "SECURITY_REVIEW", "CODE_GATE"]
+    },
+    {
+      "id": "AOS-10-01",
+      "source": "10-global-intelligence-learning.md",
+      "requirement": "Global learning uses consented de-identified eligible aggregates, thresholds and suppression, leakage/bias/calibration/subgroup tests, formal review, versioned release, and rollback.",
+      "status": "DOCUMENTED_ONLY",
+      "target": "PRIVATE_AIONIS_BACKEND",
+      "evidence": [
+        "10-global-intelligence-learning.md defines the complete contract.",
+        "No aggregation eligibility contract, consent store, de-identification pipeline, evaluation set, methodology proposal, governed intelligence version, or global-learning job exists."
+      ],
+      "gap": "Global intelligence learning is intentionally future work.",
+      "futurePr": "FPR-11-global-learning",
+      "dependencies": ["Personal evidence isolation", "Analytics contracts", "Human Pattern system", "Methodology versioning"],
+      "tests": ["Consent eligibility", "Small-cohort suppression", "Linkability rejection", "Leakage/bias/calibration/subgroup evaluation", "Rollback"],
+      "humanGates": ["DREAM_GATE", "INTELLIGENCE_REVIEW", "SECURITY_REVIEW", "RELEASE_GATE"]
+    },
+    {
+      "id": "AOS-11-01",
+      "source": "11-security-and-privacy.md#Baseline controls",
+      "requirement": "The public student app uses least privilege, browser-safe keys, authentication, per-user RLS, validation, and deny-by-default ownership.",
+      "status": "IMPLEMENTED",
+      "target": "PUBLIC_STUDENT_APP",
+      "evidence": [
+        "lib/supabase/client.ts:5-16 uses only URL and publishable key.",
+        "people.repository.ts:34-40 verifies the authenticated user and lines 60-120 applies user filters and server-derived ownership.",
+        "20260731204509_create_people.sql:41-69 enables RLS and four auth.uid owner policies; 20260801000026_tighten_people_grants.sql:5-9 narrows grants and function execution.",
+        "people_rls.test.sql plans eight own/cross-user/anonymous cases."
+      ],
+      "gap": null,
+      "futurePr": null,
+      "dependencies": [],
+      "tests": ["npm run test:db", "Repository/auth/unit tests"],
+      "humanGates": ["SECURITY_REVIEW and CODE_GATE for changes"]
+    },
+    {
+      "id": "AOS-11-02",
+      "source": "11-security-and-privacy.md#Baseline controls",
+      "requirement": "Sensitive logging, retention/deletion, audit logging, privileged-action audit, incident ownership, model/provider flow, abuse, and rollback are defined and enforced.",
+      "status": "PARTIAL",
+      "target": "SHARED_CONTRACT",
+      "evidence": [
+        "security-review.md and aionis-security-review/SKILL.md prompt reviewers to examine these areas.",
+        "Current people rows cascade on account deletion and local telemetry is ignored, but no retention policy ID, audit log, privileged action ledger, incident owner, or model/provider implementation exists."
+      ],
+      "gap": "Review prompts exist without platform controls or evidence artifacts.",
+      "futurePr": "FPR-06-private-evidence-memory",
+      "dependencies": ["Private backend", "Audit event contract", "Retention policy"],
+      "tests": ["Retention/deletion", "Sensitive log scan", "Privileged audit", "Incident ownership", "Rollback"],
+      "humanGates": ["PLAN_GATE", "SECURITY_REVIEW", "CODE_GATE"]
+    },
+    {
+      "id": "AOS-DB-DEFAULTS-01",
+      "source": "11-security-and-privacy.md#Baseline controls; docs/CURRENT_STATE.md#Known Risks and Follow-up",
+      "requirement": "Future public database objects default to least privilege instead of inheriting broad API-role grants or PUBLIC function execution.",
+      "status": "BLOCKED",
+      "target": "PRIVATE_AIONIS_BACKEND",
+      "evidence": [
+        "docs/CURRENT_STATE.md:103 records broad future defaults for postgres and supabase_admin.",
+        "docs/CURRENT_STATE.md:104 records that the available migration connection cannot change supabase_admin defaults and that built-in PUBLIC EXECUTE needs a global role-level change.",
+        "No default-privilege migration exists; current people table/function are explicitly hardened."
+      ],
+      "gap": "Platform-owner authority and a safe global/default-privilege design are required before implementation.",
+      "futurePr": "FPR-SEC-default-privileges",
+      "dependencies": ["Supabase platform-owner authority", "Dry-runable role-level plan", "No new public object before resolution"],
+      "tests": ["Future table has no anon and only approved authenticated privileges", "Future sequence has no unneeded API grants", "Future function has no PUBLIC/anon/authenticated execute", "Advisors and regression pgTAP"],
+      "humanGates": ["PLAN_GATE", "SECURITY_REVIEW", "CODE_GATE", "RELEASE_GATE"]
+    },
+    {
+      "id": "AOS-12-01",
+      "source": "12-model-routing-cost-and-capacity.md#Routing policy",
+      "requirement": "Development routing recommends the least expensive sufficient deterministic tool or model without silently changing a selected model.",
+      "status": "IMPLEMENTED",
+      "target": "DEV_TOOLING",
+      "evidence": [
+        "AGENTS.md:69-74, docs/ai-context/WORKFLOW.md#Model routing, and TOOL_PROFILES.md implement advisory Level 2 routing.",
+        "LEVEL3_GATEWAY_SPEC.md correctly disclaims enforcement."
+      ],
+      "gap": "Enforcement is intentionally deferred to Level 3.",
+      "futurePr": null,
+      "dependencies": [],
+      "tests": ["Workflow validator textual invariants"],
+      "humanGates": ["CODE_GATE for routing-policy changes"]
+    },
+    {
+      "id": "AOS-12-02",
+      "source": "12-model-routing-cost-and-capacity.md#Routing policy",
+      "requirement": "Runtime generation records provider/model/config/prompt/fallback/timeout/retries/budget/environment/evidence and fallback cannot bypass gates.",
+      "status": "CONTRADICTORY",
+      "target": "PRIVATE_AIONIS_BACKEND",
+      "evidence": [
+        "generation-manifest.schema.json covers identity and fallback fields but not timeout, retry ceiling, or token/cost budget.",
+        "No runtime AI client, routing policy, model call, or generation manifest exists."
+      ],
+      "gap": "The closed draft schema cannot represent the required timeout, retry ceiling, or token/cost budget; runtime generation is also absent.",
+      "futurePr": "FPR-03-contracts-validators",
+      "dependencies": ["Generation schema reconciliation", "Runtime intelligence design"],
+      "tests": ["Timeout/retry/budget fields", "Fallback gate enforcement", "Exact model identity"],
+      "humanGates": ["PLAN_GATE", "INTELLIGENCE_REVIEW", "SECURITY_REVIEW", "CODE_GATE"]
+    },
+    {
+      "id": "AOS-12-03",
+      "source": "12-model-routing-cost-and-capacity.md#Capacity controls",
+      "requirement": "Runtime capacity has budgets, tenant/workload concurrency, backpressure, idempotency, dead letters, cancellation, versioned caching, and safe unavailable/Inquiry degradation.",
+      "status": "DOCUMENTED_ONLY",
+      "target": "PRIVATE_AIONIS_BACKEND",
+      "evidence": [
+        "12-model-routing-cost-and-capacity.md defines the controls.",
+        "No queue, worker, budget service, cache contract, dead-letter path, cancellation, or runtime Inquiry state exists."
+      ],
+      "gap": "All runtime capacity controls are future backend work.",
+      "futurePr": "FPR-07-runtime-intelligence-feedback",
+      "dependencies": ["Private backend", "Runtime generation contract"],
+      "tests": ["Budget ceiling", "Tenant concurrency", "Idempotency", "Dead letter", "Cancellation", "Safe degradation"],
+      "humanGates": ["PLAN_GATE", "SECURITY_REVIEW", "CODE_GATE"]
+    },
+    {
+      "id": "AOS-12-04",
+      "source": "12-model-routing-cost-and-capacity.md#Capacity controls",
+      "requirement": "Prompt caching is distinct from development memory and the named PWA cache.",
+      "status": "CONTRADICTORY",
+      "target": "DEV_TOOLING",
+      "evidence": [
+        "12-model-routing-cost-and-capacity.md names the PWA cache aionis-timeline-v3.",
+        "vite.config.ts contains no cacheId or cache name and repository search finds no implementation of aionis-timeline-v3."
+      ],
+      "gap": "The conceptual distinction is valid, but the named cache is not the current repository cache identity.",
+      "futurePr": "FPR-03-contracts-validators",
+      "dependencies": ["Confirm actual Workbox cache naming intent"],
+      "tests": ["Generated service-worker cache identity assertion"],
+      "humanGates": ["CODE_GATE"]
+    },
+    {
+      "id": "AOS-13-01",
+      "source": "13-analytics-and-observability.md#Separate contracts",
+      "requirement": "Operational and product/intelligence analytics are separate purpose-bound contracts with consent, tenant, retention, access, deletion, aggregation, alerts, and versioning.",
+      "status": "DOCUMENTED_ONLY",
+      "target": "SHARED_CONTRACT",
+      "evidence": [
+        "13-analytics-and-observability.md, analytics-contract.md, analytics-event.schema.json, and aionis-analytics-review/SKILL.md define the review surface.",
+        "No product/runtime analytics SDK, event producer, collector, store, contract instance, alert, or dashboard exists."
+      ],
+      "gap": "The analytics system is intentionally not implemented.",
+      "futurePr": "FPR-08-analytics-observability",
+      "dependencies": ["Private backend", "Consent model", "Runtime/feature event decisions"],
+      "tests": ["Class separation", "Consent/tenant enforcement", "Retention/deletion", "Missingness/version comparison"],
+      "humanGates": ["ANALYTICS_REVIEW", "SECURITY_REVIEW", "CODE_GATE"]
+    },
+    {
+      "id": "AOS-13-02",
+      "source": "13-analytics-and-observability.md#Separate contracts",
+      "requirement": "Analytics events and collection contracts represent owner, lawful/consent basis, prohibited fields, tenant handling, sampling, retention, access, deletion, aggregation, alerts, and version.",
+      "status": "CONTRADICTORY",
+      "target": "SHARED_CONTRACT",
+      "evidence": [
+        "analytics-event.schema.json requires purpose, tenant, retention, and prohibitedSensitiveFieldsPresent=false.",
+        "The schema has no owner, sampling, access, deletion, aggregation, alerts, or contract version fields; contractId is optional while additionalProperties is false."
+      ],
+      "gap": "The event schema cannot represent all document-required contract linkage and governance fields.",
+      "futurePr": "FPR-03-contracts-validators",
+      "dependencies": ["Event vs collection-contract responsibility decision"],
+      "tests": ["Contract ID/version resolution", "Governance field completeness", "Prohibited-field fixtures"],
+      "humanGates": ["PLAN_GATE", "ANALYTICS_REVIEW", "CODE_GATE"]
+    },
+    {
+      "id": "AOS-13-03",
+      "source": "13-analytics-and-observability.md#Separate contracts",
+      "requirement": "Privacy-safe development efficiency telemetry records summaries without prompts, contents, credentials, names, DOBs, or private evidence.",
+      "status": "PARTIAL",
+      "target": "DEV_TOOLING",
+      "evidence": [
+        "telemetry.mjs stores allow-listed identifiers, counters, tool names, and opened file paths under ignored .ai-context/telemetry/.",
+        "telemetry.test.mjs contains four passing privacy/measurement tests.",
+        "There is no sensitive path-name detector, schema file, explicit retention/deletion mechanism, or OS analytics-event conformance."
+      ],
+      "gap": "The narrow local tool is implemented but not a complete governed analytics contract.",
+      "futurePr": "FPR-03-contracts-validators",
+      "dependencies": ["Development telemetry contract"],
+      "tests": ["Sensitive identifier/path rejection", "Retention/deletion", "Analytics schema conformance"],
+      "humanGates": ["SECURITY_REVIEW", "CODE_GATE"]
+    },
+    {
+      "id": "AOS-14-01",
+      "source": "14-release-and-environment-strategy.md#Lifecycle",
+      "requirement": "Development, preview, staging, and production use distinct credentials, data policies, access, and audit trails; production data is not copied to development.",
+      "status": "PARTIAL",
+      "target": "DEV_TOOLING",
+      "evidence": [
+        "Vercel Production/Preview/Development variables and a local Supabase stack are documented in CURRENT_STATE.md and README.md.",
+        "Vercel Preview deployments and production origin exist.",
+        "No distinct staging environment, environment policy artifact, or per-environment audit trail is tracked."
+      ],
+      "gap": "Development/preview/production exist operationally; governed staging and auditable policy separation do not.",
+      "futurePr": "FPR-12-release-pipeline",
+      "dependencies": ["Release manifest", "Environment policy", "Staging resource"],
+      "tests": ["Credential separation", "Synthetic fixture enforcement", "Staging smoke"],
+      "humanGates": ["PLAN_GATE", "SECURITY_REVIEW", "RELEASE_GATE"]
+    },
+    {
+      "id": "AOS-14-02",
+      "source": "14-release-and-environment-strategy.md#Release identity",
+      "requirement": "Releases bind immutable commit, digest, contracts, intelligence, environment, evidence, reviews, approvals, migrations, rollout, analytics, and rollback in a release manifest.",
+      "status": "DOCUMENTED_ONLY",
+      "target": "SHARED_CONTRACT",
+      "evidence": [
+        "release-manifest.schema.json and release/rollback templates exist.",
+        "PR #1 and CURRENT_STATE.md retain commit, deployment ID, migrations, and test evidence, but no release-manifest instance, artifact digest, rollback-plan instance, or analytics contract exists."
+      ],
+      "gap": "Existing release evidence is prose and provider metadata, not a governed manifest.",
+      "futurePr": "FPR-12-release-pipeline",
+      "dependencies": ["Artifact registry", "Approval schema", "Evidence IDs", "Analytics contracts"],
+      "tests": ["Manifest validation", "Artifact digest matches deployment", "Approval/current-version binding", "Rollback rehearsal"],
+      "humanGates": ["RELEASE_GATE"]
+    },
+    {
+      "id": "AOS-14-03",
+      "source": "14-release-and-environment-strategy.md#Lifecycle",
+      "requirement": "Pull requests receive automated verification, preview, staging, security/intelligence review, human approval, production release, observation, and consolidation.",
+      "status": "PARTIAL",
+      "target": "DEV_TOOLING",
+      "evidence": [
+        "PR #1 and #2 have successful Verify student app and Vercel checks plus explicit owner review comments.",
+        "The public GitHub repository has no main branch protection or rulesets.",
+        "No staging, required security/intelligence check, observation record, or consolidation job exists."
+      ],
+      "gap": "CI and Preview are real, but gates are manually bypassable and later release stages are absent.",
+      "futurePr": "FPR-12-release-pipeline",
+      "dependencies": ["Orchestrator gates", "Branch protection", "Staging", "Review automation"],
+      "tests": ["Required checks enforced", "Staging smoke", "Post-release observation", "Consolidation sanitization"],
+      "humanGates": ["PLAN_GATE", "SECURITY_REVIEW", "INTELLIGENCE_REVIEW", "RELEASE_GATE"]
+    },
+    {
+      "id": "AOS-15-01",
+      "source": "15-quality-gates-and-definition-of-done.md#Universal checks",
+      "requirement": "CI validates the current student app with clean install, lint, formula/unit/rendered tests, and production build.",
+      "status": "IMPLEMENTED",
+      "target": "DEV_TOOLING",
+      "evidence": [
+        ".github/workflows/verify.yml:16-23 checks out, sets Node 22, runs npm ci, lint, and npm test.",
+        "package.json:13 makes npm test run formula fixtures, unit tests, build, and rendered-HTML checks.",
+        "GitHub run 30869586156 passed on main commit 9041d142."
+      ],
+      "gap": null,
+      "futurePr": null,
+      "dependencies": [],
+      "tests": ["GitHub Verify student app"],
+      "humanGates": ["CODE_GATE"]
+    },
+    {
+      "id": "AOS-15-02",
+      "source": "15-quality-gates-and-definition-of-done.md#Universal checks",
+      "requirement": "Database lint, RLS tests, and generated-type drift are automated for database-relevant changes.",
+      "status": "MISSING",
+      "target": "DEV_TOOLING",
+      "evidence": [
+        "package.json:15-19 defines local database/type commands.",
+        ".github/workflows/verify.yml does not start Supabase, run db lint, run test:db, or compare generated types."
+      ],
+      "gap": "Critical ownership tests are manual and can regress without failing a pull request.",
+      "futurePr": "FPR-03-contracts-validators",
+      "dependencies": ["CI Supabase service strategy"],
+      "tests": ["Local migration apply", "DB lint", "pgTAP", "Generated type diff"],
+      "humanGates": ["SECURITY_REVIEW", "CODE_GATE"]
+    },
+    {
+      "id": "AOS-15-03",
+      "source": "15-quality-gates-and-definition-of-done.md#Universal checks",
+      "requirement": "Operating-system schemas, links, skills, references, manifests, and product-scope boundaries are deterministically validated in CI.",
+      "status": "MISSING",
+      "target": "DEV_TOOLING",
+      "evidence": [
+        "CURRENT_STATE.md:99 records one-time Prompt 1 schema/skill/path validation.",
+        "verify-workflow.mjs validates workflow text/registry/scope but does not parse or meta-validate OS schemas, validate OS skill packages, check Markdown links, or require contract instances.",
+        ".github/workflows/verify.yml does not call verify-workflow.mjs or any OS validator."
+      ],
+      "gap": "The merged foundation can drift while CI remains green.",
+      "futurePr": "FPR-03-contracts-validators",
+      "dependencies": ["Committed validator scripts", "Schema reconciliation"],
+      "tests": ["Draft 2020-12 meta-validation", "Skill validation", "Path/link resolution", "Manifest/instance validation", "Product-scope diff"],
+      "humanGates": ["CODE_GATE"]
+    },
+    {
+      "id": "AOS-15-04",
+      "source": "15-quality-gates-and-definition-of-done.md#Universal checks",
+      "requirement": "CI/release evidence covers isolation, rollback, secrets, security, accessibility, phone/desktop UI, and real one-page PDF proportional to risk.",
+      "status": "PARTIAL",
+      "target": "DEV_TOOLING",
+      "evidence": [
+        "Unit/rendered tests cover auth race behavior, persistence failure handling, formula structure, PWA, and Vercel configuration.",
+        "tests/e2e/print-proof.mjs supports authenticated browser/PDF proof but is optional and not in CI.",
+        "No dependency audit, secret scan, accessibility suite, browser phone/desktop job, rollback test, or database isolation job is required by CI."
+      ],
+      "gap": "Manual release evidence was strong for PR #1, but repeatable pull-request enforcement is incomplete.",
+      "futurePr": "FPR-12-release-pipeline",
+      "dependencies": ["CI browser environment", "Safe test accounts", "Staging"],
+      "tests": ["Accessibility", "390x844 bounds and 44px targets", "Desktop", "One-page PDF", "Secret scan", "Dependency audit", "Rollback rehearsal"],
+      "humanGates": ["SECURITY_REVIEW", "CODE_GATE", "RELEASE_GATE"]
+    },
+    {
+      "id": "AOS-GOV-REPO-01",
+      "source": "01-governance-and-non-negotiables.md; 14-release-and-environment-strategy.md",
+      "requirement": "Meaningful changes cannot merge to main without required checks and human gates.",
+      "status": "MISSING",
+      "target": "DEV_TOOLING",
+      "evidence": [
+        "GitHub API reports main is not protected and the repository has no rulesets.",
+        "PR #1 and #2 followed review and CI voluntarily, but repository settings do not require them."
+      ],
+      "gap": "Governance can be bypassed by direct push or merge without required status/review checks.",
+      "futurePr": "FPR-12-release-pipeline",
+      "dependencies": ["Repository admin authority", "Required-check names", "Emergency policy"],
+      "tests": ["Direct push rejection", "Required verify/security/release checks", "Stale review dismissal"],
+      "humanGates": ["PLAN_GATE", "RELEASE_GATE"]
+    },
+    {
+      "id": "AOS-ARCH-01",
+      "source": "02-system-boundaries.md; docs/ARCHITECTURE.md",
+      "requirement": "The current application maintains explicit ownership for app coordination, formula, auth, people repository/mapper/hook, database, print, PWA, and owner-console separation.",
+      "status": "IMPLEMENTED",
+      "target": "PUBLIC_STUDENT_APP",
+      "evidence": [
+        "docs/ARCHITECTURE.md:5-22 maps each current concern to its source of truth.",
+        "app/page.tsx contains no raw Supabase query or policy logic.",
+        "lib/supabase/client.ts, features/auth, features/people, and supabase/migrations follow the documented boundaries."
+      ],
+      "gap": null,
+      "futurePr": null,
+      "dependencies": [],
+      "tests": ["Architecture import/query scan", "Current unit tests"],
+      "humanGates": ["CODE_GATE for architectural changes"]
+    },
+    {
+      "id": "AOS-AUTH-01",
+      "source": "11-security-and-privacy.md; docs/ARCHITECTURE.md#Authentication Flow",
+      "requirement": "Authentication restores/subscribes sessions, gates private UI, and clears in-memory data immediately on sign-out.",
+      "status": "IMPLEMENTED",
+      "target": "PUBLIC_STUDENT_APP",
+      "evidence": [
+        "AuthProvider.tsx:58-76 subscribes/restores sessions and lines 125-132 clears local session before network sign-out.",
+        "AuthGate.tsx mounts the student application only when authenticated.",
+        "tests/auth.test.tsx covers loading, signed-out gating, immediate sign-out clearing, and stale initial-session race behavior."
+      ],
+      "gap": null,
+      "futurePr": null,
+      "dependencies": [],
+      "tests": ["tests/auth.test.tsx"],
+      "humanGates": ["SECURITY_REVIEW and CODE_GATE for changes"]
+    },
+    {
+      "id": "AOS-AUTH-02",
+      "source": "11-security-and-privacy.md; docs/ARCHITECTURE.md#People Data Flow",
+      "requirement": "People persistence stores minimal source data and enforces authenticated per-user ownership in application and database layers.",
+      "status": "IMPLEMENTED",
+      "target": "PUBLIC_STUDENT_APP",
+      "evidence": [
+        "20260731204509_create_people.sql:1-29 stores only owner, names, DOB, timestamps, and constraints.",
+        "people.repository.ts derives user_id from getUser and applies owner filters.",
+        "RLS migrations and eight-case pgTAP suite enforce independent ownership."
+      ],
+      "gap": null,
+      "futurePr": null,
+      "dependencies": [],
+      "tests": ["Repository tests", "Mapper tests", "pgTAP RLS tests"],
+      "humanGates": ["SECURITY_REVIEW and CODE_GATE for data-model changes"]
+    },
+    {
+      "id": "AOS-AUTH-03",
+      "source": "01-governance-and-non-negotiables.md; docs/ARCHITECTURE.md#Legacy Local-Data Import",
+      "requirement": "Legacy pass7-mobile-clients-v1 data is inspected locally, uploaded only by explicit consent, deduplicated, and never deleted.",
+      "status": "IMPLEMENTED",
+      "target": "PUBLIC_STUDENT_APP",
+      "evidence": [
+        "legacyImport.ts:4 preserves the exact key and validates/deduplicates records.",
+        "usePeople.ts:52-57 reads locally and lines 193-235 performs explicit import/skip handling without removeItem.",
+        "LegacyImportDialog.tsx:54 tells users the original data remains after failure/partial import."
+      ],
+      "gap": null,
+      "futurePr": null,
+      "dependencies": [],
+      "tests": ["tests/legacyImport.test.ts", "Partial import tests in usePeople.test.tsx"],
+      "humanGates": ["PRIVACY_REVIEW and CODE_GATE for changes"]
+    },
+    {
+      "id": "AOS-FORMULA-01",
+      "source": "01-governance-and-non-negotiables.md; 15-quality-gates-and-definition-of-done.md",
+      "requirement": "Screen, comparison, and one-page print use the same Report calculations and retain formula provenance.",
+      "status": "IMPLEMENTED",
+      "target": "PUBLIC_STUDENT_APP",
+      "evidence": [
+        "app/page.tsx:578 constructs the selected Report, lines 747 onward pass it into PassPrintReport, and line 798 constructs comparison Reports from the same class.",
+        "reference/Pass7-Recreated contains read-only C# provenance.",
+        "Formula fixtures and rendered-structure tests are in npm test."
+      ],
+      "gap": null,
+      "futurePr": null,
+      "dependencies": [],
+      "tests": ["Formula SHA/fixtures", "Rendered structure", "Real PDF when print changes"],
+      "humanGates": ["FORMULA_APPROVAL if changed", "CODE_GATE"]
+    },
+    {
+      "id": "AOS-FEEDBACK-02",
+      "source": "Current implementation evidence",
+      "requirement": "Persistence and authentication failures preserve safe state and give actionable user feedback.",
+      "status": "IMPLEMENTED_UNDOCUMENTED",
+      "target": "PUBLIC_STUDENT_APP",
+      "evidence": [
+        "AuthProvider.tsx:24-32 maps errors to bounded user messages.",
+        "people.repository.ts:67-122 returns operation-specific safe messages.",
+        "usePeople.test.tsx verifies failed update/delete preserve visible records and partial imports remain retryable; app/page.tsx:693 exposes Retry."
+      ],
+      "gap": "The behavior is tested and partly mentioned in CURRENT_STATE.md, but docs/ARCHITECTURE.md has no explicit feedback/error-state ownership section.",
+      "futurePr": "FPR-03-contracts-validators",
+      "dependencies": [],
+      "tests": ["Existing auth/usePeople tests"],
+      "humanGates": ["CODE_GATE for documentation alignment"]
+    },
+    {
+      "id": "AOS-DOC-01",
+      "source": "Repository current-state contract",
+      "requirement": "docs/CURRENT_STATE.md accurately identifies the current branch, baseline, merged gates, next authorized action, and open risks.",
+      "status": "OUTDATED",
+      "target": "DEV_TOOLING",
+      "evidence": [
+        "CURRENT_STATE.md:13 says the current branch is docs/aionis-ai-operating-system, but the audit started from main and now runs on audit/aionis-operating-system-gap-analysis.",
+        "Line 14 calls 2250222 the published main baseline although main is 9041d142.",
+        "Lines 106 and 109 say PR #1 needs review and Prompt 2 is unauthorized, but PR #1/#2 are merged and this prompt explicitly authorizes Prompt 2."
+      ],
+      "gap": "The main checkpoint was not reconciled after both merges.",
+      "futurePr": "FPR-03-contracts-validators",
+      "dependencies": ["This audit approval/merge"],
+      "tests": ["Current branch/commit/PR-state check", "No stale next-action text"],
+      "humanGates": ["CODE_GATE"]
+    },
+    {
+      "id": "AOS-DOC-02",
+      "source": "Existing authoritative formula and print contracts",
+      "requirement": "Authoritative documentation uses repository-correct paths and retains reproducible current proof references.",
+      "status": "OUTDATED",
+      "target": "DEV_TOOLING",
+      "evidence": [
+        "docs/FORMULA_GUARDRAILS.md names Pass7-Mobile/lib/numerology.ts and sibling Pass7-Recreated paths although this repository root is already Pass7-Mobile and provenance is under reference/Pass7-Recreated.",
+        "docs/PRINT_CONTRACT.md names Pass7-Mobile/app/page.tsx and a latest proof under Pass7-Mobile/output/pdf; output is ignored and no tracked proof artifact exists."
+      ],
+      "gap": "The protected behavior is correct, but path/proof locators are stale after repository publication.",
+      "futurePr": "FPR-03-contracts-validators",
+      "dependencies": ["Decide tracked evidence-record strategy for binary PDF proof"],
+      "tests": ["Repository path resolver", "Proof ID/digest resolves"],
+      "humanGates": ["CODE_GATE"]
+    },
+    {
+      "id": "AOS-SEC-DEPS-01",
+      "source": "11-security-and-privacy.md; 15-quality-gates-and-definition-of-done.md",
+      "requirement": "Development and release dependencies are checked for known vulnerabilities and reviewed updates are applied without product regression.",
+      "status": "PARTIAL",
+      "target": "DEV_TOOLING",
+      "evidence": [
+        "Fresh npm audit reports one moderate advisory: postcss@8.5.20 via vite@8.1.5, with a fix available.",
+        "npm audit --omit=dev reports zero production vulnerabilities.",
+        ".github/workflows/verify.yml runs no dependency audit, dependency update bot, or security scanning job."
+      ],
+      "gap": "Production dependencies are clean, but the build toolchain has a known moderate issue and no automated dependency gate exists.",
+      "futurePr": "FPR-SEC-build-dependency",
+      "dependencies": ["Review compatible PostCSS/Vite resolution", "Do not run unreviewed npm audit fix"],
+      "tests": ["Full npm audit reviewed", "Production npm audit clean", "npm run lint", "npm test", "npm run build"],
+      "humanGates": ["SECURITY_REVIEW", "CODE_GATE"]
+    },
+    {
+      "id": "AOS-16-01",
+      "source": "16-complete-implementation-roadmap.md",
+      "requirement": "Later phases remain unimplemented until separately authorized, and each begins with a revalidated feature specification and gates.",
+      "status": "IMPLEMENTED",
+      "target": "DEV_TOOLING",
+      "evidence": [
+        "Prompt 1 commit ce5b537 added only docs, draft schemas, templates, skills, and a workflow scope-guard update.",
+        "Repository search finds no runtime AI, Dream, pattern memory, analytics, global-learning, orchestrator-state, or release-manifest implementation.",
+        "This audit branch modifies only the six authorized audit outputs."
+      ],
+      "gap": null,
+      "futurePr": null,
+      "dependencies": [],
+      "tests": ["Product-path diff remains empty"],
+      "humanGates": ["PLAN_GATE for every future phase"]
+    }
+  ]
+}
