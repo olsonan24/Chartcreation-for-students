@@ -1,0 +1,32 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://aionis.local/schemas/generation-manifest.schema.json",
+  "title": "Aionis Generation Manifest",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["findingId", "timestamp", "provider", "exactModelId", "modelConfiguration", "promptVersion", "constitutionVersion", "calculationEngineVersion", "synthesisEngineVersion", "knowledgeSnapshot", "evidenceIds", "ruleIds", "modifierIds", "languageTier", "confidence", "fallbackModelUsed", "environment", "releaseVersion"],
+  "properties": {
+    "findingId": {"type": "string", "minLength": 1},
+    "timestamp": {"type": "string", "format": "date-time"},
+    "provider": {"type": "string", "minLength": 1},
+    "exactModelId": {"type": "string", "minLength": 1},
+    "modelConfiguration": {"type": "object"},
+    "promptVersion": {"type": "string", "minLength": 1},
+    "constitutionVersion": {"type": "string", "minLength": 1},
+    "calculationEngineVersion": {"type": "string", "minLength": 1},
+    "synthesisEngineVersion": {"type": "string", "minLength": 1},
+    "knowledgeSnapshot": {"type": "string", "minLength": 1},
+    "evidenceIds": {"$ref": "#/$defs/ids"},
+    "ruleIds": {"$ref": "#/$defs/ids"},
+    "modifierIds": {"$ref": "#/$defs/ids"},
+    "languageTier": {"type": "string", "minLength": 1},
+    "confidence": {"type": "number", "minimum": 0, "maximum": 1},
+    "fallbackModelUsed": {"type": "boolean"},
+    "fallbackModelId": {"type": ["string", "null"]},
+    "environment": {"enum": ["development", "preview", "staging", "production"]},
+    "releaseVersion": {"type": "string", "minLength": 1},
+    "supersedes": {"type": ["string", "null"]}
+  },
+  "allOf": [{"if": {"properties": {"fallbackModelUsed": {"const": true}}}, "then": {"required": ["fallbackModelId"], "properties": {"fallbackModelId": {"type": "string", "minLength": 1}}}}],
+  "$defs": {"ids": {"type": "array", "uniqueItems": true, "items": {"type": "string", "minLength": 1}}}
+}

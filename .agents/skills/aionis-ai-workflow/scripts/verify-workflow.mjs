@@ -21,7 +21,16 @@ const requiredFiles = [
 
 const allowedChangePrefixes = [
   ".agents/skills/aionis-ai-workflow/",
+  ".agents/skills/aionis-analytics-review/",
+  ".agents/skills/aionis-development-dream-review/",
+  ".agents/skills/aionis-human-pattern-dream-review/",
+  ".agents/skills/aionis-intelligence-review/",
+  ".agents/skills/aionis-operating-system/",
+  ".agents/skills/aionis-product-planning/",
+  ".agents/skills/aionis-release-gating/",
+  ".agents/skills/aionis-security-review/",
   "docs/ai-context/",
+  "docs/aionis-operating-system/",
 ];
 const allowedExactChanges = new Set([".gitignore", "AGENTS.md", "docs/CURRENT_STATE.md"]);
 

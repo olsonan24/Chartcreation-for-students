@@ -1,0 +1,4 @@
+interface:
+  display_name: "Aionis Intelligence Review"
+  short_description: "Review intelligence changes"
+  default_prompt: "Use $aionis-intelligence-review to evaluate evidence lineage, confidence, methodology impact, and approval requirements."

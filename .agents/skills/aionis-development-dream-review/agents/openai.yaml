@@ -1,0 +1,4 @@
+interface:
+  display_name: "Aionis Development Dream Review"
+  short_description: "Review development-memory proposals"
+  default_prompt: "Use $aionis-development-dream-review to assess a sanitized Development Dream proposal for safety, duplication, and approval."

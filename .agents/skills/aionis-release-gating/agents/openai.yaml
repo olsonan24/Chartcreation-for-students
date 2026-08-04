@@ -1,0 +1,4 @@
+interface:
+  display_name: "Aionis Release Gating"
+  short_description: "Evaluate governed Aionis release readiness"
+  default_prompt: "Use $aionis-release-gating to assemble release evidence, rollback readiness, approvals, and deployment status."

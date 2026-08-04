@@ -60,6 +60,8 @@ For print changes, generate and inspect a real one-page A4 PDF. For UI changes, 
 
 Use `.agents/skills/aionis-ai-workflow/SKILL.md` for substantial repository work, context recovery, accepted-answer reuse, or efficiency review.
 
+For governed multi-target features, agent contracts, Dream reviews, analytics, or releases, start at `docs/aionis-operating-system/00-START-HERE.md` and use `.agents/skills/aionis-operating-system/SKILL.md`.
+
 - Continue the current thread while the same tightly scoped problem and live debugging state remain useful. Start a clean thread only when the primary job changes, a verified artifact replaces the conversation, or obsolete material dominates. Never restart mid-debug when current runtime state is still required.
 - Before compaction or context editing, update `docs/ai-context/CRITICAL_STATE.md`. Afterward, reread it and reconcile every protected fact before continuing.
 - Correct misunderstandings at the source: stop the wrong path, rewrite the complete corrected request, preserve only accepted work, and use a clean task when rejected reasoning has polluted the thread.

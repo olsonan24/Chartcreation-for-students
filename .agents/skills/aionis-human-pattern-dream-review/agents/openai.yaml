@@ -1,0 +1,4 @@
+interface:
+  display_name: "Aionis Human Pattern Dream Review"
+  short_description: "Review personal pattern proposals"
+  default_prompt: "Use $aionis-human-pattern-dream-review to review evidence-backed personal pattern proposals without changing global methodology."
