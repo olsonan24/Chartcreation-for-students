@@ -33,16 +33,32 @@ test("uses the Aionis brand throughout every user-facing surface", async () => {
   assert.doesNotMatch(userFacing, /Peter Vaughan|Peter Vaughn|PASS 7/i);
 });
 
-test("includes local persistence and build-time offline precaching", async () => {
-  const [page, html, manifest, worker, packageJson] = await Promise.all([
+test("uses an authenticated repository boundary while preserving build-time offline precaching", async () => {
+  const [page, html, manifest, worker, packageJson, client, repository, legacy, migration] = await Promise.all([
     read("../app/page.tsx"),
     read("../index.html"),
     read("../public/manifest.webmanifest"),
     read("../dist/sw.js"),
     read("../package.json"),
+    read("../lib/supabase/client.ts"),
+    read("../features/people/people.repository.ts"),
+    read("../features/people/legacyImport.ts"),
+    read("../supabase/migrations/20260731204509_create_people.sql"),
   ]);
 
-  assert.match(page, /localStorage\.setItem/);
+  assert.doesNotMatch(page, /supabase\.from|\.from\("people"\)|localStorage/);
+  assert.match(client, /VITE_SUPABASE_URL/);
+  assert.match(client, /VITE_SUPABASE_PUBLISHABLE_KEY/);
+  assert.doesNotMatch(client, /service.role|service_role/i);
+  assert.match(repository, /\.from\("people"\)/);
+  assert.match(repository, /auth\.getUser\(\)/);
+  assert.match(legacy, /pass7-mobile-clients-v1/);
+  assert.match(legacy, /getItem/);
+  assert.doesNotMatch(legacy, /removeItem/);
+  assert.match(migration, /alter table public\.people enable row level security/);
+  assert.match(migration, /to authenticated/);
+  assert.match(migration, /using \(\(select auth\.uid\(\)\) = user_id\)/);
+  assert.match(migration, /with check \(\(select auth\.uid\(\)\) = user_id\)/);
   assert.match(page, /register\("\/sw\.js", \{ updateViaCache: "none" \}\)/);
   assert.match(page, /controllerchange/);
   assert.match(page, /registration\.update\(\)/);
@@ -57,6 +73,14 @@ test("includes local persistence and build-time offline precaching", async () =>
   assert.match(worker, /report-paper-texture\.png/);
   assert.doesNotMatch(worker, /aionis-cosmic-body\.png|aionis-rhythm\.png|aionis-timeline-formula-logo\.jpg/);
   assert.doesNotMatch(packageJson, /vinext|cloudflare|wrangler|next|drizzle/i);
+});
+
+test("uses accurate cloud privacy and connectivity language", async () => {
+  const [page, readme] = await Promise.all([read("../app/page.tsx"), read("../README.md")]);
+  const copy = `${page}\n${readme}`;
+  assert.match(copy, /private signed-in account/i);
+  assert.match(copy, /cloud access requires connectivity/i);
+  assert.doesNotMatch(copy, /device-only storage|never leaves this device|does not send chart records to a database/i);
 });
 
 test("lets iOS open the keyboard from a real tap on the name fields", async () => {
@@ -131,8 +155,12 @@ test("ships purpose-built responsive Aionis artwork for phone, web, comparison, 
   assert.match(manifest, /aionis-app-icon\.png/);
 });
 
-test("is ready for a zero-configuration Vercel Vite deployment", async () => {
-  const [vercel, packageJson] = await Promise.all([read("../vercel.json"), read("../package.json")]);
+test("is ready for a Vercel Vite deployment with browser-safe Supabase variables", async () => {
+  const [vercel, packageJson, envExample] = await Promise.all([
+    read("../vercel.json"),
+    read("../package.json"),
+    read("../.env.example"),
+  ]);
   const config = JSON.parse(vercel);
   const pkg = JSON.parse(packageJson);
 
@@ -142,4 +170,7 @@ test("is ready for a zero-configuration Vercel Vite deployment", async () => {
   assert.equal(config.rewrites[0].destination, "/index.html");
   assert.equal(pkg.scripts.dev, "vite");
   assert.equal(pkg.scripts.build, "vite build");
+  assert.match(envExample, /VITE_SUPABASE_URL/);
+  assert.match(envExample, /VITE_SUPABASE_PUBLISHABLE_KEY/);
+  assert.doesNotMatch(envExample, /sb_secret_|SUPABASE_(SERVICE_ROLE|SECRET)/i);
 });

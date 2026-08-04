@@ -1,0 +1,50 @@
+{
+  "schemaVersion": "1.0.0",
+  "maximumEntries": 25,
+  "entries": [
+    {
+      "topic": "approved-formula-engine",
+      "status": "accepted",
+      "version": "1.0.0",
+      "summary": "lib/numerology.ts is the approved calculation source and must retain its recorded SHA-256 unless formula change is explicitly approved.",
+      "source": "docs/FORMULA_GUARDRAILS.md",
+      "acceptanceDate": "2026-07-31",
+      "supersededVersion": null,
+      "dependenciesThatInvalidateIt": [
+        "An explicitly approved formula change",
+        "A mismatch with the SHA-256 recorded in docs/CURRENT_STATE.md"
+      ],
+      "relevantCommitOrDocumentationVersion": "2250222"
+    },
+    {
+      "topic": "supabase-people-boundary",
+      "status": "accepted",
+      "version": "1.0.0",
+      "summary": "Authentication and people persistence remain outside app/page.tsx; public.people stores only source fields and enforces per-user ownership with RLS.",
+      "source": "docs/ARCHITECTURE.md",
+      "acceptanceDate": "2026-07-31",
+      "supersededVersion": null,
+      "dependenciesThatInvalidateIt": [
+        "A data-model migration",
+        "A change to AuthProvider, people.repository, people.mapper, or usePeople ownership",
+        "A new multi-user or organization requirement"
+      ],
+      "relevantCommitOrDocumentationVersion": "9dc79a8"
+    },
+    {
+      "topic": "one-page-a4-print-contract",
+      "status": "accepted",
+      "version": "1.0.0",
+      "summary": "Screen and print use one Report calculation source and the report must remain one-page A4.",
+      "source": "docs/PRINT_CONTRACT.md",
+      "acceptanceDate": "2026-07-31",
+      "supersededVersion": null,
+      "dependenciesThatInvalidateIt": [
+        "A change to PassPrintReport",
+        "A change to print CSS or paper sizing",
+        "An explicitly approved print-contract revision"
+      ],
+      "relevantCommitOrDocumentationVersion": "2250222"
+    }
+  ]
+}

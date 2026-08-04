@@ -30,6 +30,7 @@ yarn-error.log*
 
 # env files (can opt-in for committing if needed)
 .env*
+!.env.example
 
 # vercel
 .vercel
@@ -47,3 +48,6 @@ next-env.d.ts
 /reference/Pass7-Recreated/bin/
 /reference/Pass7-Recreated/obj/
 /reference/Pass7-Recreated/release/
+
+# Local, privacy-safe AI workflow measurements (summaries only; never commit logs)
+/.ai-context/telemetry/

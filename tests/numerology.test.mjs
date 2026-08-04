@@ -1,4 +1,6 @@
 import assert from "node:assert/strict";
+import { createHash } from "node:crypto";
+import { readFile } from "node:fs/promises";
 import test from "node:test";
 
 import {
@@ -10,6 +12,14 @@ import {
   letters,
   pinCha,
 } from "../lib/numerology.ts";
+
+test("keeps the approved formula engine byte-for-byte unchanged", async () => {
+  const source = await readFile(new URL("../lib/numerology.ts", import.meta.url));
+  assert.equal(
+    createHash("sha256").update(source).digest("hex").toUpperCase(),
+    "F7A0965F01AA4410BB38CEF05FF832F51A5EAFF6CC2E8E10238DB79EF7E5644A",
+  );
+});
 
 test("matches the original reduction rules", () => {
   assert.equal(calcString("Z"), 8);
