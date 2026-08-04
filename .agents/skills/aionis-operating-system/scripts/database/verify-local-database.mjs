@@ -121,7 +121,7 @@ export function main() {
       supabase(["db", "lint", "--local", "--schema", "public", "--level", "warning", "--fail-on", "warning"]),
     );
     stage("pgTAP", () =>
-      supabase(["test", "db", "supabase/tests/database/people_rls.test.sql", "--local"]),
+      supabase(["test", "db", "supabase/tests/database", "--local"]),
     );
     const generatedTypes = stage("Type generation", () =>
       supabase(["gen", "types", "--local", "--schema", "public"], { capture: true }),
