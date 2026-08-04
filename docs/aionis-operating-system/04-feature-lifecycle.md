@@ -21,3 +21,5 @@ Use `templates/feature-specification.md` and `templates/implementation-plan.md`.
 `DRAFT` → `PLAN_APPROVED` → `BUILDING` → `CODE_APPROVED` → `STAGED` → `RELEASE_APPROVED` → `RELEASED` → `OBSERVING` → `CLOSED`.
 
 Any failed gate returns the feature to the named earlier state with reasons preserved as negative knowledge. Emergency rollback may move `RELEASED` to `ROLLED_BACK`; it does not erase the release record.
+
+`REJECTED` is a terminal governance outcome for a proposal that will not proceed; it is not a substitute for a failed-gate return transition. Machine-readable failed-gate history records the prior state, return state, gate, reason, and time. A material version change records approval invalidation. Every feature either references its analytics contracts or states why analytics do not apply.

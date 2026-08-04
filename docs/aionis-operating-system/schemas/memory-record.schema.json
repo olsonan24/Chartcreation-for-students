@@ -1,0 +1,29 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://aionis.local/schemas/memory-record.schema.json",
+  "x-contractVersion": "1.0.0",
+  "title": "Aionis Memory Record",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["memoryId", "knowledgePlane", "memoryForm", "target", "ownerOrTenant", "provenance", "status", "createdAt", "observedAt", "version", "retention", "staleness", "supersedes", "negativeKnowledge", "routingRestrictions"],
+  "properties": {
+    "memoryId": {"type": "string", "minLength": 1},
+    "knowledgePlane": {"enum": ["constitutional", "operational", "personal"]},
+    "memoryForm": {"enum": ["episodic", "semantic", "procedural", "governance"]},
+    "target": {"enum": ["DEV_TOOLING", "PUBLIC_STUDENT_APP", "PRIVATE_AIONIS_BACKEND", "PRIVATE_OWNER_CONSOLE", "SHARED_CONTRACT"]},
+    "ownerOrTenant": {"type": "string", "minLength": 1},
+    "provenance": {"type": "object", "minProperties": 1},
+    "status": {"enum": ["confirmed-fact", "inferred-pattern", "active-hypothesis", "negative-knowledge", "superseded", "rejected"]},
+    "confidence": {"type": ["number", "null"], "minimum": 0, "maximum": 1},
+    "createdAt": {"type": "string", "format": "date-time"},
+    "observedAt": {"type": "string", "format": "date-time"},
+    "version": {"type": "string", "minLength": 1},
+    "retention": {"type": "object", "additionalProperties": false, "required": ["policyId", "deleteAfter"], "properties": {"policyId": {"type": "string", "minLength": 1}, "deleteAfter": {"type": ["string", "null"], "format": "date-time"}}},
+    "staleness": {"type": "object", "additionalProperties": false, "required": ["checkedAt", "isStale", "reason"], "properties": {"checkedAt": {"type": "string", "format": "date-time"}, "isStale": {"type": "boolean"}, "reason": {"type": ["string", "null"]}}},
+    "supersedes": {"type": ["string", "null"]},
+    "negativeKnowledge": {"type": "boolean"},
+    "consentReference": {"type": ["string", "null"]},
+    "routingRestrictions": {"type": "array", "uniqueItems": true, "items": {"type": "string", "minLength": 1}}
+  },
+  "allOf": [{"if": {"properties": {"knowledgePlane": {"const": "personal"}}}, "then": {"required": ["consentReference"], "properties": {"consentReference": {"type": "string", "minLength": 1}}}}, {"if": {"properties": {"status": {"const": "negative-knowledge"}}}, "then": {"properties": {"negativeKnowledge": {"const": true}}}}]
+}

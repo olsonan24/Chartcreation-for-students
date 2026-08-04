@@ -1,6 +1,6 @@
 # Critical State
 
-Updated: 2026-08-03
+Updated: 2026-08-04
 
 This bounded file contains facts that cannot safely be approximated. Refresh it immediately before compaction or context editing; remove completed task detail instead of appending a log.
 
@@ -16,22 +16,23 @@ This bounded file contains facts that cannot safely be approximated. Refresh it 
 
 ## Current checkpoint
 
-- Branch: `docs/aionis-ai-operating-system`, based on `feature/supabase-user-persistence` so the installed AI workflow remains available.
+- Prompt 2 audit is merged on `main` at `50fcda1bdff39989a184dc90994a8f0e5a1de045`.
+- Prompt 3 authorization is limited to `FPR-03-contracts-validators`, target `SHARED_CONTRACT`; the implementation branch begins from that exact main commit.
 - Hosted Supabase project: `frejicmqhsenqmdmqmfe`.
 - Applied migrations: `20260731204509_create_people.sql`, `20260801000026_tighten_people_grants.sql`.
 - Last verified hosted state and remaining release risks: `docs/CURRENT_STATE.md`.
 
-## Active workflow task
+## Bounded workflow task
 
-- Goal: complete Prompt 1 only by installing the modular Aionis AI Operating System foundation as documentation, draft JSON schemas, Markdown templates, and project-local skills.
-- Allowed changes: `AGENTS.md`, `docs/aionis-operating-system/`, required project-local skills under `.agents/skills/`, and bounded checkpoint updates.
-- Forbidden changes: application code, calculations, UI/CSS, authentication, database/RLS behavior, assets, PWA/print behavior, deployment, production data, and Prompts 2 through 12.
-- Acceptance: all required contracts/templates/skills present; schemas and paths valid; existing authoritative sources linked rather than duplicated; application regression checks pass; product diff empty; commit, push, and draft stacked PR; no merge and no gap audit.
+- Goal: reconcile CR-01 through CR-07, add approval/memory/analytics contracts, a versioned manifest and capability inventory, deterministic validation/fixtures, and CI enforcement.
+- Allowed changes: operating-system docs/schemas/fixtures/manifests, the operating-system skill validator, the named stale documentation files, `.github/workflows/verify.yml`, and `package.json` only for the validator command.
+- Forbidden changes: application code, calculations, UI/CSS, authentication, database/RLS behavior, migrations, assets, PWA/print behavior, deployment configuration, production data, runtime services, orchestrator state, persistence, and later phases.
+- Acceptance: all schemas meta-validate; valid/invalid and semantic fixtures behave for the intended reason; manifests, inventory, skills, links, scope, privacy, workflow telemetry, application regressions, and GitHub checks pass; the complete diff contains only authorized paths.
 
 ## Resume evidence
 
-- Reproduction: validate `docs/aionis-operating-system/schemas/*.json`, validate the eight new skills, then run the unchanged repository lint, tests, and build.
-- Relevant files: `AGENTS.md`, `docs/aionis-operating-system/`, `.agents/skills/aionis-*/SKILL.md`, and this checkpoint.
-- Verification: nine schemas pass Draft 2020-12 meta-validation; eight new skills and all referenced repository paths validate; the workflow validator, four telemetry tests, lint, four formula fixtures, 21 unit tests, eight rendered-artifact tests, and production PWA build pass. Record final Git and draft-PR identity in the handoff.
-- Unresolved defect: none currently identified in the Prompt 1 artifacts.
+- Reproduction: run `npm run validate:aionis`, `npm run lint`, `npm test`, and the full dependency audit without automatic fixes.
+- Relevant files: `docs/aionis-operating-system/`, `.agents/skills/aionis-operating-system/`, `.github/workflows/verify.yml`, `package.json`, and the four named stale-document corrections.
+- Verification: local contract validation covers 12 schemas, all golden/semantic fixtures, manifest/inventory, references, skills, links, protected scope, privacy, audit status, and stale statements; validator self-tests, telemetry privacy tests, lint, 4 formula tests, 21 unit tests, production PWA build, and 8 rendered/PWA/print/Vercel assertions pass. GitHub check and merge evidence remain to be recorded outside this bounded checkpoint.
+- Unresolved platform issue: future Supabase default privileges remain a separately scoped blocker; create no new `public` object.
 - Working tree: refresh with exact `git status --short --branch` output immediately before compaction.
