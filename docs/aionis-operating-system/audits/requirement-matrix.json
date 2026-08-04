@@ -1,0 +1,3331 @@
+{
+  "schemaVersion": "2.0.0",
+  "auditId": "AOS-REPOSITORY-GAP-2026-08-03",
+  "auditedRepository": "olsonan24/Chartcreation-for-students",
+  "auditedCommit": "9041d142f87ab48a8706a333cfebd70d702783fb",
+  "auditBranch": "audit/aionis-operating-system-gap-analysis",
+  "requirementSource": "docs/aionis-operating-system/00-START-HERE.md and numbered documents 01 through 16",
+  "approvedStatusVocabulary": [
+    "IMPLEMENTED",
+    "PARTIALLY_IMPLEMENTED",
+    "MISSING",
+    "CONTRADICTORY",
+    "OUTDATED",
+    "NOT_CURRENTLY_APPLICABLE",
+    "BLOCKED_BY_DEPENDENCY"
+  ],
+  "statusDefinitions": {
+    "IMPLEMENTED": "Repository evidence satisfies the requirement for the currently audited scope.",
+    "PARTIALLY_IMPLEMENTED": "Meaningful contract or implementation pieces exist, but material required work remains.",
+    "MISSING": "The requirement is currently applicable and absent.",
+    "CONTRADICTORY": "Current contracts or implementation evidence prescribe incompatible behavior.",
+    "OUTDATED": "The evidence artifact describes an earlier state and is no longer current.",
+    "NOT_CURRENTLY_APPLICABLE": "The capability is intentionally reserved for a future separately authorized phase.",
+    "BLOCKED_BY_DEPENDENCY": "A hard prerequisite or external authority prevents safe implementation."
+  },
+  "requirements": [
+    {
+      "requirement_id": "AOS-00-01",
+      "requirement_title": "Every capability declares exactly one of the five operating-system targets.",
+      "source_document": "docs/aionis-operating-system/00-START-HERE.md",
+      "source_section": "Map",
+      "status": "PARTIALLY_IMPLEMENTED",
+      "target": "SHARED_CONTRACT",
+      "risk": "MEDIUM",
+      "current_evidence": [
+        {
+          "repository_path_or_github_artifact": "docs/aionis-operating-system/00-START-HERE.md",
+          "exact_reference": "docs/aionis-operating-system/00-START-HERE.md:35 defines the target rule.",
+          "evidence_type": "DOCUMENTATION",
+          "proves": "Positive or limiting evidence: docs/aionis-operating-system/00-START-HERE.md:35 defines the target rule."
+        },
+        {
+          "repository_path_or_github_artifact": "docs/aionis-operating-system/schemas/operating-system-manifest.schema.json",
+          "exact_reference": "docs/aionis-operating-system/schemas/operating-system-manifest.schema.json defines target-bearing capability entries.",
+          "evidence_type": "SCHEMA_CONTRACT",
+          "proves": "Positive or limiting evidence: docs/aionis-operating-system/schemas/operating-system-manifest.schema.json defines target-bearing capability entries."
+        },
+        {
+          "repository_path_or_github_artifact": "Repository tree at Git commit 9041d142f87ab48a8706a333cfebd70d702783fb",
+          "exact_reference": "No operating-system manifest instance or complete capability inventory exists outside the draft schema.",
+          "evidence_type": "REPOSITORY_SEARCH",
+          "proves": "Absence evidence: No operating-system manifest instance or complete capability inventory exists outside the draft schema."
+        }
+      ],
+      "existing_implementation": "docs/aionis-operating-system/00-START-HERE.md:35 defines the target rule. docs/aionis-operating-system/schemas/operating-system-manifest.schema.json defines target-bearing capability entries.",
+      "missing_work": "Targets are described in prose and schema enums, but capability ownership is not instantiated or deterministically validated.",
+      "conflicts": [],
+      "dependencies": [
+        "Approved capability inventory",
+        "Schema reconciliation"
+      ],
+      "required_agent_or_skill": [
+        ".agents/skills/aionis-operating-system/SKILL.md",
+        ".agents/skills/aionis-ai-workflow/SKILL.md"
+      ],
+      "required_tests": [
+        "Manifest instance validates",
+        "Every capability has one target and owner"
+      ],
+      "required_human_gate": [
+        "PLAN_GATE",
+        "CODE_GATE"
+      ],
+      "recommended_phase": "PHASE_3",
+      "proposed_pr_name": "FPR-03-contracts-validators",
+      "application_behavior_change": false,
+      "private_data_involved": false,
+      "database_migration_involved": false,
+      "constitutional_methodology_involved": false,
+      "confidence": "HIGH",
+      "notes": ""
+    },
+    {
+      "requirement_id": "AOS-01-01",
+      "requirement_title": "Approved human and constitutional authority outranks guidance and generated proposals.",
+      "source_document": "docs/aionis-operating-system/01-governance-and-non-negotiables.md",
+      "source_section": "Authority order",
+      "status": "PARTIALLY_IMPLEMENTED",
+      "target": "DEV_TOOLING",
+      "risk": "HIGH",
+      "current_evidence": [
+        {
+          "repository_path_or_github_artifact": "AGENTS.md",
+          "exact_reference": "AGENTS.md:7-18 contains repository non-negotiables.",
+          "evidence_type": "DOCUMENTATION",
+          "proves": "Positive or limiting evidence: AGENTS.md:7-18 contains repository non-negotiables."
+        },
+        {
+          "repository_path_or_github_artifact": ".agents/skills/aionis-operating-system/SKILL.md",
+          "exact_reference": ".agents/skills/aionis-operating-system/SKILL.md:6-13 blocks integration on missing approval.",
+          "evidence_type": "AGENT_SKILL",
+          "proves": "Positive or limiting evidence: .agents/skills/aionis-operating-system/SKILL.md:6-13 blocks integration on missing approval."
+        },
+        {
+          "repository_path_or_github_artifact": "https://github.com/olsonan24/Chartcreation-for-students/pull/1",
+          "exact_reference": "GitHub PR #1 and #2 contain owner review comments bound to commits, but no approval-record contract or gate ledger exists.",
+          "evidence_type": "REPOSITORY_SEARCH",
+          "proves": "Absence evidence: GitHub PR #1 and #2 contain owner review comments bound to commits, but no approval-record contract or gate ledger exists."
+        }
+      ],
+      "existing_implementation": "AGENTS.md:7-18 contains repository non-negotiables. .agents/skills/aionis-operating-system/SKILL.md:6-13 blocks integration on missing approval.",
+      "missing_work": "Authority is advisory text; there is no versioned approval object, constitutional version instance, or automated enforcement.",
+      "conflicts": [],
+      "dependencies": [
+        "Approval schema",
+        "Operating-system manifest"
+      ],
+      "required_agent_or_skill": [
+        ".agents/skills/aionis-operating-system/SKILL.md",
+        ".agents/skills/aionis-ai-workflow/SKILL.md",
+        ".agents/skills/aionis-security-review/SKILL.md"
+      ],
+      "required_tests": [
+        "Reject missing or stale approval IDs",
+        "Reject generated proposal as approval"
+      ],
+      "required_human_gate": [
+        "PLAN_GATE",
+        "CODE_GATE"
+      ],
+      "recommended_phase": "PHASE_3",
+      "proposed_pr_name": "FPR-03-contracts-validators",
+      "application_behavior_change": false,
+      "private_data_involved": false,
+      "database_migration_involved": false,
+      "constitutional_methodology_involved": true,
+      "confidence": "HIGH",
+      "notes": ""
+    },
+    {
+      "requirement_id": "AOS-01-02",
+      "requirement_title": "Formula calculations and values remain protected unless explicitly approved and audited.",
+      "source_document": "docs/aionis-operating-system/01-governance-and-non-negotiables.md",
+      "source_section": "Protected rules",
+      "status": "IMPLEMENTED",
+      "target": "PUBLIC_STUDENT_APP",
+      "risk": "HIGH",
+      "current_evidence": [
+        {
+          "repository_path_or_github_artifact": "lib/numerology.ts",
+          "exact_reference": "lib/numerology.ts SHA-256 is F7A0965F01AA4410BB38CEF05FF832F51A5EAFF6CC2E8E10238DB79EF7E5644A.",
+          "evidence_type": "TEST_OR_VERIFICATION",
+          "proves": "Positive or limiting evidence: lib/numerology.ts SHA-256 is F7A0965F01AA4410BB38CEF05FF832F51A5EAFF6CC2E8E10238DB79EF7E5644A."
+        },
+        {
+          "repository_path_or_github_artifact": "tests/numerology.test.mjs",
+          "exact_reference": "tests/numerology.test.mjs:14-21 enforces the byte hash; lines 23-117 cover four approved fixtures.",
+          "evidence_type": "TEST_OR_VERIFICATION",
+          "proves": "Positive or limiting evidence: tests/numerology.test.mjs:14-21 enforces the byte hash; lines 23-117 cover four approved fixtures."
+        },
+        {
+          "repository_path_or_github_artifact": "lib/numerology.ts",
+          "exact_reference": "git diff 2250222..9041d14 -- lib/numerology.ts is empty.",
+          "evidence_type": "SOURCE_CODE",
+          "proves": "Positive or limiting evidence: git diff 2250222..9041d14 -- lib/numerology.ts is empty."
+        }
+      ],
+      "existing_implementation": "lib/numerology.ts SHA-256 is F7A0965F01AA4410BB38CEF05FF832F51A5EAFF6CC2E8E10238DB79EF7E5644A. tests/numerology.test.mjs:14-21 enforces the byte hash; lines 23-117 cover four approved fixtures. git diff 2250222..9041d14 -- lib/numerology.ts is empty.",
+      "missing_work": "None for the currently audited scope.",
+      "conflicts": [],
+      "dependencies": [],
+      "required_agent_or_skill": [
+        ".agents/skills/aionis-operating-system/SKILL.md",
+        ".agents/skills/aionis-ai-workflow/SKILL.md",
+        ".agents/skills/aionis-timeline-chart-builder/SKILL.md"
+      ],
+      "required_tests": [
+        "npm test",
+        "Formula SHA guard"
+      ],
+      "required_human_gate": [
+        "Formula approval only if changed",
+        "CODE_GATE"
+      ],
+      "recommended_phase": "CURRENT_BASELINE",
+      "proposed_pr_name": null,
+      "application_behavior_change": false,
+      "private_data_involved": false,
+      "database_migration_involved": false,
+      "constitutional_methodology_involved": true,
+      "confidence": "HIGH",
+      "notes": "No missing work for the currently audited scope."
+    },
+    {
+      "requirement_id": "AOS-01-03",
+      "requirement_title": "Raw student information is excluded from development telemetry and memory.",
+      "source_document": "docs/aionis-operating-system/01-governance-and-non-negotiables.md",
+      "source_section": "Protected rules",
+      "status": "PARTIALLY_IMPLEMENTED",
+      "target": "DEV_TOOLING",
+      "risk": "MEDIUM",
+      "current_evidence": [
+        {
+          "repository_path_or_github_artifact": ".agents/skills/aionis-ai-workflow/scripts/telemetry.mjs",
+          "exact_reference": ".agents/skills/aionis-ai-workflow/scripts/telemetry.mjs:32-41 allow-lists fields and line 114 rejects unsupported fields.",
+          "evidence_type": "DOCUMENTATION",
+          "proves": "Positive or limiting evidence: .agents/skills/aionis-ai-workflow/scripts/telemetry.mjs:32-41 allow-lists fields and line 114 rejects unsupported fields."
+        },
+        {
+          "repository_path_or_github_artifact": ".agents/skills/aionis-ai-workflow/scripts/telemetry.test.mjs",
+          "exact_reference": ".agents/skills/aionis-ai-workflow/scripts/telemetry.test.mjs:59-66 rejects a prompt field and paths outside the repository.",
+          "evidence_type": "TEST_OR_VERIFICATION",
+          "proves": "Positive or limiting evidence: .agents/skills/aionis-ai-workflow/scripts/telemetry.test.mjs:59-66 rejects a prompt field and paths outside the repository."
+        },
+        {
+          "repository_path_or_github_artifact": ".agents/skills/aionis-ai-workflow/scripts/telemetry.mjs",
+          "exact_reference": ".agents/skills/aionis-ai-workflow/scripts/telemetry.mjs:135 retains repository-relative file names and ranges without a sensitive-path detector.",
+          "evidence_type": "DOCUMENTATION",
+          "proves": "Positive or limiting evidence: .agents/skills/aionis-ai-workflow/scripts/telemetry.mjs:135 retains repository-relative file names and ranges without a sensitive-path detector."
+        }
+      ],
+      "existing_implementation": ".agents/skills/aionis-ai-workflow/scripts/telemetry.mjs:32-41 allow-lists fields and line 114 rejects unsupported fields. .agents/skills/aionis-ai-workflow/scripts/telemetry.test.mjs:59-66 rejects a prompt field and paths outside the repository. .agents/skills/aionis-ai-workflow/scripts/telemetry.mjs:135 retains repository-relative file names and ranges without a sensitive-path detector.",
+      "missing_work": "Prompt/content fields are blocked, but PII-bearing path names are not detected and retention/deletion/access policy is not enforced by the script.",
+      "conflicts": [],
+      "dependencies": [
+        "Telemetry data-classification policy"
+      ],
+      "required_agent_or_skill": [
+        ".agents/skills/aionis-operating-system/SKILL.md",
+        ".agents/skills/aionis-ai-workflow/SKILL.md",
+        ".agents/skills/aionis-analytics-review/SKILL.md"
+      ],
+      "required_tests": [
+        "Reject names or DOB patterns in task IDs and opened paths",
+        "Retention and deletion test"
+      ],
+      "required_human_gate": [
+        "SECURITY_REVIEW",
+        "CODE_GATE"
+      ],
+      "recommended_phase": "PHASE_3",
+      "proposed_pr_name": "FPR-03-contracts-validators",
+      "application_behavior_change": false,
+      "private_data_involved": true,
+      "database_migration_involved": false,
+      "constitutional_methodology_involved": false,
+      "confidence": "HIGH",
+      "notes": ""
+    },
+    {
+      "requirement_id": "AOS-01-04",
+      "requirement_title": "Private owner systems remain outside the public student application.",
+      "source_document": "docs/aionis-operating-system/01-governance-and-non-negotiables.md",
+      "source_section": "Protected rules",
+      "status": "IMPLEMENTED",
+      "target": "PUBLIC_STUDENT_APP",
+      "risk": "HIGH",
+      "current_evidence": [
+        {
+          "repository_path_or_github_artifact": "AGENTS.md",
+          "exact_reference": "AGENTS.md:3-6 declares the repository boundary.",
+          "evidence_type": "DOCUMENTATION",
+          "proves": "Positive or limiting evidence: AGENTS.md:3-6 declares the repository boundary."
+        },
+        {
+          "repository_path_or_github_artifact": "docs/ARCHITECTURE.md",
+          "exact_reference": "docs/ARCHITECTURE.md:69-72 documents the external loopback-only owner console.",
+          "evidence_type": "DOCUMENTATION",
+          "proves": "Positive or limiting evidence: docs/ARCHITECTURE.md:69-72 documents the external loopback-only owner console."
+        },
+        {
+          "repository_path_or_github_artifact": "Repository tree at Git commit 9041d142f87ab48a8706a333cfebd70d702783fb",
+          "exact_reference": "Tracked production imports contain no owner-console module, owner telemetry, token, or administrative control.",
+          "evidence_type": "REPOSITORY_SEARCH",
+          "proves": "Positive or limiting evidence: Tracked production imports contain no owner-console module, owner telemetry, token, or administrative control."
+        }
+      ],
+      "existing_implementation": "AGENTS.md:3-6 declares the repository boundary. docs/ARCHITECTURE.md:69-72 documents the external loopback-only owner console. Tracked production imports contain no owner-console module, owner telemetry, token, or administrative control.",
+      "missing_work": "None for the currently audited scope.",
+      "conflicts": [],
+      "dependencies": [],
+      "required_agent_or_skill": [
+        ".agents/skills/aionis-operating-system/SKILL.md",
+        ".agents/skills/aionis-ai-workflow/SKILL.md"
+      ],
+      "required_tests": [
+        "Import/bundle boundary scan"
+      ],
+      "required_human_gate": [
+        "CODE_GATE if boundary changes"
+      ],
+      "recommended_phase": "CURRENT_BASELINE",
+      "proposed_pr_name": null,
+      "application_behavior_change": false,
+      "private_data_involved": false,
+      "database_migration_involved": false,
+      "constitutional_methodology_involved": false,
+      "confidence": "HIGH",
+      "notes": "No missing work for the currently audited scope."
+    },
+    {
+      "requirement_id": "AOS-01-05",
+      "requirement_title": "Facts, patterns, hypotheses, negative knowledge, confidence, staleness, supersession, and rollback use consistent classifications.",
+      "source_document": "docs/aionis-operating-system/01-governance-and-non-negotiables.md",
+      "source_section": "Classification language",
+      "status": "NOT_CURRENTLY_APPLICABLE",
+      "target": "SHARED_CONTRACT",
+      "risk": "MEDIUM",
+      "current_evidence": [
+        {
+          "repository_path_or_github_artifact": "docs/aionis-operating-system/01-governance-and-non-negotiables.md",
+          "exact_reference": "docs/aionis-operating-system/01-governance-and-non-negotiables.md defines the vocabulary.",
+          "evidence_type": "DOCUMENTATION",
+          "proves": "Positive or limiting evidence: docs/aionis-operating-system/01-governance-and-non-negotiables.md defines the vocabulary."
+        },
+        {
+          "repository_path_or_github_artifact": "docs/aionis-operating-system/schemas/pattern-ledger.schema.json",
+          "exact_reference": "docs/aionis-operating-system/schemas/pattern-ledger.schema.json encodes five pattern statuses.",
+          "evidence_type": "SCHEMA_CONTRACT",
+          "proves": "Positive or limiting evidence: docs/aionis-operating-system/schemas/pattern-ledger.schema.json encodes five pattern statuses."
+        },
+        {
+          "repository_path_or_github_artifact": "Repository tree at Git commit 9041d142f87ab48a8706a333cfebd70d702783fb",
+          "exact_reference": "No runtime conclusion, ledger, or classification service exists.",
+          "evidence_type": "REPOSITORY_SEARCH",
+          "proves": "Absence evidence: No runtime conclusion, ledger, or classification service exists."
+        }
+      ],
+      "existing_implementation": "docs/aionis-operating-system/01-governance-and-non-negotiables.md defines the vocabulary. docs/aionis-operating-system/schemas/pattern-ledger.schema.json encodes five pattern statuses.",
+      "missing_work": "Vocabulary and a draft ledger exist; executing classification, staleness, decay, and rollback behavior do not.",
+      "conflicts": [],
+      "dependencies": [
+        "Shared contracts",
+        "Private identity and storage"
+      ],
+      "required_agent_or_skill": [
+        ".agents/skills/aionis-operating-system/SKILL.md",
+        ".agents/skills/aionis-ai-workflow/SKILL.md",
+        ".agents/skills/aionis-release-gating/SKILL.md"
+      ],
+      "required_tests": [
+        "Classification transition fixtures",
+        "Confidence-decay fixtures"
+      ],
+      "required_human_gate": [
+        "PLAN_GATE",
+        "INTELLIGENCE_REVIEW",
+        "CODE_GATE"
+      ],
+      "recommended_phase": "PHASE_6",
+      "proposed_pr_name": "FPR-06-private-evidence-memory",
+      "application_behavior_change": false,
+      "private_data_involved": true,
+      "database_migration_involved": false,
+      "constitutional_methodology_involved": true,
+      "confidence": "HIGH",
+      "notes": "Reclassified individually as NOT_CURRENTLY_APPLICABLE because this capability is intentionally reserved for PHASE_6 and requires separate human authorization; the Prompt 1 documentation is a secondary implementation note, not a current-status value."
+    },
+    {
+      "requirement_id": "AOS-01-06",
+      "requirement_title": "Human approval identifies artifact, version, scope, gate, approver, timestamp, and decision.",
+      "source_document": "docs/aionis-operating-system/01-governance-and-non-negotiables.md",
+      "source_section": "Classification language",
+      "status": "MISSING",
+      "target": "SHARED_CONTRACT",
+      "risk": "HIGH",
+      "current_evidence": [
+        {
+          "repository_path_or_github_artifact": "Repository tree at Git commit 9041d142f87ab48a8706a333cfebd70d702783fb",
+          "exact_reference": "No approval schema or approval-record instance is tracked.",
+          "evidence_type": "REPOSITORY_SEARCH",
+          "proves": "Absence evidence: No approval schema or approval-record instance is tracked."
+        },
+        {
+          "repository_path_or_github_artifact": "docs/aionis-operating-system/schemas/release-manifest.schema.json",
+          "exact_reference": "release-manifest.schema.json accepts approvalIds but does not define their record shape.",
+          "evidence_type": "SCHEMA_CONTRACT",
+          "proves": "Positive or limiting evidence: release-manifest.schema.json accepts approvalIds but does not define their record shape."
+        },
+        {
+          "repository_path_or_github_artifact": "https://github.com/olsonan24/Chartcreation-for-students/pull/1",
+          "exact_reference": "PR #1 and #2 reviews supply approver, timestamp, commit, and prose, but use COMMENTED rather than APPROVED review state and are not a complete reusable gate ledger.",
+          "evidence_type": "GITHUB_ARTIFACT",
+          "proves": "Positive or limiting evidence: PR #1 and #2 reviews supply approver, timestamp, commit, and prose, but use COMMENTED rather than APPROVED review state and are not a complete reusable gate ledger."
+        }
+      ],
+      "existing_implementation": "release-manifest.schema.json accepts approvalIds but does not define their record shape. PR #1 and #2 reviews supply approver, timestamp, commit, and prose, but use COMMENTED rather than APPROVED review state and are not a complete reusable gate ledger.",
+      "missing_work": "There is no authoritative approval contract or validator.",
+      "conflicts": [],
+      "dependencies": [
+        "Approval record design"
+      ],
+      "required_agent_or_skill": [
+        ".agents/skills/aionis-operating-system/SKILL.md",
+        ".agents/skills/aionis-ai-workflow/SKILL.md"
+      ],
+      "required_tests": [
+        "Approval field completeness",
+        "Artifact version invalidation"
+      ],
+      "required_human_gate": [
+        "PLAN_GATE",
+        "CODE_GATE"
+      ],
+      "recommended_phase": "PHASE_3",
+      "proposed_pr_name": "FPR-03-contracts-validators",
+      "application_behavior_change": false,
+      "private_data_involved": false,
+      "database_migration_involved": false,
+      "constitutional_methodology_involved": false,
+      "confidence": "HIGH",
+      "notes": ""
+    },
+    {
+      "requirement_id": "AOS-02-01",
+      "requirement_title": "Cross-target flows have explicit versioned contracts, minimal data, authn/authz, validation, audit logging, and retention.",
+      "source_document": "docs/aionis-operating-system/02-system-boundaries.md",
+      "source_section": "Exclusive targets",
+      "status": "PARTIALLY_IMPLEMENTED",
+      "target": "SHARED_CONTRACT",
+      "risk": "MEDIUM",
+      "current_evidence": [
+        {
+          "repository_path_or_github_artifact": "docs/aionis-operating-system/02-system-boundaries.md",
+          "exact_reference": "docs/aionis-operating-system/02-system-boundaries.md states the contract.",
+          "evidence_type": "DOCUMENTATION",
+          "proves": "Positive or limiting evidence: docs/aionis-operating-system/02-system-boundaries.md states the contract."
+        },
+        {
+          "repository_path_or_github_artifact": "docs/ARCHITECTURE.md",
+          "exact_reference": "The current app has only a direct PUBLIC_STUDENT_APP to Supabase people boundary documented in docs/ARCHITECTURE.md.",
+          "evidence_type": "DOCUMENTATION",
+          "proves": "Positive or limiting evidence: The current app has only a direct PUBLIC_STUDENT_APP to Supabase people boundary documented in docs/ARCHITECTURE.md."
+        },
+        {
+          "repository_path_or_github_artifact": "Repository tree at Git commit 9041d142f87ab48a8706a333cfebd70d702783fb",
+          "exact_reference": "No general cross-target interface artifact or audit/retention implementation exists.",
+          "evidence_type": "REPOSITORY_SEARCH",
+          "proves": "Absence evidence: No general cross-target interface artifact or audit/retention implementation exists."
+        }
+      ],
+      "existing_implementation": "docs/aionis-operating-system/02-system-boundaries.md states the contract. The current app has only a direct PUBLIC_STUDENT_APP to Supabase people boundary documented in docs/ARCHITECTURE.md.",
+      "missing_work": "Current app ownership is secure, but the generalized operating-system cross-target contract is not implemented.",
+      "conflicts": [],
+      "dependencies": [
+        "Capability manifest",
+        "Interface schema package"
+      ],
+      "required_agent_or_skill": [
+        ".agents/skills/aionis-operating-system/SKILL.md",
+        ".agents/skills/aionis-ai-workflow/SKILL.md",
+        ".agents/skills/aionis-security-review/SKILL.md"
+      ],
+      "required_tests": [
+        "Cross-target contract validation",
+        "Minimal-field allow-list"
+      ],
+      "required_human_gate": [
+        "PLAN_GATE",
+        "SECURITY_REVIEW",
+        "CODE_GATE"
+      ],
+      "recommended_phase": "PHASE_3",
+      "proposed_pr_name": "FPR-03-contracts-validators",
+      "application_behavior_change": false,
+      "private_data_involved": true,
+      "database_migration_involved": false,
+      "constitutional_methodology_involved": false,
+      "confidence": "HIGH",
+      "notes": "Reclassified individually as PARTIALLY_IMPLEMENTED because the merged Prompt 1 foundation contains meaningful contract, schema, template, review-skill, or historical release-evidence pieces; missing_work identifies what remains."
+    },
+    {
+      "requirement_id": "AOS-02-02",
+      "requirement_title": "Build-time AI, runtime AI, development memory, personal memory, global learning, analytics, evidence, conclusions, public, and private concerns remain separated.",
+      "source_document": "docs/aionis-operating-system/02-system-boundaries.md",
+      "source_section": "Required separations",
+      "status": "PARTIALLY_IMPLEMENTED",
+      "target": "SHARED_CONTRACT",
+      "risk": "HIGH",
+      "current_evidence": [
+        {
+          "repository_path_or_github_artifact": ".vercelignore",
+          "exact_reference": "Token workflow and AI skills are excluded from Vercel uploads by .vercelignore:1-3.",
+          "evidence_type": "GITHUB_ARTIFACT",
+          "proves": "Positive or limiting evidence: Token workflow and AI skills are excluded from Vercel uploads by .vercelignore:1-3."
+        },
+        {
+          "repository_path_or_github_artifact": "docs/ARCHITECTURE.md",
+          "exact_reference": "docs/ARCHITECTURE.md:69-72 keeps the owner console outside the public app.",
+          "evidence_type": "DOCUMENTATION",
+          "proves": "Positive or limiting evidence: docs/ARCHITECTURE.md:69-72 keeps the owner console outside the public app."
+        },
+        {
+          "repository_path_or_github_artifact": "Repository tree at Git commit 9041d142f87ab48a8706a333cfebd70d702783fb",
+          "exact_reference": "Personal memory, runtime AI, analytics, and global learning do not exist yet, so their executable separations cannot be proven.",
+          "evidence_type": "REPOSITORY_SEARCH",
+          "proves": "Absence evidence: Personal memory, runtime AI, analytics, and global learning do not exist yet, so their executable separations cannot be proven."
+        }
+      ],
+      "existing_implementation": "Token workflow and AI skills are excluded from Vercel uploads by .vercelignore:1-3. docs/ARCHITECTURE.md:69-72 keeps the owner console outside the public app.",
+      "missing_work": "Build-time/public/private boundaries are real; future private/runtime/learning planes are contracts only.",
+      "conflicts": [],
+      "dependencies": [
+        "Cross-target contracts",
+        "Private backend"
+      ],
+      "required_agent_or_skill": [
+        ".agents/skills/aionis-operating-system/SKILL.md",
+        ".agents/skills/aionis-ai-workflow/SKILL.md",
+        ".agents/skills/aionis-analytics-review/SKILL.md",
+        ".agents/skills/aionis-intelligence-review/SKILL.md"
+      ],
+      "required_tests": [
+        "Deployment bundle exclusion",
+        "Cross-plane leakage tests"
+      ],
+      "required_human_gate": [
+        "PLAN_GATE",
+        "SECURITY_REVIEW",
+        "CODE_GATE"
+      ],
+      "recommended_phase": "PHASE_6",
+      "proposed_pr_name": "FPR-06-private-evidence-memory",
+      "application_behavior_change": false,
+      "private_data_involved": true,
+      "database_migration_involved": false,
+      "constitutional_methodology_involved": false,
+      "confidence": "HIGH",
+      "notes": ""
+    },
+    {
+      "requirement_id": "AOS-03-01",
+      "requirement_title": "An orchestrator owns shared state, sequencing, ownership, conflicts, handoffs, gates, integration, and release status.",
+      "source_document": "docs/aionis-operating-system/03-agent-team-and-orchestration.md",
+      "source_section": "Central orchestrator",
+      "status": "NOT_CURRENTLY_APPLICABLE",
+      "target": "DEV_TOOLING",
+      "risk": "MEDIUM",
+      "current_evidence": [
+        {
+          "repository_path_or_github_artifact": ".agents/skills/aionis-operating-system/SKILL.md",
+          "exact_reference": ".agents/skills/aionis-operating-system/SKILL.md provides advisory routing steps.",
+          "evidence_type": "AGENT_SKILL",
+          "proves": "Positive or limiting evidence: .agents/skills/aionis-operating-system/SKILL.md provides advisory routing steps."
+        },
+        {
+          "repository_path_or_github_artifact": "Repository tree at Git commit 9041d142f87ab48a8706a333cfebd70d702783fb",
+          "exact_reference": "No orchestrator state store, feature-state machine, handoff registry, or gate engine is tracked.",
+          "evidence_type": "REPOSITORY_SEARCH",
+          "proves": "Absence evidence: No orchestrator state store, feature-state machine, handoff registry, or gate engine is tracked."
+        }
+      ],
+      "existing_implementation": ".agents/skills/aionis-operating-system/SKILL.md provides advisory routing steps.",
+      "missing_work": "A review skill is not an executing orchestrator.",
+      "conflicts": [],
+      "dependencies": [
+        "FPR-03-contracts-validators"
+      ],
+      "required_agent_or_skill": [
+        ".agents/skills/aionis-operating-system/SKILL.md",
+        ".agents/skills/aionis-ai-workflow/SKILL.md",
+        ".agents/skills/aionis-release-gating/SKILL.md"
+      ],
+      "required_tests": [
+        "State transitions",
+        "Ownership collision",
+        "Blocked gate",
+        "Handoff acceptance"
+      ],
+      "required_human_gate": [
+        "PLAN_GATE",
+        "CODE_GATE"
+      ],
+      "recommended_phase": "PHASE_4",
+      "proposed_pr_name": "FPR-04-orchestrator-lifecycle",
+      "application_behavior_change": false,
+      "private_data_involved": false,
+      "database_migration_involved": false,
+      "constitutional_methodology_involved": false,
+      "confidence": "HIGH",
+      "notes": "Reclassified individually as NOT_CURRENTLY_APPLICABLE because this capability is intentionally reserved for PHASE_4 and requires separate human authorization; the Prompt 1 documentation is a secondary implementation note, not a current-status value."
+    },
+    {
+      "requirement_id": "AOS-03-02",
+      "requirement_title": "Assignments record feature ID, artifact version, target, owner, paths, inputs, outputs, dependencies, checks, gate, and recipient.",
+      "source_document": "docs/aionis-operating-system/03-agent-team-and-orchestration.md",
+      "source_section": "Central orchestrator",
+      "status": "CONTRADICTORY",
+      "target": "SHARED_CONTRACT",
+      "risk": "HIGH",
+      "current_evidence": [
+        {
+          "repository_path_or_github_artifact": "docs/aionis-operating-system/schemas/agent-contract.schema.json",
+          "exact_reference": "agent-contract.schema.json requires agent ID, version, purpose, target, paths, tools, checks, gate, and privilege booleans.",
+          "evidence_type": "DATABASE_MIGRATION_OR_POLICY",
+          "proves": "Positive or limiting evidence: agent-contract.schema.json requires agent ID, version, purpose, target, paths, tools, checks, gate, and privilege booleans."
+        },
+        {
+          "repository_path_or_github_artifact": "docs/aionis-operating-system/schemas/agent-contract.schema.json",
+          "exact_reference": "agent-contract.schema.json has no featureId, artifactVersion, owner, dependencies, currentGate, or handoffRecipient fields while additionalProperties is false.",
+          "evidence_type": "SCHEMA_CONTRACT",
+          "proves": "Positive or limiting evidence: agent-contract.schema.json has no featureId, artifactVersion, owner, dependencies, currentGate, or handoffRecipient fields while additionalProperties is false."
+        }
+      ],
+      "existing_implementation": "agent-contract.schema.json requires agent ID, version, purpose, target, paths, tools, checks, gate, and privilege booleans. agent-contract.schema.json has no featureId, artifactVersion, owner, dependencies, currentGate, or handoffRecipient fields while additionalProperties is false.",
+      "missing_work": "A document-compliant assignment cannot validate against the current closed schema.",
+      "conflicts": [
+        "A document-compliant assignment cannot validate against the current closed schema."
+      ],
+      "dependencies": [
+        "Schema field reconciliation"
+      ],
+      "required_agent_or_skill": [
+        ".agents/skills/aionis-operating-system/SKILL.md",
+        ".agents/skills/aionis-ai-workflow/SKILL.md"
+      ],
+      "required_tests": [
+        "Golden valid assignment",
+        "Reject missing orchestration fields"
+      ],
+      "required_human_gate": [
+        "PLAN_GATE",
+        "CODE_GATE"
+      ],
+      "recommended_phase": "PHASE_3",
+      "proposed_pr_name": "FPR-03-contracts-validators",
+      "application_behavior_change": false,
+      "private_data_involved": false,
+      "database_migration_involved": false,
+      "constitutional_methodology_involved": false,
+      "confidence": "HIGH",
+      "notes": ""
+    },
+    {
+      "requirement_id": "AOS-03-03",
+      "requirement_title": "Every agent contract explicitly declares privileged booleans, with formula and constitutional changes additionally requiring human authorization.",
+      "source_document": "docs/aionis-operating-system/03-agent-team-and-orchestration.md",
+      "source_section": "Machine-readable contract",
+      "status": "PARTIALLY_IMPLEMENTED",
+      "target": "SHARED_CONTRACT",
+      "risk": "HIGH",
+      "current_evidence": [
+        {
+          "repository_path_or_github_artifact": "docs/aionis-operating-system/schemas/agent-contract.schema.json",
+          "exact_reference": "agent-contract.schema.json requires all four privileged booleans and disallows omission.",
+          "evidence_type": "DATABASE_MIGRATION_OR_POLICY",
+          "proves": "Positive or limiting evidence: agent-contract.schema.json requires all four privileged booleans and disallows omission."
+        },
+        {
+          "repository_path_or_github_artifact": "Repository tree at Git commit 9041d142f87ab48a8706a333cfebd70d702783fb",
+          "exact_reference": "No agent contract instances or authorization cross-check validator exist.",
+          "evidence_type": "REPOSITORY_SEARCH",
+          "proves": "Absence evidence: No agent contract instances or authorization cross-check validator exist."
+        }
+      ],
+      "existing_implementation": "agent-contract.schema.json requires all four privileged booleans and disallows omission.",
+      "missing_work": "The draft shape is correct for booleans, but no contract is issued or enforced.",
+      "conflicts": [],
+      "dependencies": [
+        "FPR-03-contracts-validators",
+        "Approval records"
+      ],
+      "required_agent_or_skill": [
+        ".agents/skills/aionis-operating-system/SKILL.md",
+        ".agents/skills/aionis-ai-workflow/SKILL.md",
+        ".agents/skills/aionis-timeline-chart-builder/SKILL.md",
+        ".agents/skills/aionis-security-review/SKILL.md"
+      ],
+      "required_tests": [
+        "False-by-explicit-value fixtures",
+        "Formula authorization cross-check"
+      ],
+      "required_human_gate": [
+        "CODE_GATE"
+      ],
+      "recommended_phase": "PHASE_4",
+      "proposed_pr_name": "FPR-04-orchestrator-lifecycle",
+      "application_behavior_change": false,
+      "private_data_involved": false,
+      "database_migration_involved": false,
+      "constitutional_methodology_involved": false,
+      "confidence": "HIGH",
+      "notes": ""
+    },
+    {
+      "requirement_id": "AOS-03-04",
+      "requirement_title": "Parallel work has non-overlapping ownership or an integration contract, and handoff completion is accepted with versioned evidence and risks.",
+      "source_document": "docs/aionis-operating-system/03-agent-team-and-orchestration.md",
+      "source_section": "Handoff rule",
+      "status": "NOT_CURRENTLY_APPLICABLE",
+      "target": "DEV_TOOLING",
+      "risk": "MEDIUM",
+      "current_evidence": [
+        {
+          "repository_path_or_github_artifact": "Repository tree at Git commit 9041d142f87ab48a8706a333cfebd70d702783fb",
+          "exact_reference": "templates/file-ownership.md and implementation-plan.md capture proposed ownership and integration fields.",
+          "evidence_type": "DOCUMENTATION",
+          "proves": "Positive or limiting evidence: templates/file-ownership.md and implementation-plan.md capture proposed ownership and integration fields."
+        },
+        {
+          "repository_path_or_github_artifact": "Repository tree at Git commit 9041d142f87ab48a8706a333cfebd70d702783fb",
+          "exact_reference": "No machine-readable ownership instance, collision checker, producer-check record, or consumer acceptance state exists.",
+          "evidence_type": "REPOSITORY_SEARCH",
+          "proves": "Absence evidence: No machine-readable ownership instance, collision checker, producer-check record, or consumer acceptance state exists."
+        }
+      ],
+      "existing_implementation": "templates/file-ownership.md and implementation-plan.md capture proposed ownership and integration fields.",
+      "missing_work": "Templates and skill guidance are not enforced workflow state.",
+      "conflicts": [],
+      "dependencies": [
+        "Agent contract",
+        "Orchestrator state"
+      ],
+      "required_agent_or_skill": [
+        ".agents/skills/aionis-operating-system/SKILL.md",
+        ".agents/skills/aionis-ai-workflow/SKILL.md"
+      ],
+      "required_tests": [
+        "Overlapping path block",
+        "Ordered merge",
+        "Consumer acceptance"
+      ],
+      "required_human_gate": [
+        "CODE_GATE"
+      ],
+      "recommended_phase": "PHASE_4",
+      "proposed_pr_name": "FPR-04-orchestrator-lifecycle",
+      "application_behavior_change": false,
+      "private_data_involved": false,
+      "database_migration_involved": false,
+      "constitutional_methodology_involved": false,
+      "confidence": "HIGH",
+      "notes": "Reclassified individually as NOT_CURRENTLY_APPLICABLE because this capability is intentionally reserved for PHASE_4 and requires separate human authorization; the Prompt 1 documentation is a secondary implementation note, not a current-status value."
+    },
+    {
+      "requirement_id": "AOS-04-01",
+      "requirement_title": "Meaningful features use a specification, approved plan, focused branch, ownership, proportional evidence, preview/staging, observation, and sanitized lessons.",
+      "source_document": "docs/aionis-operating-system/04-feature-lifecycle.md",
+      "source_section": "Required artifacts",
+      "status": "PARTIALLY_IMPLEMENTED",
+      "target": "DEV_TOOLING",
+      "risk": "MEDIUM",
+      "current_evidence": [
+        {
+          "repository_path_or_github_artifact": "Repository tree at Git commit 9041d142f87ab48a8706a333cfebd70d702783fb",
+          "exact_reference": "Feature and implementation-plan templates and a feature-specification schema are tracked.",
+          "evidence_type": "REPOSITORY_SEARCH",
+          "proves": "Positive or limiting evidence: Feature and implementation-plan templates and a feature-specification schema are tracked."
+        },
+        {
+          "repository_path_or_github_artifact": "https://github.com/olsonan24/Chartcreation-for-students/pull/1",
+          "exact_reference": "PR #1 used a focused branch, CI, Vercel Preview, hosted security evidence, and human review.",
+          "evidence_type": "GITHUB_ARTIFACT",
+          "proves": "Positive or limiting evidence: PR #1 used a focused branch, CI, Vercel Preview, hosted security evidence, and human review."
+        },
+        {
+          "repository_path_or_github_artifact": "Repository tree at Git commit 9041d142f87ab48a8706a333cfebd70d702783fb",
+          "exact_reference": "No feature-spec instance, file-ownership instance, staging environment, observation record, or sanitized consolidation artifact is tracked.",
+          "evidence_type": "REPOSITORY_SEARCH",
+          "proves": "Absence evidence: No feature-spec instance, file-ownership instance, staging environment, observation record, or sanitized consolidation artifact is tracked."
+        }
+      ],
+      "existing_implementation": "Feature and implementation-plan templates and a feature-specification schema are tracked. PR #1 used a focused branch, CI, Vercel Preview, hosted security evidence, and human review.",
+      "missing_work": "The existing release demonstrated parts of the lifecycle informally; the governed lifecycle is not instantiated.",
+      "conflicts": [],
+      "dependencies": [
+        "FPR-03-contracts-validators"
+      ],
+      "required_agent_or_skill": [
+        ".agents/skills/aionis-operating-system/SKILL.md",
+        ".agents/skills/aionis-ai-workflow/SKILL.md",
+        ".agents/skills/aionis-release-gating/SKILL.md"
+      ],
+      "required_tests": [
+        "Required artifact chain",
+        "Gate state transition",
+        "Failed-gate return"
+      ],
+      "required_human_gate": [
+        "PLAN_GATE",
+        "CODE_GATE",
+        "RELEASE_GATE"
+      ],
+      "recommended_phase": "PHASE_4",
+      "proposed_pr_name": "FPR-04-orchestrator-lifecycle",
+      "application_behavior_change": false,
+      "private_data_involved": false,
+      "database_migration_involved": false,
+      "constitutional_methodology_involved": false,
+      "confidence": "HIGH",
+      "notes": ""
+    },
+    {
+      "requirement_id": "AOS-04-02",
+      "requirement_title": "Feature state supports DRAFT through CLOSED, OBSERVING, and emergency ROLLED_BACK while preserving failure reasons.",
+      "source_document": "docs/aionis-operating-system/04-feature-lifecycle.md",
+      "source_section": "State model",
+      "status": "CONTRADICTORY",
+      "target": "SHARED_CONTRACT",
+      "risk": "HIGH",
+      "current_evidence": [
+        {
+          "repository_path_or_github_artifact": "docs/aionis-operating-system/04-feature-lifecycle.md",
+          "exact_reference": "04-feature-lifecycle.md defines OBSERVING and ROLLED_BACK states.",
+          "evidence_type": "DOCUMENTATION",
+          "proves": "Positive or limiting evidence: 04-feature-lifecycle.md defines OBSERVING and ROLLED_BACK states."
+        },
+        {
+          "repository_path_or_github_artifact": "docs/aionis-operating-system/schemas/feature-specification.schema.json",
+          "exact_reference": "feature-specification.schema.json status enum omits observing and rolled-back, while adding rejected.",
+          "evidence_type": "SCHEMA_CONTRACT",
+          "proves": "Positive or limiting evidence: feature-specification.schema.json status enum omits observing and rolled-back, while adding rejected."
+        },
+        {
+          "repository_path_or_github_artifact": "Repository tree at Git commit 9041d142f87ab48a8706a333cfebd70d702783fb",
+          "exact_reference": "No negative-knowledge reason or prior-state field exists in the feature schema.",
+          "evidence_type": "REPOSITORY_SEARCH",
+          "proves": "Absence evidence: No negative-knowledge reason or prior-state field exists in the feature schema."
+        }
+      ],
+      "existing_implementation": "04-feature-lifecycle.md defines OBSERVING and ROLLED_BACK states. feature-specification.schema.json status enum omits observing and rolled-back, while adding rejected.",
+      "missing_work": "The documented state machine cannot be represented by its schema.",
+      "conflicts": [
+        "The documented state machine cannot be represented by its schema."
+      ],
+      "dependencies": [
+        "State-machine decision"
+      ],
+      "required_agent_or_skill": [
+        ".agents/skills/aionis-operating-system/SKILL.md",
+        ".agents/skills/aionis-ai-workflow/SKILL.md"
+      ],
+      "required_tests": [
+        "All legal transitions",
+        "Illegal transition rejection",
+        "Rollback history"
+      ],
+      "required_human_gate": [
+        "PLAN_GATE",
+        "CODE_GATE"
+      ],
+      "recommended_phase": "PHASE_3",
+      "proposed_pr_name": "FPR-03-contracts-validators",
+      "application_behavior_change": false,
+      "private_data_involved": false,
+      "database_migration_involved": false,
+      "constitutional_methodology_involved": false,
+      "confidence": "HIGH",
+      "notes": ""
+    },
+    {
+      "requirement_id": "AOS-04-03",
+      "requirement_title": "Feature specifications include analytics and proposed analytics at Plan Gate.",
+      "source_document": "docs/aionis-operating-system/04-feature-lifecycle.md",
+      "source_section": "Required artifacts",
+      "status": "CONTRADICTORY",
+      "target": "SHARED_CONTRACT",
+      "risk": "HIGH",
+      "current_evidence": [
+        {
+          "repository_path_or_github_artifact": "Repository tree at Git commit 9041d142f87ab48a8706a333cfebd70d702783fb",
+          "exact_reference": "04-feature-lifecycle.md and 05-human-approval-gates.md require analytics in the feature/Plan artifacts.",
+          "evidence_type": "DOCUMENTATION",
+          "proves": "Positive or limiting evidence: 04-feature-lifecycle.md and 05-human-approval-gates.md require analytics in the feature/Plan artifacts."
+        },
+        {
+          "repository_path_or_github_artifact": "docs/aionis-operating-system/schemas/feature-specification.schema.json",
+          "exact_reference": "feature-specification.schema.json has no analytics or analyticsContractIds property and disallows additional properties.",
+          "evidence_type": "SCHEMA_CONTRACT",
+          "proves": "Positive or limiting evidence: feature-specification.schema.json has no analytics or analyticsContractIds property and disallows additional properties."
+        },
+        {
+          "repository_path_or_github_artifact": "docs/aionis-operating-system/templates/feature-specification.md",
+          "exact_reference": "templates/feature-specification.md mentions analytics requirements but cannot map them to the schema.",
+          "evidence_type": "DOCUMENTATION",
+          "proves": "Positive or limiting evidence: templates/feature-specification.md mentions analytics requirements but cannot map them to the schema."
+        }
+      ],
+      "existing_implementation": "04-feature-lifecycle.md and 05-human-approval-gates.md require analytics in the feature/Plan artifacts. feature-specification.schema.json has no analytics or analyticsContractIds property and disallows additional properties. templates/feature-specification.md mentions analytics requirements but cannot map them to the schema.",
+      "missing_work": "The Markdown plan can record analytics, but the machine contract cannot.",
+      "conflicts": [
+        "The Markdown plan can record analytics, but the machine contract cannot."
+      ],
+      "dependencies": [
+        "Analytics reference design"
+      ],
+      "required_agent_or_skill": [
+        ".agents/skills/aionis-operating-system/SKILL.md",
+        ".agents/skills/aionis-ai-workflow/SKILL.md",
+        ".agents/skills/aionis-analytics-review/SKILL.md"
+      ],
+      "required_tests": [
+        "Feature spec analytics reference required or explicitly none"
+      ],
+      "required_human_gate": [
+        "PLAN_GATE",
+        "CODE_GATE"
+      ],
+      "recommended_phase": "PHASE_3",
+      "proposed_pr_name": "FPR-03-contracts-validators",
+      "application_behavior_change": false,
+      "private_data_involved": false,
+      "database_migration_involved": false,
+      "constitutional_methodology_involved": false,
+      "confidence": "HIGH",
+      "notes": ""
+    },
+    {
+      "requirement_id": "AOS-05-01",
+      "requirement_title": "Plan, Code, Release, and Dream Gates require exact evidence and explicit scoped approval.",
+      "source_document": "docs/aionis-operating-system/05-human-approval-gates.md",
+      "source_section": "Human Approval Gates",
+      "status": "PARTIALLY_IMPLEMENTED",
+      "target": "DEV_TOOLING",
+      "risk": "HIGH",
+      "current_evidence": [
+        {
+          "repository_path_or_github_artifact": "Repository tree at Git commit 9041d142f87ab48a8706a333cfebd70d702783fb",
+          "exact_reference": "Gate definitions, review templates, and specialized review skills are tracked.",
+          "evidence_type": "AGENT_SKILL",
+          "proves": "Positive or limiting evidence: Gate definitions, review templates, and specialized review skills are tracked."
+        },
+        {
+          "repository_path_or_github_artifact": "https://github.com/olsonan24/Chartcreation-for-students/pull/1",
+          "exact_reference": "PR #1 review comment states release-gate verification for c4ba322 and PR #2 review comment states foundation review for ce5b537.",
+          "evidence_type": "GITHUB_ARTIFACT",
+          "proves": "Positive or limiting evidence: PR #1 review comment states release-gate verification for c4ba322 and PR #2 review comment states foundation review for ce5b537."
+        },
+        {
+          "repository_path_or_github_artifact": "Repository tree at Git commit 9041d142f87ab48a8706a333cfebd70d702783fb",
+          "exact_reference": "No gate ledger or validator binds all minimum evidence to current artifact versions.",
+          "evidence_type": "REPOSITORY_SEARCH",
+          "proves": "Absence evidence: No gate ledger or validator binds all minimum evidence to current artifact versions."
+        }
+      ],
+      "existing_implementation": "Gate definitions, review templates, and specialized review skills are tracked. PR #1 review comment states release-gate verification for c4ba322 and PR #2 review comment states foundation review for ce5b537.",
+      "missing_work": "Manual evidence exists, but approval completeness and invalidation are not enforceable or queryable.",
+      "conflicts": [],
+      "dependencies": [
+        "Approval schema",
+        "Artifact registry"
+      ],
+      "required_agent_or_skill": [
+        ".agents/skills/aionis-operating-system/SKILL.md",
+        ".agents/skills/aionis-ai-workflow/SKILL.md",
+        ".agents/skills/aionis-release-gating/SKILL.md"
+      ],
+      "required_tests": [
+        "Silence is not approval",
+        "Changed artifact reopens gate",
+        "Evidence completeness"
+      ],
+      "required_human_gate": [
+        "PLAN_GATE",
+        "CODE_GATE"
+      ],
+      "recommended_phase": "PHASE_4",
+      "proposed_pr_name": "FPR-04-orchestrator-lifecycle",
+      "application_behavior_change": false,
+      "private_data_involved": false,
+      "database_migration_involved": false,
+      "constitutional_methodology_involved": false,
+      "confidence": "HIGH",
+      "notes": ""
+    },
+    {
+      "requirement_id": "AOS-05-02",
+      "requirement_title": "Automatic maintenance is limited to pre-approved mechanically safe reversible operations, and rejections are retained as negative knowledge.",
+      "source_document": "docs/aionis-operating-system/05-human-approval-gates.md",
+      "source_section": "Human Approval Gates",
+      "status": "NOT_CURRENTLY_APPLICABLE",
+      "target": "DEV_TOOLING",
+      "risk": "MEDIUM",
+      "current_evidence": [
+        {
+          "repository_path_or_github_artifact": "Repository tree at Git commit 9041d142f87ab48a8706a333cfebd70d702783fb",
+          "exact_reference": "05-human-approval-gates.md and aionis-development-dream-review/SKILL.md define the exception and exclusions.",
+          "evidence_type": "AGENT_SKILL",
+          "proves": "Positive or limiting evidence: 05-human-approval-gates.md and aionis-development-dream-review/SKILL.md define the exception and exclusions."
+        },
+        {
+          "repository_path_or_github_artifact": "Repository tree at Git commit 9041d142f87ab48a8706a333cfebd70d702783fb",
+          "exact_reference": "No maintenance policy registry, automatic applier, rejection store, or reconsideration-condition record exists.",
+          "evidence_type": "REPOSITORY_SEARCH",
+          "proves": "Absence evidence: No maintenance policy registry, automatic applier, rejection store, or reconsideration-condition record exists."
+        }
+      ],
+      "existing_implementation": "05-human-approval-gates.md and aionis-development-dream-review/SKILL.md define the exception and exclusions.",
+      "missing_work": "There is no executing policy or negative-knowledge store.",
+      "conflicts": [],
+      "dependencies": [
+        "Orchestrator gates",
+        "Evidence store"
+      ],
+      "required_agent_or_skill": [
+        ".agents/skills/aionis-operating-system/SKILL.md",
+        ".agents/skills/aionis-ai-workflow/SKILL.md"
+      ],
+      "required_tests": [
+        "Allow-listed reversible operation",
+        "Forbidden formula/security/production operation",
+        "Rejected proposal retention"
+      ],
+      "required_human_gate": [
+        "DREAM_GATE",
+        "CODE_GATE"
+      ],
+      "recommended_phase": "PHASE_9",
+      "proposed_pr_name": "FPR-09-development-dreaming",
+      "application_behavior_change": false,
+      "private_data_involved": true,
+      "database_migration_involved": false,
+      "constitutional_methodology_involved": true,
+      "confidence": "HIGH",
+      "notes": "Reclassified individually as NOT_CURRENTLY_APPLICABLE because this capability is intentionally reserved for PHASE_9 and requires separate human authorization; the Prompt 1 documentation is a secondary implementation note, not a current-status value."
+    },
+    {
+      "requirement_id": "AOS-06-01",
+      "requirement_title": "Constitutional, operational, and personal knowledge are separately governed and routed.",
+      "source_document": "docs/aionis-operating-system/06-knowledge-and-memory-architecture.md",
+      "source_section": "Three knowledge planes",
+      "status": "PARTIALLY_IMPLEMENTED",
+      "target": "SHARED_CONTRACT",
+      "risk": "HIGH",
+      "current_evidence": [
+        {
+          "repository_path_or_github_artifact": "Repository tree at Git commit 9041d142f87ab48a8706a333cfebd70d702783fb",
+          "exact_reference": "Constitutional repository contracts and operational docs/accepted answers exist.",
+          "evidence_type": "REPOSITORY_SEARCH",
+          "proves": "Positive or limiting evidence: Constitutional repository contracts and operational docs/accepted answers exist."
+        },
+        {
+          "repository_path_or_github_artifact": "Repository tree at Git commit 9041d142f87ab48a8706a333cfebd70d702783fb",
+          "exact_reference": "Personal evidence/memory has no private backend or persistence implementation.",
+          "evidence_type": "REPOSITORY_SEARCH",
+          "proves": "Positive or limiting evidence: Personal evidence/memory has no private backend or persistence implementation."
+        },
+        {
+          "repository_path_or_github_artifact": "docs/aionis-operating-system/schemas/evidence-record.schema.json",
+          "exact_reference": "evidence-record.schema.json can label a knowledgePlane but is draft only.",
+          "evidence_type": "SCHEMA_CONTRACT",
+          "proves": "Positive or limiting evidence: evidence-record.schema.json can label a knowledgePlane but is draft only."
+        }
+      ],
+      "existing_implementation": "Constitutional repository contracts and operational docs/accepted answers exist. Personal evidence/memory has no private backend or persistence implementation. evidence-record.schema.json can label a knowledgePlane but is draft only.",
+      "missing_work": "Two repository planes have artifacts; the private personal plane and enforced routing do not exist.",
+      "conflicts": [],
+      "dependencies": [
+        "Evidence contracts",
+        "Private backend identity"
+      ],
+      "required_agent_or_skill": [
+        ".agents/skills/aionis-operating-system/SKILL.md",
+        ".agents/skills/aionis-ai-workflow/SKILL.md"
+      ],
+      "required_tests": [
+        "Plane routing",
+        "Personal data rejection from DEV_TOOLING"
+      ],
+      "required_human_gate": [
+        "PLAN_GATE",
+        "SECURITY_REVIEW",
+        "CODE_GATE"
+      ],
+      "recommended_phase": "PHASE_6",
+      "proposed_pr_name": "FPR-06-private-evidence-memory",
+      "application_behavior_change": false,
+      "private_data_involved": true,
+      "database_migration_involved": false,
+      "constitutional_methodology_involved": false,
+      "confidence": "HIGH",
+      "notes": ""
+    },
+    {
+      "requirement_id": "AOS-06-02",
+      "requirement_title": "Every memory record declares plane, form, target, owner/tenant, provenance, status, confidence where applicable, time, version, retention, and supersession.",
+      "source_document": "docs/aionis-operating-system/06-knowledge-and-memory-architecture.md",
+      "source_section": "Memory forms",
+      "status": "MISSING",
+      "target": "SHARED_CONTRACT",
+      "risk": "HIGH",
+      "current_evidence": [
+        {
+          "repository_path_or_github_artifact": "docs/aionis-operating-system/schemas/evidence-record.schema.json",
+          "exact_reference": "evidence-record.schema.json covers plane, form, target, tenant, provenance, time, version, retention, and supersededBy.",
+          "evidence_type": "SCHEMA_CONTRACT",
+          "proves": "Positive or limiting evidence: evidence-record.schema.json covers plane, form, target, tenant, provenance, time, version, retention, and supersededBy."
+        },
+        {
+          "repository_path_or_github_artifact": "Repository tree at Git commit 9041d142f87ab48a8706a333cfebd70d702783fb",
+          "exact_reference": "It lacks owner and status and has no confidence field; no general memory-record schema exists.",
+          "evidence_type": "REPOSITORY_SEARCH",
+          "proves": "Absence evidence: It lacks owner and status and has no confidence field; no general memory-record schema exists."
+        }
+      ],
+      "existing_implementation": "evidence-record.schema.json covers plane, form, target, tenant, provenance, time, version, retention, and supersededBy.",
+      "missing_work": "The only related schema cannot represent the complete required memory record.",
+      "conflicts": [],
+      "dependencies": [
+        "Memory/evidence relationship decision"
+      ],
+      "required_agent_or_skill": [
+        ".agents/skills/aionis-operating-system/SKILL.md",
+        ".agents/skills/aionis-ai-workflow/SKILL.md",
+        ".agents/skills/aionis-security-review/SKILL.md"
+      ],
+      "required_tests": [
+        "Record-field completeness",
+        "Confidence required by record type"
+      ],
+      "required_human_gate": [
+        "PLAN_GATE",
+        "CODE_GATE"
+      ],
+      "recommended_phase": "PHASE_3",
+      "proposed_pr_name": "FPR-03-contracts-validators",
+      "application_behavior_change": false,
+      "private_data_involved": true,
+      "database_migration_involved": false,
+      "constitutional_methodology_involved": false,
+      "confidence": "HIGH",
+      "notes": ""
+    },
+    {
+      "requirement_id": "AOS-06-03",
+      "requirement_title": "Staleness, dependency drift, contradictions, confidence decay, append-only evidence, supersession, and consented routing are explicit.",
+      "source_document": "docs/aionis-operating-system/06-knowledge-and-memory-architecture.md",
+      "source_section": "Memory forms",
+      "status": "NOT_CURRENTLY_APPLICABLE",
+      "target": "PRIVATE_AIONIS_BACKEND",
+      "risk": "HIGH",
+      "current_evidence": [
+        {
+          "repository_path_or_github_artifact": "docs/aionis-operating-system/06-knowledge-and-memory-architecture.md",
+          "exact_reference": "06-knowledge-and-memory-architecture.md defines the rules.",
+          "evidence_type": "DOCUMENTATION",
+          "proves": "Positive or limiting evidence: 06-knowledge-and-memory-architecture.md defines the rules."
+        },
+        {
+          "repository_path_or_github_artifact": "Repository tree at Git commit 9041d142f87ab48a8706a333cfebd70d702783fb",
+          "exact_reference": "No staleness evaluator, dependency snapshot, contradiction service, consent router, or supersession transaction exists.",
+          "evidence_type": "REPOSITORY_SEARCH",
+          "proves": "Absence evidence: No staleness evaluator, dependency snapshot, contradiction service, consent router, or supersession transaction exists."
+        }
+      ],
+      "existing_implementation": "06-knowledge-and-memory-architecture.md defines the rules.",
+      "missing_work": "This is a private-backend capability, not implemented repository behavior.",
+      "conflicts": [],
+      "dependencies": [
+        "Evidence store",
+        "Consent model",
+        "Constitution version"
+      ],
+      "required_agent_or_skill": [
+        ".agents/skills/aionis-operating-system/SKILL.md",
+        ".agents/skills/aionis-ai-workflow/SKILL.md"
+      ],
+      "required_tests": [
+        "Staleness fixtures",
+        "Append-only enforcement",
+        "Supersession chain"
+      ],
+      "required_human_gate": [
+        "PLAN_GATE",
+        "SECURITY_REVIEW",
+        "CODE_GATE"
+      ],
+      "recommended_phase": "PHASE_6",
+      "proposed_pr_name": "FPR-06-private-evidence-memory",
+      "application_behavior_change": false,
+      "private_data_involved": true,
+      "database_migration_involved": false,
+      "constitutional_methodology_involved": false,
+      "confidence": "HIGH",
+      "notes": "Reclassified individually as NOT_CURRENTLY_APPLICABLE because this capability is intentionally reserved for PHASE_6 and requires separate human authorization; the Prompt 1 documentation is a secondary implementation note, not a current-status value."
+    },
+    {
+      "requirement_id": "AOS-WF-01",
+      "requirement_title": "Repository work uses bounded context, task profiles, accepted-answer validation, conditional thread continuation, and loss-aware compaction.",
+      "source_document": "AGENTS.md",
+      "source_section": "AI development workflow",
+      "status": "IMPLEMENTED",
+      "target": "DEV_TOOLING",
+      "risk": "LOW",
+      "current_evidence": [
+        {
+          "repository_path_or_github_artifact": ".agents/skills/aionis-ai-workflow/SKILL.md",
+          "exact_reference": ".agents/skills/aionis-ai-workflow/SKILL.md implements the Level 2 procedure.",
+          "evidence_type": "AGENT_SKILL",
+          "proves": "Positive or limiting evidence: .agents/skills/aionis-ai-workflow/SKILL.md implements the Level 2 procedure."
+        },
+        {
+          "repository_path_or_github_artifact": "docs/ai-context/TOOL_PROFILES.md",
+          "exact_reference": "docs/ai-context/TOOL_PROFILES.md, ACCEPTED_ANSWERS.json, CRITICAL_STATE.md, WORKFLOW.md, and LEVEL3_GATEWAY_SPEC.md exist.",
+          "evidence_type": "DOCUMENTATION",
+          "proves": "Positive or limiting evidence: docs/ai-context/TOOL_PROFILES.md, ACCEPTED_ANSWERS.json, CRITICAL_STATE.md, WORKFLOW.md, and LEVEL3_GATEWAY_SPEC.md exist."
+        },
+        {
+          "repository_path_or_github_artifact": "Repository tree at Git commit 9041d142f87ab48a8706a333cfebd70d702783fb",
+          "exact_reference": "verify-workflow.mjs and telemetry.test.mjs provide deterministic Level 2 checks.",
+          "evidence_type": "TEST_OR_VERIFICATION",
+          "proves": "Positive or limiting evidence: verify-workflow.mjs and telemetry.test.mjs provide deterministic Level 2 checks."
+        }
+      ],
+      "existing_implementation": ".agents/skills/aionis-ai-workflow/SKILL.md implements the Level 2 procedure. docs/ai-context/TOOL_PROFILES.md, ACCEPTED_ANSWERS.json, CRITICAL_STATE.md, WORKFLOW.md, and LEVEL3_GATEWAY_SPEC.md exist. verify-workflow.mjs and telemetry.test.mjs provide deterministic Level 2 checks.",
+      "missing_work": "The Level 3 pre-model gateway remains intentionally unimplemented; that does not invalidate Level 2.",
+      "conflicts": [],
+      "dependencies": [],
+      "required_agent_or_skill": [
+        ".agents/skills/aionis-operating-system/SKILL.md",
+        ".agents/skills/aionis-ai-workflow/SKILL.md"
+      ],
+      "required_tests": [
+        "node .agents/skills/aionis-ai-workflow/scripts/verify-workflow.mjs",
+        "node --test .agents/skills/aionis-ai-workflow/scripts/telemetry.test.mjs"
+      ],
+      "required_human_gate": [
+        "CODE_GATE for workflow changes"
+      ],
+      "recommended_phase": "PHASE_3",
+      "proposed_pr_name": "FPR-03-contracts-validators",
+      "application_behavior_change": false,
+      "private_data_involved": false,
+      "database_migration_involved": false,
+      "constitutional_methodology_involved": false,
+      "confidence": "HIGH",
+      "notes": ""
+    },
+    {
+      "requirement_id": "AOS-WF-02",
+      "requirement_title": "History/tool reduction, budget enforcement, deterministic routing, and pre-model controls require a Level 3 gateway.",
+      "source_document": "docs/ai-context/LEVEL3_GATEWAY_SPEC.md",
+      "source_section": "Whole document or repository contract",
+      "status": "NOT_CURRENTLY_APPLICABLE",
+      "target": "DEV_TOOLING",
+      "risk": "MEDIUM",
+      "current_evidence": [
+        {
+          "repository_path_or_github_artifact": "docs/ai-context/LEVEL3_GATEWAY_SPEC.md",
+          "exact_reference": "LEVEL3_GATEWAY_SPEC.md:3 explicitly says design specification only and not implemented or deployed.",
+          "evidence_type": "DOCUMENTATION",
+          "proves": "Positive or limiting evidence: LEVEL3_GATEWAY_SPEC.md:3 explicitly says design specification only and not implemented or deployed."
+        },
+        {
+          "repository_path_or_github_artifact": "Repository tree at Git commit 9041d142f87ab48a8706a333cfebd70d702783fb",
+          "exact_reference": "No gateway service, classifier, profile enforcement, or model router exists.",
+          "evidence_type": "REPOSITORY_SEARCH",
+          "proves": "Absence evidence: No gateway service, classifier, profile enforcement, or model router exists."
+        }
+      ],
+      "existing_implementation": "LEVEL3_GATEWAY_SPEC.md:3 explicitly says design specification only and not implemented or deployed.",
+      "missing_work": "Current controls are advisory after invocation.",
+      "conflicts": [],
+      "dependencies": [
+        "Explicit product decision",
+        "Provider/client integration"
+      ],
+      "required_agent_or_skill": [
+        ".agents/skills/aionis-operating-system/SKILL.md",
+        ".agents/skills/aionis-ai-workflow/SKILL.md"
+      ],
+      "required_tests": [
+        "Pre-call tool filtering",
+        "Budget rejection",
+        "User bypass telemetry"
+      ],
+      "required_human_gate": [
+        "PLAN_GATE",
+        "SECURITY_REVIEW",
+        "CODE_GATE"
+      ],
+      "recommended_phase": "PHASE_4",
+      "proposed_pr_name": "FPR-04-orchestrator-lifecycle",
+      "application_behavior_change": false,
+      "private_data_involved": false,
+      "database_migration_involved": false,
+      "constitutional_methodology_involved": false,
+      "confidence": "HIGH",
+      "notes": "Reclassified individually as NOT_CURRENTLY_APPLICABLE because this capability is intentionally reserved for PHASE_4 and requires separate human authorization; the Prompt 1 documentation is a secondary implementation note, not a current-status value."
+    },
+    {
+      "requirement_id": "AOS-07-01",
+      "requirement_title": "Evidence is immutable, attributable, timestamped, access-scoped, and versioned with supersession.",
+      "source_document": "docs/aionis-operating-system/07-evidence-lineage-and-versioning.md",
+      "source_section": "Core rules",
+      "status": "PARTIALLY_IMPLEMENTED",
+      "target": "PRIVATE_AIONIS_BACKEND",
+      "risk": "MEDIUM",
+      "current_evidence": [
+        {
+          "repository_path_or_github_artifact": "docs/aionis-operating-system/schemas/evidence-record.schema.json",
+          "exact_reference": "evidence-record.schema.json is a valid draft JSON Schema and requires immutable=true.",
+          "evidence_type": "SCHEMA_CONTRACT",
+          "proves": "Positive or limiting evidence: evidence-record.schema.json is a valid draft JSON Schema and requires immutable=true."
+        },
+        {
+          "repository_path_or_github_artifact": "Repository tree at Git commit 9041d142f87ab48a8706a333cfebd70d702783fb",
+          "exact_reference": "No evidence record instance, append-only store, access policy implementation, or supersession service exists.",
+          "evidence_type": "REPOSITORY_SEARCH",
+          "proves": "Absence evidence: No evidence record instance, append-only store, access policy implementation, or supersession service exists."
+        }
+      ],
+      "existing_implementation": "evidence-record.schema.json is a valid draft JSON Schema and requires immutable=true.",
+      "missing_work": "The schema is a contract, not lineage plumbing.",
+      "conflicts": [],
+      "dependencies": [
+        "FPR-03-contracts-validators",
+        "Private storage decision"
+      ],
+      "required_agent_or_skill": [
+        ".agents/skills/aionis-operating-system/SKILL.md",
+        ".agents/skills/aionis-ai-workflow/SKILL.md"
+      ],
+      "required_tests": [
+        "Digest verification",
+        "Append-only update rejection",
+        "Access scope"
+      ],
+      "required_human_gate": [
+        "PLAN_GATE",
+        "SECURITY_REVIEW",
+        "CODE_GATE"
+      ],
+      "recommended_phase": "PHASE_5",
+      "proposed_pr_name": "FPR-05-evidence-lineage",
+      "application_behavior_change": false,
+      "private_data_involved": true,
+      "database_migration_involved": false,
+      "constitutional_methodology_involved": false,
+      "confidence": "HIGH",
+      "notes": "Reclassified individually as PARTIALLY_IMPLEMENTED because the merged Prompt 1 foundation contains meaningful contract, schema, template, review-skill, or historical release-evidence pieces; missing_work identifies what remains."
+    },
+    {
+      "requirement_id": "AOS-07-02",
+      "requirement_title": "Significant generated conclusions record exact provider/model/configuration, prompt/constitution/engine versions, evidence, confidence, fallback, environment, and release.",
+      "source_document": "docs/aionis-operating-system/07-evidence-lineage-and-versioning.md",
+      "source_section": "Core rules",
+      "status": "PARTIALLY_IMPLEMENTED",
+      "target": "SHARED_CONTRACT",
+      "risk": "MEDIUM",
+      "current_evidence": [
+        {
+          "repository_path_or_github_artifact": "docs/aionis-operating-system/schemas/generation-manifest.schema.json",
+          "exact_reference": "generation-manifest.schema.json covers the enumerated fields and conditionally requires fallbackModelId.",
+          "evidence_type": "SCHEMA_CONTRACT",
+          "proves": "Positive or limiting evidence: generation-manifest.schema.json covers the enumerated fields and conditionally requires fallbackModelId."
+        },
+        {
+          "repository_path_or_github_artifact": "Repository tree at Git commit 9041d142f87ab48a8706a333cfebd70d702783fb",
+          "exact_reference": "No generation manifest instance, runtime generator, or validator integrated into CI exists.",
+          "evidence_type": "REPOSITORY_SEARCH",
+          "proves": "Absence evidence: No generation manifest instance, runtime generator, or validator integrated into CI exists."
+        }
+      ],
+      "existing_implementation": "generation-manifest.schema.json covers the enumerated fields and conditionally requires fallbackModelId.",
+      "missing_work": "The draft shape exists without generation or persistence plumbing.",
+      "conflicts": [],
+      "dependencies": [
+        "Contract validator",
+        "Version registries"
+      ],
+      "required_agent_or_skill": [
+        ".agents/skills/aionis-operating-system/SKILL.md",
+        ".agents/skills/aionis-ai-workflow/SKILL.md",
+        ".agents/skills/aionis-release-gating/SKILL.md"
+      ],
+      "required_tests": [
+        "Manifest completeness",
+        "Fallback conditional",
+        "Evidence IDs resolve"
+      ],
+      "required_human_gate": [
+        "CODE_GATE",
+        "INTELLIGENCE_REVIEW"
+      ],
+      "recommended_phase": "PHASE_5",
+      "proposed_pr_name": "FPR-05-evidence-lineage",
+      "application_behavior_change": false,
+      "private_data_involved": true,
+      "database_migration_involved": false,
+      "constitutional_methodology_involved": false,
+      "confidence": "HIGH",
+      "notes": "Reclassified individually as PARTIALLY_IMPLEMENTED because the merged Prompt 1 foundation contains meaningful contract, schema, template, review-skill, or historical release-evidence pieces; missing_work identifies what remains."
+    },
+    {
+      "requirement_id": "AOS-07-03",
+      "requirement_title": "Generated conclusions are reproducible, auditable, reversible, and rollback preserves failed and restored histories.",
+      "source_document": "docs/aionis-operating-system/07-evidence-lineage-and-versioning.md",
+      "source_section": "Reproducibility target",
+      "status": "NOT_CURRENTLY_APPLICABLE",
+      "target": "PRIVATE_AIONIS_BACKEND",
+      "risk": "MEDIUM",
+      "current_evidence": [
+        {
+          "repository_path_or_github_artifact": "docs/aionis-operating-system/07-evidence-lineage-and-versioning.md",
+          "exact_reference": "07-evidence-lineage-and-versioning.md defines the reproducibility and rollback semantics.",
+          "evidence_type": "DOCUMENTATION",
+          "proves": "Positive or limiting evidence: 07-evidence-lineage-and-versioning.md defines the reproducibility and rollback semantics."
+        },
+        {
+          "repository_path_or_github_artifact": "Repository tree at Git commit 9041d142f87ab48a8706a333cfebd70d702783fb",
+          "exact_reference": "No governed generation runner, acceptance comparator, rollback execution, or history store exists.",
+          "evidence_type": "REPOSITORY_SEARCH",
+          "proves": "Absence evidence: No governed generation runner, acceptance comparator, rollback execution, or history store exists."
+        }
+      ],
+      "existing_implementation": "07-evidence-lineage-and-versioning.md defines the reproducibility and rollback semantics.",
+      "missing_work": "No executable lineage or reproduction path exists yet.",
+      "conflicts": [],
+      "dependencies": [
+        "Evidence records",
+        "Generation manifests",
+        "Artifact/version registry"
+      ],
+      "required_agent_or_skill": [
+        ".agents/skills/aionis-operating-system/SKILL.md",
+        ".agents/skills/aionis-ai-workflow/SKILL.md",
+        ".agents/skills/aionis-release-gating/SKILL.md"
+      ],
+      "required_tests": [
+        "Deterministic rerun metadata",
+        "Stochastic acceptance comparator",
+        "Rollback history"
+      ],
+      "required_human_gate": [
+        "PLAN_GATE",
+        "CODE_GATE"
+      ],
+      "recommended_phase": "PHASE_5",
+      "proposed_pr_name": "FPR-05-evidence-lineage",
+      "application_behavior_change": false,
+      "private_data_involved": true,
+      "database_migration_involved": false,
+      "constitutional_methodology_involved": false,
+      "confidence": "HIGH",
+      "notes": "Reclassified individually as NOT_CURRENTLY_APPLICABLE because this capability is intentionally reserved for PHASE_5 and requires separate human authorization; the Prompt 1 documentation is a secondary implementation note, not a current-status value."
+    },
+    {
+      "requirement_id": "AOS-08-01",
+      "requirement_title": "Development Dreaming processes only sanitized approved events with cursor, snapshot, empty-run skip, idempotency, detections, exact proposals, cost, negative knowledge, and gates.",
+      "source_document": "docs/aionis-operating-system/08-development-dreaming.md",
+      "source_section": "Whole document or repository contract",
+      "status": "NOT_CURRENTLY_APPLICABLE",
+      "target": "DEV_TOOLING",
+      "risk": "MEDIUM",
+      "current_evidence": [
+        {
+          "repository_path_or_github_artifact": "Repository tree at Git commit 9041d142f87ab48a8706a333cfebd70d702783fb",
+          "exact_reference": "08-development-dreaming.md, dream-proposal.schema.json, dream-review.md, and aionis-development-dream-review/SKILL.md define the review surface.",
+          "evidence_type": "SCHEMA_CONTRACT",
+          "proves": "Positive or limiting evidence: 08-development-dreaming.md, dream-proposal.schema.json, dream-review.md, and aionis-development-dream-review/SKILL.md define the review surface."
+        },
+        {
+          "repository_path_or_github_artifact": "Repository tree at Git commit 9041d142f87ab48a8706a333cfebd70d702783fb",
+          "exact_reference": "No event source, cursor store, scheduler, detector, proposal producer, auto-maintenance policy, or applied-version record exists.",
+          "evidence_type": "REPOSITORY_SEARCH",
+          "proves": "Absence evidence: No event source, cursor store, scheduler, detector, proposal producer, auto-maintenance policy, or applied-version record exists."
+        }
+      ],
+      "existing_implementation": "08-development-dreaming.md, dream-proposal.schema.json, dream-review.md, and aionis-development-dream-review/SKILL.md define the review surface.",
+      "missing_work": "Review contracts exist; the Development Dream loop does not.",
+      "conflicts": [],
+      "dependencies": [
+        "Orchestrator",
+        "Evidence lineage",
+        "Development-event contract"
+      ],
+      "required_agent_or_skill": [
+        ".agents/skills/aionis-operating-system/SKILL.md",
+        ".agents/skills/aionis-ai-workflow/SKILL.md",
+        ".agents/skills/aionis-development-dream-review/SKILL.md"
+      ],
+      "required_tests": [
+        "Empty run",
+        "Same-range idempotency",
+        "PII rejection",
+        "Duplicate/contradiction/stale/TODO detection",
+        "Cost record"
+      ],
+      "required_human_gate": [
+        "DREAM_GATE",
+        "CODE_GATE"
+      ],
+      "recommended_phase": "PHASE_9",
+      "proposed_pr_name": "FPR-09-development-dreaming",
+      "application_behavior_change": false,
+      "private_data_involved": true,
+      "database_migration_involved": false,
+      "constitutional_methodology_involved": true,
+      "confidence": "HIGH",
+      "notes": "Reclassified individually as NOT_CURRENTLY_APPLICABLE because this capability is intentionally reserved for PHASE_9 and requires separate human authorization; the Prompt 1 documentation is a secondary implementation note, not a current-status value."
+    },
+    {
+      "requirement_id": "AOS-09-01",
+      "requirement_title": "Human Pattern Dreaming creates versioned profile proposals from isolated evidence, calculations, synthesis, explanation, feedback, contradictions, approval, and supersession.",
+      "source_document": "docs/aionis-operating-system/09-human-pattern-dreaming.md",
+      "source_section": "Personal-understanding loop",
+      "status": "NOT_CURRENTLY_APPLICABLE",
+      "target": "PRIVATE_AIONIS_BACKEND",
+      "risk": "HIGH",
+      "current_evidence": [
+        {
+          "repository_path_or_github_artifact": "Repository tree at Git commit 9041d142f87ab48a8706a333cfebd70d702783fb",
+          "exact_reference": "09-human-pattern-dreaming.md and aionis-human-pattern-dream-review/SKILL.md define the loop and review.",
+          "evidence_type": "AGENT_SKILL",
+          "proves": "Positive or limiting evidence: 09-human-pattern-dreaming.md and aionis-human-pattern-dream-review/SKILL.md define the loop and review."
+        },
+        {
+          "repository_path_or_github_artifact": "Repository tree at Git commit 9041d142f87ab48a8706a333cfebd70d702783fb",
+          "exact_reference": "No personal evidence store, synthesis service, profile store, feedback evidence API, Dream executor, or approval workflow exists.",
+          "evidence_type": "REPOSITORY_SEARCH",
+          "proves": "Absence evidence: No personal evidence store, synthesis service, profile store, feedback evidence API, Dream executor, or approval workflow exists."
+        }
+      ],
+      "existing_implementation": "09-human-pattern-dreaming.md and aionis-human-pattern-dream-review/SKILL.md define the loop and review.",
+      "missing_work": "The complete personal-understanding loop is future work.",
+      "conflicts": [],
+      "dependencies": [
+        "Private backend",
+        "Evidence lineage",
+        "Runtime synthesis",
+        "Feedback contract"
+      ],
+      "required_agent_or_skill": [
+        ".agents/skills/aionis-operating-system/SKILL.md",
+        ".agents/skills/aionis-ai-workflow/SKILL.md",
+        ".agents/skills/aionis-human-pattern-dream-review/SKILL.md",
+        ".agents/skills/aionis-intelligence-review/SKILL.md"
+      ],
+      "required_tests": [
+        "User/org isolation",
+        "Contradictory evidence",
+        "Inquiry state",
+        "Sensitive approval",
+        "Supersession"
+      ],
+      "required_human_gate": [
+        "DREAM_GATE",
+        "INTELLIGENCE_REVIEW",
+        "SECURITY_REVIEW",
+        "CODE_GATE"
+      ],
+      "recommended_phase": "PHASE_10",
+      "proposed_pr_name": "FPR-10-human-pattern-dreaming",
+      "application_behavior_change": true,
+      "private_data_involved": true,
+      "database_migration_involved": false,
+      "constitutional_methodology_involved": true,
+      "confidence": "HIGH",
+      "notes": "Reclassified individually as NOT_CURRENTLY_APPLICABLE because this capability is intentionally reserved for PHASE_10 and requires separate human authorization; the Prompt 1 documentation is a secondary implementation note, not a current-status value."
+    },
+    {
+      "requirement_id": "AOS-09-02",
+      "requirement_title": "Pattern Ledger records evidence, contradictions, status, confidence/decay, sensitivity, confirmation, versions, and history.",
+      "source_document": "docs/aionis-operating-system/09-human-pattern-dreaming.md",
+      "source_section": "Required protections",
+      "status": "PARTIALLY_IMPLEMENTED",
+      "target": "SHARED_CONTRACT",
+      "risk": "MEDIUM",
+      "current_evidence": [
+        {
+          "repository_path_or_github_artifact": "docs/aionis-operating-system/schemas/pattern-ledger.schema.json",
+          "exact_reference": "pattern-ledger.schema.json contains the core pattern fields and supersession links.",
+          "evidence_type": "SCHEMA_CONTRACT",
+          "proves": "Positive or limiting evidence: pattern-ledger.schema.json contains the core pattern fields and supersession links."
+        },
+        {
+          "repository_path_or_github_artifact": "Repository tree at Git commit 9041d142f87ab48a8706a333cfebd70d702783fb",
+          "exact_reference": "No ledger instance or service exists.",
+          "evidence_type": "REPOSITORY_SEARCH",
+          "proves": "Absence evidence: No ledger instance or service exists."
+        },
+        {
+          "repository_path_or_github_artifact": "Repository tree at Git commit 9041d142f87ab48a8706a333cfebd70d702783fb",
+          "exact_reference": "The schema requires organizationScopeId as a nonempty string for every ledger and has no explicit rollback target or explanation text.",
+          "evidence_type": "SCHEMA_CONTRACT",
+          "proves": "Positive or limiting evidence: The schema requires organizationScopeId as a nonempty string for every ledger and has no explicit rollback target or explanation text."
+        }
+      ],
+      "existing_implementation": "pattern-ledger.schema.json contains the core pattern fields and supersession links. The schema requires organizationScopeId as a nonempty string for every ledger and has no explicit rollback target or explanation text.",
+      "missing_work": "The draft captures core rows but needs applicability and contract reconciliation before implementation.",
+      "conflicts": [],
+      "dependencies": [
+        "Identity scope design",
+        "Explanation contract"
+      ],
+      "required_agent_or_skill": [
+        ".agents/skills/aionis-operating-system/SKILL.md",
+        ".agents/skills/aionis-ai-workflow/SKILL.md",
+        ".agents/skills/aionis-human-pattern-dream-review/SKILL.md"
+      ],
+      "required_tests": [
+        "Individual and organization scopes",
+        "Supersession chain",
+        "Contradiction IDs resolve"
+      ],
+      "required_human_gate": [
+        "PLAN_GATE",
+        "INTELLIGENCE_REVIEW",
+        "CODE_GATE"
+      ],
+      "recommended_phase": "PHASE_3",
+      "proposed_pr_name": "FPR-03-contracts-validators",
+      "application_behavior_change": false,
+      "private_data_involved": true,
+      "database_migration_involved": false,
+      "constitutional_methodology_involved": false,
+      "confidence": "HIGH",
+      "notes": ""
+    },
+    {
+      "requirement_id": "AOS-09-03",
+      "requirement_title": "A Human Pattern proposal states requested approval and rollback target in addition to evidence, confidence, contradictions, sensitivity, and explanation.",
+      "source_document": "docs/aionis-operating-system/09-human-pattern-dreaming.md",
+      "source_section": "Required protections",
+      "status": "CONTRADICTORY",
+      "target": "SHARED_CONTRACT",
+      "risk": "HIGH",
+      "current_evidence": [
+        {
+          "repository_path_or_github_artifact": "docs/aionis-operating-system/09-human-pattern-dreaming.md",
+          "exact_reference": "09-human-pattern-dreaming.md explicitly requires requested approval and rollback target.",
+          "evidence_type": "DOCUMENTATION",
+          "proves": "Positive or limiting evidence: 09-human-pattern-dreaming.md explicitly requires requested approval and rollback target."
+        },
+        {
+          "repository_path_or_github_artifact": "docs/aionis-operating-system/schemas/dream-proposal.schema.json",
+          "exact_reference": "dream-proposal.schema.json has approvalId after a decision but no requestedApproval or rollbackTarget field and disallows additional properties.",
+          "evidence_type": "SCHEMA_CONTRACT",
+          "proves": "Positive or limiting evidence: dream-proposal.schema.json has approvalId after a decision but no requestedApproval or rollbackTarget field and disallows additional properties."
+        }
+      ],
+      "existing_implementation": "09-human-pattern-dreaming.md explicitly requires requested approval and rollback target. dream-proposal.schema.json has approvalId after a decision but no requestedApproval or rollbackTarget field and disallows additional properties.",
+      "missing_work": "The required proposal cannot be represented exactly by the draft schema.",
+      "conflicts": [
+        "The required proposal cannot be represented exactly by the draft schema."
+      ],
+      "dependencies": [
+        "Dream proposal lifecycle decision"
+      ],
+      "required_agent_or_skill": [
+        ".agents/skills/aionis-operating-system/SKILL.md",
+        ".agents/skills/aionis-ai-workflow/SKILL.md",
+        ".agents/skills/aionis-human-pattern-dream-review/SKILL.md",
+        ".agents/skills/aionis-intelligence-review/SKILL.md",
+        ".agents/skills/aionis-release-gating/SKILL.md"
+      ],
+      "required_tests": [
+        "Requested gate representation",
+        "Rollback target required for human-pattern proposal"
+      ],
+      "required_human_gate": [
+        "PLAN_GATE",
+        "CODE_GATE"
+      ],
+      "recommended_phase": "PHASE_3",
+      "proposed_pr_name": "FPR-03-contracts-validators",
+      "application_behavior_change": false,
+      "private_data_involved": true,
+      "database_migration_involved": false,
+      "constitutional_methodology_involved": true,
+      "confidence": "HIGH",
+      "notes": ""
+    },
+    {
+      "requirement_id": "AOS-FEEDBACK-01",
+      "requirement_title": "Feedback is new evidence, explanations show support and contradiction, and unresolved conclusions use Inquiry instead of forced certainty.",
+      "source_document": "docs/aionis-operating-system/09-human-pattern-dreaming.md",
+      "source_section": "Whole document or repository contract",
+      "status": "PARTIALLY_IMPLEMENTED",
+      "target": "PRIVATE_AIONIS_BACKEND",
+      "risk": "MEDIUM",
+      "current_evidence": [
+        {
+          "repository_path_or_github_artifact": "Repository tree at Git commit 9041d142f87ab48a8706a333cfebd70d702783fb",
+          "exact_reference": "Human Pattern and intelligence-review documents describe feedback, explanation, contradiction, conditional synthesis, and Inquiry.",
+          "evidence_type": "DOCUMENTATION",
+          "proves": "Positive or limiting evidence: Human Pattern and intelligence-review documents describe feedback, explanation, contradiction, conditional synthesis, and Inquiry."
+        },
+        {
+          "repository_path_or_github_artifact": "app/page.tsx",
+          "exact_reference": "The student app implements operational notices, errors, and Retry UI in AuthProvider.tsx, usePeople.ts, and app/page.tsx:693, but no intelligence feedback/explanation capability.",
+          "evidence_type": "SOURCE_CODE",
+          "proves": "Positive or limiting evidence: The student app implements operational notices, errors, and Retry UI in AuthProvider.tsx, usePeople.ts, and app/page.tsx:693, but no intelligence feedback/explanation capability."
+        },
+        {
+          "repository_path_or_github_artifact": "Repository tree at Git commit 9041d142f87ab48a8706a333cfebd70d702783fb",
+          "exact_reference": "No feedback-event/evidence contract, explanation schema, or Inquiry runtime exists.",
+          "evidence_type": "REPOSITORY_SEARCH",
+          "proves": "Absence evidence: No feedback-event/evidence contract, explanation schema, or Inquiry runtime exists."
+        }
+      ],
+      "existing_implementation": "Human Pattern and intelligence-review documents describe feedback, explanation, contradiction, conditional synthesis, and Inquiry. The student app implements operational notices, errors, and Retry UI in AuthProvider.tsx, usePeople.ts, and app/page.tsx:693, but no intelligence feedback/explanation capability.",
+      "missing_work": "Operational UX feedback exists; governed intelligence feedback and explanation do not.",
+      "conflicts": [],
+      "dependencies": [
+        "Evidence lineage",
+        "Private backend",
+        "Runtime synthesis"
+      ],
+      "required_agent_or_skill": [
+        ".agents/skills/aionis-operating-system/SKILL.md",
+        ".agents/skills/aionis-ai-workflow/SKILL.md",
+        ".agents/skills/aionis-intelligence-review/SKILL.md"
+      ],
+      "required_tests": [
+        "Feedback becomes immutable evidence",
+        "Supporting/contradictory citations",
+        "Inquiry fallback"
+      ],
+      "required_human_gate": [
+        "INTELLIGENCE_REVIEW",
+        "SECURITY_REVIEW",
+        "CODE_GATE"
+      ],
+      "recommended_phase": "PHASE_7",
+      "proposed_pr_name": "FPR-07-runtime-intelligence-feedback",
+      "application_behavior_change": true,
+      "private_data_involved": true,
+      "database_migration_involved": false,
+      "constitutional_methodology_involved": false,
+      "confidence": "HIGH",
+      "notes": ""
+    },
+    {
+      "requirement_id": "AOS-10-01",
+      "requirement_title": "Global learning uses consented de-identified eligible aggregates, thresholds and suppression, leakage/bias/calibration/subgroup tests, formal review, versioned release, and rollback.",
+      "source_document": "docs/aionis-operating-system/10-global-intelligence-learning.md",
+      "source_section": "Whole document or repository contract",
+      "status": "NOT_CURRENTLY_APPLICABLE",
+      "target": "PRIVATE_AIONIS_BACKEND",
+      "risk": "MEDIUM",
+      "current_evidence": [
+        {
+          "repository_path_or_github_artifact": "docs/aionis-operating-system/10-global-intelligence-learning.md",
+          "exact_reference": "10-global-intelligence-learning.md defines the complete contract.",
+          "evidence_type": "DOCUMENTATION",
+          "proves": "Positive or limiting evidence: 10-global-intelligence-learning.md defines the complete contract."
+        },
+        {
+          "repository_path_or_github_artifact": "Repository tree at Git commit 9041d142f87ab48a8706a333cfebd70d702783fb",
+          "exact_reference": "No aggregation eligibility contract, consent store, de-identification pipeline, evaluation set, methodology proposal, governed intelligence version, or global-learning job exists.",
+          "evidence_type": "REPOSITORY_SEARCH",
+          "proves": "Absence evidence: No aggregation eligibility contract, consent store, de-identification pipeline, evaluation set, methodology proposal, governed intelligence version, or global-learning job exists."
+        }
+      ],
+      "existing_implementation": "10-global-intelligence-learning.md defines the complete contract.",
+      "missing_work": "Global intelligence learning is intentionally future work.",
+      "conflicts": [],
+      "dependencies": [
+        "Personal evidence isolation",
+        "Analytics contracts",
+        "Human Pattern system",
+        "Methodology versioning"
+      ],
+      "required_agent_or_skill": [
+        ".agents/skills/aionis-operating-system/SKILL.md",
+        ".agents/skills/aionis-ai-workflow/SKILL.md",
+        ".agents/skills/aionis-intelligence-review/SKILL.md",
+        ".agents/skills/aionis-release-gating/SKILL.md"
+      ],
+      "required_tests": [
+        "Consent eligibility",
+        "Small-cohort suppression",
+        "Linkability rejection",
+        "Leakage/bias/calibration/subgroup evaluation",
+        "Rollback"
+      ],
+      "required_human_gate": [
+        "DREAM_GATE",
+        "INTELLIGENCE_REVIEW",
+        "SECURITY_REVIEW",
+        "RELEASE_GATE"
+      ],
+      "recommended_phase": "PHASE_11",
+      "proposed_pr_name": "FPR-11-global-learning",
+      "application_behavior_change": true,
+      "private_data_involved": true,
+      "database_migration_involved": false,
+      "constitutional_methodology_involved": true,
+      "confidence": "HIGH",
+      "notes": "Reclassified individually as NOT_CURRENTLY_APPLICABLE because this capability is intentionally reserved for PHASE_11 and requires separate human authorization; the Prompt 1 documentation is a secondary implementation note, not a current-status value."
+    },
+    {
+      "requirement_id": "AOS-11-01",
+      "requirement_title": "The public student app uses least privilege, browser-safe keys, authentication, per-user RLS, validation, and deny-by-default ownership.",
+      "source_document": "docs/aionis-operating-system/11-security-and-privacy.md",
+      "source_section": "Baseline controls",
+      "status": "IMPLEMENTED",
+      "target": "PUBLIC_STUDENT_APP",
+      "risk": "HIGH",
+      "current_evidence": [
+        {
+          "repository_path_or_github_artifact": "lib/supabase/client.ts",
+          "exact_reference": "lib/supabase/client.ts:5-16 uses only URL and publishable key.",
+          "evidence_type": "SOURCE_CODE",
+          "proves": "Positive or limiting evidence: lib/supabase/client.ts:5-16 uses only URL and publishable key."
+        },
+        {
+          "repository_path_or_github_artifact": "features/people/people.repository.ts",
+          "exact_reference": "people.repository.ts:34-40 verifies the authenticated user and lines 60-120 applies user filters and server-derived ownership.",
+          "evidence_type": "SOURCE_CODE",
+          "proves": "Positive or limiting evidence: people.repository.ts:34-40 verifies the authenticated user and lines 60-120 applies user filters and server-derived ownership."
+        },
+        {
+          "repository_path_or_github_artifact": "Repository tree at Git commit 9041d142f87ab48a8706a333cfebd70d702783fb",
+          "exact_reference": "20260731204509_create_people.sql:41-69 enables RLS and four auth.uid owner policies; 20260801000026_tighten_people_grants.sql:5-9 narrows grants and function execution.",
+          "evidence_type": "DATABASE_MIGRATION_OR_POLICY",
+          "proves": "Positive or limiting evidence: 20260731204509_create_people.sql:41-69 enables RLS and four auth.uid owner policies; 20260801000026_tighten_people_grants.sql:5-9 narrows grants and function execution."
+        },
+        {
+          "repository_path_or_github_artifact": "supabase/tests/database/people_rls.test.sql",
+          "exact_reference": "people_rls.test.sql plans eight own/cross-user/anonymous cases.",
+          "evidence_type": "DATABASE_MIGRATION_OR_POLICY",
+          "proves": "Positive or limiting evidence: people_rls.test.sql plans eight own/cross-user/anonymous cases."
+        }
+      ],
+      "existing_implementation": "lib/supabase/client.ts:5-16 uses only URL and publishable key. people.repository.ts:34-40 verifies the authenticated user and lines 60-120 applies user filters and server-derived ownership. 20260731204509_create_people.sql:41-69 enables RLS and four auth.uid owner policies; 20260801000026_tighten_people_grants.sql:5-9 narrows grants and function execution. people_rls.test.sql plans eight own/cross-user/anonymous cases.",
+      "missing_work": "None for the currently audited scope.",
+      "conflicts": [],
+      "dependencies": [],
+      "required_agent_or_skill": [
+        ".agents/skills/aionis-operating-system/SKILL.md",
+        ".agents/skills/aionis-ai-workflow/SKILL.md",
+        ".agents/skills/aionis-security-review/SKILL.md"
+      ],
+      "required_tests": [
+        "npm run test:db",
+        "Repository/auth/unit tests"
+      ],
+      "required_human_gate": [
+        "SECURITY_REVIEW and CODE_GATE for changes"
+      ],
+      "recommended_phase": "CURRENT_BASELINE",
+      "proposed_pr_name": null,
+      "application_behavior_change": false,
+      "private_data_involved": true,
+      "database_migration_involved": true,
+      "constitutional_methodology_involved": false,
+      "confidence": "HIGH",
+      "notes": "No missing work for the currently audited scope."
+    },
+    {
+      "requirement_id": "AOS-11-02",
+      "requirement_title": "Sensitive logging, retention/deletion, audit logging, privileged-action audit, incident ownership, model/provider flow, abuse, and rollback are defined and enforced.",
+      "source_document": "docs/aionis-operating-system/11-security-and-privacy.md",
+      "source_section": "Baseline controls",
+      "status": "PARTIALLY_IMPLEMENTED",
+      "target": "SHARED_CONTRACT",
+      "risk": "HIGH",
+      "current_evidence": [
+        {
+          "repository_path_or_github_artifact": "Repository tree at Git commit 9041d142f87ab48a8706a333cfebd70d702783fb",
+          "exact_reference": "security-review.md and aionis-security-review/SKILL.md prompt reviewers to examine these areas.",
+          "evidence_type": "AGENT_SKILL",
+          "proves": "Positive or limiting evidence: security-review.md and aionis-security-review/SKILL.md prompt reviewers to examine these areas."
+        },
+        {
+          "repository_path_or_github_artifact": "Repository tree at Git commit 9041d142f87ab48a8706a333cfebd70d702783fb",
+          "exact_reference": "Current people rows cascade on account deletion and local telemetry is ignored, but no retention policy ID, audit log, privileged action ledger, incident owner, or model/provider implementation exists.",
+          "evidence_type": "REPOSITORY_SEARCH",
+          "proves": "Absence evidence: Current people rows cascade on account deletion and local telemetry is ignored, but no retention policy ID, audit log, privileged action ledger, incident owner, or model/provider implementation exists."
+        }
+      ],
+      "existing_implementation": "security-review.md and aionis-security-review/SKILL.md prompt reviewers to examine these areas.",
+      "missing_work": "Review prompts exist without platform controls or evidence artifacts.",
+      "conflicts": [],
+      "dependencies": [
+        "Private backend",
+        "Audit event contract",
+        "Retention policy"
+      ],
+      "required_agent_or_skill": [
+        ".agents/skills/aionis-operating-system/SKILL.md",
+        ".agents/skills/aionis-ai-workflow/SKILL.md",
+        ".agents/skills/aionis-security-review/SKILL.md",
+        ".agents/skills/aionis-release-gating/SKILL.md"
+      ],
+      "required_tests": [
+        "Retention/deletion",
+        "Sensitive log scan",
+        "Privileged audit",
+        "Incident ownership",
+        "Rollback"
+      ],
+      "required_human_gate": [
+        "PLAN_GATE",
+        "SECURITY_REVIEW",
+        "CODE_GATE"
+      ],
+      "recommended_phase": "PHASE_6",
+      "proposed_pr_name": "FPR-06-private-evidence-memory",
+      "application_behavior_change": false,
+      "private_data_involved": true,
+      "database_migration_involved": false,
+      "constitutional_methodology_involved": false,
+      "confidence": "HIGH",
+      "notes": ""
+    },
+    {
+      "requirement_id": "AOS-DB-DEFAULTS-01",
+      "requirement_title": "Future public database objects default to least privilege instead of inheriting broad API-role grants or PUBLIC function execution.",
+      "source_document": "docs/aionis-operating-system/11-security-and-privacy.md",
+      "source_section": "Baseline controls",
+      "status": "BLOCKED_BY_DEPENDENCY",
+      "target": "PRIVATE_AIONIS_BACKEND",
+      "risk": "HIGH",
+      "current_evidence": [
+        {
+          "repository_path_or_github_artifact": "docs/CURRENT_STATE.md",
+          "exact_reference": "docs/CURRENT_STATE.md:103 records broad future defaults for postgres and supabase_admin.",
+          "evidence_type": "DOCUMENTATION",
+          "proves": "Positive or limiting evidence: docs/CURRENT_STATE.md:103 records broad future defaults for postgres and supabase_admin."
+        },
+        {
+          "repository_path_or_github_artifact": "docs/CURRENT_STATE.md",
+          "exact_reference": "docs/CURRENT_STATE.md:104 records that the available migration connection cannot change supabase_admin defaults and that built-in PUBLIC EXECUTE needs a global role-level change.",
+          "evidence_type": "DATABASE_MIGRATION_OR_POLICY",
+          "proves": "Positive or limiting evidence: docs/CURRENT_STATE.md:104 records that the available migration connection cannot change supabase_admin defaults and that built-in PUBLIC EXECUTE needs a global role-level change."
+        },
+        {
+          "repository_path_or_github_artifact": "Repository tree at Git commit 9041d142f87ab48a8706a333cfebd70d702783fb",
+          "exact_reference": "No default-privilege migration exists; current people table/function are explicitly hardened.",
+          "evidence_type": "REPOSITORY_SEARCH",
+          "proves": "Absence evidence: No default-privilege migration exists; current people table/function are explicitly hardened."
+        }
+      ],
+      "existing_implementation": "docs/CURRENT_STATE.md:103 records broad future defaults for postgres and supabase_admin. docs/CURRENT_STATE.md:104 records that the available migration connection cannot change supabase_admin defaults and that built-in PUBLIC EXECUTE needs a global role-level change.",
+      "missing_work": "Platform-owner authority and a safe global/default-privilege design are required before implementation.",
+      "conflicts": [],
+      "dependencies": [
+        "Supabase platform-owner authority",
+        "Dry-runable role-level plan",
+        "No new public object before resolution"
+      ],
+      "required_agent_or_skill": [
+        ".agents/skills/aionis-operating-system/SKILL.md",
+        ".agents/skills/aionis-ai-workflow/SKILL.md",
+        ".agents/skills/aionis-security-review/SKILL.md"
+      ],
+      "required_tests": [
+        "Future table has no anon and only approved authenticated privileges",
+        "Future sequence has no unneeded API grants",
+        "Future function has no PUBLIC/anon/authenticated execute",
+        "Advisors and regression pgTAP"
+      ],
+      "required_human_gate": [
+        "PLAN_GATE",
+        "SECURITY_REVIEW",
+        "CODE_GATE",
+        "RELEASE_GATE"
+      ],
+      "recommended_phase": "SECURITY_PREREQUISITE",
+      "proposed_pr_name": "FPR-SEC-default-privileges",
+      "application_behavior_change": false,
+      "private_data_involved": true,
+      "database_migration_involved": true,
+      "constitutional_methodology_involved": false,
+      "confidence": "MEDIUM",
+      "notes": ""
+    },
+    {
+      "requirement_id": "AOS-12-01",
+      "requirement_title": "Development routing recommends the least expensive sufficient deterministic tool or model without silently changing a selected model.",
+      "source_document": "docs/aionis-operating-system/12-model-routing-cost-and-capacity.md",
+      "source_section": "Routing policy",
+      "status": "IMPLEMENTED",
+      "target": "DEV_TOOLING",
+      "risk": "LOW",
+      "current_evidence": [
+        {
+          "repository_path_or_github_artifact": "AGENTS.md; docs/ai-context/WORKFLOW.md",
+          "exact_reference": "AGENTS.md:69-74, docs/ai-context/WORKFLOW.md#Model routing, and TOOL_PROFILES.md implement advisory Level 2 routing.",
+          "evidence_type": "DOCUMENTATION",
+          "proves": "Positive or limiting evidence: AGENTS.md:69-74, docs/ai-context/WORKFLOW.md#Model routing, and TOOL_PROFILES.md implement advisory Level 2 routing."
+        },
+        {
+          "repository_path_or_github_artifact": "docs/ai-context/LEVEL3_GATEWAY_SPEC.md",
+          "exact_reference": "LEVEL3_GATEWAY_SPEC.md correctly disclaims enforcement.",
+          "evidence_type": "DOCUMENTATION",
+          "proves": "Positive or limiting evidence: LEVEL3_GATEWAY_SPEC.md correctly disclaims enforcement."
+        }
+      ],
+      "existing_implementation": "AGENTS.md:69-74, docs/ai-context/WORKFLOW.md#Model routing, and TOOL_PROFILES.md implement advisory Level 2 routing. LEVEL3_GATEWAY_SPEC.md correctly disclaims enforcement.",
+      "missing_work": "Enforcement is intentionally deferred to Level 3.",
+      "conflicts": [],
+      "dependencies": [],
+      "required_agent_or_skill": [
+        ".agents/skills/aionis-operating-system/SKILL.md",
+        ".agents/skills/aionis-ai-workflow/SKILL.md"
+      ],
+      "required_tests": [
+        "Workflow validator textual invariants"
+      ],
+      "required_human_gate": [
+        "CODE_GATE for routing-policy changes"
+      ],
+      "recommended_phase": "CURRENT_BASELINE",
+      "proposed_pr_name": null,
+      "application_behavior_change": false,
+      "private_data_involved": false,
+      "database_migration_involved": false,
+      "constitutional_methodology_involved": false,
+      "confidence": "HIGH",
+      "notes": ""
+    },
+    {
+      "requirement_id": "AOS-12-02",
+      "requirement_title": "Runtime generation records provider/model/config/prompt/fallback/timeout/retries/budget/environment/evidence and fallback cannot bypass gates.",
+      "source_document": "docs/aionis-operating-system/12-model-routing-cost-and-capacity.md",
+      "source_section": "Routing policy",
+      "status": "CONTRADICTORY",
+      "target": "PRIVATE_AIONIS_BACKEND",
+      "risk": "HIGH",
+      "current_evidence": [
+        {
+          "repository_path_or_github_artifact": "docs/aionis-operating-system/schemas/generation-manifest.schema.json",
+          "exact_reference": "generation-manifest.schema.json covers identity and fallback fields but not timeout, retry ceiling, or token/cost budget.",
+          "evidence_type": "SCHEMA_CONTRACT",
+          "proves": "Positive or limiting evidence: generation-manifest.schema.json covers identity and fallback fields but not timeout, retry ceiling, or token/cost budget."
+        },
+        {
+          "repository_path_or_github_artifact": "Repository tree at Git commit 9041d142f87ab48a8706a333cfebd70d702783fb",
+          "exact_reference": "No runtime AI client, routing policy, model call, or generation manifest exists.",
+          "evidence_type": "REPOSITORY_SEARCH",
+          "proves": "Absence evidence: No runtime AI client, routing policy, model call, or generation manifest exists."
+        }
+      ],
+      "existing_implementation": "generation-manifest.schema.json covers identity and fallback fields but not timeout, retry ceiling, or token/cost budget.",
+      "missing_work": "The closed draft schema cannot represent the required timeout, retry ceiling, or token/cost budget; runtime generation is also absent.",
+      "conflicts": [
+        "The closed draft schema cannot represent the required timeout, retry ceiling, or token/cost budget; runtime generation is also absent."
+      ],
+      "dependencies": [
+        "Generation schema reconciliation",
+        "Runtime intelligence design"
+      ],
+      "required_agent_or_skill": [
+        ".agents/skills/aionis-operating-system/SKILL.md",
+        ".agents/skills/aionis-ai-workflow/SKILL.md",
+        ".agents/skills/aionis-intelligence-review/SKILL.md"
+      ],
+      "required_tests": [
+        "Timeout/retry/budget fields",
+        "Fallback gate enforcement",
+        "Exact model identity"
+      ],
+      "required_human_gate": [
+        "PLAN_GATE",
+        "INTELLIGENCE_REVIEW",
+        "SECURITY_REVIEW",
+        "CODE_GATE"
+      ],
+      "recommended_phase": "PHASE_3",
+      "proposed_pr_name": "FPR-03-contracts-validators",
+      "application_behavior_change": true,
+      "private_data_involved": true,
+      "database_migration_involved": false,
+      "constitutional_methodology_involved": false,
+      "confidence": "HIGH",
+      "notes": ""
+    },
+    {
+      "requirement_id": "AOS-12-03",
+      "requirement_title": "Runtime capacity has budgets, tenant/workload concurrency, backpressure, idempotency, dead letters, cancellation, versioned caching, and safe unavailable/Inquiry degradation.",
+      "source_document": "docs/aionis-operating-system/12-model-routing-cost-and-capacity.md",
+      "source_section": "Capacity controls",
+      "status": "NOT_CURRENTLY_APPLICABLE",
+      "target": "PRIVATE_AIONIS_BACKEND",
+      "risk": "HIGH",
+      "current_evidence": [
+        {
+          "repository_path_or_github_artifact": "docs/aionis-operating-system/12-model-routing-cost-and-capacity.md",
+          "exact_reference": "12-model-routing-cost-and-capacity.md defines the controls.",
+          "evidence_type": "DOCUMENTATION",
+          "proves": "Positive or limiting evidence: 12-model-routing-cost-and-capacity.md defines the controls."
+        },
+        {
+          "repository_path_or_github_artifact": "Repository tree at Git commit 9041d142f87ab48a8706a333cfebd70d702783fb",
+          "exact_reference": "No queue, worker, budget service, cache contract, dead-letter path, cancellation, or runtime Inquiry state exists.",
+          "evidence_type": "REPOSITORY_SEARCH",
+          "proves": "Absence evidence: No queue, worker, budget service, cache contract, dead-letter path, cancellation, or runtime Inquiry state exists."
+        }
+      ],
+      "existing_implementation": "12-model-routing-cost-and-capacity.md defines the controls.",
+      "missing_work": "All runtime capacity controls are future backend work.",
+      "conflicts": [],
+      "dependencies": [
+        "Private backend",
+        "Runtime generation contract"
+      ],
+      "required_agent_or_skill": [
+        ".agents/skills/aionis-operating-system/SKILL.md",
+        ".agents/skills/aionis-ai-workflow/SKILL.md",
+        ".agents/skills/aionis-security-review/SKILL.md",
+        ".agents/skills/aionis-intelligence-review/SKILL.md"
+      ],
+      "required_tests": [
+        "Budget ceiling",
+        "Tenant concurrency",
+        "Idempotency",
+        "Dead letter",
+        "Cancellation",
+        "Safe degradation"
+      ],
+      "required_human_gate": [
+        "PLAN_GATE",
+        "SECURITY_REVIEW",
+        "CODE_GATE"
+      ],
+      "recommended_phase": "PHASE_7",
+      "proposed_pr_name": "FPR-07-runtime-intelligence-feedback",
+      "application_behavior_change": true,
+      "private_data_involved": true,
+      "database_migration_involved": false,
+      "constitutional_methodology_involved": false,
+      "confidence": "HIGH",
+      "notes": "Reclassified individually as NOT_CURRENTLY_APPLICABLE because this capability is intentionally reserved for PHASE_7 and requires separate human authorization; the Prompt 1 documentation is a secondary implementation note, not a current-status value."
+    },
+    {
+      "requirement_id": "AOS-12-04",
+      "requirement_title": "Prompt caching is distinct from development memory and the named PWA cache.",
+      "source_document": "docs/aionis-operating-system/12-model-routing-cost-and-capacity.md",
+      "source_section": "Capacity controls",
+      "status": "CONTRADICTORY",
+      "target": "DEV_TOOLING",
+      "risk": "HIGH",
+      "current_evidence": [
+        {
+          "repository_path_or_github_artifact": "docs/aionis-operating-system/12-model-routing-cost-and-capacity.md",
+          "exact_reference": "12-model-routing-cost-and-capacity.md names the PWA cache aionis-timeline-v3.",
+          "evidence_type": "DOCUMENTATION",
+          "proves": "Positive or limiting evidence: 12-model-routing-cost-and-capacity.md names the PWA cache aionis-timeline-v3."
+        },
+        {
+          "repository_path_or_github_artifact": "vite.config.ts",
+          "exact_reference": "vite.config.ts contains no cacheId or cache name and repository search finds no implementation of aionis-timeline-v3.",
+          "evidence_type": "SOURCE_CODE",
+          "proves": "Positive or limiting evidence: vite.config.ts contains no cacheId or cache name and repository search finds no implementation of aionis-timeline-v3."
+        }
+      ],
+      "existing_implementation": "12-model-routing-cost-and-capacity.md names the PWA cache aionis-timeline-v3. vite.config.ts contains no cacheId or cache name and repository search finds no implementation of aionis-timeline-v3.",
+      "missing_work": "The conceptual distinction is valid, but the named cache is not the current repository cache identity.",
+      "conflicts": [
+        "The conceptual distinction is valid, but the named cache is not the current repository cache identity."
+      ],
+      "dependencies": [
+        "Confirm actual Workbox cache naming intent"
+      ],
+      "required_agent_or_skill": [
+        ".agents/skills/aionis-operating-system/SKILL.md",
+        ".agents/skills/aionis-ai-workflow/SKILL.md"
+      ],
+      "required_tests": [
+        "Generated service-worker cache identity assertion"
+      ],
+      "required_human_gate": [
+        "CODE_GATE"
+      ],
+      "recommended_phase": "PHASE_3",
+      "proposed_pr_name": "FPR-03-contracts-validators",
+      "application_behavior_change": false,
+      "private_data_involved": false,
+      "database_migration_involved": false,
+      "constitutional_methodology_involved": false,
+      "confidence": "HIGH",
+      "notes": ""
+    },
+    {
+      "requirement_id": "AOS-13-01",
+      "requirement_title": "Operational and product/intelligence analytics are separate purpose-bound contracts with consent, tenant, retention, access, deletion, aggregation, alerts, and versioning.",
+      "source_document": "docs/aionis-operating-system/13-analytics-and-observability.md",
+      "source_section": "Separate contracts",
+      "status": "NOT_CURRENTLY_APPLICABLE",
+      "target": "SHARED_CONTRACT",
+      "risk": "HIGH",
+      "current_evidence": [
+        {
+          "repository_path_or_github_artifact": "Repository tree at Git commit 9041d142f87ab48a8706a333cfebd70d702783fb",
+          "exact_reference": "13-analytics-and-observability.md, analytics-contract.md, analytics-event.schema.json, and aionis-analytics-review/SKILL.md define the review surface.",
+          "evidence_type": "SCHEMA_CONTRACT",
+          "proves": "Positive or limiting evidence: 13-analytics-and-observability.md, analytics-contract.md, analytics-event.schema.json, and aionis-analytics-review/SKILL.md define the review surface."
+        },
+        {
+          "repository_path_or_github_artifact": "Repository tree at Git commit 9041d142f87ab48a8706a333cfebd70d702783fb",
+          "exact_reference": "No product/runtime analytics SDK, event producer, collector, store, contract instance, alert, or dashboard exists.",
+          "evidence_type": "REPOSITORY_SEARCH",
+          "proves": "Absence evidence: No product/runtime analytics SDK, event producer, collector, store, contract instance, alert, or dashboard exists."
+        }
+      ],
+      "existing_implementation": "13-analytics-and-observability.md, analytics-contract.md, analytics-event.schema.json, and aionis-analytics-review/SKILL.md define the review surface.",
+      "missing_work": "The analytics system is intentionally not implemented.",
+      "conflicts": [],
+      "dependencies": [
+        "Private backend",
+        "Consent model",
+        "Runtime/feature event decisions"
+      ],
+      "required_agent_or_skill": [
+        ".agents/skills/aionis-operating-system/SKILL.md",
+        ".agents/skills/aionis-ai-workflow/SKILL.md",
+        ".agents/skills/aionis-security-review/SKILL.md",
+        ".agents/skills/aionis-analytics-review/SKILL.md",
+        ".agents/skills/aionis-intelligence-review/SKILL.md"
+      ],
+      "required_tests": [
+        "Class separation",
+        "Consent/tenant enforcement",
+        "Retention/deletion",
+        "Missingness/version comparison"
+      ],
+      "required_human_gate": [
+        "ANALYTICS_REVIEW",
+        "SECURITY_REVIEW",
+        "CODE_GATE"
+      ],
+      "recommended_phase": "PHASE_8",
+      "proposed_pr_name": "FPR-08-analytics-observability",
+      "application_behavior_change": false,
+      "private_data_involved": true,
+      "database_migration_involved": false,
+      "constitutional_methodology_involved": false,
+      "confidence": "HIGH",
+      "notes": "Reclassified individually as NOT_CURRENTLY_APPLICABLE because this capability is intentionally reserved for PHASE_8 and requires separate human authorization; the Prompt 1 documentation is a secondary implementation note, not a current-status value."
+    },
+    {
+      "requirement_id": "AOS-13-02",
+      "requirement_title": "Analytics events and collection contracts represent owner, lawful/consent basis, prohibited fields, tenant handling, sampling, retention, access, deletion, aggregation, alerts, and version.",
+      "source_document": "docs/aionis-operating-system/13-analytics-and-observability.md",
+      "source_section": "Separate contracts",
+      "status": "CONTRADICTORY",
+      "target": "SHARED_CONTRACT",
+      "risk": "HIGH",
+      "current_evidence": [
+        {
+          "repository_path_or_github_artifact": "docs/aionis-operating-system/schemas/analytics-event.schema.json",
+          "exact_reference": "analytics-event.schema.json requires purpose, tenant, retention, and prohibitedSensitiveFieldsPresent=false.",
+          "evidence_type": "SCHEMA_CONTRACT",
+          "proves": "Positive or limiting evidence: analytics-event.schema.json requires purpose, tenant, retention, and prohibitedSensitiveFieldsPresent=false."
+        },
+        {
+          "repository_path_or_github_artifact": "Repository tree at Git commit 9041d142f87ab48a8706a333cfebd70d702783fb",
+          "exact_reference": "The schema has no owner, sampling, access, deletion, aggregation, alerts, or contract version fields; contractId is optional while additionalProperties is false.",
+          "evidence_type": "REPOSITORY_SEARCH",
+          "proves": "Positive or limiting evidence: The schema has no owner, sampling, access, deletion, aggregation, alerts, or contract version fields; contractId is optional while additionalProperties is false."
+        }
+      ],
+      "existing_implementation": "analytics-event.schema.json requires purpose, tenant, retention, and prohibitedSensitiveFieldsPresent=false. The schema has no owner, sampling, access, deletion, aggregation, alerts, or contract version fields; contractId is optional while additionalProperties is false.",
+      "missing_work": "The event schema cannot represent all document-required contract linkage and governance fields.",
+      "conflicts": [
+        "The event schema cannot represent all document-required contract linkage and governance fields."
+      ],
+      "dependencies": [
+        "Event vs collection-contract responsibility decision"
+      ],
+      "required_agent_or_skill": [
+        ".agents/skills/aionis-operating-system/SKILL.md",
+        ".agents/skills/aionis-ai-workflow/SKILL.md",
+        ".agents/skills/aionis-security-review/SKILL.md",
+        ".agents/skills/aionis-analytics-review/SKILL.md"
+      ],
+      "required_tests": [
+        "Contract ID/version resolution",
+        "Governance field completeness",
+        "Prohibited-field fixtures"
+      ],
+      "required_human_gate": [
+        "PLAN_GATE",
+        "ANALYTICS_REVIEW",
+        "CODE_GATE"
+      ],
+      "recommended_phase": "PHASE_3",
+      "proposed_pr_name": "FPR-03-contracts-validators",
+      "application_behavior_change": false,
+      "private_data_involved": true,
+      "database_migration_involved": false,
+      "constitutional_methodology_involved": false,
+      "confidence": "HIGH",
+      "notes": ""
+    },
+    {
+      "requirement_id": "AOS-13-03",
+      "requirement_title": "Privacy-safe development efficiency telemetry records summaries without prompts, contents, credentials, names, DOBs, or private evidence.",
+      "source_document": "docs/aionis-operating-system/13-analytics-and-observability.md",
+      "source_section": "Separate contracts",
+      "status": "PARTIALLY_IMPLEMENTED",
+      "target": "DEV_TOOLING",
+      "risk": "HIGH",
+      "current_evidence": [
+        {
+          "repository_path_or_github_artifact": ".agents/skills/aionis-ai-workflow/scripts/telemetry.mjs",
+          "exact_reference": "telemetry.mjs stores allow-listed identifiers, counters, tool names, and opened file paths under ignored .ai-context/telemetry/.",
+          "evidence_type": "SOURCE_CODE",
+          "proves": "Positive or limiting evidence: telemetry.mjs stores allow-listed identifiers, counters, tool names, and opened file paths under ignored .ai-context/telemetry/."
+        },
+        {
+          "repository_path_or_github_artifact": ".agents/skills/aionis-ai-workflow/scripts/telemetry.test.mjs",
+          "exact_reference": "telemetry.test.mjs contains four passing privacy/measurement tests.",
+          "evidence_type": "TEST_OR_VERIFICATION",
+          "proves": "Positive or limiting evidence: telemetry.test.mjs contains four passing privacy/measurement tests."
+        },
+        {
+          "repository_path_or_github_artifact": "Repository tree at Git commit 9041d142f87ab48a8706a333cfebd70d702783fb",
+          "exact_reference": "There is no sensitive path-name detector, schema file, explicit retention/deletion mechanism, or OS analytics-event conformance.",
+          "evidence_type": "REPOSITORY_SEARCH",
+          "proves": "Positive or limiting evidence: There is no sensitive path-name detector, schema file, explicit retention/deletion mechanism, or OS analytics-event conformance."
+        }
+      ],
+      "existing_implementation": "telemetry.mjs stores allow-listed identifiers, counters, tool names, and opened file paths under ignored .ai-context/telemetry/. telemetry.test.mjs contains four passing privacy/measurement tests. There is no sensitive path-name detector, schema file, explicit retention/deletion mechanism, or OS analytics-event conformance.",
+      "missing_work": "The narrow local tool is implemented but not a complete governed analytics contract.",
+      "conflicts": [],
+      "dependencies": [
+        "Development telemetry contract"
+      ],
+      "required_agent_or_skill": [
+        ".agents/skills/aionis-operating-system/SKILL.md",
+        ".agents/skills/aionis-ai-workflow/SKILL.md",
+        ".agents/skills/aionis-security-review/SKILL.md",
+        ".agents/skills/aionis-analytics-review/SKILL.md"
+      ],
+      "required_tests": [
+        "Sensitive identifier/path rejection",
+        "Retention/deletion",
+        "Analytics schema conformance"
+      ],
+      "required_human_gate": [
+        "SECURITY_REVIEW",
+        "CODE_GATE"
+      ],
+      "recommended_phase": "PHASE_3",
+      "proposed_pr_name": "FPR-03-contracts-validators",
+      "application_behavior_change": false,
+      "private_data_involved": true,
+      "database_migration_involved": false,
+      "constitutional_methodology_involved": false,
+      "confidence": "HIGH",
+      "notes": ""
+    },
+    {
+      "requirement_id": "AOS-14-01",
+      "requirement_title": "Development, preview, staging, and production use distinct credentials, data policies, access, and audit trails; production data is not copied to development.",
+      "source_document": "docs/aionis-operating-system/14-release-and-environment-strategy.md",
+      "source_section": "Lifecycle",
+      "status": "PARTIALLY_IMPLEMENTED",
+      "target": "DEV_TOOLING",
+      "risk": "MEDIUM",
+      "current_evidence": [
+        {
+          "repository_path_or_github_artifact": "README.md",
+          "exact_reference": "Vercel Production/Preview/Development variables and a local Supabase stack are documented in CURRENT_STATE.md and README.md.",
+          "evidence_type": "GITHUB_ARTIFACT",
+          "proves": "Positive or limiting evidence: Vercel Production/Preview/Development variables and a local Supabase stack are documented in CURRENT_STATE.md and README.md."
+        },
+        {
+          "repository_path_or_github_artifact": "Repository tree at Git commit 9041d142f87ab48a8706a333cfebd70d702783fb",
+          "exact_reference": "Vercel Preview deployments and production origin exist.",
+          "evidence_type": "GITHUB_ARTIFACT",
+          "proves": "Positive or limiting evidence: Vercel Preview deployments and production origin exist."
+        },
+        {
+          "repository_path_or_github_artifact": "Repository tree at Git commit 9041d142f87ab48a8706a333cfebd70d702783fb",
+          "exact_reference": "No distinct staging environment, environment policy artifact, or per-environment audit trail is tracked.",
+          "evidence_type": "REPOSITORY_SEARCH",
+          "proves": "Absence evidence: No distinct staging environment, environment policy artifact, or per-environment audit trail is tracked."
+        }
+      ],
+      "existing_implementation": "Vercel Production/Preview/Development variables and a local Supabase stack are documented in CURRENT_STATE.md and README.md. Vercel Preview deployments and production origin exist.",
+      "missing_work": "Development/preview/production exist operationally; governed staging and auditable policy separation do not.",
+      "conflicts": [],
+      "dependencies": [
+        "Release manifest",
+        "Environment policy",
+        "Staging resource"
+      ],
+      "required_agent_or_skill": [
+        ".agents/skills/aionis-operating-system/SKILL.md",
+        ".agents/skills/aionis-ai-workflow/SKILL.md",
+        ".agents/skills/aionis-release-gating/SKILL.md"
+      ],
+      "required_tests": [
+        "Credential separation",
+        "Synthetic fixture enforcement",
+        "Staging smoke"
+      ],
+      "required_human_gate": [
+        "PLAN_GATE",
+        "SECURITY_REVIEW",
+        "RELEASE_GATE"
+      ],
+      "recommended_phase": "PHASE_12",
+      "proposed_pr_name": "FPR-12-release-pipeline",
+      "application_behavior_change": false,
+      "private_data_involved": false,
+      "database_migration_involved": false,
+      "constitutional_methodology_involved": false,
+      "confidence": "MEDIUM",
+      "notes": ""
+    },
+    {
+      "requirement_id": "AOS-14-02",
+      "requirement_title": "Releases bind immutable commit, digest, contracts, intelligence, environment, evidence, reviews, approvals, migrations, rollout, analytics, and rollback in a release manifest.",
+      "source_document": "docs/aionis-operating-system/14-release-and-environment-strategy.md",
+      "source_section": "Release identity",
+      "status": "PARTIALLY_IMPLEMENTED",
+      "target": "SHARED_CONTRACT",
+      "risk": "HIGH",
+      "current_evidence": [
+        {
+          "repository_path_or_github_artifact": "docs/aionis-operating-system/schemas/release-manifest.schema.json",
+          "exact_reference": "release-manifest.schema.json and release/rollback templates exist.",
+          "evidence_type": "SCHEMA_CONTRACT",
+          "proves": "Positive or limiting evidence: release-manifest.schema.json and release/rollback templates exist."
+        },
+        {
+          "repository_path_or_github_artifact": "docs/CURRENT_STATE.md",
+          "exact_reference": "PR #1 and CURRENT_STATE.md retain commit, deployment ID, migrations, and test evidence, but no release-manifest instance, artifact digest, rollback-plan instance, or analytics contract exists.",
+          "evidence_type": "REPOSITORY_SEARCH",
+          "proves": "Absence evidence: PR #1 and CURRENT_STATE.md retain commit, deployment ID, migrations, and test evidence, but no release-manifest instance, artifact digest, rollback-plan instance, or analytics contract exists."
+        }
+      ],
+      "existing_implementation": "release-manifest.schema.json and release/rollback templates exist.",
+      "missing_work": "Existing release evidence is prose and provider metadata, not a governed manifest.",
+      "conflicts": [],
+      "dependencies": [
+        "Artifact registry",
+        "Approval schema",
+        "Evidence IDs",
+        "Analytics contracts"
+      ],
+      "required_agent_or_skill": [
+        ".agents/skills/aionis-operating-system/SKILL.md",
+        ".agents/skills/aionis-ai-workflow/SKILL.md",
+        ".agents/skills/aionis-analytics-review/SKILL.md",
+        ".agents/skills/aionis-intelligence-review/SKILL.md",
+        ".agents/skills/aionis-release-gating/SKILL.md"
+      ],
+      "required_tests": [
+        "Manifest validation",
+        "Artifact digest matches deployment",
+        "Approval/current-version binding",
+        "Rollback rehearsal"
+      ],
+      "required_human_gate": [
+        "RELEASE_GATE"
+      ],
+      "recommended_phase": "PHASE_12",
+      "proposed_pr_name": "FPR-12-release-pipeline",
+      "application_behavior_change": false,
+      "private_data_involved": false,
+      "database_migration_involved": false,
+      "constitutional_methodology_involved": false,
+      "confidence": "HIGH",
+      "notes": "Reclassified individually as PARTIALLY_IMPLEMENTED because the merged Prompt 1 foundation contains meaningful contract, schema, template, review-skill, or historical release-evidence pieces; missing_work identifies what remains."
+    },
+    {
+      "requirement_id": "AOS-14-03",
+      "requirement_title": "Pull requests receive automated verification, preview, staging, security/intelligence review, human approval, production release, observation, and consolidation.",
+      "source_document": "docs/aionis-operating-system/14-release-and-environment-strategy.md",
+      "source_section": "Lifecycle",
+      "status": "PARTIALLY_IMPLEMENTED",
+      "target": "DEV_TOOLING",
+      "risk": "HIGH",
+      "current_evidence": [
+        {
+          "repository_path_or_github_artifact": "https://github.com/olsonan24/Chartcreation-for-students/pull/1",
+          "exact_reference": "PR #1 and #2 have successful Verify student app and Vercel checks plus explicit owner review comments.",
+          "evidence_type": "GITHUB_ARTIFACT",
+          "proves": "Positive or limiting evidence: PR #1 and #2 have successful Verify student app and Vercel checks plus explicit owner review comments."
+        },
+        {
+          "repository_path_or_github_artifact": "Repository tree at Git commit 9041d142f87ab48a8706a333cfebd70d702783fb",
+          "exact_reference": "The public GitHub repository has no main branch protection or rulesets.",
+          "evidence_type": "GITHUB_ARTIFACT",
+          "proves": "Positive or limiting evidence: The public GitHub repository has no main branch protection or rulesets."
+        },
+        {
+          "repository_path_or_github_artifact": "Repository tree at Git commit 9041d142f87ab48a8706a333cfebd70d702783fb",
+          "exact_reference": "No staging, required security/intelligence check, observation record, or consolidation job exists.",
+          "evidence_type": "REPOSITORY_SEARCH",
+          "proves": "Absence evidence: No staging, required security/intelligence check, observation record, or consolidation job exists."
+        }
+      ],
+      "existing_implementation": "PR #1 and #2 have successful Verify student app and Vercel checks plus explicit owner review comments. The public GitHub repository has no main branch protection or rulesets.",
+      "missing_work": "CI and Preview are real, but gates are manually bypassable and later release stages are absent.",
+      "conflicts": [],
+      "dependencies": [
+        "Orchestrator gates",
+        "Branch protection",
+        "Staging",
+        "Review automation"
+      ],
+      "required_agent_or_skill": [
+        ".agents/skills/aionis-operating-system/SKILL.md",
+        ".agents/skills/aionis-ai-workflow/SKILL.md",
+        ".agents/skills/aionis-security-review/SKILL.md",
+        ".agents/skills/aionis-intelligence-review/SKILL.md",
+        ".agents/skills/aionis-release-gating/SKILL.md"
+      ],
+      "required_tests": [
+        "Required checks enforced",
+        "Staging smoke",
+        "Post-release observation",
+        "Consolidation sanitization"
+      ],
+      "required_human_gate": [
+        "PLAN_GATE",
+        "SECURITY_REVIEW",
+        "INTELLIGENCE_REVIEW",
+        "RELEASE_GATE"
+      ],
+      "recommended_phase": "PHASE_12",
+      "proposed_pr_name": "FPR-12-release-pipeline",
+      "application_behavior_change": false,
+      "private_data_involved": false,
+      "database_migration_involved": false,
+      "constitutional_methodology_involved": false,
+      "confidence": "MEDIUM",
+      "notes": ""
+    },
+    {
+      "requirement_id": "AOS-15-01",
+      "requirement_title": "CI validates the current student app with clean install, lint, formula/unit/rendered tests, and production build.",
+      "source_document": "docs/aionis-operating-system/15-quality-gates-and-definition-of-done.md",
+      "source_section": "Universal checks",
+      "status": "IMPLEMENTED",
+      "target": "DEV_TOOLING",
+      "risk": "HIGH",
+      "current_evidence": [
+        {
+          "repository_path_or_github_artifact": ".github/workflows/verify.yml",
+          "exact_reference": ".github/workflows/verify.yml:16-23 checks out, sets Node 22, runs npm ci, lint, and npm test.",
+          "evidence_type": "GITHUB_ARTIFACT",
+          "proves": "Positive or limiting evidence: .github/workflows/verify.yml:16-23 checks out, sets Node 22, runs npm ci, lint, and npm test."
+        },
+        {
+          "repository_path_or_github_artifact": "package.json",
+          "exact_reference": "package.json:13 makes npm test run formula fixtures, unit tests, build, and rendered-HTML checks.",
+          "evidence_type": "TEST_OR_VERIFICATION",
+          "proves": "Positive or limiting evidence: package.json:13 makes npm test run formula fixtures, unit tests, build, and rendered-HTML checks."
+        },
+        {
+          "repository_path_or_github_artifact": "https://github.com/olsonan24/Chartcreation-for-students/actions/runs/30869586156",
+          "exact_reference": "GitHub run 30869586156 passed on main commit 9041d142.",
+          "evidence_type": "GITHUB_ARTIFACT",
+          "proves": "Positive or limiting evidence: GitHub run 30869586156 passed on main commit 9041d142."
+        }
+      ],
+      "existing_implementation": ".github/workflows/verify.yml:16-23 checks out, sets Node 22, runs npm ci, lint, and npm test. package.json:13 makes npm test run formula fixtures, unit tests, build, and rendered-HTML checks. GitHub run 30869586156 passed on main commit 9041d142.",
+      "missing_work": "None for the currently audited scope.",
+      "conflicts": [],
+      "dependencies": [],
+      "required_agent_or_skill": [
+        ".agents/skills/aionis-operating-system/SKILL.md",
+        ".agents/skills/aionis-ai-workflow/SKILL.md",
+        ".agents/skills/aionis-timeline-chart-builder/SKILL.md",
+        ".agents/skills/aionis-release-gating/SKILL.md"
+      ],
+      "required_tests": [
+        "GitHub Verify student app"
+      ],
+      "required_human_gate": [
+        "CODE_GATE"
+      ],
+      "recommended_phase": "CURRENT_BASELINE",
+      "proposed_pr_name": null,
+      "application_behavior_change": false,
+      "private_data_involved": false,
+      "database_migration_involved": false,
+      "constitutional_methodology_involved": false,
+      "confidence": "HIGH",
+      "notes": "No missing work for the currently audited scope."
+    },
+    {
+      "requirement_id": "AOS-15-02",
+      "requirement_title": "Database lint, RLS tests, and generated-type drift are automated for database-relevant changes.",
+      "source_document": "docs/aionis-operating-system/15-quality-gates-and-definition-of-done.md",
+      "source_section": "Universal checks",
+      "status": "MISSING",
+      "target": "DEV_TOOLING",
+      "risk": "HIGH",
+      "current_evidence": [
+        {
+          "repository_path_or_github_artifact": "package.json",
+          "exact_reference": "package.json:15-19 defines local database/type commands.",
+          "evidence_type": "CONFIGURATION",
+          "proves": "Positive or limiting evidence: package.json:15-19 defines local database/type commands."
+        },
+        {
+          "repository_path_or_github_artifact": ".github/workflows/verify.yml",
+          "exact_reference": ".github/workflows/verify.yml does not start Supabase, run db lint, run test:db, or compare generated types.",
+          "evidence_type": "GITHUB_ARTIFACT",
+          "proves": "Positive or limiting evidence: .github/workflows/verify.yml does not start Supabase, run db lint, run test:db, or compare generated types."
+        }
+      ],
+      "existing_implementation": "package.json:15-19 defines local database/type commands. .github/workflows/verify.yml does not start Supabase, run db lint, run test:db, or compare generated types.",
+      "missing_work": "Critical ownership tests are manual and can regress without failing a pull request.",
+      "conflicts": [],
+      "dependencies": [
+        "CI Supabase service strategy"
+      ],
+      "required_agent_or_skill": [
+        ".agents/skills/aionis-operating-system/SKILL.md",
+        ".agents/skills/aionis-ai-workflow/SKILL.md",
+        ".agents/skills/aionis-security-review/SKILL.md"
+      ],
+      "required_tests": [
+        "Local migration apply",
+        "DB lint",
+        "pgTAP",
+        "Generated type diff"
+      ],
+      "required_human_gate": [
+        "SECURITY_REVIEW",
+        "CODE_GATE"
+      ],
+      "recommended_phase": "PHASE_3",
+      "proposed_pr_name": "FPR-03-contracts-validators",
+      "application_behavior_change": false,
+      "private_data_involved": false,
+      "database_migration_involved": false,
+      "constitutional_methodology_involved": false,
+      "confidence": "HIGH",
+      "notes": ""
+    },
+    {
+      "requirement_id": "AOS-15-03",
+      "requirement_title": "Operating-system schemas, links, skills, references, manifests, and product-scope boundaries are deterministically validated in CI.",
+      "source_document": "docs/aionis-operating-system/15-quality-gates-and-definition-of-done.md",
+      "source_section": "Universal checks",
+      "status": "MISSING",
+      "target": "DEV_TOOLING",
+      "risk": "HIGH",
+      "current_evidence": [
+        {
+          "repository_path_or_github_artifact": "docs/CURRENT_STATE.md",
+          "exact_reference": "CURRENT_STATE.md:99 records one-time Prompt 1 schema/skill/path validation.",
+          "evidence_type": "DOCUMENTATION",
+          "proves": "Positive or limiting evidence: CURRENT_STATE.md:99 records one-time Prompt 1 schema/skill/path validation."
+        },
+        {
+          "repository_path_or_github_artifact": ".agents/skills/aionis-ai-workflow/scripts/verify-workflow.mjs",
+          "exact_reference": "verify-workflow.mjs validates workflow text/registry/scope but does not parse or meta-validate OS schemas, validate OS skill packages, check Markdown links, or require contract instances.",
+          "evidence_type": "TEST_OR_VERIFICATION",
+          "proves": "Positive or limiting evidence: verify-workflow.mjs validates workflow text/registry/scope but does not parse or meta-validate OS schemas, validate OS skill packages, check Markdown links, or require contract instances."
+        },
+        {
+          "repository_path_or_github_artifact": ".github/workflows/verify.yml",
+          "exact_reference": ".github/workflows/verify.yml does not call verify-workflow.mjs or any OS validator.",
+          "evidence_type": "GITHUB_ARTIFACT",
+          "proves": "Positive or limiting evidence: .github/workflows/verify.yml does not call verify-workflow.mjs or any OS validator."
+        }
+      ],
+      "existing_implementation": "CURRENT_STATE.md:99 records one-time Prompt 1 schema/skill/path validation. verify-workflow.mjs validates workflow text/registry/scope but does not parse or meta-validate OS schemas, validate OS skill packages, check Markdown links, or require contract instances. .github/workflows/verify.yml does not call verify-workflow.mjs or any OS validator.",
+      "missing_work": "The merged foundation can drift while CI remains green.",
+      "conflicts": [],
+      "dependencies": [
+        "Committed validator scripts",
+        "Schema reconciliation"
+      ],
+      "required_agent_or_skill": [
+        ".agents/skills/aionis-operating-system/SKILL.md",
+        ".agents/skills/aionis-ai-workflow/SKILL.md"
+      ],
+      "required_tests": [
+        "Draft 2020-12 meta-validation",
+        "Skill validation",
+        "Path/link resolution",
+        "Manifest/instance validation",
+        "Product-scope diff"
+      ],
+      "required_human_gate": [
+        "CODE_GATE"
+      ],
+      "recommended_phase": "PHASE_3",
+      "proposed_pr_name": "FPR-03-contracts-validators",
+      "application_behavior_change": false,
+      "private_data_involved": false,
+      "database_migration_involved": false,
+      "constitutional_methodology_involved": false,
+      "confidence": "HIGH",
+      "notes": ""
+    },
+    {
+      "requirement_id": "AOS-15-04",
+      "requirement_title": "CI/release evidence covers isolation, rollback, secrets, security, accessibility, phone/desktop UI, and real one-page PDF proportional to risk.",
+      "source_document": "docs/aionis-operating-system/15-quality-gates-and-definition-of-done.md",
+      "source_section": "Universal checks",
+      "status": "PARTIALLY_IMPLEMENTED",
+      "target": "DEV_TOOLING",
+      "risk": "HIGH",
+      "current_evidence": [
+        {
+          "repository_path_or_github_artifact": "Repository tree at Git commit 9041d142f87ab48a8706a333cfebd70d702783fb",
+          "exact_reference": "Unit/rendered tests cover auth race behavior, persistence failure handling, formula structure, PWA, and Vercel configuration.",
+          "evidence_type": "GITHUB_ARTIFACT",
+          "proves": "Positive or limiting evidence: Unit/rendered tests cover auth race behavior, persistence failure handling, formula structure, PWA, and Vercel configuration."
+        },
+        {
+          "repository_path_or_github_artifact": "tests/e2e/print-proof.mjs",
+          "exact_reference": "tests/e2e/print-proof.mjs supports authenticated browser/PDF proof but is optional and not in CI.",
+          "evidence_type": "TEST_OR_VERIFICATION",
+          "proves": "Positive or limiting evidence: tests/e2e/print-proof.mjs supports authenticated browser/PDF proof but is optional and not in CI."
+        },
+        {
+          "repository_path_or_github_artifact": "Repository tree at Git commit 9041d142f87ab48a8706a333cfebd70d702783fb",
+          "exact_reference": "No dependency audit, secret scan, accessibility suite, browser phone/desktop job, rollback test, or database isolation job is required by CI.",
+          "evidence_type": "REPOSITORY_SEARCH",
+          "proves": "Absence evidence: No dependency audit, secret scan, accessibility suite, browser phone/desktop job, rollback test, or database isolation job is required by CI."
+        }
+      ],
+      "existing_implementation": "Unit/rendered tests cover auth race behavior, persistence failure handling, formula structure, PWA, and Vercel configuration. tests/e2e/print-proof.mjs supports authenticated browser/PDF proof but is optional and not in CI.",
+      "missing_work": "Manual release evidence was strong for PR #1, but repeatable pull-request enforcement is incomplete.",
+      "conflicts": [],
+      "dependencies": [
+        "CI browser environment",
+        "Safe test accounts",
+        "Staging"
+      ],
+      "required_agent_or_skill": [
+        ".agents/skills/aionis-operating-system/SKILL.md",
+        ".agents/skills/aionis-ai-workflow/SKILL.md",
+        ".agents/skills/aionis-security-review/SKILL.md",
+        ".agents/skills/aionis-release-gating/SKILL.md"
+      ],
+      "required_tests": [
+        "Accessibility",
+        "390x844 bounds and 44px targets",
+        "Desktop",
+        "One-page PDF",
+        "Secret scan",
+        "Dependency audit",
+        "Rollback rehearsal"
+      ],
+      "required_human_gate": [
+        "SECURITY_REVIEW",
+        "CODE_GATE",
+        "RELEASE_GATE"
+      ],
+      "recommended_phase": "PHASE_12",
+      "proposed_pr_name": "FPR-12-release-pipeline",
+      "application_behavior_change": false,
+      "private_data_involved": false,
+      "database_migration_involved": false,
+      "constitutional_methodology_involved": false,
+      "confidence": "HIGH",
+      "notes": ""
+    },
+    {
+      "requirement_id": "AOS-GOV-REPO-01",
+      "requirement_title": "Meaningful changes cannot merge to main without required checks and human gates.",
+      "source_document": "docs/aionis-operating-system/01-governance-and-non-negotiables.md",
+      "source_section": "Whole document or repository contract",
+      "status": "MISSING",
+      "target": "DEV_TOOLING",
+      "risk": "HIGH",
+      "current_evidence": [
+        {
+          "repository_path_or_github_artifact": "Repository tree at Git commit 9041d142f87ab48a8706a333cfebd70d702783fb",
+          "exact_reference": "GitHub API reports main is not protected and the repository has no rulesets.",
+          "evidence_type": "GITHUB_ARTIFACT",
+          "proves": "Positive or limiting evidence: GitHub API reports main is not protected and the repository has no rulesets."
+        },
+        {
+          "repository_path_or_github_artifact": "https://github.com/olsonan24/Chartcreation-for-students/pull/1",
+          "exact_reference": "PR #1 and #2 followed review and CI voluntarily, but repository settings do not require them.",
+          "evidence_type": "GITHUB_ARTIFACT",
+          "proves": "Positive or limiting evidence: PR #1 and #2 followed review and CI voluntarily, but repository settings do not require them."
+        }
+      ],
+      "existing_implementation": "GitHub API reports main is not protected and the repository has no rulesets. PR #1 and #2 followed review and CI voluntarily, but repository settings do not require them.",
+      "missing_work": "Governance can be bypassed by direct push or merge without required status/review checks.",
+      "conflicts": [],
+      "dependencies": [
+        "Repository admin authority",
+        "Required-check names",
+        "Emergency policy"
+      ],
+      "required_agent_or_skill": [
+        ".agents/skills/aionis-operating-system/SKILL.md",
+        ".agents/skills/aionis-ai-workflow/SKILL.md"
+      ],
+      "required_tests": [
+        "Direct push rejection",
+        "Required verify/security/release checks",
+        "Stale review dismissal"
+      ],
+      "required_human_gate": [
+        "PLAN_GATE",
+        "RELEASE_GATE"
+      ],
+      "recommended_phase": "PHASE_12",
+      "proposed_pr_name": "FPR-12-release-pipeline",
+      "application_behavior_change": false,
+      "private_data_involved": false,
+      "database_migration_involved": false,
+      "constitutional_methodology_involved": false,
+      "confidence": "HIGH",
+      "notes": ""
+    },
+    {
+      "requirement_id": "AOS-ARCH-01",
+      "requirement_title": "The current application maintains explicit ownership for app coordination, formula, auth, people repository/mapper/hook, database, print, PWA, and owner-console separation.",
+      "source_document": "docs/aionis-operating-system/02-system-boundaries.md",
+      "source_section": "Whole document or repository contract",
+      "status": "IMPLEMENTED",
+      "target": "PUBLIC_STUDENT_APP",
+      "risk": "HIGH",
+      "current_evidence": [
+        {
+          "repository_path_or_github_artifact": "docs/ARCHITECTURE.md",
+          "exact_reference": "docs/ARCHITECTURE.md:5-22 maps each current concern to its source of truth.",
+          "evidence_type": "DOCUMENTATION",
+          "proves": "Positive or limiting evidence: docs/ARCHITECTURE.md:5-22 maps each current concern to its source of truth."
+        },
+        {
+          "repository_path_or_github_artifact": "app/page.tsx",
+          "exact_reference": "app/page.tsx contains no raw Supabase query or policy logic.",
+          "evidence_type": "DATABASE_MIGRATION_OR_POLICY",
+          "proves": "Positive or limiting evidence: app/page.tsx contains no raw Supabase query or policy logic."
+        },
+        {
+          "repository_path_or_github_artifact": "lib/supabase/client.ts",
+          "exact_reference": "lib/supabase/client.ts, features/auth, features/people, and supabase/migrations follow the documented boundaries.",
+          "evidence_type": "DATABASE_MIGRATION_OR_POLICY",
+          "proves": "Positive or limiting evidence: lib/supabase/client.ts, features/auth, features/people, and supabase/migrations follow the documented boundaries."
+        }
+      ],
+      "existing_implementation": "docs/ARCHITECTURE.md:5-22 maps each current concern to its source of truth. app/page.tsx contains no raw Supabase query or policy logic. lib/supabase/client.ts, features/auth, features/people, and supabase/migrations follow the documented boundaries.",
+      "missing_work": "None for the currently audited scope.",
+      "conflicts": [],
+      "dependencies": [],
+      "required_agent_or_skill": [
+        ".agents/skills/aionis-operating-system/SKILL.md",
+        ".agents/skills/aionis-ai-workflow/SKILL.md",
+        ".agents/skills/aionis-timeline-chart-builder/SKILL.md",
+        ".agents/skills/aionis-security-review/SKILL.md"
+      ],
+      "required_tests": [
+        "Architecture import/query scan",
+        "Current unit tests"
+      ],
+      "required_human_gate": [
+        "CODE_GATE for architectural changes"
+      ],
+      "recommended_phase": "CURRENT_BASELINE",
+      "proposed_pr_name": null,
+      "application_behavior_change": false,
+      "private_data_involved": false,
+      "database_migration_involved": false,
+      "constitutional_methodology_involved": false,
+      "confidence": "HIGH",
+      "notes": "No missing work for the currently audited scope."
+    },
+    {
+      "requirement_id": "AOS-AUTH-01",
+      "requirement_title": "Authentication restores/subscribes sessions, gates private UI, and clears in-memory data immediately on sign-out.",
+      "source_document": "docs/aionis-operating-system/11-security-and-privacy.md",
+      "source_section": "Whole document or repository contract",
+      "status": "IMPLEMENTED",
+      "target": "PUBLIC_STUDENT_APP",
+      "risk": "HIGH",
+      "current_evidence": [
+        {
+          "repository_path_or_github_artifact": "features/auth/AuthProvider.tsx",
+          "exact_reference": "AuthProvider.tsx:58-76 subscribes/restores sessions and lines 125-132 clears local session before network sign-out.",
+          "evidence_type": "SOURCE_CODE",
+          "proves": "Positive or limiting evidence: AuthProvider.tsx:58-76 subscribes/restores sessions and lines 125-132 clears local session before network sign-out."
+        },
+        {
+          "repository_path_or_github_artifact": "features/auth/AuthGate.tsx",
+          "exact_reference": "AuthGate.tsx mounts the student application only when authenticated.",
+          "evidence_type": "SOURCE_CODE",
+          "proves": "Positive or limiting evidence: AuthGate.tsx mounts the student application only when authenticated."
+        },
+        {
+          "repository_path_or_github_artifact": "tests/auth.test.tsx",
+          "exact_reference": "tests/auth.test.tsx covers loading, signed-out gating, immediate sign-out clearing, and stale initial-session race behavior.",
+          "evidence_type": "TEST_OR_VERIFICATION",
+          "proves": "Positive or limiting evidence: tests/auth.test.tsx covers loading, signed-out gating, immediate sign-out clearing, and stale initial-session race behavior."
+        }
+      ],
+      "existing_implementation": "AuthProvider.tsx:58-76 subscribes/restores sessions and lines 125-132 clears local session before network sign-out. AuthGate.tsx mounts the student application only when authenticated. tests/auth.test.tsx covers loading, signed-out gating, immediate sign-out clearing, and stale initial-session race behavior.",
+      "missing_work": "None for the currently audited scope.",
+      "conflicts": [],
+      "dependencies": [],
+      "required_agent_or_skill": [
+        ".agents/skills/aionis-operating-system/SKILL.md",
+        ".agents/skills/aionis-ai-workflow/SKILL.md",
+        ".agents/skills/aionis-security-review/SKILL.md"
+      ],
+      "required_tests": [
+        "tests/auth.test.tsx"
+      ],
+      "required_human_gate": [
+        "SECURITY_REVIEW and CODE_GATE for changes"
+      ],
+      "recommended_phase": "CURRENT_BASELINE",
+      "proposed_pr_name": null,
+      "application_behavior_change": false,
+      "private_data_involved": true,
+      "database_migration_involved": false,
+      "constitutional_methodology_involved": false,
+      "confidence": "HIGH",
+      "notes": "No missing work for the currently audited scope."
+    },
+    {
+      "requirement_id": "AOS-AUTH-02",
+      "requirement_title": "People persistence stores minimal source data and enforces authenticated per-user ownership in application and database layers.",
+      "source_document": "docs/aionis-operating-system/11-security-and-privacy.md",
+      "source_section": "Whole document or repository contract",
+      "status": "IMPLEMENTED",
+      "target": "PUBLIC_STUDENT_APP",
+      "risk": "MEDIUM",
+      "current_evidence": [
+        {
+          "repository_path_or_github_artifact": "supabase/migrations/20260731204509_create_people.sql",
+          "exact_reference": "20260731204509_create_people.sql:1-29 stores only owner, names, DOB, timestamps, and constraints.",
+          "evidence_type": "DATABASE_MIGRATION_OR_POLICY",
+          "proves": "Positive or limiting evidence: 20260731204509_create_people.sql:1-29 stores only owner, names, DOB, timestamps, and constraints."
+        },
+        {
+          "repository_path_or_github_artifact": "features/people/people.repository.ts",
+          "exact_reference": "people.repository.ts derives user_id from getUser and applies owner filters.",
+          "evidence_type": "SOURCE_CODE",
+          "proves": "Positive or limiting evidence: people.repository.ts derives user_id from getUser and applies owner filters."
+        },
+        {
+          "repository_path_or_github_artifact": "Repository tree at Git commit 9041d142f87ab48a8706a333cfebd70d702783fb",
+          "exact_reference": "RLS migrations and eight-case pgTAP suite enforce independent ownership.",
+          "evidence_type": "DATABASE_MIGRATION_OR_POLICY",
+          "proves": "Positive or limiting evidence: RLS migrations and eight-case pgTAP suite enforce independent ownership."
+        }
+      ],
+      "existing_implementation": "20260731204509_create_people.sql:1-29 stores only owner, names, DOB, timestamps, and constraints. people.repository.ts derives user_id from getUser and applies owner filters. RLS migrations and eight-case pgTAP suite enforce independent ownership.",
+      "missing_work": "None for the currently audited scope.",
+      "conflicts": [],
+      "dependencies": [],
+      "required_agent_or_skill": [
+        ".agents/skills/aionis-operating-system/SKILL.md",
+        ".agents/skills/aionis-ai-workflow/SKILL.md",
+        ".agents/skills/aionis-security-review/SKILL.md"
+      ],
+      "required_tests": [
+        "Repository tests",
+        "Mapper tests",
+        "pgTAP RLS tests"
+      ],
+      "required_human_gate": [
+        "SECURITY_REVIEW and CODE_GATE for data-model changes"
+      ],
+      "recommended_phase": "CURRENT_BASELINE",
+      "proposed_pr_name": null,
+      "application_behavior_change": false,
+      "private_data_involved": true,
+      "database_migration_involved": true,
+      "constitutional_methodology_involved": false,
+      "confidence": "HIGH",
+      "notes": "No missing work for the currently audited scope."
+    },
+    {
+      "requirement_id": "AOS-AUTH-03",
+      "requirement_title": "Legacy pass7-mobile-clients-v1 data is inspected locally, uploaded only by explicit consent, deduplicated, and never deleted.",
+      "source_document": "docs/aionis-operating-system/01-governance-and-non-negotiables.md",
+      "source_section": "Whole document or repository contract",
+      "status": "IMPLEMENTED",
+      "target": "PUBLIC_STUDENT_APP",
+      "risk": "LOW",
+      "current_evidence": [
+        {
+          "repository_path_or_github_artifact": "features/people/legacyImport.ts",
+          "exact_reference": "legacyImport.ts:4 preserves the exact key and validates/deduplicates records.",
+          "evidence_type": "SOURCE_CODE",
+          "proves": "Positive or limiting evidence: legacyImport.ts:4 preserves the exact key and validates/deduplicates records."
+        },
+        {
+          "repository_path_or_github_artifact": "features/people/usePeople.ts",
+          "exact_reference": "usePeople.ts:52-57 reads locally and lines 193-235 performs explicit import/skip handling without removeItem.",
+          "evidence_type": "SOURCE_CODE",
+          "proves": "Positive or limiting evidence: usePeople.ts:52-57 reads locally and lines 193-235 performs explicit import/skip handling without removeItem."
+        },
+        {
+          "repository_path_or_github_artifact": "features/people/LegacyImportDialog.tsx",
+          "exact_reference": "LegacyImportDialog.tsx:54 tells users the original data remains after failure/partial import.",
+          "evidence_type": "SOURCE_CODE",
+          "proves": "Positive or limiting evidence: LegacyImportDialog.tsx:54 tells users the original data remains after failure/partial import."
+        }
+      ],
+      "existing_implementation": "legacyImport.ts:4 preserves the exact key and validates/deduplicates records. usePeople.ts:52-57 reads locally and lines 193-235 performs explicit import/skip handling without removeItem. LegacyImportDialog.tsx:54 tells users the original data remains after failure/partial import.",
+      "missing_work": "None for the currently audited scope.",
+      "conflicts": [],
+      "dependencies": [],
+      "required_agent_or_skill": [
+        ".agents/skills/aionis-operating-system/SKILL.md",
+        ".agents/skills/aionis-ai-workflow/SKILL.md",
+        ".agents/skills/aionis-security-review/SKILL.md"
+      ],
+      "required_tests": [
+        "tests/legacyImport.test.ts",
+        "Partial import tests in usePeople.test.tsx"
+      ],
+      "required_human_gate": [
+        "PRIVACY_REVIEW and CODE_GATE for changes"
+      ],
+      "recommended_phase": "CURRENT_BASELINE",
+      "proposed_pr_name": null,
+      "application_behavior_change": false,
+      "private_data_involved": true,
+      "database_migration_involved": false,
+      "constitutional_methodology_involved": false,
+      "confidence": "HIGH",
+      "notes": "No missing work for the currently audited scope."
+    },
+    {
+      "requirement_id": "AOS-FORMULA-01",
+      "requirement_title": "Screen, comparison, and one-page print use the same Report calculations and retain formula provenance.",
+      "source_document": "docs/aionis-operating-system/01-governance-and-non-negotiables.md",
+      "source_section": "Whole document or repository contract",
+      "status": "IMPLEMENTED",
+      "target": "PUBLIC_STUDENT_APP",
+      "risk": "HIGH",
+      "current_evidence": [
+        {
+          "repository_path_or_github_artifact": "app/page.tsx",
+          "exact_reference": "app/page.tsx:578 constructs the selected Report, lines 747 onward pass it into PassPrintReport, and line 798 constructs comparison Reports from the same class.",
+          "evidence_type": "SOURCE_CODE",
+          "proves": "Positive or limiting evidence: app/page.tsx:578 constructs the selected Report, lines 747 onward pass it into PassPrintReport, and line 798 constructs comparison Reports from the same class."
+        },
+        {
+          "repository_path_or_github_artifact": "Repository tree at Git commit 9041d142f87ab48a8706a333cfebd70d702783fb",
+          "exact_reference": "reference/Pass7-Recreated contains read-only C# provenance.",
+          "evidence_type": "REPOSITORY_SEARCH",
+          "proves": "Positive or limiting evidence: reference/Pass7-Recreated contains read-only C# provenance."
+        },
+        {
+          "repository_path_or_github_artifact": "Repository tree at Git commit 9041d142f87ab48a8706a333cfebd70d702783fb",
+          "exact_reference": "Formula fixtures and rendered-structure tests are in npm test.",
+          "evidence_type": "TEST_OR_VERIFICATION",
+          "proves": "Positive or limiting evidence: Formula fixtures and rendered-structure tests are in npm test."
+        }
+      ],
+      "existing_implementation": "app/page.tsx:578 constructs the selected Report, lines 747 onward pass it into PassPrintReport, and line 798 constructs comparison Reports from the same class. reference/Pass7-Recreated contains read-only C# provenance. Formula fixtures and rendered-structure tests are in npm test.",
+      "missing_work": "None for the currently audited scope.",
+      "conflicts": [],
+      "dependencies": [],
+      "required_agent_or_skill": [
+        ".agents/skills/aionis-operating-system/SKILL.md",
+        ".agents/skills/aionis-ai-workflow/SKILL.md",
+        ".agents/skills/aionis-timeline-chart-builder/SKILL.md"
+      ],
+      "required_tests": [
+        "Formula SHA/fixtures",
+        "Rendered structure",
+        "Real PDF when print changes"
+      ],
+      "required_human_gate": [
+        "FORMULA_APPROVAL if changed",
+        "CODE_GATE"
+      ],
+      "recommended_phase": "CURRENT_BASELINE",
+      "proposed_pr_name": null,
+      "application_behavior_change": false,
+      "private_data_involved": false,
+      "database_migration_involved": false,
+      "constitutional_methodology_involved": true,
+      "confidence": "HIGH",
+      "notes": "No missing work for the currently audited scope."
+    },
+    {
+      "requirement_id": "AOS-FEEDBACK-02",
+      "requirement_title": "Persistence and authentication failures preserve safe state and give actionable user feedback.",
+      "source_document": "features/auth/AuthProvider.tsx; features/people/usePeople.ts; docs/ARCHITECTURE.md",
+      "source_section": "Current error-state implementation and architecture ownership",
+      "status": "IMPLEMENTED",
+      "target": "PUBLIC_STUDENT_APP",
+      "risk": "MEDIUM",
+      "current_evidence": [
+        {
+          "repository_path_or_github_artifact": "features/auth/AuthProvider.tsx",
+          "exact_reference": "AuthProvider.tsx:24-32 maps errors to bounded user messages.",
+          "evidence_type": "SOURCE_CODE",
+          "proves": "Positive or limiting evidence: AuthProvider.tsx:24-32 maps errors to bounded user messages."
+        },
+        {
+          "repository_path_or_github_artifact": "features/people/people.repository.ts",
+          "exact_reference": "people.repository.ts:67-122 returns operation-specific safe messages.",
+          "evidence_type": "SOURCE_CODE",
+          "proves": "Positive or limiting evidence: people.repository.ts:67-122 returns operation-specific safe messages."
+        },
+        {
+          "repository_path_or_github_artifact": "app/page.tsx",
+          "exact_reference": "usePeople.test.tsx verifies failed update/delete preserve visible records and partial imports remain retryable; app/page.tsx:693 exposes Retry.",
+          "evidence_type": "TEST_OR_VERIFICATION",
+          "proves": "Positive or limiting evidence: usePeople.test.tsx verifies failed update/delete preserve visible records and partial imports remain retryable; app/page.tsx:693 exposes Retry."
+        }
+      ],
+      "existing_implementation": "AuthProvider.tsx:24-32 maps errors to bounded user messages. people.repository.ts:67-122 returns operation-specific safe messages. usePeople.test.tsx verifies failed update/delete preserve visible records and partial imports remain retryable; app/page.tsx:693 exposes Retry.",
+      "missing_work": "The behavior is tested and partly mentioned in CURRENT_STATE.md, but docs/ARCHITECTURE.md has no explicit feedback/error-state ownership section.",
+      "conflicts": [],
+      "dependencies": [],
+      "required_agent_or_skill": [
+        ".agents/skills/aionis-operating-system/SKILL.md",
+        ".agents/skills/aionis-ai-workflow/SKILL.md",
+        ".agents/skills/aionis-security-review/SKILL.md"
+      ],
+      "required_tests": [
+        "Existing auth/usePeople tests"
+      ],
+      "required_human_gate": [
+        "CODE_GATE for documentation alignment"
+      ],
+      "recommended_phase": "PHASE_3",
+      "proposed_pr_name": "FPR-03-contracts-validators",
+      "application_behavior_change": false,
+      "private_data_involved": false,
+      "database_migration_involved": false,
+      "constitutional_methodology_involved": false,
+      "confidence": "HIGH",
+      "notes": "Implementation is present; the documentation gap is recorded in missing_work rather than in the status enum."
+    },
+    {
+      "requirement_id": "AOS-DOC-01",
+      "requirement_title": "docs/CURRENT_STATE.md accurately identifies the current branch, baseline, merged gates, next authorized action, and open risks.",
+      "source_document": "docs/CURRENT_STATE.md",
+      "source_section": "Whole document",
+      "status": "OUTDATED",
+      "target": "DEV_TOOLING",
+      "risk": "MEDIUM",
+      "current_evidence": [
+        {
+          "repository_path_or_github_artifact": "docs/CURRENT_STATE.md",
+          "exact_reference": "CURRENT_STATE.md:13 says the current branch is docs/aionis-ai-operating-system, but the audit started from main and now runs on audit/aionis-operating-system-gap-analysis.",
+          "evidence_type": "DOCUMENTATION",
+          "proves": "Positive or limiting evidence: CURRENT_STATE.md:13 says the current branch is docs/aionis-ai-operating-system, but the audit started from main and now runs on audit/aionis-operating-system-gap-analysis."
+        },
+        {
+          "repository_path_or_github_artifact": "Git commit 2250222",
+          "exact_reference": "Line 14 calls 2250222 the published main baseline although main is 9041d142.",
+          "evidence_type": "REPOSITORY_SEARCH",
+          "proves": "Positive or limiting evidence: Line 14 calls 2250222 the published main baseline although main is 9041d142."
+        },
+        {
+          "repository_path_or_github_artifact": "https://github.com/olsonan24/Chartcreation-for-students/pull/1",
+          "exact_reference": "Lines 106 and 109 say PR #1 needs review and Prompt 2 is unauthorized, but PR #1/#2 are merged and this prompt explicitly authorizes Prompt 2.",
+          "evidence_type": "GITHUB_ARTIFACT",
+          "proves": "Positive or limiting evidence: Lines 106 and 109 say PR #1 needs review and Prompt 2 is unauthorized, but PR #1/#2 are merged and this prompt explicitly authorizes Prompt 2."
+        }
+      ],
+      "existing_implementation": "CURRENT_STATE.md:13 says the current branch is docs/aionis-ai-operating-system, but the audit started from main and now runs on audit/aionis-operating-system-gap-analysis. Line 14 calls 2250222 the published main baseline although main is 9041d142. Lines 106 and 109 say PR #1 needs review and Prompt 2 is unauthorized, but PR #1/#2 are merged and this prompt explicitly authorizes Prompt 2.",
+      "missing_work": "The main checkpoint was not reconciled after both merges.",
+      "conflicts": [],
+      "dependencies": [
+        "This audit approval/merge"
+      ],
+      "required_agent_or_skill": [
+        ".agents/skills/aionis-operating-system/SKILL.md",
+        ".agents/skills/aionis-ai-workflow/SKILL.md",
+        ".agents/skills/aionis-security-review/SKILL.md"
+      ],
+      "required_tests": [
+        "Current branch/commit/PR-state check",
+        "No stale next-action text"
+      ],
+      "required_human_gate": [
+        "CODE_GATE"
+      ],
+      "recommended_phase": "PHASE_3",
+      "proposed_pr_name": "FPR-03-contracts-validators",
+      "application_behavior_change": false,
+      "private_data_involved": false,
+      "database_migration_involved": false,
+      "constitutional_methodology_involved": false,
+      "confidence": "HIGH",
+      "notes": ""
+    },
+    {
+      "requirement_id": "AOS-DOC-02",
+      "requirement_title": "Authoritative documentation uses repository-correct paths and retains reproducible current proof references.",
+      "source_document": "docs/FORMULA_GUARDRAILS.md; docs/PRINT_CONTRACT.md",
+      "source_section": "Canonical Sources; latest proof",
+      "status": "OUTDATED",
+      "target": "DEV_TOOLING",
+      "risk": "MEDIUM",
+      "current_evidence": [
+        {
+          "repository_path_or_github_artifact": "docs/FORMULA_GUARDRAILS.md; lib/numerology.ts",
+          "exact_reference": "docs/FORMULA_GUARDRAILS.md names Pass7-Mobile/lib/numerology.ts and sibling Pass7-Recreated paths although this repository root is already Pass7-Mobile and provenance is under reference/Pass7-Recreated.",
+          "evidence_type": "DOCUMENTATION",
+          "proves": "Positive or limiting evidence: docs/FORMULA_GUARDRAILS.md names Pass7-Mobile/lib/numerology.ts and sibling Pass7-Recreated paths although this repository root is already Pass7-Mobile and provenance is under reference/Pass7-Recreated."
+        },
+        {
+          "repository_path_or_github_artifact": "app/page.tsx; docs/PRINT_CONTRACT.md",
+          "exact_reference": "docs/PRINT_CONTRACT.md names Pass7-Mobile/app/page.tsx and a latest proof under Pass7-Mobile/output/pdf; output is ignored and no tracked proof artifact exists.",
+          "evidence_type": "REPOSITORY_SEARCH",
+          "proves": "Absence evidence: docs/PRINT_CONTRACT.md names Pass7-Mobile/app/page.tsx and a latest proof under Pass7-Mobile/output/pdf; output is ignored and no tracked proof artifact exists."
+        }
+      ],
+      "existing_implementation": "docs/FORMULA_GUARDRAILS.md names Pass7-Mobile/lib/numerology.ts and sibling Pass7-Recreated paths although this repository root is already Pass7-Mobile and provenance is under reference/Pass7-Recreated.",
+      "missing_work": "The protected behavior is correct, but path/proof locators are stale after repository publication.",
+      "conflicts": [],
+      "dependencies": [
+        "Decide tracked evidence-record strategy for binary PDF proof"
+      ],
+      "required_agent_or_skill": [
+        ".agents/skills/aionis-operating-system/SKILL.md",
+        ".agents/skills/aionis-ai-workflow/SKILL.md",
+        ".agents/skills/aionis-security-review/SKILL.md"
+      ],
+      "required_tests": [
+        "Repository path resolver",
+        "Proof ID/digest resolves"
+      ],
+      "required_human_gate": [
+        "CODE_GATE"
+      ],
+      "recommended_phase": "PHASE_3",
+      "proposed_pr_name": "FPR-03-contracts-validators",
+      "application_behavior_change": false,
+      "private_data_involved": false,
+      "database_migration_involved": false,
+      "constitutional_methodology_involved": false,
+      "confidence": "HIGH",
+      "notes": ""
+    },
+    {
+      "requirement_id": "AOS-SEC-DEPS-01",
+      "requirement_title": "Development and release dependencies are checked for known vulnerabilities and reviewed updates are applied without product regression.",
+      "source_document": "docs/aionis-operating-system/11-security-and-privacy.md",
+      "source_section": "Whole document or repository contract",
+      "status": "PARTIALLY_IMPLEMENTED",
+      "target": "DEV_TOOLING",
+      "risk": "MEDIUM",
+      "current_evidence": [
+        {
+          "repository_path_or_github_artifact": "Repository tree at Git commit 9041d142f87ab48a8706a333cfebd70d702783fb",
+          "exact_reference": "Fresh npm audit reports one moderate advisory: postcss@8.5.20 via vite@8.1.5, with a fix available.",
+          "evidence_type": "REPOSITORY_SEARCH",
+          "proves": "Positive or limiting evidence: Fresh npm audit reports one moderate advisory: postcss@8.5.20 via vite@8.1.5, with a fix available."
+        },
+        {
+          "repository_path_or_github_artifact": "Repository tree at Git commit 9041d142f87ab48a8706a333cfebd70d702783fb",
+          "exact_reference": "npm audit --omit=dev reports zero production vulnerabilities.",
+          "evidence_type": "REPOSITORY_SEARCH",
+          "proves": "Positive or limiting evidence: npm audit --omit=dev reports zero production vulnerabilities."
+        },
+        {
+          "repository_path_or_github_artifact": ".github/workflows/verify.yml",
+          "exact_reference": ".github/workflows/verify.yml runs no dependency audit, dependency update bot, or security scanning job.",
+          "evidence_type": "GITHUB_ARTIFACT",
+          "proves": "Positive or limiting evidence: .github/workflows/verify.yml runs no dependency audit, dependency update bot, or security scanning job."
+        }
+      ],
+      "existing_implementation": "Fresh npm audit reports one moderate advisory: postcss@8.5.20 via vite@8.1.5, with a fix available. npm audit --omit=dev reports zero production vulnerabilities. .github/workflows/verify.yml runs no dependency audit, dependency update bot, or security scanning job.",
+      "missing_work": "Production dependencies are clean, but the build toolchain has a known moderate issue and no automated dependency gate exists.",
+      "conflicts": [],
+      "dependencies": [
+        "Review compatible PostCSS/Vite resolution",
+        "Do not run unreviewed npm audit fix"
+      ],
+      "required_agent_or_skill": [
+        ".agents/skills/aionis-operating-system/SKILL.md",
+        ".agents/skills/aionis-ai-workflow/SKILL.md",
+        ".agents/skills/aionis-release-gating/SKILL.md"
+      ],
+      "required_tests": [
+        "Full npm audit reviewed",
+        "Production npm audit clean",
+        "npm run lint",
+        "npm test",
+        "npm run build"
+      ],
+      "required_human_gate": [
+        "SECURITY_REVIEW",
+        "CODE_GATE"
+      ],
+      "recommended_phase": "SECURITY_PREREQUISITE",
+      "proposed_pr_name": "FPR-SEC-build-dependency",
+      "application_behavior_change": false,
+      "private_data_involved": false,
+      "database_migration_involved": false,
+      "constitutional_methodology_involved": false,
+      "confidence": "HIGH",
+      "notes": ""
+    },
+    {
+      "requirement_id": "AOS-16-01",
+      "requirement_title": "Later phases remain unimplemented until separately authorized, and each begins with a revalidated feature specification and gates.",
+      "source_document": "docs/aionis-operating-system/16-complete-implementation-roadmap.md",
+      "source_section": "Whole document or repository contract",
+      "status": "IMPLEMENTED",
+      "target": "DEV_TOOLING",
+      "risk": "LOW",
+      "current_evidence": [
+        {
+          "repository_path_or_github_artifact": "Git commit ce5b537",
+          "exact_reference": "Prompt 1 commit ce5b537 added only docs, draft schemas, templates, skills, and a workflow scope-guard update.",
+          "evidence_type": "CONFIGURATION",
+          "proves": "Positive or limiting evidence: Prompt 1 commit ce5b537 added only docs, draft schemas, templates, skills, and a workflow scope-guard update."
+        },
+        {
+          "repository_path_or_github_artifact": "Repository tree at Git commit 9041d142f87ab48a8706a333cfebd70d702783fb",
+          "exact_reference": "Repository search finds no runtime AI, Dream, pattern memory, analytics, global-learning, orchestrator-state, or release-manifest implementation.",
+          "evidence_type": "REPOSITORY_SEARCH",
+          "proves": "Positive or limiting evidence: Repository search finds no runtime AI, Dream, pattern memory, analytics, global-learning, orchestrator-state, or release-manifest implementation."
+        }
+      ],
+      "existing_implementation": "Prompt 1 commit ce5b537 added only governance documents, draft schemas, templates, review skills, and the workflow scope-guard update. Repository search at the audited commit finds no later-phase runtime implementation.",
+      "missing_work": "None for the currently audited scope.",
+      "conflicts": [],
+      "dependencies": [],
+      "required_agent_or_skill": [
+        ".agents/skills/aionis-operating-system/SKILL.md",
+        ".agents/skills/aionis-ai-workflow/SKILL.md",
+        ".agents/skills/aionis-security-review/SKILL.md"
+      ],
+      "required_tests": [
+        "Product-path diff remains empty"
+      ],
+      "required_human_gate": [
+        "PLAN_GATE for every future phase"
+      ],
+      "recommended_phase": "CURRENT_BASELINE",
+      "proposed_pr_name": null,
+      "application_behavior_change": false,
+      "private_data_involved": false,
+      "database_migration_involved": false,
+      "constitutional_methodology_involved": false,
+      "confidence": "HIGH",
+      "notes": "No missing work for the currently audited scope."
+    }
+  ]
+}
