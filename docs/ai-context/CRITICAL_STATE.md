@@ -17,26 +17,28 @@ This bounded file contains facts that cannot safely be approximated. Refresh it 
 
 ## Current governed task
 
-- Starting `main`: `0a801a543899c16efce8a5cd7dd36bf2242b8aa3`, the merge commit for PR #5.
-- Branch: `dev/aionis-orchestrator-and-lifecycle-state`; target: `DEV_TOOLING`.
-- Human authorization: Plan Gate is explicit; Code Gate and automatic merge are conditional on the complete acceptance/verification/diff conditions in the attached implementation brief.
-- Goal: deterministic local feature workspaces, canonical lifecycle transitions, assignments and file ownership, hard/soft dependencies, consumer-owned handoffs, current-version approvals/gates, integration readiness, and append-only failure/rollback history.
-- Allowed paths: purpose-built orchestrator tooling/tests/schema/synthetic fixtures and bounded operating-system docs, manifest/inventory, `docs/CURRENT_STATE.md`, this file, `package.json`, and `.github/workflows/verify.yml`.
-- Prohibited: application/formula/UI/CSS/auth/database/migration/generated-type/print/PWA/Vercel/environment/hosted/production changes; runtime AI, evidence backend, Dreaming, analytics, global learning, and dependency upgrades.
+- Starting `main`: `098a99107277e719bd2495de9f1144d46d5da270`, the merge commit for PR #6.
+- Branch: `backend/aionis-evidence-lineage`; target: `PRIVATE_AIONIS_BACKEND` contracts and repository-local development verification only.
+- Human authorization: Plan Gate is explicit; Security, Intelligence, Code, and automatic merge gates are conditional on every acceptance, verification, privacy, scope, and GitHub-diff requirement in the attached brief.
+- Goal: backend-neutral immutable evidence, canonical digests, lineage, exact component versions, generation manifests, deterministic/stochastic reproduction comparison, append-only supersession/negative knowledge, rollback planning/history, and minimal orchestrator reference resolution.
+- Allowed paths: purpose-built evidence-lineage core/interfaces/adapters/CLI/tests/synthetic fixtures, minimal orchestrator contract-reference integration, bounded operating-system docs/manifest/capability inventory, `docs/CURRENT_STATE.md`, this file, `package.json`, and `.github/workflows/verify.yml`.
+- Prohibited: application/formula/UI/CSS/auth/database/migration/generated-type/print/PWA/Vercel/environment/hosted/production changes; production persistence, personal profiles, runtime AI/provider calls, analytics, Dreaming, global learning, dependency upgrades, and the blocked default-privilege mutation.
 
 ## Current implementation checkpoint
 
-- CLI: `.agents/skills/aionis-operating-system/scripts/orchestrator/cli.mjs`.
-- Core/state rules: `.agents/skills/aionis-operating-system/scripts/orchestrator/core.mjs`.
-- Development workspace schema: `.agents/skills/aionis-operating-system/scripts/orchestrator/workspace.schema.json`.
-- Synthetic workspaces: `docs/aionis-operating-system/orchestrator/features/`.
-- Documentation: `docs/aionis-operating-system/orchestrator/README.md`.
-- Local proof so far: 31 orchestrator tests and all 3 tracked workspaces pass; `npm run validate:aionis` passes 12 shared schemas plus orchestrator validation; the 4 telemetry privacy tests pass.
-- The standalone token-workflow scope check sees the explicitly authorized `package.json` and CI edits as out of its older working-tree allow-list. It will be rerun from the committed clean branch/CI, where the guard validates repository state without weakening its scope.
+- Preflight: PR #6 is merged; GitHub `origin/main` is current; the starting tree was clean; no open PR or branch overlaps evidence-lineage work.
+- Required shared contracts, operating-system manifest/capability inventory, deterministic validator, local database CI, and orchestrator are present on `main`.
+- The auxiliary `internal` remote could not authenticate non-interactively; the GitHub `origin` fetch, fast-forward-only pull, PR inspection, and branch inspection succeeded.
+- Core/CLI/tests: `.agents/skills/aionis-operating-system/scripts/evidence-lineage/`.
+- Synthetic fixtures and architecture/reviews: `docs/aionis-operating-system/evidence-lineage/`.
+- Minimal artifact-reference integration: orchestrator core/schema/test plus `synthetic-ready-feature.json`.
+- Local proof: 49 evidence/CLI tests, 32 orchestrator tests, 4 shared validator tests, 12 shared schemas/manifest checks, 4 telemetry privacy tests, lint, 4 locked formula tests, 21 unit tests, production PWA build, 8 rendered checks, local database verifier plus 8 pgTAP cases, and production dependency audit pass.
+- Full dependency audit: one pre-existing moderate PostCSS development advisory; no automatic fix.
+- Early diff guard: no protected product, formula, database, auth, UI/CSS, print, PWA, Vercel, lockfile, environment, generated-build, cache, or deployment path changed.
 
 ## Remaining proof and release work
 
-- Run lint, full application tests/build, local database CI, secret/private-data scans, scope/catastrophic-diff guards, dependency audits, and the complete GitHub lifecycle.
-- Before commit, confirm no product, formula, database, auth, UI, CSS, print, PWA, Vercel, environment, hosted-service, generated, or private-data file changed.
+- Rerun the complete local validation chain after this checkpoint update and stage only the authorized file list.
+- Before commit, confirm the staged diff has no product, formula, database, auth, UI, CSS, print, PWA, Vercel, environment, hosted-service, generated, or private-data file change and no unexplained deletion/rename.
 - After PR checks and exact GitHub diff review, record the conditional Code Gate comment, merge only if every condition is green, then synchronize and clean local `main`.
-- Exact next proposed phase after this task: `FPR-05-evidence-lineage` on a separately authorized branch; do not begin it here.
+- Exact next proposed phase after this task: `FPR-06-private-evidence-memory` on a separately authorized branch, but only after the blocked default-privilege/security dependency and private identity/storage design are resolved. Do not begin it here.

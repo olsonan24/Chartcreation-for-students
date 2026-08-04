@@ -74,6 +74,15 @@ test('tracked synthetic workspaces validate together', () => {
   assert.equal(validateAllTrackedWorkspaces(fixtureDir, now).count, 3)
 })
 
+test('orchestrator evidence-lineage artifact references resolve exact IDs and versions', () => {
+  const workspaces = tracked()
+  const workspace = workspaces.find((item) => item.feature.featureId === 'SYNTHETIC-ready-feature')
+  assert.doesNotThrow(() => validateWorkspace(workspace, { allWorkspaces: workspaces, now }))
+  const broken = structuredClone(workspace)
+  broken.evidenceLineageReferences.manifestIds.push('synthetic-missing-manifest')
+  assert.throws(() => validateWorkspace(broken, { allWorkspaces: workspaces.map((item) => item.feature.featureId === broken.feature.featureId ? broken : item), now }), /unresolved evidence-lineage manifestIds reference/)
+})
+
 test('legal lifecycle transition records append-only evidence', () => {
   const workspace = ready()
   workspace.feature.status = 'STAGED'

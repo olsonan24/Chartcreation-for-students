@@ -1283,7 +1283,7 @@
       "requirement_title": "Evidence is immutable, attributable, timestamped, access-scoped, and versioned with supersession.",
       "source_document": "docs/aionis-operating-system/07-evidence-lineage-and-versioning.md",
       "source_section": "Core rules",
-      "status": "PARTIALLY_IMPLEMENTED",
+      "status": "IMPLEMENTED",
       "target": "PRIVATE_AIONIS_BACKEND",
       "risk": "MEDIUM",
       "current_evidence": [
@@ -1294,18 +1294,17 @@
           "proves": "Positive or limiting evidence: evidence-record.schema.json is a valid draft JSON Schema and requires immutable=true."
         },
         {
-          "repository_path_or_github_artifact": "Repository tree at Git commit 9041d142f87ab48a8706a333cfebd70d702783fb",
-          "exact_reference": "No evidence record instance, append-only store, access policy implementation, or supersession service exists.",
-          "evidence_type": "REPOSITORY_SEARCH",
-          "proves": "Absence evidence: No evidence record instance, append-only store, access policy implementation, or supersession service exists."
+          "repository_path_or_github_artifact": ".agents/skills/aionis-operating-system/scripts/evidence-lineage/core.mjs",
+          "exact_reference": "The Phase 5 core validates canonical digests, immutable acceptance, lineage/access scope, and append-only supersession through backend-neutral interfaces.",
+          "evidence_type": "CODE_AND_TEST",
+          "proves": "Executable repository-local evidence lineage exists without production persistence."
         }
       ],
-      "existing_implementation": "evidence-record.schema.json is a valid draft JSON Schema and requires immutable=true.",
-      "missing_work": "The schema is a contract, not lineage plumbing.",
+      "existing_implementation": "The merged evidence contract is enforced by the backend-neutral core, in-memory adapter, synthetic fixture adapter, CLI, golden digests, and negative-path tests.",
+      "missing_work": "A secure private persistence adapter, identity, authorization, encryption, retention execution, and audit service remain a later gated phase.",
       "conflicts": [],
       "dependencies": [
-        "FPR-03-contracts-validators",
-        "Private storage decision"
+        "FPR-03-contracts-validators"
       ],
       "required_agent_or_skill": [
         ".agents/skills/aionis-operating-system/SKILL.md",
@@ -1328,14 +1327,14 @@
       "database_migration_involved": false,
       "constitutional_methodology_involved": false,
       "confidence": "HIGH",
-      "notes": "Reclassified individually as PARTIALLY_IMPLEMENTED because the merged Prompt 1 foundation contains meaningful contract, schema, template, review-skill, or historical release-evidence pieces; missing_work identifies what remains."
+      "notes": "Implemented in the separately authorized Phase 5 repository-local foundation; production private persistence remains explicitly excluded."
     },
     {
       "requirement_id": "AOS-07-02",
       "requirement_title": "Significant generated conclusions record exact provider/model/configuration, prompt/constitution/engine versions, evidence, confidence, fallback, environment, and release.",
       "source_document": "docs/aionis-operating-system/07-evidence-lineage-and-versioning.md",
       "source_section": "Core rules",
-      "status": "PARTIALLY_IMPLEMENTED",
+      "status": "IMPLEMENTED",
       "target": "SHARED_CONTRACT",
       "risk": "MEDIUM",
       "current_evidence": [
@@ -1346,14 +1345,14 @@
           "proves": "Positive or limiting evidence: generation-manifest.schema.json covers the enumerated fields and conditionally requires fallbackModelId."
         },
         {
-          "repository_path_or_github_artifact": "Repository tree at Git commit 9041d142f87ab48a8706a333cfebd70d702783fb",
-          "exact_reference": "No generation manifest instance, runtime generator, or validator integrated into CI exists.",
-          "evidence_type": "REPOSITORY_SEARCH",
-          "proves": "Absence evidence: No generation manifest instance, runtime generator, or validator integrated into CI exists."
+          "repository_path_or_github_artifact": "docs/aionis-operating-system/evidence-lineage/fixtures/synthetic-lineage-store.json",
+          "exact_reference": "Synthetic current and superseded artifacts retain merged generation manifests and exact registry bindings validated in CI.",
+          "evidence_type": "FIXTURE_AND_TEST",
+          "proves": "Manifest completeness, exact versions, evidence resolution, budgets, fallback disclosure, and historical retention are executable."
         }
       ],
-      "existing_implementation": "generation-manifest.schema.json covers the enumerated fields and conditionally requires fallbackModelId.",
-      "missing_work": "The draft shape exists without generation or persistence plumbing.",
+      "existing_implementation": "The merged generation contract plus artifact/version wrapper and 15-role component registry are validated by the Phase 5 core and CI fixtures.",
+      "missing_work": "Runtime generation/provider calls remain a later gated phase.",
       "conflicts": [],
       "dependencies": [
         "Contract validator",
@@ -1380,14 +1379,14 @@
       "database_migration_involved": false,
       "constitutional_methodology_involved": false,
       "confidence": "HIGH",
-      "notes": "Reclassified individually as PARTIALLY_IMPLEMENTED because the merged Prompt 1 foundation contains meaningful contract, schema, template, review-skill, or historical release-evidence pieces; missing_work identifies what remains."
+      "notes": "Implemented as deterministic contracts and synthetic verification only; no runtime AI is authorized or present."
     },
     {
       "requirement_id": "AOS-07-03",
       "requirement_title": "Generated conclusions are reproducible, auditable, reversible, and rollback preserves failed and restored histories.",
       "source_document": "docs/aionis-operating-system/07-evidence-lineage-and-versioning.md",
       "source_section": "Reproducibility target",
-      "status": "NOT_CURRENTLY_APPLICABLE",
+      "status": "IMPLEMENTED",
       "target": "PRIVATE_AIONIS_BACKEND",
       "risk": "MEDIUM",
       "current_evidence": [
@@ -1398,14 +1397,14 @@
           "proves": "Positive or limiting evidence: 07-evidence-lineage-and-versioning.md defines the reproducibility and rollback semantics."
         },
         {
-          "repository_path_or_github_artifact": "Repository tree at Git commit 9041d142f87ab48a8706a333cfebd70d702783fb",
-          "exact_reference": "No governed generation runner, acceptance comparator, rollback execution, or history store exists.",
-          "evidence_type": "REPOSITORY_SEARCH",
-          "proves": "Absence evidence: No governed generation runner, acceptance comparator, rollback execution, or history store exists."
+          "repository_path_or_github_artifact": ".agents/skills/aionis-operating-system/scripts/evidence-lineage/core.test.mjs",
+          "exact_reference": "Tests prove exact deterministic comparison, versioned measurable stochastic policies, explicit blockers, append-only correction, and failed/restored rollback history.",
+          "evidence_type": "CODE_AND_TEST",
+          "proves": "The repository-local reproducibility and rollback foundation is executable without claiming production rollback or semantic model judging."
         }
       ],
-      "existing_implementation": "07-evidence-lineage-and-versioning.md defines the reproducibility and rollback semantics.",
-      "missing_work": "No executable lineage or reproduction path exists yet.",
+      "existing_implementation": "Reproduction plans, deterministic/stochastic comparison, supersession resolution, and rollback planning/history validation are executable against synthetic records.",
+      "missing_work": "Runtime reruns, production release restoration, and semantic evaluation remain later gated work.",
       "conflicts": [],
       "dependencies": [
         "Evidence records",
@@ -1433,7 +1432,7 @@
       "database_migration_involved": false,
       "constitutional_methodology_involved": false,
       "confidence": "HIGH",
-      "notes": "Reclassified individually as NOT_CURRENTLY_APPLICABLE because this capability is intentionally reserved for PHASE_5 and requires separate human authorization; the Prompt 1 documentation is a secondary implementation note, not a current-status value."
+      "notes": "Implemented in the separately authorized Phase 5 foundation with synthetic comparators and rollback history only."
     },
     {
       "requirement_id": "AOS-08-01",

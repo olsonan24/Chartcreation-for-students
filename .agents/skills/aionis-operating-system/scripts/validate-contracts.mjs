@@ -254,9 +254,17 @@ function assertAuditAndState() {
   const entries = matrix.requirements || matrix.entries || matrix
   const statuses = new Set(['IMPLEMENTED', 'PARTIALLY_IMPLEMENTED', 'MISSING', 'OUTDATED', 'CONTRADICTORY', 'NOT_CURRENTLY_APPLICABLE', 'BLOCKED_BY_DEPENDENCY'])
   for (const entry of entries) if (!statuses.has(entry.status)) throw new Error(`invalid audit status: ${entry.status}`)
+  const manifest = readJson(manifestPath)
+  const evidenceCapability = manifest.capabilities.find((item) => item.capabilityId === 'evidence-lineage')
+  const evidenceRequirements = entries.filter((item) => item.requirement_id?.startsWith('AOS-07-'))
+  if (evidenceCapability?.implementationStatus === 'implemented') {
+    if (evidenceRequirements.length !== 3 || evidenceRequirements.some((item) => item.status !== 'IMPLEMENTED')) throw new Error('evidence-lineage manifest and AOS-07 audit statuses are inconsistent')
+    if (!fs.existsSync(path.join(repoRoot, evidenceCapability.relevantSource))) throw new Error('implemented evidence-lineage capability source does not resolve')
+  }
   const conflict = fs.readFileSync(path.join(repoRoot, 'docs/aionis-operating-system/audits/conflict-register.md'), 'utf8')
   for (let index = 1; index <= 7; index += 1) if (!conflict.includes("| `CR-0" + index + "` | RESOLVED |")) throw new Error(`CR-0${index} is not deterministically marked RESOLVED`)
   const state = fs.readFileSync(path.join(repoRoot, 'docs/CURRENT_STATE.md'), 'utf8') + fs.readFileSync(path.join(repoRoot, 'docs/ai-context/CRITICAL_STATE.md'), 'utf8')
+  if (evidenceCapability?.implementationStatus === 'implemented' && !state.includes('Evidence Lineage and Reproducibility Milestone')) throw new Error('implemented evidence-lineage capability is missing current-state milestone')
   for (const stale of ['Current documentation branch: `docs/aionis-ai-operating-system`', 'Goal: complete Prompt 1 only', 'Prompts 2 through 12']) if (state.includes(stale)) throw new Error(`stale baseline statement remains: ${stale}`)
   const routing = fs.readFileSync(path.join(repoRoot, 'docs/aionis-operating-system/12-model-routing-cost-and-capacity.md'), 'utf8')
   if (routing.includes('aionis-timeline-v3')) throw new Error('stale PWA cache identifier remains')
