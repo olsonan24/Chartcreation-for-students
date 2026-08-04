@@ -29,3 +29,22 @@ jobs:
         run: node --test .agents/skills/aionis-ai-workflow/scripts/telemetry.test.mjs
       - run: npm run lint
       - run: npm test
+
+  database:
+    name: Verify local Supabase database
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - name: Verify migrations, lint, pgTAP, and generated types
+        run: npm run validate:database
+      - name: Cleanup local Supabase stack
+        if: always()
+        run: npx --no-install supabase stop --no-backup

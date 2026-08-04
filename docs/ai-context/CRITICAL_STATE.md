@@ -1,5 +1,13 @@
 # Critical State
 
+## Database CI Follow-up
+
+- Authorized target: `DEV_TOOLING` only; branch `ci/supabase-database-verification` from `ea7462a9e9e69f238729ac296df0c94013cc3a28`.
+- Allowed outcome: deterministic local-only migration, lint, eight-case pgTAP, generated-type drift, remote-safety, and cleanup verification in GitHub CI.
+- Protected: migrations, schema/RLS/grants/triggers/authentication, generated types, application/formulas/UI/CSS/print/PWA, Vercel/environment/hosted Supabase, and the blocked future-default-privilege issue.
+- Local database evidence: clean reset applied both committed migrations; lint returned no findings; all 8 pgTAP cases passed; generated types matched after only CRLF/LF and exactly one trailing-newline tolerance; cleanup removed the project-local stack.
+- Release gate: complete repository regression/security scans, exact diff review, and GitHub PR checks before any authorized automatic merge.
+
 Updated: 2026-08-04
 
 This bounded file contains facts that cannot safely be approximated. Refresh it immediately before compaction or context editing; remove completed task detail instead of appending a log.
