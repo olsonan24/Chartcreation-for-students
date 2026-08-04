@@ -46,9 +46,9 @@ Current authenticated Preview evidence covers registration with confirmation sti
 
 The Vercel Marketplace resource `supabase-chart-builder` is connected to the `chartcreation-for-students` project for Production, Preview, and Development. The browser-safe `VITE_SUPABASE_URL` and `VITE_SUPABASE_PUBLISHABLE_KEY` variables are present in all three environments, point to the intended hosted project, and use a publishable rather than secret key. All 16 Marketplace-provided server-only Supabase, JWT, Postgres, pooler, and framework-alias variables were removed from this static frontend project. Repeated hosted readback shows only the two required `VITE_` variables across Production, Preview, and Development.
 
-Remote project `frejicmqhsenqmdmqmfe` has both committed migrations applied. Live schema inspection on 2026-08-03 confirms `public.people` has zero rows after hosted-test cleanup, the `updated_at` trigger, RLS enabled, four authenticated owner policies with `USING` and `WITH CHECK` where applicable, no `anon` table grant, authenticated CRUD-only table privileges, and no trigger-function execution for `anon` or `authenticated`. Fresh remote `public` schema type generation matches the committed `lib/supabase/database.types.ts` after newline normalization.
+Remote project `frejicmqhsenqmdmqmfe` has all three committed migrations applied; migration history includes `20260804191700` after ledger-only reconciliation of the owner-applied default-privilege SQL. Live aggregate inspection on 2026-08-04 confirms `public.people` has 4 rows, the `updated_at` trigger, RLS enabled, four authenticated owner policies with `USING` and `WITH CHECK` where applicable, no `anon` table grant, authenticated CRUD-only table privileges, and no trigger-function execution for `anon` or `authenticated`. No production person fields were read. Fresh remote `public` schema type generation from the schema milestone matched the committed `lib/supabase/database.types.ts` after newline normalization.
 
-The same eight pgTAP ownership cases pass against the hosted database inside a rolled-back transaction, including cross-user read/update/delete denial, foreign-owner insert denial, and unauthenticated read/insert denial. Hosted security and performance advisors report no warning- or error-level findings.
+The same eight pgTAP ownership cases pass against the hosted database inside a rolled-back transaction, including cross-user read/update/delete denial, foreign-owner insert denial, and unauthenticated read/insert denial. The row count remained 4 and all fixed test users were removed by rollback. Refreshed advisors report 0 database security errors and 0 performance errors/warnings; Security retains one unrelated Auth warning that leaked-password protection is disabled.
 
 Product-bearing Vercel Preview deployment `dpl_7yFB9aLvfKrtrn94pk8nEm6JaLcL` is Ready for head `850b26828b4431f04cf7710076ba031688fd8fc2`. Its compiled Vite bundle contains the intended Supabase project URL, one publishable key, and the authentication UI, with no actual secret key, service-role JWT, direct Postgres credential, or pooler credential. Preview remains protected by Vercel Authentication. A temporary second automation bypass used for isolated browser verification was removed afterward; the pre-existing system automation bypass was not changed.
 
@@ -161,15 +161,34 @@ Local proof on 2026-08-04: 49 evidence-lineage/CLI tests, 32 orchestrator tests,
 
 No application, formula, UI/CSS, authentication, database/RLS, migration, generated type, print, PWA, Vercel, hosted-service, runtime-model, personal-memory, analytics, Dreaming, global-learning, or production behavior changed.
 
+## Future Default-Privilege Hardening Checkpoint
+
+The separately authorized `FPR-SEC-default-privileges` branch starts from merged PR #7 on `main` at `7b40f3987b55141aee27aa81761cc3ea55385622` and targets `PRIVATE_AIONIS_BACKEND` only.
+
+- Migration `20260804191700_harden_postgres_default_privileges.sql` removes implicit future table CRUD, sequence use/select, and function execution for `anon`, `authenticated`, and `service_role` on `postgres`-owned `public` objects. It also removes PostgreSQL's global future-function `PUBLIC EXECUTE` default for `postgres`.
+- The migration is bound to implementation commit `25bc261d9a0a108174bf7e545b3da0e75615cd04` and SQL SHA-256 `5dfbcc97fc5a60709fc99d4b75ba9004f2ea2be271955df95ade3a271f48f358`.
+- A new rollback-only pgTAP probe creates one future table, sequence, and function and proves all 10 effective privilege checks are false. The local database verifier now runs every database test file.
+- Local isolated verification passes migration reset, schema lint with zero findings, 10 future-object assertions, all 8 unchanged `people` ownership/RLS assertions, generated-type parity, and cleanup.
+- Full regression verification passes 5 shared-validator tests, all 12 shared schemas/manifest checks, 49 evidence-lineage tests, 32 orchestrator tests, 4 workflow telemetry tests, TypeScript lint, 4 locked formula tests, 21 application unit tests, the production PWA build, and 8 rendered/PWA/print/Vercel assertions. Production dependencies have zero vulnerabilities; the full audit retains the pre-existing single moderate PostCSS development advisory and no automatic fix ran.
+- The repository owner manually applied the exact digest-bound SQL once in the hosted SQL Editor as `postgres`; the committed read-only query then returned exactly 10 rows with every future-object check false.
+- Migration history was safely reconciled by inserting only the already-applied version's ledger row. Final readback shows one `20260804191700` row named `harden_postgres_default_privileges` with four statements; the migration body was not reapplied.
+- Hosted people/RLS regression returned `ok 1` through `ok 8` inside rollback. The existing row count remained 4, fixed test users returned to 0, and remaining probe relations/functions are both 0.
+- Refreshed advisors show 0 database security errors and 0 performance errors/warnings. One unrelated Auth leaked-password-protection warning remains documented.
+- Security, release, rollback, feature, implementation, and sanitized hosted evidence artifacts are under `docs/aionis-operating-system/default-privileges/`. The capability is implemented and the Security and Release Gates are approved for the exact PR #8 scope.
+- `supabase_admin` is deliberately unchanged. Application-created public objects must continue through the reviewed SQL Editor `postgres` path; any creator-role change reopens the Security Gate.
+- PR #8 targets `main`; it may be marked ready and squash-merged only after the final evidence commit's GitHub application/governance job, isolated Supabase database job, and Vercel checks are green.
+
+No new persistent application object, existing-object grant/RLS/policy/trigger change, application/formula/UI/auth/print/PWA/Vercel/dependency change, or generated-type change occurred. `supabase_admin` remains unchanged.
+
 ## Known Risks and Follow-up
 
-- Hosted default privileges for future `public` objects remain broad for both creator roles `postgres` and `supabase_admin`: API roles can inherit table DML, sequence use, and function execution. Existing `public.people` and `public.set_people_updated_at` are explicitly hardened, so this is not a PR #1 release blocker.
-- A default-privilege migration is not yet safe to approve: the migration connection can change `postgres` defaults but cannot change `supabase_admin` defaults, and removing the built-in `PUBLIC EXECUTE` default for future functions requires a global role-level change rather than a `public`-schema-only change. Keep this as a separate platform-hardening follow-up; no migration was created, committed, or applied.
-- The current hosted database and committed migrations are aligned; do not reapply or reset them.
-- The shared-contract foundation, local database CI, and orchestrator are merged into `main`; `FPR-05-evidence-lineage` is the currently authorized operating-system implementation scope.
+- Hosted `postgres` defaults are hardened and verified. Keep future application `public` objects on the reviewed SQL Editor `postgres` creator path unless a new Security Gate approves a role change.
+- `supabase_admin` remains a managed-platform boundary outside this approved migration. If application migrations stop running as `postgres`, treat that as a blocking creator-role mismatch and reopen Security review.
+- The hosted database and committed migration history are aligned; do not reapply or reset them.
+- The shared-contract foundation, local database CI, orchestrator, and evidence-lineage capability are merged into `main`; only PR #8 consolidation is authorized on the current branch.
 - Git commands must run inside this repository root; the parent workspace contains unrelated projects.
 - The operating-system schemas are draft shared contracts only; they have no database, service, analytics, Dream, or runtime persistence implementation.
-- The default-privilege security lane remains blocked and separate; do not attempt it or create another `public` object. After the evidence-lineage PR is merged, the exact recommended next capability PR is `FPR-06-private-evidence-memory`, but it must not begin until private identity/storage design is separately authorized and the default-privilege security dependency is resolved or explicitly dispositioned at its required gate.
+- Do not begin private evidence/memory, entitlements, timelines, or another capability in this branch. The next product capability requires separate authorization after this security prerequisite is released.
 
 ## Read Next By Task
 

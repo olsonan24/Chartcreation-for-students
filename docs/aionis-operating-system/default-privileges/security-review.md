@@ -1,0 +1,14 @@
+# Security Review: FPR-SEC-default-privileges@1.0.0
+
+- Artifact version / reviewer / environment / target: migration commit `25bc261d9a0a108174bf7e545b3da0e75615cd04`; Codex security review; isolated local Supabase and hosted production project `frejicmqhsenqmdmqmfe`; `PRIVATE_AIONIS_BACKEND`.
+- Data classification, consent, tenant, and retention: privilege metadata and aggregate counts only. No production person fields, consent records, tenant rows, credentials, or retention-bearing content were read or recorded.
+- Authentication, authorization, least privilege, RLS, and server validation: future `postgres`-owned objects are deny-by-default for Data API roles. Hosted verification returned exactly 10 rows and every `automatically_accessible` value was false. Existing `people` CRUD grants, authenticated owner RLS, four policies, and trigger remain unchanged; all eight hosted ownership/RLS assertions passed inside rolled-back transactions.
+- Client/server trust boundary and secret handling: SQL is database-only. No browser/client credential, service-role key, connection string, or secret is added to code, tests, screenshots, or docs.
+- Model/provider and third-party data flow: none.
+- Input/output validation, abuse cases, and sensitive-log prevention: the migration contains only the four approved `ALTER DEFAULT PRIVILEGES` statements, bound to SHA-256 `5dfbcc97fc5a60709fc99d4b75ba9004f2ea2be271955df95ade3a271f48f358`. Probe and regression objects/data were transaction-local and rolled back. Sanitized evidence records booleans and counts only.
+- Cross-user, cross-tenant, cache, analytics, and development-memory leakage checks: no new data path exists. Hosted cross-user and unauthenticated denial cases pass. No cache, analytics, or development-memory content changed.
+- Audit trail, incident owner, reversibility, and rollback: Git migration history, digest-bound release evidence, local pgTAP output, hosted read-only verification, and the reconciled Supabase migration ledger form the audit trail. The ledger contains exactly one `20260804191700` row named `harden_postgres_default_privileges` with four statements; the migration body was not reapplied during reconciliation.
+- Findings by severity / required remediation: no finding in this change. The refreshed Security Advisor reports 0 database errors and one unrelated Auth warning that leaked-password protection is disabled. `supabase_admin` was not altered. Re-open review if the application object-creator role changes.
+- Prohibited sensitive fields confirmed absent: names, DOBs, emails, credentials, tokens, prompts, profile/evidence content, and production row contents.
+- Decision: approved for release and merge within PR #8's bounded scope.
+- Human gate / approver / timestamp: Plan, Security, and Release authorization supplied by the repository owner on 2026-08-04; Code Gate completed from final diff, verification, and required GitHub checks before merge.

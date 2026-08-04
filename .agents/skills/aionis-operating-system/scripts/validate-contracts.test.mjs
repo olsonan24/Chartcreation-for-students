@@ -1,6 +1,6 @@
 import test from 'node:test'
 import assert from 'node:assert/strict'
-import { applyOperation, assertAnalyticsLink, assertApprovalReference, assertLifecycleTransition } from './validate-contracts.mjs'
+import { applyOperation, assertAnalyticsLink, assertApprovalReference, assertLifecycleTransition, classifyScopeChanges } from './validate-contracts.mjs'
 
 test('legal and illegal lifecycle transitions are distinguished', () => {
   assert.doesNotThrow(() => assertLifecycleTransition({ from: 'RELEASED', to: 'OBSERVING' }))
@@ -27,4 +27,25 @@ test('fixture mutations do not modify their base object', () => {
   const changed = applyOperation(base, { type: 'remove', path: 'removeMe' })
   assert.equal(base.removeMe, true)
   assert.equal(changed.removeMe, undefined)
+})
+
+test('scope guard admits only the exact default-privilege database artifacts', () => {
+  const approved = classifyScopeChanges([
+    'supabase/migrations/20260804191700_harden_postgres_default_privileges.sql',
+    'supabase/tests/database/future_default_privileges.test.sql'
+  ])
+  assert.deepEqual(approved, { unauthorized: [], product: [] })
+
+  const rejected = classifyScopeChanges([
+    'supabase/migrations/20260805000000_create_entitlements.sql',
+    'app/page.tsx'
+  ])
+  assert.deepEqual(rejected.unauthorized, [
+    'supabase/migrations/20260805000000_create_entitlements.sql',
+    'app/page.tsx'
+  ])
+  assert.deepEqual(rejected.product, [
+    'supabase/migrations/20260805000000_create_entitlements.sql',
+    'app/page.tsx'
+  ])
 })

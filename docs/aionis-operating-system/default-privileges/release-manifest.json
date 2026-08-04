@@ -1,0 +1,41 @@
+{
+  "releaseId": "fpr-sec-default-privileges-postgres-v1",
+  "version": "1.0.0",
+  "status": "released",
+  "target": "PRIVATE_AIONIS_BACKEND",
+  "environment": "production",
+  "commit": "25bc261d9a0a108174bf7e545b3da0e75615cd04",
+  "artifactDigest": "sha256:5dfbcc97fc5a60709fc99d4b75ba9004f2ea2be271955df95ade3a271f48f358",
+  "featureSpecificationIds": [
+    "FPR-SEC-default-privileges@1.0.0"
+  ],
+  "contractVersions": {
+    "operating-system-manifest": "1.4.0",
+    "release-manifest": "1.0.0"
+  },
+  "intelligenceVersion": null,
+  "verificationEvidenceIds": [
+    "local-database-verification-2026-08-04",
+    "hosted-rollback-probe-user-attested-2026-08-04",
+    "hosted-production-default-acl-verification-2026-08-04",
+    "hosted-people-rls-regression-2026-08-04",
+    "hosted-cleanup-and-advisors-2026-08-04"
+  ],
+  "securityReviewId": "fpr-sec-default-privileges-security-review-v1",
+  "intelligenceReviewId": "not-applicable-no-intelligence-change",
+  "approvalIds": [
+    "plan-gate-user-task-2026-08-04",
+    "security-gate-user-release-2026-08-04",
+    "code-gate-final-pr-verification-2026-08-04",
+    "release-gate-user-release-2026-08-04"
+  ],
+  "migrationIds": [
+    "20260804191700"
+  ],
+  "rolloutStrategy": "The repository owner applied the digest-bound four-statement migration once as postgres. Migration history was reconciled without reapplying the body, then hosted default-ACL, people/RLS, cleanup, and advisor checks passed before merge.",
+  "rollbackPlanId": "fpr-sec-default-privileges-rollback-v1",
+  "analyticsContractIds": [],
+  "createdAt": "2026-08-04T19:23:19Z",
+  "releasedAt": "2026-08-04T20:44:10Z",
+  "supersedes": null
+}
