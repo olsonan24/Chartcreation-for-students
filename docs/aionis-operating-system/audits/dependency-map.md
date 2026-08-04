@@ -5,6 +5,8 @@ Audit branch: `audit/aionis-operating-system-gap-analysis`
 
 This map assigns exactly one target to every recommended future PR. It describes dependencies only; it does not authorize implementation.
 
+Dependency references resolve against the 60 normalized entries in `requirement-matrix.json` schema version 2.0.0. Future-phase requirements may be `NOT_CURRENTLY_APPLICABLE` until authorized; hard prerequisites use `BLOCKED_BY_DEPENDENCY`.
+
 ```mermaid
 flowchart TD
   P3["FPR-03 Shared contracts and validators<br/>SHARED_CONTRACT"]

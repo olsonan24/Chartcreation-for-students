@@ -49,7 +49,7 @@ These are missing controls, not conflicting requirements:
 
 ## Explicit non-conflicts
 
-- Private backend, runtime AI, analytics, Dream loops, global learning, orchestrator state, and release-manifest plumbing are documented future phases. Their absence is reported as `DOCUMENTED_ONLY`, not contradictory.
+- Private backend, runtime AI, analytics, Dream loops, global learning, orchestrator state, and release-manifest plumbing are documented future phases. Requirements intentionally reserved for separately authorized phases are `NOT_CURRENTLY_APPLICABLE`; requirements with meaningful merged contract pieces are `PARTIALLY_IMPLEMENTED`. Neither is contradictory merely because runtime behavior is absent.
 - The Level 3 gateway is explicitly a design specification. Level 2 workflow implementation does not claim Level 3 enforcement.
 - Prompt caching is not implemented, and no provider-specific cache was required by Prompt 1.
 - The owner console is external by design; its absence from this public repository is correct.

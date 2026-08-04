@@ -2,7 +2,9 @@
 
 This sequence is a recommendation from the Prompt 2 audit. It is not authorization to implement Prompt 3 or any later capability. Every PR targets `main`, begins from current `main`, receives its own feature specification, and stops at its required human gate.
 
-## 1. `contracts/aionis-shared-contracts-and-validators`
+The sequence resolves the normalized `proposed_pr_name` values in `requirement-matrix.json`; it does not convert a `NOT_CURRENTLY_APPLICABLE` future requirement into authorization.
+
+## 1. `FPR-03-contracts-validators` — `contracts/aionis-shared-contracts-and-validators`
 
 Target: `SHARED_CONTRACT`
 Roadmap alignment: Phase 3
@@ -21,7 +23,7 @@ Resolve the foundation before building against it:
 Required gates: Plan and Code.
 Stop condition: do not start orchestrator or backend implementations until the shared contracts have valid/invalid golden fixtures and CI enforcement.
 
-## Independent security lane: `security/aionis-build-dependency-maintenance`
+## Independent security lane: `FPR-SEC-build-dependency` — `security/aionis-build-dependency-maintenance`
 
 Target: `DEV_TOOLING`
 
@@ -30,7 +32,7 @@ Review and update the Vite/PostCSS dependency chain so the full development audi
 Required gates: Security and Code.
 Sequencing: may run alongside the shared-contract PR because paths and ownership do not overlap; must land before the final release pipeline.
 
-## 2. `security/supabase-future-default-privileges`
+## 2. `FPR-SEC-default-privileges` — `security/supabase-future-default-privileges`
 
 Target: `PRIVATE_AIONIS_BACKEND`
 Roadmap alignment: prerequisite hardening lane
@@ -47,7 +49,7 @@ Required gates: Plan, Security, Code, and Release for the platform mutation.
 Blocker: no safe implementation exists with the currently documented migration authority.
 Stop condition: add no new `public` object before this lands or a Security Gate accepts an explicit bounded exception.
 
-## 3. `dev/aionis-orchestrator-and-lifecycle-state`
+## 3. `FPR-04-orchestrator-lifecycle` — `dev/aionis-orchestrator-and-lifecycle-state`
 
 Target: `DEV_TOOLING`
 Roadmap alignment: Phase 4
@@ -56,7 +58,7 @@ Implement assignment contracts, feature state transitions, file ownership, colli
 
 Required gates: Plan and Code.
 
-## 4. `backend/aionis-evidence-lineage`
+## 4. `FPR-05-evidence-lineage` — `backend/aionis-evidence-lineage`
 
 Target: `PRIVATE_AIONIS_BACKEND`
 Roadmap alignment: Phase 5
@@ -65,7 +67,7 @@ Implement append-only evidence records, content digests, provenance/access scope
 
 Required gates: Plan, Security, Intelligence, and Code.
 
-## 5. `backend/aionis-private-evidence-and-memory`
+## 5. `FPR-06-private-evidence-memory` — `backend/aionis-private-evidence-and-memory`
 
 Target: `PRIVATE_AIONIS_BACKEND`
 Roadmap alignment: Phase 6
@@ -74,7 +76,7 @@ Implement private identity and tenant isolation, personal evidence ingestion, kn
 
 Required gates: Plan, Security, Intelligence, and Code.
 
-## 6. `backend/aionis-runtime-intelligence-and-feedback`
+## 6. `FPR-07-runtime-intelligence-feedback` — `backend/aionis-runtime-intelligence-and-feedback`
 
 Target: `PRIVATE_AIONIS_BACKEND`
 Roadmap alignment: Phase 7
@@ -83,7 +85,7 @@ Implement governed model routing, exact manifests, timeout/retry/token/cost budg
 
 Required gates: Plan, Security, Intelligence, and Code.
 
-## 7. `backend/aionis-analytics-and-observability`
+## 7. `FPR-08-analytics-observability` — `backend/aionis-analytics-and-observability`
 
 Target: `PRIVATE_AIONIS_BACKEND`
 Roadmap alignment: Phase 8
@@ -92,7 +94,7 @@ Implement separate operational and product/intelligence analytics contracts, eve
 
 Required gates: Analytics, Security, Intelligence, and Code.
 
-## 8. `dev/aionis-development-dreaming`
+## 8. `FPR-09-development-dreaming` — `dev/aionis-development-dreaming`
 
 Target: `DEV_TOOLING`
 Roadmap alignment: Phase 9
@@ -101,7 +103,7 @@ Implement approved sanitized development-event ingestion, immutable cursor/snaps
 
 Required gates: Dream and Code.
 
-## 9. `backend/aionis-human-pattern-dreaming`
+## 9. `FPR-10-human-pattern-dreaming` — `backend/aionis-human-pattern-dreaming`
 
 Target: `PRIVATE_AIONIS_BACKEND`
 Roadmap alignment: Phase 10
@@ -110,7 +112,7 @@ Implement the Pattern Ledger, Human Pattern proposal flow, user/org isolation, s
 
 Required gates: Dream, Intelligence, Security, and Code.
 
-## 10. `backend/aionis-global-intelligence-learning`
+## 10. `FPR-11-global-learning` — `backend/aionis-global-intelligence-learning`
 
 Target: `PRIVATE_AIONIS_BACKEND`
 Roadmap alignment: Phase 11
@@ -119,7 +121,7 @@ Implement the approved aggregation eligibility contract, consent and de-identifi
 
 Required gates: Dream, Intelligence, Security, and Release.
 
-## 11. `dev/aionis-staged-release-and-observation`
+## 11. `FPR-12-release-pipeline` — `dev/aionis-staged-release-and-observation`
 
 Target: `DEV_TOOLING`
 Roadmap alignment: Phase 12

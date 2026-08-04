@@ -1,5 +1,5 @@
 {
-  "schemaVersion": "1.0.0",
+  "schemaVersion": "2.0.0",
   "auditId": "AOS-REPOSITORY-GAP-2026-08-03",
   "auditType": "evidence-backed repository gap audit",
   "repository": "olsonan24/Chartcreation-for-students",
@@ -69,14 +69,13 @@
   "matrix": {
     "requirementGroups": 60,
     "counts": {
-      "IMPLEMENTED": 12,
-      "IMPLEMENTED_UNDOCUMENTED": 1,
-      "PARTIAL": 16,
-      "DOCUMENTED_ONLY": 16,
+      "IMPLEMENTED": 13,
+      "PARTIALLY_IMPLEMENTED": 20,
       "MISSING": 5,
       "CONTRADICTORY": 7,
       "OUTDATED": 2,
-      "BLOCKED": 1
+      "NOT_CURRENTLY_APPLICABLE": 12,
+      "BLOCKED_BY_DEPENDENCY": 1
     }
   },
   "implementedHighlights": [
@@ -89,7 +88,7 @@
     "Level 2 token-efficient workflow with bounded context, accepted answers, critical state, profiles, privacy-safe telemetry tests, and scope validation",
     "Public/private owner-console and build-time/student deployment boundaries"
   ],
-  "documentedOnlyHighlights": [
+  "futurePhaseContractHighlights": [
     "Central orchestrator and handoff state",
     "Evidence lineage and generation-manifest plumbing",
     "Private personal evidence and memory",
@@ -128,7 +127,7 @@
     },
     {
       "id": "AOS-DB-DEFAULTS-01",
-      "status": "BLOCKED",
+      "status": "BLOCKED_BY_DEPENDENCY",
       "summary": "Future public-object defaults remain broad for postgres and supabase_admin and require platform-owner authority."
     },
     {
@@ -138,7 +137,7 @@
     },
     {
       "id": "AOS-SEC-DEPS-01",
-      "status": "PARTIAL",
+      "status": "PARTIALLY_IMPLEMENTED",
       "summary": "The build graph has one fixable moderate PostCSS advisory; production-only dependencies are clean."
     }
   ],
@@ -152,6 +151,22 @@
     "stopCondition": "Do not create another public object before resolution or an explicit bounded Security Gate exception."
   },
   "reproducedVerification": {
+    "normalizedAuditContract": {
+      "status": "PASS",
+      "requiredFieldsPerRequirement": 23,
+      "requirementsValidated": 60,
+      "approvedStatusEnumOnly": true,
+      "targetEnumValid": true,
+      "duplicateRequirementIds": 0,
+      "countsReconciled": true,
+      "repositoryEvidencePathsValid": true,
+      "sourceDocumentsValid": true,
+      "internalReferencesValid": true,
+      "proposedPrReferencesValid": true,
+      "secretScan": "PASS",
+      "privateDataScan": "PASS",
+      "changedFileScope": "PASS: six authorized audit outputs and zero product paths"
+    },
     "npmCi": {
       "status": "PASS_WITH_ADVISORY",
       "detail": "453 packages installed; full audit reports one moderate development vulnerability."

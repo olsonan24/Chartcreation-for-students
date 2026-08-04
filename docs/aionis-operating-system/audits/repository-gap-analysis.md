@@ -16,18 +16,17 @@ The repository has three distinct implementation levels:
 
 The audit found 60 requirement groups:
 
-| Status | Count |
+| Approved current status | Count |
 | --- | ---: |
-| Implemented | 12 |
-| Implemented but undocumented | 1 |
-| Partial | 16 |
-| Documented only | 16 |
-| Missing | 5 |
-| Contradictory | 7 |
-| Outdated | 2 |
-| Blocked | 1 |
+| `IMPLEMENTED` | 13 |
+| `PARTIALLY_IMPLEMENTED` | 20 |
+| `MISSING` | 5 |
+| `CONTRADICTORY` | 7 |
+| `OUTDATED` | 2 |
+| `NOT_CURRENTLY_APPLICABLE` | 12 |
+| `BLOCKED_BY_DEPENDENCY` | 1 |
 
-The seven contradictions are foundation contract defects, not penalties for unimplemented future phases. The one blocker is the previously documented Supabase default-privilege issue for future `public` objects.
+The seven contradictions are foundation contract defects, not penalties for unimplemented future phases. Twelve future capabilities are `NOT_CURRENTLY_APPLICABLE` until separately authorized. The one dependency blocker is the previously documented Supabase default-privilege issue for future `public` objects. The implemented feedback/error-state requirement retains its documentation gap in `missing_work` rather than using a custom status.
 
 ## Prerequisite evidence
 
