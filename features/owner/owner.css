@@ -1,0 +1,367 @@
+.owner-dashboard {
+  padding: 20px 0;
+  color: #eef3fb;
+}
+
+.owner-header h2 {
+  margin: 4px 0 16px;
+  font: 700 24px/1.2 Georgia, serif;
+  color: #f7f1e7;
+}
+
+.owner-nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 20px;
+  padding: 4px;
+  border: 1px solid #32445d;
+  border-radius: 13px;
+}
+
+.owner-nav button {
+  min-height: 44px;
+  padding: 0 16px;
+  border: 0;
+  border-radius: 9px;
+  background: transparent;
+  color: #aeb9c9;
+  font-weight: 700;
+  font-size: 13px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.owner-nav button.active {
+  background: #b98229;
+  color: white;
+}
+
+.owner-error {
+  margin: 0 0 14px;
+  padding: 10px 14px;
+  border: 1px solid #e7a5ad;
+  border-radius: 12px;
+  background: #fff1f2;
+  color: #9f1239;
+  font-size: 13px;
+}
+
+.owner-loading {
+  color: #b8c3d4;
+  font-size: 14px;
+}
+
+.owner-overview {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 12px;
+  margin-bottom: 24px;
+}
+
+.owner-stat {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 18px 12px;
+  border: 1px solid rgba(201, 154, 75, 0.24);
+  border-radius: 14px;
+  background: rgba(4, 15, 31, 0.6);
+}
+
+.owner-stat-value {
+  font: 700 32px/1 Georgia, serif;
+  color: #f5deb3;
+}
+
+.owner-stat-label {
+  margin-top: 4px;
+  font-size: 12px;
+  color: #b8c3d4;
+}
+
+.owner-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 12px;
+}
+
+.owner-table th {
+  text-align: left;
+  padding: 8px 10px;
+  border-bottom: 1px solid #32445d;
+  color: #cdd6e5;
+  font-weight: 700;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.owner-table td {
+  padding: 8px 10px;
+  border-bottom: 1px solid rgba(50, 68, 93, 0.5);
+  color: #d9e0ea;
+  vertical-align: top;
+}
+
+.user-id-cell {
+  font-family: monospace;
+  font-size: 10px;
+  color: #7e8a9d;
+  word-break: break-all;
+  max-width: 120px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.reason-cell {
+  max-width: 200px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.empty-cell {
+  text-align: center;
+  padding: 24px;
+  color: #7e8a9d;
+}
+
+.status-badge {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 6px;
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.status-active {
+  background: #16a34a22;
+  color: #4ade80;
+}
+
+.status-revoked {
+  background: #dc262622;
+  color: #f87171;
+}
+
+.status-suspended {
+  background: #f59e0b22;
+  color: #fbbf24;
+}
+
+.status-expired {
+  background: #6b728022;
+  color: #9ca3af;
+}
+
+.search-results {
+  margin-top: 16px;
+  overflow-x: auto;
+}
+
+.owner-search {
+  display: flex;
+  gap: 8px;
+  align-items: flex-end;
+  margin-bottom: 16px;
+}
+
+.owner-search label {
+  flex: 1;
+}
+
+.owner-search input {
+  width: 100%;
+  padding: 8px 10px;
+  border: 1px solid #32445d;
+  border-radius: 8px;
+  background: rgba(4, 15, 31, 0.8);
+  color: #eef3fb;
+  font-size: 13px;
+  min-height: 44px;
+}
+
+.grant-panel {
+  margin: 20px 0;
+  padding: 16px;
+  border: 1px solid rgba(201, 154, 75, 0.32);
+  border-radius: 14px;
+  background: rgba(4, 15, 31, 0.6);
+}
+
+.grant-panel h3 {
+  margin: 0 0 14px;
+  font: 600 16px/1.4 Georgia, serif;
+  color: #f7f1e7;
+}
+
+.grant-row {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 12px 0;
+  border-bottom: 1px solid rgba(50, 68, 93, 0.3);
+}
+
+.grant-row:last-child {
+  border-bottom: 0;
+}
+
+.grant-row-main {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.grant-row-main strong {
+  color: #f5deb3;
+  font-size: 13px;
+}
+
+.grant-hint, .existing-hint {
+  font-size: 11px;
+  color: #b8c3d4;
+  line-height: 1.4;
+}
+
+.grant-row-controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+}
+
+.grant-row-controls input[type="checkbox"] {
+  margin-right: 4px;
+}
+
+.grant-row-controls input[type="text"],
+.grant-row-controls input[type="datetime-local"] {
+  padding: 6px 8px;
+  border: 1px solid #32445d;
+  border-radius: 6px;
+  background: rgba(4, 15, 31, 0.8);
+  color: #eef3fb;
+  font-size: 12px;
+  min-height: 36px;
+}
+
+.grant-row-controls button {
+  padding: 8px 14px;
+  min-height: 36px;
+  border: 1px solid #b98229;
+  border-radius: 8px;
+  background: #b98229;
+  color: white;
+  font-weight: 700;
+  font-size: 12px;
+  cursor: pointer;
+}
+
+.grant-row.existing {
+  flex-direction: row;
+  align-items: center;
+  gap: 8px;
+}
+
+.grant-row.existing .status-badge {
+  margin-left: 8px;
+}
+
+.action-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+
+.action-buttons button {
+  padding: 4px 10px;
+  min-height: 32px;
+  border: 1px solid #32445d;
+  border-radius: 6px;
+  background: rgba(4, 15, 31, 0.6);
+  color: #cdd6e5;
+  font-size: 11px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.action-buttons button:hover {
+  background: rgba(201, 154, 75, 0.2);
+}
+
+.owner-history {
+  overflow-x: auto;
+}
+
+.history-context {
+  font-family: monospace;
+  font-size: 11px;
+  color: #7e8a9d;
+  margin-bottom: 12px;
+}
+
+.owner-roles {
+  padding: 16px;
+  border: 1px solid rgba(201, 154, 75, 0.24);
+  border-radius: 14px;
+  background: rgba(4, 15, 31, 0.6);
+}
+
+.owner-roles h3 {
+  margin: 0 0 14px;
+  font: 600 16px/1.4 Georgia, serif;
+  color: #f7f1e7;
+}
+
+.role-form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  max-width: 480px;
+}
+
+.role-form label {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  color: #d9e0ea;
+  font-size: 12px;
+}
+
+.role-form input {
+  padding: 8px 10px;
+  border: 1px solid #32445d;
+  border-radius: 8px;
+  background: rgba(4, 15, 31, 0.8);
+  color: #eef3fb;
+  font-size: 13px;
+  min-height: 44px;
+}
+
+.role-hint {
+  margin: 12px 0 0;
+  font-size: 12px;
+  color: #b8c3d4;
+  line-height: 1.5;
+  max-width: 460px;
+}
+
+@media (max-width: 700px) {
+  .owner-table {
+    font-size: 11px;
+  }
+  .owner-table th, .owner-table td {
+    padding: 6px;
+  }
+  .owner-nav button {
+    font-size: 11px;
+    padding: 0 10px;
+  }
+  .grant-row-controls {
+    flex-direction: column;
+    align-items: stretch;
+  }
+}

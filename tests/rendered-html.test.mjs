@@ -95,6 +95,35 @@ test("lets iOS open the keyboard from a real tap on the name fields", async () =
   assert.match(page, /previouslyFocused\?\.focus/);
 });
 
+test("offers a persisted Bulgarian alphabet mode with an accessible responsive keyboard", async () => {
+  const [page, css, alphabets, repository, reportBuilder, migration] = await Promise.all([
+    read("../app/page.tsx"),
+    read("../app/globals.css"),
+    read("../lib/name-alphabets.ts"),
+    read("../features/people/people.repository.ts"),
+    read("../features/people/personReport.ts"),
+    read("../supabase/migrations/20260805010000_add_people_name_alphabet_mode.sql"),
+  ]);
+
+  assert.match(page, /Name alphabet/);
+  assert.match(alphabets, /Български \/ Кирилица/);
+  assert.match(page, /Българска клавиатура/);
+  assert.match(page, /BULGARIAN_ALPHABET\.map/);
+  assert.match(page, /type="button"[\s\S]*?data-name-key=\{letter\}/);
+  assert.match(page, /Space", "Hyphen", "Apostrophe", "Backspace", "Clear/);
+  assert.match(page, /onPointerDown=\{\(event\) => event\.preventDefault\(\)\}/);
+  assert.match(page, /setSelectionRange\(next\.caret, next\.caret\)/);
+  assert.match(alphabets, /АБВГДЕЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЬЮЯ/);
+  assert.match(alphabets, /\(\(position - 1\) % 9\) \+ 1/);
+  assert.match(repository, /name_alphabet_mode/);
+  assert.match(reportBuilder, /client\.nameAlphabetMode/);
+  assert.match(migration, /name_alphabet_mode text not null default 'latin'/);
+  assert.match(migration, /'bulgarian-cyrillic'/);
+  assert.doesNotMatch(migration, /disable row level security|drop policy|revoke/i);
+  assert.match(css, /\.bulgarian-keyboard button \{[^}]*min-height: 44px/);
+  assert.match(css, /@media \(max-width: 420px\)[\s\S]*?repeat\(6, minmax\(0, 1fr\)\)/);
+});
+
 test("includes a dedicated AirPrint-safe one-page Aionis report", async () => {
   const [page, css] = await Promise.all([read("../app/page.tsx"), read("../app/globals.css")]);
 

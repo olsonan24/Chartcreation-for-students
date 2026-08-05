@@ -40,6 +40,7 @@ export function inspectLegacyPeople(raw: string | null): LegacyImportInspection 
         fullName: record.fullName,
         calledName: typeof record.calledName === "string" ? record.calledName : "",
         dob: record.dob,
+        nameAlphabetMode: "latin",
       }));
     } catch {
       invalidCount += 1;

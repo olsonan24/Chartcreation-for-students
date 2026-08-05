@@ -61,6 +61,7 @@ try {
     exact: true,
   }).click();
   await page.getByRole("heading", { name: "People", exact: true }).waitFor();
+  await page.locator(".people-list, .empty-card:not([role])").waitFor();
 
   const people = page.locator(".person-card .person-main");
   if (await people.count() === 0) {
@@ -87,7 +88,7 @@ try {
   await page.emulateMedia({ media: "screen" });
   await page.setViewportSize({ width: 390, height: 844 });
   await page.getByRole("navigation", { name: "Primary navigation" })
-    .getByRole("button", { name: "People 1", exact: true })
+    .getByRole("button", { name: /^People/ })
     .click();
   await page.getByRole("heading", { name: "Map the patterns that shape a lifetime.", exact: true }).waitFor();
   const phoneLayout = await page.evaluate(() => ({
@@ -112,13 +113,18 @@ try {
   }
 
   if (createdPrintPerson) {
-    const proofCard = page.locator(".person-card").filter({ hasText: "Print Proof Person" });
-    const removeButton = proofCard.getByRole("button", { name: "Remove", exact: true });
+    const proofCards = page.locator(".person-card").filter({ hasText: "Print Proof Person" });
+    const proofCount = await proofCards.count();
+    const removeButton = proofCards.first().getByRole("button", { name: "Remove", exact: true });
     page.once("dialog", (dialog) => dialog.accept());
     await removeButton.click();
-    await proofCard.waitFor({ state: "detached" });
+    await page.waitForFunction(
+      (expectedCount) => [...document.querySelectorAll(".person-card")]
+        .filter((card) => card.textContent?.includes("Print Proof Person")).length === expectedCount,
+      proofCount - 1,
+    );
     await page.reload({ waitUntil: "networkidle" });
-    await page.locator(".client-list, .empty-card").waitFor();
+    await page.locator(".people-list, .empty-card").waitFor();
     if (await page.locator(".person-card").filter({ hasText: "Print Proof Person" }).count() !== 0) {
       throw new Error("The deleted person returned after refresh.");
     }

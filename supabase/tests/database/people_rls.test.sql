@@ -2,7 +2,7 @@ begin;
 
 create extension if not exists pgtap with schema extensions;
 
-select extensions.plan(8);
+select extensions.plan(10);
 
 insert into auth.users (id, email)
 values
@@ -27,6 +27,18 @@ select extensions.results_eq(
   $$select count(*)::bigint from public.people where user_id = '11111111-1111-4111-8111-111111111111'$$,
   $$values (2::bigint)$$,
   'User A can read User A records'
+);
+
+select extensions.results_eq(
+  $$select name_alphabet_mode from public.people where id = 'aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa'$$,
+  $$values ('latin'::text)$$,
+  'Existing records default to Latin alphabet mode'
+);
+
+select extensions.lives_ok(
+  $$insert into public.people (user_id, full_name, called_name, date_of_birth, name_alphabet_mode)
+    values ('11111111-1111-4111-8111-111111111111', 'Bulgarian Person', '', date '1992-03-04', 'bulgarian-cyrillic')$$,
+  'User A can save Bulgarian alphabet mode on an owned person'
 );
 
 select extensions.results_eq(

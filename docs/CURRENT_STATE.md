@@ -1,6 +1,6 @@
 # Current State
 
-Updated: 2026-08-04
+Updated: 2026-08-05
 
 ## Products
 
@@ -8,12 +8,74 @@ Updated: 2026-08-04
 - Private owner console: separate local workspace, never deployed with this app
 - Recovered formula reference: `reference/Pass7-Recreated/`
 
+## Bulgarian Alphabet and Administrator Checkpoint
+
+Branch `feature/owner-controlled-timeline-entitlements` now combines the
+owner-controlled entitlement system with the explicitly approved Bulgarian
+Cyrillic chart mode:
+
+- people records persist `name_alphabet_mode` as either `latin` or
+  `bulgarian-cyrillic`, defaulting existing and legacy records to `latin`;
+- the form includes an alphabet selector, mode-specific validation, and a
+  responsive 30-letter Bulgarian virtual keyboard without blocking physical
+  keyboard or paste input;
+- name-derived Report calculations use the saved alphabet while all date-only
+  calculations remain shared and unchanged; selected, comparison, screen, and
+  print paths all construct Report values through `buildPersonReport`;
+- Bulgarian letter positions follow the explicit 30-letter order and reduce to
+  chart values with `((position - 1) % 9) + 1`; fixtures lock the approved
+  Александър Анков Котзев totals and preserve the prior English fixtures;
+- entitlement RLS uses a security-definer helper in the non-exposed `private`
+  schema, while immutable audit-history triggers retain only the privileges
+  needed to write history;
+- `20260805142719_finalize_admin_access.sql` designates
+  `olsonan24@gmail.com` and `youwillalertme@gmail.com` as administrators with
+  all six permanent capabilities. Existing matching Auth users are backfilled;
+  a narrowly scoped Auth trigger applies the same access if either designated
+  address signs up after the migration;
+- clean local migration replay, schema lint, generated-type drift check, and
+  all 39 pgTAP assertions pass from committed repository state.
+
+## Session and Hosted Release Repair
+
+The authenticated entitlement lookup no longer repeats `auth.getUser()` after
+`AuthProvider` has restored the current user. The database request still carries
+the current JWT and remains protected by grants and RLS; removing the duplicate
+Auth request prevents the session-verification race seen above the person form.
+The entitlement hook also reloads when Supabase refreshes the access token.
+
+Verified on 2026-08-05:
+
+- the regression test proves an AuthProvider user ID does not trigger a second
+  `getUser()` request;
+- TypeScript lint, 9 formula fixtures, 36 unit tests, the production PWA build,
+  and 9 rendered-app checks pass;
+- a real 390x844 authenticated browser flow created the designated local admin,
+  entered the approved Bulgarian name and DOB, saved the person, and rendered
+  the complete Cyrillic report without the session banner or console errors;
+- hosted migrations `20260805000000`, `20260805010000`, and `20260805142719`
+  are applied and aligned with the local migration ledger;
+- anonymous REST probes now reach the new relations/column and return `401`
+  from the intended grants instead of the pre-migration `404`/`400` responses;
+- all 19 entitlement/RLS pgTAP assertions pass against hosted Supabase inside a
+  rolled-back transaction when fixture counts are scoped to their fixed UUIDs;
+- hosted advisors report no errors. Three performance warnings remain for the
+  intentional own-row plus administrator SELECT policies on `app_roles`,
+  `entitlements`, and `entitlement_history`.
+- Vercel production deployment `dpl_H69tL1CvCtWQF6TPJrds2o52zgG8` is Ready at
+  `https://chartcreation-for-students.vercel.app`; live HTML references the new
+  `index-B2Wi33xr.js` bundle, and a settled 390x844 production load has the
+  complete sign-in UI with no browser-console errors.
+
 ## Student App Checkpoint
 
 - Prompt 3 starting `main` commit: `50fcda1bdff39989a184dc90994a8f0e5a1de045` (Prompt 2 audit merged as PR #3)
 - Prompt 3 target: `SHARED_CONTRACT`; bounded implementation branch `contracts/aionis-shared-contracts-and-validators`
-- Formula engine is unchanged from its approved port.
-- Formula baseline SHA-256: `F7A0965F01AA4410BB38CEF05FF832F51A5EAFF6CC2E8E10238DB79EF7E5644A`
+- Formula engine is extended only for the explicitly approved alphabet-mode
+  parameter; recovered C# reference files remain unchanged.
+- Previous Latin-only baseline SHA-256: `F7A0965F01AA4410BB38CEF05FF832F51A5EAFF6CC2E8E10238DB79EF7E5644A`.
+- Current alphabet-aware engine SHA-256: `F3075408B1707682A6D7AB3BD0141693D238A993E89DAB3E0C50E715F79B9155`;
+  English semantic fixtures replace byte identity as the parity guard.
 - Standard Vite production build outputs `dist/index.html`; Workbox precaches the app shell and artwork.
 - `vercel.json` retains the Vite build/output settings and SPA fallback.
 - Local app URL: `http://localhost:4173` (LAN address varies by workstation).
@@ -58,8 +120,9 @@ The Supabase CLI account can list the Vercel-managed project but cannot use the 
 
 ## Immutable Experience Contracts
 
-- `lib/numerology.ts` and recovered formula provenance remain unchanged.
-- Screen, comparison, and print continue to construct the same `Report` values.
+- `lib/numerology.ts` is alphabet-aware under explicit approval; recovered
+  formula provenance is unchanged and English results remain fixture-locked.
+- Screen, comparison, and print construct the same mode-aware `Report` values.
 - `PassPrintReport` and `app/globals.css` print rules retain the one-page A4 contract.
 - Existing colors, typography, layouts, breakpoints, animations, assets, mobile/desktop navigation, and chart styling remain locked.
 - The PWA shell can load offline; authentication and cloud records require connectivity.

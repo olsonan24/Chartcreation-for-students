@@ -31,8 +31,36 @@ const allowedChangePrefixes = [
   ".agents/skills/aionis-security-review/",
   "docs/ai-context/",
   "docs/aionis-operating-system/",
+  "features/entitlements/",
+  "features/owner/",
+  "features/people/",
 ];
-const allowedExactChanges = new Set([".gitignore", "AGENTS.md", "docs/CURRENT_STATE.md"]);
+const allowedExactChanges = new Set([
+  ".gitignore",
+  "AGENTS.md",
+  "docs/CURRENT_STATE.md",
+  "app/page.tsx",
+  "app/globals.css",
+  "lib/name-alphabets.ts",
+  "lib/numerology.ts",
+  "lib/supabase/database.types.ts",
+  "supabase/migrations/20260805000000_create_entitlements.sql",
+  "supabase/migrations/20260805010000_add_people_name_alphabet_mode.sql",
+  "supabase/migrations/20260805142719_finalize_admin_access.sql",
+  "supabase/tests/database/entitlements_rls.test.sql",
+  "supabase/tests/database/people_rls.test.sql",
+  "tests/entitlement.repository.test.ts",
+  "tests/e2e/print-proof.mjs",
+  "tests/legacyImport.test.ts",
+  "tests/nameKeyboard.test.ts",
+  "tests/numerology.test.mjs",
+  "tests/people.mapper.test.ts",
+  "tests/people.repository.test.ts",
+  "tests/personReport.test.ts",
+  "tests/rendered-html.test.mjs",
+  "tests/usePeople.test.tsx",
+  "tsconfig.json",
+]);
 
 function read(relativePath) {
   return fs.readFileSync(path.join(repositoryRoot, relativePath), "utf8");

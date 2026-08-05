@@ -59,7 +59,7 @@ export function createPeopleRepository(
       const user = await requireUser(client, expectedUserId);
       const { data, error } = await client
         .from("people")
-        .select("id,user_id,full_name,called_name,date_of_birth,created_at,updated_at")
+        .select("id,user_id,full_name,called_name,date_of_birth,name_alphabet_mode,created_at,updated_at")
         .eq("user_id", user.id)
         .order("full_name", { ascending: true });
 
@@ -77,6 +77,7 @@ export function createPeopleRepository(
         full_name: normalized.fullName,
         called_name: normalized.calledName,
         date_of_birth: appDobToDatabaseDate(normalized.dob),
+        name_alphabet_mode: normalized.nameAlphabetMode,
       };
       const { data, error } = await client.from("people").insert(row).select().single();
 
@@ -93,6 +94,7 @@ export function createPeopleRepository(
         full_name: normalized.fullName,
         called_name: normalized.calledName,
         date_of_birth: appDobToDatabaseDate(normalized.dob),
+        name_alphabet_mode: normalized.nameAlphabetMode,
       };
       const { data, error } = await client
         .from("people")

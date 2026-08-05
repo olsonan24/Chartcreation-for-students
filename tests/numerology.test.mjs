@@ -1,27 +1,26 @@
 import assert from "node:assert/strict";
-import { createHash } from "node:crypto";
-import { readFile } from "node:fs/promises";
 import test from "node:test";
 
+import {
+  BULGARIAN_ALPHABET,
+  getAlphabetChartValue,
+  getAlphabetPosition,
+  rawAlphabetPositionTotal,
+  validateNameAlphabet,
+} from "../lib/name-alphabets.ts";
 import {
   Report,
   calcNumber,
   calcString,
   combine,
   full,
+  hdc,
   letters,
   pinCha,
+  repeat,
 } from "../lib/numerology.ts";
 
-test("keeps the approved formula engine byte-for-byte unchanged", async () => {
-  const source = await readFile(new URL("../lib/numerology.ts", import.meta.url));
-  assert.equal(
-    createHash("sha256").update(source).digest("hex").toUpperCase(),
-    "F7A0965F01AA4410BB38CEF05FF832F51A5EAFF6CC2E8E10238DB79EF7E5644A",
-  );
-});
-
-test("matches the original reduction rules", () => {
+test("Latin behavior is the protected formula contract", () => {
   assert.equal(calcString("Z"), 8);
   assert.equal(calcString("Roman Peter Vaughan"), 1);
   assert.equal(calcString("82", true), 10);
@@ -31,6 +30,124 @@ test("matches the original reduction rules", () => {
   assert.equal(pinCha("24/05/1992", "PPP_P"), "292-8");
   assert.equal(pinCha("24/05/1992", "CCC_C"), "132-2");
   assert.equal(combine("1555322228", "3456789123"), "4912112342");
+});
+
+test("defines every Bulgarian raw position and repeating 1-9 chart value", () => {
+  assert.equal(BULGARIAN_ALPHABET.length, 30);
+  BULGARIAN_ALPHABET.forEach((letter, index) => {
+    const expectedPosition = index + 1;
+    assert.equal(getAlphabetPosition(letter, "bulgarian-cyrillic"), expectedPosition);
+    assert.equal(
+      getAlphabetChartValue(letter, "bulgarian-cyrillic"),
+      ((expectedPosition - 1) % 9) + 1,
+    );
+  });
+
+  assert.equal(getAlphabetPosition("А", "bulgarian-cyrillic"), 1);
+  assert.equal(getAlphabetPosition("Й", "bulgarian-cyrillic"), 10);
+  assert.equal(getAlphabetPosition("К", "bulgarian-cyrillic"), 11);
+  assert.equal(getAlphabetPosition("Ъ", "bulgarian-cyrillic"), 27);
+  assert.equal(getAlphabetPosition("Я", "bulgarian-cyrillic"), 30);
+  assert.deepEqual(
+    ["Й", "К", "Л", "Н", "Р", "С", "Ъ", "Я"].map((letter) =>
+      getAlphabetChartValue(letter, "bulgarian-cyrillic")),
+    [1, 2, 3, 5, 8, 9, 9, 3],
+  );
+});
+
+test("validates each alphabet without transliteration or lookalike substitution", () => {
+  assert.equal(validateNameAlphabet("Александър Анков Котзев", "bulgarian-cyrillic").isValid, true);
+  assert.equal(validateNameAlphabet("александър-анков’котзев", "bulgarian-cyrillic").isValid, true);
+  assert.equal(validateNameAlphabet("Alexander", "bulgarian-cyrillic").isValid, false);
+  assert.equal(validateNameAlphabet("Александър", "latin").isValid, false);
+  for (const unsupported of ["Ё", "Ы", "Э", "Є", "Ї", "І", "Њ", "Ѓ", "Ќ"]) {
+    assert.equal(validateNameAlphabet(`А${unsupported}`, "bulgarian-cyrillic").isValid, false);
+  }
+});
+
+test("calculates Bulgarian raw positions separately from visible chart digits", () => {
+  const parts = [
+    ["Александър", 112, "1362915598", "49/13/4"],
+    ["Анков", 44, "15263", "17/8"],
+    ["Котзев", 62, "261863", "26/8"],
+  ];
+
+  for (const [name, rawTotal, letterRow, visibleTotal] of parts) {
+    assert.equal(rawAlphabetPositionTotal(name, "bulgarian-cyrillic"), rawTotal);
+    assert.equal(calcString(name, true, "bulgarian-cyrillic"), rawTotal);
+    assert.equal(letters(name, "bulgarian-cyrillic"), letterRow);
+    assert.equal(full(letterRow), visibleTotal);
+  }
+
+  const fullName = "Александър Анков Котзев";
+  const report = new Report(fullName, "02/09/1992", 2026, "bulgarian-cyrillic");
+  assert.equal(rawAlphabetPositionTotal(fullName, "bulgarian-cyrillic"), 218);
+  assert.equal(report.fullLetters, "1362915598 15263 261863");
+  assert.equal(report.fullLettersTotal, "92/11/2");
+  assert.deepEqual(report.fullLettersTotalPart.trim().split(/\s+/), ["49/13/4", "17/8", "26/8"]);
+  assert.equal(report.hdcTotal, "36/9");
+  assert.equal(full(hdc(fullName, 3, "bulgarian-cyrillic")), "36/9");
+});
+
+test("normalizes Bulgarian case and ignores supported visual separators numerically", () => {
+  const uppercase = "АЛЕКСАНДЪР АНКОВ КОТЗЕВ";
+  const lowercase = "александър анков котзев";
+  const separated = "Александър-Анков’Котзев";
+  assert.equal(letters(lowercase, "bulgarian-cyrillic"), letters(uppercase, "bulgarian-cyrillic"));
+  assert.equal(
+    letters(separated, "bulgarian-cyrillic").replaceAll(" ", ""),
+    letters(uppercase, "bulgarian-cyrillic").replaceAll(" ", ""),
+  );
+  assert.equal(rawAlphabetPositionTotal(separated, "bulgarian-cyrillic"), 218);
+});
+
+test("uses Bulgarian letter durations in repeated names and valid timeline rows", () => {
+  assert.equal(repeat("ЙКЛ", "bulgarian-cyrillic"), "ЙККЛЛЛ");
+  const report = new Report("Александър Анков Котзев", "02/09/1992", 2026, "bulgarian-cyrillic");
+  const focus = report.getYearSet(20, 30);
+  const lifetime = report.getYearSet(0, 80);
+
+  assert.equal(focus.names.length, 3);
+  assert.match(focus.names.join(""), /[А-Я]/u);
+  for (const row of [
+    ...focus.names,
+    focus.essence,
+    focus.combined,
+    focus.personalYear,
+    focus.calendarYear,
+  ]) assert.equal(row.length, 30);
+  for (const row of [
+    ...lifetime.names,
+    lifetime.essence,
+    lifetime.combined,
+    lifetime.personalYear,
+    lifetime.calendarYear,
+  ]) assert.equal(row.length, 80);
+});
+
+test("keeps every date-only calculation independent of the selected name alphabet", () => {
+  const latin = new Report("Alexander Joshua Olson", "02/09/1992", 2026);
+  const bulgarian = new Report("Александър Анков Котзев", "02/09/1992", 2026, "bulgarian-cyrillic");
+  assert.deepEqual(
+    {
+      age: bulgarian.age,
+      birthForce: bulgarian.birthForce,
+      seasons: bulgarian.seasons,
+      pin: bulgarian.pin,
+      cha: bulgarian.cha,
+      personalYear: bulgarian.getPersonalYear(0, 80),
+      calendarYear: bulgarian.getCalendarYear(0, 80),
+    },
+    {
+      age: latin.age,
+      birthForce: latin.birthForce,
+      seasons: latin.seasons,
+      pin: latin.pin,
+      cha: latin.cha,
+      personalYear: latin.getPersonalYear(0, 80),
+      calendarYear: latin.getCalendarYear(0, 80),
+    },
+  );
 });
 
 test("matches the original Roman Peter Vaughan report exactly", () => {
