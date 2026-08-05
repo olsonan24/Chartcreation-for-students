@@ -62,6 +62,10 @@ Verified on 2026-08-05:
 - hosted advisors report no errors. Three performance warnings remain for the
   intentional own-row plus administrator SELECT policies on `app_roles`,
   `entitlements`, and `entitlement_history`.
+- Vercel production deployment `dpl_H69tL1CvCtWQF6TPJrds2o52zgG8` is Ready at
+  `https://chartcreation-for-students.vercel.app`; live HTML references the new
+  `index-B2Wi33xr.js` bundle, and a settled 390x844 production load has the
+  complete sign-in UI with no browser-console errors.
 
 ## Student App Checkpoint
 
