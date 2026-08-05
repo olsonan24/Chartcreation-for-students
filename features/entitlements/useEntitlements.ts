@@ -19,7 +19,7 @@ export type EntitlementState = {
 const EMPTY_CAPABILITIES = new Set<EntitlementCapability>();
 
 export function useEntitlements() {
-  const { user } = useAuth();
+  const { session, user } = useAuth();
   const userIdRef = useRef<string | null>(user?.id ?? null);
   userIdRef.current = user?.id ?? null;
 
@@ -56,7 +56,7 @@ export function useEntitlements() {
     } finally {
       if (userIdRef.current === requestUserId) setLoading(false);
     }
-  }, [user]);
+  }, [session?.access_token, user]);
 
   useEffect(() => {
     void load();

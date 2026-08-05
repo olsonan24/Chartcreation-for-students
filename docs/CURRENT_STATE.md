@@ -36,6 +36,33 @@ Cyrillic chart mode:
 - clean local migration replay, schema lint, generated-type drift check, and
   all 39 pgTAP assertions pass from committed repository state.
 
+## Session and Hosted Release Repair
+
+The authenticated entitlement lookup no longer repeats `auth.getUser()` after
+`AuthProvider` has restored the current user. The database request still carries
+the current JWT and remains protected by grants and RLS; removing the duplicate
+Auth request prevents the session-verification race seen above the person form.
+The entitlement hook also reloads when Supabase refreshes the access token.
+
+Verified on 2026-08-05:
+
+- the regression test proves an AuthProvider user ID does not trigger a second
+  `getUser()` request;
+- TypeScript lint, 9 formula fixtures, 36 unit tests, the production PWA build,
+  and 9 rendered-app checks pass;
+- a real 390x844 authenticated browser flow created the designated local admin,
+  entered the approved Bulgarian name and DOB, saved the person, and rendered
+  the complete Cyrillic report without the session banner or console errors;
+- hosted migrations `20260805000000`, `20260805010000`, and `20260805142719`
+  are applied and aligned with the local migration ledger;
+- anonymous REST probes now reach the new relations/column and return `401`
+  from the intended grants instead of the pre-migration `404`/`400` responses;
+- all 19 entitlement/RLS pgTAP assertions pass against hosted Supabase inside a
+  rolled-back transaction when fixture counts are scoped to their fixed UUIDs;
+- hosted advisors report no errors. Three performance warnings remain for the
+  intentional own-row plus administrator SELECT policies on `app_roles`,
+  `entitlements`, and `entitlement_history`.
+
 ## Student App Checkpoint
 
 - Prompt 3 starting `main` commit: `50fcda1bdff39989a184dc90994a8f0e5a1de045` (Prompt 2 audit merged as PR #3)

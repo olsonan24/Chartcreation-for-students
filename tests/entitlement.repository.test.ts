@@ -58,6 +58,32 @@ describe("entitlement repository", () => {
 
     expect(result.hasCapability("chart_access")).toBe(true);
     expect(result.hasCapability("timeline_access")).toBe(false);
+    expect(client.auth.getUser).not.toHaveBeenCalled();
+  });
+
+  it("uses the AuthProvider user ID without a duplicate session verification request", async () => {
+    const chain = {
+      select: vi.fn(() => chain),
+      eq: vi.fn(() => chain),
+    };
+    chain.eq.mockReturnValueOnce({
+      ...chain,
+      eq: vi.fn().mockResolvedValue({ data: [], error: null }),
+    });
+    const client = {
+      auth: {
+        getUser: vi.fn().mockResolvedValue({
+          data: { user: null },
+          error: { code: "session_not_found" },
+        }),
+      },
+      from: vi.fn(() => chain),
+    } as unknown as SupabaseClient<Database>;
+
+    const result = await getActiveEntitlements(client, userId);
+
+    expect(result.capabilities.size).toBe(0);
+    expect(client.auth.getUser).not.toHaveBeenCalled();
   });
 
   it("checkOwnerOrAdmin returns true when user has admin role", async () => {

@@ -1,4 +1,4 @@
-import type { SupabaseClient, User } from "@supabase/supabase-js";
+import type { SupabaseClient } from "@supabase/supabase-js";
 
 import type { Database } from "../../lib/supabase/database.types";
 import { requireSupabaseClient } from "../../lib/supabase/client";
@@ -42,19 +42,24 @@ export class EntitlementRepositoryError extends Error {
   }
 }
 
-async function requireUser(
+async function requireUserId(
   client: SupabaseClient<Database>,
   expectedUserId?: string,
-): Promise<User> {
+): Promise<string> {
+  // AuthProvider obtained this ID from the Supabase session. The following
+  // PostgREST request still has to pass the current JWT and RLS, so repeating
+  // getUser() here adds a network race without weakening data access.
+  if (expectedUserId) return expectedUserId;
+
   const { data, error } = await client.auth.getUser();
-  if (error || !data.user || (expectedUserId && data.user.id !== expectedUserId)) {
+  if (error || !data.user) {
     throw new EntitlementRepositoryError(
       "lookup",
       "Your session could not be verified. Sign in again and retry.",
       error?.code,
     );
   }
-  return data.user;
+  return data.user.id;
 }
 
 function databaseFailure(
@@ -75,14 +80,14 @@ export async function getActiveEntitlements(
   client: SupabaseClient<Database> = requireSupabaseClient(),
   expectedUserId?: string,
 ): Promise<ActiveEntitlements> {
-  const user = await requireUser(client, expectedUserId);
+  const currentUserId = await requireUserId(client, expectedUserId);
 
   const { data, error } = await client
     .from("entitlements")
     .select(
       "id,user_id,capability,status,granted_by,granted_at,expires_at,revoked_by,revoked_at,revoke_reason,is_permanent,reason",
     )
-    .eq("user_id", user.id)
+    .eq("user_id", currentUserId)
     .eq("status", "active");
 
   if (error) {
@@ -106,12 +111,12 @@ export async function checkOwnerOrAdmin(
   client: SupabaseClient<Database> = requireSupabaseClient(),
   expectedUserId?: string,
 ): Promise<boolean> {
-  const user = await requireUser(client, expectedUserId);
+  const currentUserId = await requireUserId(client, expectedUserId);
 
   const { data, error } = await client
     .from("app_roles")
     .select("user_id,role,granted_by,granted_at,reason")
-    .eq("user_id", user.id);
+    .eq("user_id", currentUserId);
 
   if (error) return false;
   const roles = (data ?? []).map(mapAppRoleRow);
@@ -125,8 +130,8 @@ export async function listAllEntitlements(
   client: SupabaseClient<Database> = requireSupabaseClient(),
   expectedUserId?: string,
 ): Promise<Entitlement[]> {
-  const user = await requireUser(client, expectedUserId);
-  const isAdmin = await checkOwnerOrAdmin(client, user.id);
+  const currentUserId = await requireUserId(client, expectedUserId);
+  const isAdmin = await checkOwnerOrAdmin(client, currentUserId);
   if (!isAdmin) {
     throw new EntitlementRepositoryError("list", "You are not authorized to view all entitlements.");
   }
@@ -152,8 +157,8 @@ export async function listUserEntitlements(
   client: SupabaseClient<Database> = requireSupabaseClient(),
   expectedUserId?: string,
 ): Promise<Entitlement[]> {
-  const user = await requireUser(client, expectedUserId);
-  const isAdmin = await checkOwnerOrAdmin(client, user.id);
+  const currentUserId = await requireUserId(client, expectedUserId);
+  const isAdmin = await checkOwnerOrAdmin(client, currentUserId);
   if (!isAdmin) {
     throw new EntitlementRepositoryError("list", "You are not authorized to view this user's entitlements.");
   }
@@ -180,8 +185,8 @@ export async function grantEntitlement(
   client: SupabaseClient<Database> = requireSupabaseClient(),
   expectedUserId?: string,
 ): Promise<Entitlement> {
-  const user = await requireUser(client, expectedUserId);
-  const isAdmin = await checkOwnerOrAdmin(client, user.id);
+  const currentUserId = await requireUserId(client, expectedUserId);
+  const isAdmin = await checkOwnerOrAdmin(client, currentUserId);
   if (!isAdmin) {
     throw new EntitlementRepositoryError("grant", "You are not authorized to grant entitlements.");
   }
@@ -192,7 +197,7 @@ export async function grantEntitlement(
       user_id: input.userId,
       capability: input.capability,
       status: "active",
-      granted_by: user.id,
+      granted_by: currentUserId,
       reason: input.reason,
       expires_at: input.expiresAt,
       is_permanent: input.isPermanent,
@@ -216,8 +221,8 @@ export async function revokeOrSuspendEntitlement(
   client: SupabaseClient<Database> = requireSupabaseClient(),
   expectedUserId?: string,
 ): Promise<Entitlement> {
-  const user = await requireUser(client, expectedUserId);
-  const isAdmin = await checkOwnerOrAdmin(client, user.id);
+  const currentUserId = await requireUserId(client, expectedUserId);
+  const isAdmin = await checkOwnerOrAdmin(client, currentUserId);
   if (!isAdmin) {
     throw new EntitlementRepositoryError("revoke", "You are not authorized to revoke entitlements.");
   }
@@ -227,7 +232,7 @@ export async function revokeOrSuspendEntitlement(
     .from("entitlements")
     .update({
       status: newStatus,
-      revoked_by: user.id,
+      revoked_by: currentUserId,
       revoked_at: new Date().toISOString(),
       revoke_reason: input.reason,
     })
@@ -251,8 +256,8 @@ export async function renewEntitlement(
   client: SupabaseClient<Database> = requireSupabaseClient(),
   expectedUserId?: string,
 ): Promise<Entitlement> {
-  const user = await requireUser(client, expectedUserId);
-  const isAdmin = await checkOwnerOrAdmin(client, user.id);
+  const currentUserId = await requireUserId(client, expectedUserId);
+  const isAdmin = await checkOwnerOrAdmin(client, currentUserId);
   if (!isAdmin) {
     throw new EntitlementRepositoryError("renew", "You are not authorized to renew entitlements.");
   }
@@ -288,8 +293,8 @@ export async function listEntitlementHistory(
   client: SupabaseClient<Database> = requireSupabaseClient(),
   expectedUserId?: string,
 ): Promise<EntitlementHistoryEntry[]> {
-  const user = await requireUser(client, expectedUserId);
-  const isAdmin = await checkOwnerOrAdmin(client, user.id);
+  const currentUserId = await requireUserId(client, expectedUserId);
+  const isAdmin = await checkOwnerOrAdmin(client, currentUserId);
   if (!isAdmin) {
     throw new EntitlementRepositoryError("history", "You are not authorized to view entitlement history.");
   }
@@ -317,8 +322,8 @@ export async function searchUsers(
   client: SupabaseClient<Database> = requireSupabaseClient(),
   expectedUserId?: string,
 ): Promise<{ userId: string; fullName: string; count: number }[]> {
-  const user = await requireUser(client, expectedUserId);
-  const isAdmin = await checkOwnerOrAdmin(client, user.id);
+  const currentUserId = await requireUserId(client, expectedUserId);
+  const isAdmin = await checkOwnerOrAdmin(client, currentUserId);
   if (!isAdmin) {
     throw new EntitlementRepositoryError("list", "You are not authorized to search users.");
   }
@@ -356,8 +361,8 @@ export async function setUserRole(
   client: SupabaseClient<Database> = requireSupabaseClient(),
   expectedUserId?: string,
 ): Promise<AppRole> {
-  const user = await requireUser(client, expectedUserId);
-  const isAdmin = await checkOwnerOrAdmin(client, user.id);
+  const currentUserId = await requireUserId(client, expectedUserId);
+  const isAdmin = await checkOwnerOrAdmin(client, currentUserId);
   if (!isAdmin) {
     throw new EntitlementRepositoryError("grant", "You are not authorized to manage roles.");
   }
@@ -367,7 +372,7 @@ export async function setUserRole(
     .upsert({
       user_id: targetUserId,
       role,
-      granted_by: user.id,
+      granted_by: currentUserId,
       reason,
     })
     .select("user_id,role,granted_by,granted_at,reason")
