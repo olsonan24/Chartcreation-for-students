@@ -13,6 +13,7 @@ const person: Client = {
   fullName: "Roman Peter Vaughan",
   calledName: "Roman",
   dob: "24/05/1992",
+  nameAlphabetMode: "latin",
 };
 
 const authValue = {
@@ -67,7 +68,7 @@ describe("people loading and confirmed mutations", () => {
     await waitFor(() => expect(result.current.loading).toBe(false));
 
     await act(async () => {
-      await expect(result.current.updatePerson(person.id, { fullName: "Changed", calledName: "", dob: person.dob })).rejects.toThrow("Save failed");
+      await expect(result.current.updatePerson(person.id, { fullName: "Changed", calledName: "", dob: person.dob, nameAlphabetMode: "latin" })).rejects.toThrow("Save failed");
     });
     expect(result.current.people).toEqual([person]);
     expect(result.current.operationError).toBe("Save failed");
@@ -92,8 +93,8 @@ describe("people loading and confirmed mutations", () => {
     const { result } = renderHook(() => usePeople(repo), { wrapper });
     await waitFor(() => expect(result.current.loading).toBe(false));
 
-    const first = result.current.createPerson({ fullName: "New Person", calledName: "", dob: "01/01/2000" });
-    await expect(result.current.createPerson({ fullName: "New Person", calledName: "", dob: "01/01/2000" })).rejects.toThrow("already in progress");
+    const first = result.current.createPerson({ fullName: "New Person", calledName: "", dob: "01/01/2000", nameAlphabetMode: "latin" });
+    await expect(result.current.createPerson({ fullName: "New Person", calledName: "", dob: "01/01/2000", nameAlphabetMode: "latin" })).rejects.toThrow("already in progress");
     act(() => resolve({ ...person, id: "50379f10-0389-4470-88e2-088a704a4bd2", fullName: "New Person", calledName: "", dob: "01/01/2000" }));
     await act(async () => { await first; });
     expect(repo.createPerson).toHaveBeenCalledTimes(1);

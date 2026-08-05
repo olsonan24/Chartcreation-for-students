@@ -5,8 +5,22 @@ import { useEffect, useMemo, useRef, useState } from "react";
 
 import { useAuth } from "../features/auth/useAuth";
 import { LegacyImportDialog } from "../features/people/LegacyImportDialog";
+import { applyNameKeyboardKey, type NameKeyboardKey } from "../features/people/nameKeyboard";
+import { buildPersonReport } from "../features/people/personReport";
 import type { Client, PersonInput } from "../features/people/people.types";
 import { usePeople } from "../features/people/usePeople";
+import { useTimelineStatus } from "../features/entitlements/useEntitlements";
+import { TimelineLockedScreen, CapabilityLockedNotice } from "../features/entitlements/TimelineLockedScreen";
+import "../features/entitlements/entitlements.css";
+import { OwnerDashboard } from "../features/owner/OwnerDashboard";
+import "../features/owner/owner.css";
+import {
+  BULGARIAN_ALPHABET,
+  NAME_ALPHABET_LABELS,
+  nameAlphabetValidationMessage,
+  type NameAlphabetMode,
+  validateNameAlphabet,
+} from "../lib/name-alphabets";
 import {
   type MonthsSet,
   Report,
@@ -15,7 +29,7 @@ import {
   normalizeName,
 } from "../lib/numerology";
 
-type AppView = "people" | "chart" | "compare";
+type AppView = "people" | "chart" | "compare" | "owner";
 type CompareMode = "years" | "months";
 
 type InstallPrompt = Event & {
@@ -382,7 +396,9 @@ function PassPrintReport({
   );
 }
 
-function PersonForm({
+type ActiveNameField = "fullName" | "calledName";
+
+export function PersonForm({
   person,
   onCancel,
   onSave,
@@ -394,15 +410,44 @@ function PersonForm({
   const [fullName, setFullName] = useState(person?.fullName ?? "");
   const [calledName, setCalledName] = useState(person?.calledName ?? "");
   const [dob, setDob] = useState(person?.dob ?? "");
+  const [nameAlphabetMode, setNameAlphabetMode] = useState<NameAlphabetMode>(
+    person?.nameAlphabetMode ?? "latin",
+  );
+  const [activeNameField, setActiveNameField] = useState<ActiveNameField>("fullName");
   const [error, setError] = useState("");
   const [saving, setSaving] = useState(false);
+  const fullNameRef = useRef<HTMLInputElement>(null);
+  const calledNameRef = useRef<HTMLInputElement>(null);
   const dialogRef = useDialogFocus(onCancel);
+
+  function handleNameKeyboard(key: NameKeyboardKey) {
+    const input = activeNameField === "fullName" ? fullNameRef.current : calledNameRef.current;
+    const value = activeNameField === "fullName" ? fullName : calledName;
+    const start = input?.selectionStart ?? value.length;
+    const end = input?.selectionEnd ?? start;
+    const next = applyNameKeyboardKey(value, start, end, key);
+    if (activeNameField === "fullName") setFullName(next.value);
+    else setCalledName(next.value);
+    requestAnimationFrame(() => {
+      input?.focus({ preventScroll: true });
+      input?.setSelectionRange(next.caret, next.caret);
+    });
+  }
 
   async function submit(event: FormEvent) {
     event.preventDefault();
-    const normalizedName = normalizeName(fullName);
+    const normalizedName = normalizeName(fullName, nameAlphabetMode);
+    const normalizedCalledName = normalizeName(calledName, nameAlphabetMode);
     if (!normalizedName) {
       setError("Enter the full birth name used for the chart.");
+      return;
+    }
+    if (!validateNameAlphabet(normalizedName, nameAlphabetMode).isValid) {
+      setError(nameAlphabetValidationMessage(nameAlphabetMode));
+      return;
+    }
+    if (normalizedCalledName && !validateNameAlphabet(normalizedCalledName, nameAlphabetMode).isValid) {
+      setError(nameAlphabetValidationMessage(nameAlphabetMode));
       return;
     }
     if (!isValidDob(dob)) {
@@ -412,7 +457,12 @@ function PersonForm({
     setSaving(true);
     setError("");
     try {
-      await onSave({ fullName: normalizedName, calledName: normalizeName(calledName), dob });
+      await onSave({
+        fullName: normalizedName,
+        calledName: normalizedCalledName,
+        dob,
+        nameAlphabetMode,
+      });
     } catch (caught) {
       setError(caught instanceof Error ? caught.message : "This person could not be saved. Retry when online.");
     } finally {
@@ -432,29 +482,79 @@ function PersonForm({
           <button className="text-button" type="button" onClick={onCancel}>Cancel</button>
         </div>
         <form className="person-form" onSubmit={submit}>
+          <label className="alphabet-selector">
+            Name alphabet
+            <select
+              value={nameAlphabetMode}
+              onChange={(event) => setNameAlphabetMode(event.target.value as NameAlphabetMode)}
+            >
+              <option value="latin">{NAME_ALPHABET_LABELS.latin}</option>
+              <option value="bulgarian-cyrillic">{NAME_ALPHABET_LABELS["bulgarian-cyrillic"]}</option>
+            </select>
+          </label>
           <label>
             Full birth name
             <input
+              ref={fullNameRef}
               type="text"
               inputMode="text"
               autoComplete="name"
               autoCapitalize="words"
               value={fullName}
+              onFocus={() => setActiveNameField("fullName")}
+              onSelect={() => setActiveNameField("fullName")}
               onChange={(event) => setFullName(event.target.value)}
-              placeholder="Alexander Morgan Hale"
+              placeholder={nameAlphabetMode === "bulgarian-cyrillic" ? "Александър Анков Котзев" : "Alexander Morgan Hale"}
             />
           </label>
           <label>
             Called name <span className="optional">Optional</span>
             <input
+              ref={calledNameRef}
               type="text"
               inputMode="text"
               autoCapitalize="words"
               value={calledName}
+              onFocus={() => setActiveNameField("calledName")}
+              onSelect={() => setActiveNameField("calledName")}
               onChange={(event) => setCalledName(event.target.value)}
-              placeholder="Alexander Hale"
+              placeholder={nameAlphabetMode === "bulgarian-cyrillic" ? "Александър" : "Alexander Hale"}
             />
           </label>
+          {nameAlphabetMode === "bulgarian-cyrillic" && (
+            <fieldset className="bulgarian-keyboard">
+              <legend>Българска клавиатура</legend>
+              <p>Entering: {activeNameField === "fullName" ? "Full birth name" : "Called name"}</p>
+              <div className="bulgarian-keyboard-letters" aria-label="Bulgarian Cyrillic letters">
+                {BULGARIAN_ALPHABET.map((letter) => (
+                  <button
+                    key={letter}
+                    type="button"
+                    data-name-key={letter}
+                    aria-label={`Insert Bulgarian letter ${letter}`}
+                    onPointerDown={(event) => event.preventDefault()}
+                    onClick={() => handleNameKeyboard(letter)}
+                  >
+                    {letter}
+                  </button>
+                ))}
+              </div>
+              <div className="bulgarian-keyboard-actions">
+                {(["Space", "Hyphen", "Apostrophe", "Backspace", "Clear"] as const).map((key) => (
+                  <button
+                    key={key}
+                    type="button"
+                    data-name-key={key}
+                    aria-label={`${key} in ${activeNameField === "fullName" ? "full birth name" : "called name"}`}
+                    onPointerDown={(event) => event.preventDefault()}
+                    onClick={() => handleNameKeyboard(key)}
+                  >
+                    {key}
+                  </button>
+                ))}
+              </div>
+            </fieldset>
+          )}
           <label>
             Date of birth
             <input
@@ -521,6 +621,7 @@ export default function Home() {
     importLegacyPeople,
     skipLegacyImport,
   } = usePeople();
+  const timeline = useTimelineStatus();
   const currentYear = new Date().getFullYear();
   const chartDate = new Intl.DateTimeFormat("en-US", {
     month: "short",
@@ -575,12 +676,18 @@ export default function Home() {
 
   const selectedClient = clients.find((client) => client.id === selectedId) ?? null;
   const selectedReport = useMemo(
-    () => (selectedClient ? new Report(selectedClient.fullName, selectedClient.dob, currentYear) : null),
+    () => (selectedClient ? buildPersonReport(selectedClient, currentYear) : null),
     [currentYear, selectedClient],
   );
   const compareClients = clients.filter((client) => compareIds.includes(client.id));
 
   function openChart(client: Client) {
+    if (!timeline.hasChartAccess) {
+      setSelectedId(client.id);
+      setView("chart");
+      window.scrollTo({ top: 0, behavior: "smooth" });
+      return;
+    }
     setSelectedId(client.id);
     setView("chart");
     window.scrollTo({ top: 0, behavior: "smooth" });
@@ -641,6 +748,9 @@ export default function Home() {
           <button type="button" onClick={() => setView("people")}>People</button>
           <button className={view === "chart" ? "active" : ""} aria-current={view === "chart" ? "page" : undefined} type="button" disabled={!selectedClient} onClick={() => setView("chart")}>Charts</button>
           <button className={view === "compare" ? "active" : ""} aria-current={view === "compare" ? "page" : undefined} type="button" onClick={() => setView("compare")}>Compare</button>
+          {timeline.isOwner && (
+            <button className={view === "owner" ? "active" : ""} aria-current={view === "owner" ? "page" : undefined} type="button" onClick={() => setView("owner")}>Owner</button>
+          )}
         </nav>
         <div className="cloud-account-controls">
           <span className="cloud-account-email" title={user?.email}>{user?.email}</span>
@@ -712,10 +822,12 @@ export default function Home() {
                       <span className="chevron" aria-hidden="true">›</span>
                     </button>
                     <div className="person-actions">
-                      <label className="compare-check">
-                        <input type="checkbox" checked={compareIds.includes(client.id)} onChange={() => toggleCompare(client.id)} />
-                        Compare
-                      </label>
+                      {timeline.hasComparisons && (
+                        <label className="compare-check">
+                          <input type="checkbox" checked={compareIds.includes(client.id)} onChange={() => toggleCompare(client.id)} />
+                          Compare
+                        </label>
+                      )}
                       <button type="button" disabled={Boolean(mutation)} onClick={() => setEditing(client)}>Edit</button>
                       <button className="danger-text" type="button" disabled={Boolean(mutation)} onClick={() => void deleteClient(client)}>Remove</button>
                     </div>
@@ -724,7 +836,7 @@ export default function Home() {
               </div>
             )}
 
-            {compareIds.length >= 2 && (
+            {compareIds.length >= 2 && timeline.hasComparisons && (
               <button className="compare-fab" type="button" onClick={() => setView("compare")}>
                 Compare {compareIds.length} people
               </button>
@@ -739,17 +851,28 @@ export default function Home() {
               <div>
                 <p className="eyebrow">Complete Aionis report</p>
                 <h1>{selectedClient.fullName}</h1>
+                <p className="chart-alphabet">Alphabet: {NAME_ALPHABET_LABELS[selectedClient.nameAlphabetMode]}</p>
                 <p>{selectedClient.dob} · Age {selectedReport.age}</p>
               </div>
-              <button className="secondary-button compact-button no-print" type="button" onClick={() => window.print()}>Print / PDF</button>
+              {timeline.hasPrintExport && (
+                <button className="secondary-button compact-button no-print" type="button" onClick={() => window.print()}>Print / PDF</button>
+              )}
             </div>
-            <p className="chart-report-hint no-print">This is the complete print-ready report. On smaller screens, swipe inside a timeline panel to read every cycle.</p>
-            <PassPrintReport
-              client={selectedClient}
-              report={selectedReport}
-              currentYear={currentYear}
-              chartDate={chartDate}
-            />
+            {!timeline.hasChartAccess ? (
+              <TimelineLockedScreen />
+            ) : !timeline.hasTimelineAccess ? (
+              <CapabilityLockedNotice capability="timeline_access" />
+            ) : (
+              <>
+                <p className="chart-report-hint no-print">This is the complete print-ready report. On smaller screens, swipe inside a timeline panel to read every cycle.</p>
+                <PassPrintReport
+                  client={selectedClient}
+                  report={selectedReport}
+                  currentYear={currentYear}
+                  chartDate={chartDate}
+                />
+              </>
+            )}
           </section>
         )}
 
@@ -764,66 +887,81 @@ export default function Home() {
               </div>
             </div>
 
-            <div className="compare-picker no-print">
-              {clients.map((client) => (
-                <label key={client.id}>
-                  <input type="checkbox" checked={compareIds.includes(client.id)} onChange={() => toggleCompare(client.id)} />
-                  <span>{client.fullName}</span>
-                </label>
-              ))}
-            </div>
-
-            {compareClients.length < 2 ? (
-              <div className="empty-card">
-                <div className="empty-mark">2</div>
-                <h3>Select at least two people</h3>
-                <p>Choose the people above to align their timeline cycles around one year.</p>
-              </div>
+            {!timeline.hasComparisons ? (
+              <CapabilityLockedNotice capability="comparisons" />
             ) : (
               <>
-                <div className="compare-toolbar no-print">
-                  <div className="segmented-control" aria-label="Comparison mode">
-                    <button className={compareMode === "years" ? "active" : ""} aria-pressed={compareMode === "years"} type="button" onClick={() => setCompareMode("years")}>Years</button>
-                    <button className={compareMode === "months" ? "active" : ""} aria-pressed={compareMode === "months"} type="button" onClick={() => setCompareMode("months")}>Months</button>
-                  </div>
-                  <div className="year-stepper">
-                    <button type="button" aria-label="Previous year" onClick={() => setFocusYear((year) => year - 1)}>−</button>
-                    <label>Focus year<input type="number" value={focusYear} onChange={(event) => setFocusYear(Number(event.target.value))} /></label>
-                    <button type="button" aria-label="Next year" onClick={() => setFocusYear((year) => year + 1)}>+</button>
-                  </div>
+                <div className="compare-picker no-print">
+                  {clients.map((client) => (
+                    <label key={client.id}>
+                      <input type="checkbox" checked={compareIds.includes(client.id)} onChange={() => toggleCompare(client.id)} />
+                      <span>{client.fullName}</span>
+                    </label>
+                  ))}
                 </div>
 
-                <div className="comparison-stack">
-                  {compareClients.map((client) => {
-                    const report = new Report(client.fullName, client.dob, currentYear);
-                    const ageAtFocus = report.age + focusYear - currentYear;
-                    return (
-                      <article className="comparison-card" key={client.id}>
-                        <div className="comparison-person">
-                          <div><h2>{client.fullName}</h2><p>{client.dob}</p></div>
-                          <span>{focusYear} · age {ageAtFocus}</span>
-                        </div>
-                        {ageAtFocus < 0 ? (
-                          <p className="before-birth">This focus year is before the person&apos;s birth.</p>
-                        ) : compareMode === "years" ? (
-                          <YearGrid report={report} start={Math.max(0, ageAtFocus - 10)} length={21} includeNames={false} label={`Comparison chart for ${client.fullName}`} />
-                        ) : (
-                          <MonthBand report={report} focusAge={ageAtFocus} />
-                        )}
-                      </article>
-                    );
-                  })}
-                </div>
+                {compareClients.length < 2 ? (
+                  <div className="empty-card">
+                    <div className="empty-mark">2</div>
+                    <h3>Select at least two people</h3>
+                    <p>Choose the people above to align their timeline cycles around one year.</p>
+                  </div>
+                ) : (
+                  <>
+                    <div className="compare-toolbar no-print">
+                      <div className="segmented-control" aria-label="Comparison mode">
+                        <button className={compareMode === "years" ? "active" : ""} aria-pressed={compareMode === "years"} type="button" onClick={() => setCompareMode("years")}>Years</button>
+                        <button className={compareMode === "months" ? "active" : ""} aria-pressed={compareMode === "months"} type="button" onClick={() => setCompareMode("months")}>Months</button>
+                      </div>
+                      <div className="year-stepper">
+                        <button type="button" aria-label="Previous year" onClick={() => setFocusYear((year) => year - 1)}>−</button>
+                        <label>Focus year<input type="number" value={focusYear} onChange={(event) => setFocusYear(Number(event.target.value))} /></label>
+                        <button type="button" aria-label="Next year" onClick={() => setFocusYear((year) => year + 1)}>+</button>
+                      </div>
+                    </div>
+
+                    <div className="comparison-stack">
+                      {compareClients.map((client) => {
+                        const report = buildPersonReport(client, currentYear);
+                        const ageAtFocus = report.age + focusYear - currentYear;
+                        return (
+                          <article className="comparison-card" key={client.id}>
+                            <div className="comparison-person">
+                              <div><h2>{client.fullName}</h2><p>{client.dob}</p></div>
+                              <span>{focusYear} · age {ageAtFocus}</span>
+                            </div>
+                            {ageAtFocus < 0 ? (
+                              <p className="before-birth">This focus year is before the person's birth.</p>
+                            ) : compareMode === "years" ? (
+                              <YearGrid report={report} start={Math.max(0, ageAtFocus - 10)} length={21} includeNames={false} label={`Comparison chart for ${client.fullName}`} />
+                            ) : (
+                              <MonthBand report={report} focusAge={ageAtFocus} />
+                            )}
+                          </article>
+                        );
+                      })}
+                    </div>
+                  </>
+                )}
               </>
             )}
+          </section>
+        )}
+
+        {view === "owner" && timeline.isOwner && (
+          <section className="owner-view view-section">
+            <OwnerDashboard />
           </section>
         )}
       </div>
 
       <nav className="bottom-nav no-print" aria-label="Primary navigation">
         <button className={view === "people" ? "active" : ""} aria-current={view === "people" ? "page" : undefined} type="button" onClick={() => setView("people")}><span>People</span><small>{clients.length}</small></button>
-        <button className={view === "chart" ? "active" : ""} aria-current={view === "chart" ? "page" : undefined} type="button" disabled={!selectedClient} onClick={() => setView("chart")}><span>Chart</span><small>{selectedClient ? "Open" : "—"}</small></button>
-        <button className={view === "compare" ? "active" : ""} aria-current={view === "compare" ? "page" : undefined} type="button" onClick={() => setView("compare")}><span>Compare</span><small>{compareIds.length}</small></button>
+        <button className={view === "chart" ? "active" : ""} aria-current={view === "chart" ? "page" : undefined} type="button" disabled={!selectedClient} onClick={() => setView("chart")}><span>Chart</span><small>{selectedClient ? (timeline.hasChartAccess ? "Open" : "Locked") : "—"}</small></button>
+        <button className={view === "compare" ? "active" : ""} aria-current={view === "compare" ? "page" : undefined} type="button" onClick={() => setView("compare")}><span>Compare</span><small>{timeline.hasComparisons ? compareIds.length : "Locked"}</small></button>
+        {timeline.isOwner && (
+          <button className={view === "owner" ? "active" : ""} aria-current={view === "owner" ? "page" : undefined} type="button" onClick={() => setView("owner")}><span>Owner</span><small>Admin</small></button>
+        )}
       </nav>
 
       {editing && <PersonForm person={editing === "new" ? null : editing} onCancel={() => setEditing(null)} onSave={saveClient} />}

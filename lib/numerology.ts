@@ -1,3 +1,10 @@
+import {
+  getAlphabetChartValue,
+  getAlphabetPosition,
+  getNameAlphabet,
+  type NameAlphabetMode,
+} from "./name-alphabets.ts";
+
 export type PinChaType =
   | "P1"
   | "P2"
@@ -30,13 +37,18 @@ export type MonthsSet = {
 };
 
 const separators = /[ \-/\\]/;
+const bulgarianNameSeparators = /[ \-'’]/;
 
-export function calcString(input: string, singleRound = false): number {
+export function calcString(
+  input: string,
+  singleRound = false,
+  alphabetMode: NameAlphabetMode = "latin",
+): number {
   let total = 0;
-  for (const character of input.toUpperCase()) {
-    const code = character.charCodeAt(0);
-    if (code >= 65 && code <= 90) total += code - 64;
-    else if (code >= 48 && code <= 57) total += code - 48;
+  for (const character of input.normalize("NFC")) {
+    const position = getAlphabetPosition(character, alphabetMode);
+    if (position !== null) total += position;
+    else if (character >= "0" && character <= "9") total += character.charCodeAt(0) - 48;
   }
   if (singleRound || total <= 9) return total;
   const reduced = total % 9;
@@ -88,14 +100,18 @@ export function multiFull(input: string, split = separators): string {
     .join(" ");
 }
 
-export function hdc(input: string, returnType: number): string {
-  const vowels = new Set(["A", "E", "I", "O", "U"]);
+export function hdc(
+  input: string,
+  returnType: number,
+  alphabetMode: NameAlphabetMode = "latin",
+): string {
+  const alphabet = getNameAlphabet(alphabetMode);
   let output = "";
-  for (const character of input.toUpperCase()) {
-    output += vowels.has(character)
+  for (const character of input.normalize("NFC")) {
+    output += alphabet.isVowel(character)
       ? returnType === 3
-        ? calcString(character).toString()
-        : character
+        ? alphabet.getChartValue(character)?.toString() ?? " "
+        : character.toUpperCase()
       : " ";
   }
   if (returnType === 0 || returnType === 3) return output;
@@ -103,25 +119,21 @@ export function hdc(input: string, returnType: number): string {
   return calcString(output).toString();
 }
 
-export function letters(input: string): string {
+export function letters(input: string, alphabetMode: NameAlphabetMode = "latin"): string {
   let output = "";
-  for (const character of input.toUpperCase()) {
-    const code = character.charCodeAt(0);
-    if (code >= 48 && code <= 57) output += character;
-    else {
-      const value = code - 64;
-      output += value < 1 || value > 26 ? " " : calcNumber(value).toString();
-    }
+  for (const character of input.normalize("NFC")) {
+    if (character >= "0" && character <= "9") output += character;
+    else output += getAlphabetChartValue(character, alphabetMode)?.toString() ?? " ";
   }
   return output;
 }
 
-export function countWords(input: string): number {
-  return input.split(separators).length;
+export function countWords(input: string, split = separators): number {
+  return input.split(split).length;
 }
 
-export function getWord(input: string, which: number): string {
-  const words = input.split(separators);
+export function getWord(input: string, which: number, split = separators): string {
+  const words = input.split(split);
   return which <= words.length ? (words[which - 1] ?? "") : "";
 }
 
@@ -156,9 +168,13 @@ export function pinCha(input: string, returnType: PinChaType): string {
   return values[returnType];
 }
 
-export function repeat(word: string): string {
+export function repeat(word: string, alphabetMode: NameAlphabetMode = "latin"): string {
   let output = "";
-  for (const character of word) output += character.repeat(calcString(character));
+  for (const character of word.normalize("NFC")) {
+    const value = getAlphabetChartValue(character, alphabetMode)
+      ?? (character >= "0" && character <= "9" ? calcString(character) : 0);
+    output += character.repeat(value);
+  }
   return output;
 }
 
@@ -211,12 +227,19 @@ export class Report {
   readonly pin: string;
   readonly cha: string;
   readonly ultimateGoal: string;
+  readonly alphabetMode: NameAlphabetMode;
 
-  constructor(name: string, dob: string, currentYear = new Date().getFullYear()) {
+  constructor(
+    name: string,
+    dob: string,
+    currentYear = new Date().getFullYear(),
+    alphabetMode: NameAlphabetMode = "latin",
+  ) {
     this.fullName = name;
     this.dob = dob;
-    this.hdc = hdc(name, 3);
-    this.fullLetters = letters(name);
+    this.alphabetMode = alphabetMode;
+    this.hdc = hdc(name, 3, alphabetMode);
+    this.fullLetters = letters(name, alphabetMode);
     this.hdcTotal = full(this.hdc);
     this.fullLettersTotal = full(this.fullLetters);
     this.fullLettersTotalPart = multiFull(this.fullLetters);
@@ -245,10 +268,11 @@ export class Report {
     this.seasons = seasons(dob);
     this.names = [];
     this.fullNameRepeated = [];
-    for (let index = 1; index <= countWords(name); index += 1) {
-      const word = getWord(name, index);
+    const nameSeparator = alphabetMode === "bulgarian-cyrillic" ? bulgarianNameSeparators : separators;
+    for (let index = 1; index <= countWords(name, nameSeparator); index += 1) {
+      const word = getWord(name, index, nameSeparator);
       this.names.push(word);
-      this.fullNameRepeated.push(repeat(word));
+      this.fullNameRepeated.push(repeat(word, alphabetMode));
     }
     this.pin = pinCha(dob, "PPP_P");
     this.cha = pinCha(dob, "CCC_C");
@@ -266,7 +290,7 @@ export class Report {
       adjustedStart += 1;
     }
     for (const repeatedName of this.fullNameRepeated) {
-      const digits = Array.from(repeatedName, (character) => calcString(character));
+      const digits = Array.from(repeatedName, (character) => calcString(character, false, this.alphabetMode));
       let sourceIndex = adjustedStart - 1;
       for (let index = outputStart; index < length; index += 1) {
         values[index] += digits[sourceIndex % digits.length];
@@ -328,8 +352,11 @@ export class Report {
   }
 }
 
-export function normalizeName(name: string): string {
-  return name.trim().replace(/[ \-/\\]+/g, " ");
+export function normalizeName(name: string, alphabetMode: NameAlphabetMode = "latin"): string {
+  const normalized = name.normalize("NFC").trim();
+  return alphabetMode === "bulgarian-cyrillic"
+    ? normalized.replace(/\s+/gu, " ")
+    : normalized.replace(/[ \-/\\]+/g, " ");
 }
 
 export function normalizeDob(value: string): string {

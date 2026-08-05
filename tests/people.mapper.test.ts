@@ -5,6 +5,7 @@ import {
   databaseDateToAppDob,
   mapPeopleRow,
   normalizePersonInput,
+  personDuplicateKey,
   PersonValidationError,
 } from "../features/people/people.mapper";
 
@@ -20,13 +21,15 @@ describe("people mapper", () => {
   });
 
   it("normalizes source input and maps a generated database row", () => {
-    expect(normalizePersonInput({ fullName: "  Roman   Peter Vaughan ", calledName: " Roman  Vaughan ", dob: "24/05/1992" })).toEqual({
+    expect(normalizePersonInput({ fullName: "  Roman   Peter Vaughan ", calledName: " Roman  Vaughan ", dob: "24/05/1992", nameAlphabetMode: "latin" })).toEqual({
       fullName: "Roman Peter Vaughan",
       calledName: "Roman Vaughan",
       dob: "24/05/1992",
+      nameAlphabetMode: "latin",
     });
     expect(mapPeopleRow({
       id: "0ad275b0-818f-4424-87eb-a3089fa458ff",
+      name_alphabet_mode: "bulgarian-cyrillic",
       user_id: "84662d76-271b-40c8-9ce7-29fb621efe56",
       full_name: "Roman Peter Vaughan",
       called_name: "",
@@ -38,6 +41,26 @@ describe("people mapper", () => {
       fullName: "Roman Peter Vaughan",
       calledName: "",
       dob: "24/05/1992",
+      nameAlphabetMode: "bulgarian-cyrillic",
     });
+  });
+
+  it("validates names in the selected alphabet and includes the mode in duplicate identity", () => {
+    expect(() => normalizePersonInput({
+      fullName: "Alexander",
+      calledName: "",
+      dob: "24/05/1992",
+      nameAlphabetMode: "bulgarian-cyrillic",
+    })).toThrow("This mode supports the 30-letter Bulgarian alphabet only.");
+    expect(() => normalizePersonInput({
+      fullName: "Александър",
+      calledName: "",
+      dob: "24/05/1992",
+      nameAlphabetMode: "latin",
+    })).toThrow("This mode supports English / Latin letters only.");
+
+    const source = { fullName: "123", calledName: "", dob: "24/05/1992" };
+    expect(personDuplicateKey({ ...source, nameAlphabetMode: "latin" }))
+      .not.toBe(personDuplicateKey({ ...source, nameAlphabetMode: "bulgarian-cyrillic" }));
   });
 });

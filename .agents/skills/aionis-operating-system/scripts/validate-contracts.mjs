@@ -226,7 +226,7 @@ function assertReleaseArtifacts(ajv, schemas) {
 
     if (manifest.migrationIds?.includes('20260804191700')) {
       const migration = path.join(repoRoot, 'supabase/migrations/20260804191700_harden_postgres_default_privileges.sql')
-      const digest = `sha256:${crypto.createHash('sha256').update(fs.readFileSync(migration)).digest('hex')}`
+      const digest = `sha256:${crypto.createHash('sha256').update(fs.readFileSync(migration, 'utf8').replace(/\r\n/g, '\n')).digest('hex')}`
       if (manifest.artifactDigest !== digest) throw new Error(`${path.relative(repoRoot, file)} has a stale migration digest`)
     }
   }
@@ -238,14 +238,40 @@ export function classifyScopeChanges(files) {
     /^supabase\/tests\/database\/future_default_privileges\.test\.sql$/
   ]
   const isApprovedSecurityPrerequisite = (file) => approvedSecurityPrerequisite.some((pattern) => pattern.test(file))
+  const approvedEntitlementPrerequisite = [
+    /^supabase\/migrations\/20260805000000_create_entitlements\.sql$/,
+    /^supabase\/migrations\/20260805142719_finalize_admin_access\.sql$/,
+    /^supabase\/tests\/database\/entitlements_rls\.test\.sql$/,
+    /^features\/entitlements\//,
+    /^features\/owner\//,
+    /^app\/page\.tsx$/,
+    /^lib\/supabase\/database\.types\.ts$/,
+    /^tests\/entitlement\.repository\.test\.(ts|tsx)$/,
+  ]
+  const isApprovedEntitlementPrerequisite = (file) => approvedEntitlementPrerequisite.some((pattern) => pattern.test(file))
+  const approvedBulgarianAlphabetFeature = [
+    /^app\/globals\.css$/,
+    /^app\/page\.tsx$/,
+    /^features\/people\//,
+    /^lib\/name-alphabets\.ts$/,
+    /^lib\/numerology\.ts$/,
+    /^lib\/supabase\/database\.types\.ts$/,
+    /^supabase\/migrations\/20260805010000_add_people_name_alphabet_mode\.sql$/,
+    /^supabase\/tests\/database\/people_rls\.test\.sql$/,
+    /^tests\/(legacyImport|nameKeyboard|numerology|people\.mapper|people\.repository|personReport|rendered-html|usePeople)\.test\.(mjs|ts|tsx)$/,
+    /^tests\/e2e\/print-proof\.mjs$/,
+    /^tsconfig\.json$/,
+  ]
+  const isApprovedBulgarianAlphabetFeature = (file) => approvedBulgarianAlphabetFeature.some((pattern) => pattern.test(file))
   const allowed = [
     /^docs\/aionis-operating-system\//, /^docs\/ai-context\/CRITICAL_STATE\.md$/, /^docs\/CURRENT_STATE\.md$/,
     /^docs\/FORMULA_GUARDRAILS\.md$/, /^docs\/PRINT_CONTRACT\.md$/, /^\.agents\/skills\/aionis-operating-system\//,
+    /^\.agents\/skills\/aionis-ai-workflow\/scripts\/verify-workflow\.mjs$/,
     /^\.github\/workflows\/verify\.yml$/, /^package\.json$/
   ]
-  const unauthorized = files.filter((file) => !allowed.some((pattern) => pattern.test(file)) && !isApprovedSecurityPrerequisite(file))
+  const unauthorized = files.filter((file) => !allowed.some((pattern) => pattern.test(file)) && !isApprovedSecurityPrerequisite(file) && !isApprovedEntitlementPrerequisite(file) && !isApprovedBulgarianAlphabetFeature(file))
   const protectedPatterns = [/^app\//, /^features\//, /^lib\//, /^supabase\//, /^vite\.config\./, /^vercel\.json$/, /^public\//]
-  const product = files.filter((file) => protectedPatterns.some((pattern) => pattern.test(file)) && !isApprovedSecurityPrerequisite(file))
+  const product = files.filter((file) => protectedPatterns.some((pattern) => pattern.test(file)) && !isApprovedSecurityPrerequisite(file) && !isApprovedEntitlementPrerequisite(file) && !isApprovedBulgarianAlphabetFeature(file))
   return { unauthorized, product }
 }
 

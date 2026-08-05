@@ -27,11 +27,11 @@ body {
   -webkit-font-smoothing: antialiased;
   overflow-x: hidden;
 }
-button, input { font: inherit; }
+button, input, select { font: inherit; }
 button { cursor: pointer; }
 button:disabled { cursor: not-allowed; opacity: 0.45; }
-button, input, .chart-scroll, .original-profile-scroll, .month-band { outline: none; }
-button:focus-visible, input:focus-visible, .chart-scroll:focus-visible, .original-profile-scroll:focus-visible, .month-band:focus-visible {
+button, input, select, .chart-scroll, .original-profile-scroll, .month-band { outline: none; }
+button:focus-visible, input:focus-visible, select:focus-visible, .chart-scroll:focus-visible, .original-profile-scroll:focus-visible, .month-band:focus-visible {
   outline: 3px solid rgba(194, 65, 12, 0.35);
   outline-offset: 2px;
 }
@@ -245,8 +245,17 @@ code, .number-grid, .month-grid { font-family: "Courier New", Courier, monospace
 .sheet-handle { width: 44px; height: 5px; margin: 0 auto 16px; border-radius: 99px; background: #c8ccd3; }
 .person-form { display: grid; gap: 14px; margin-top: 22px; }
 .person-form label { display: grid; gap: 7px; color: #374151; font-size: 12px; font-weight: 800; }
-.person-form input { width: 100%; min-height: 50px; border: 1px solid #c7ccd4; border-radius: 13px; padding: 0 14px; background: white; color: var(--ink); font-size: 16px; font-weight: 550; }
+.person-form input, .person-form select { width: 100%; min-height: 50px; border: 1px solid #c7ccd4; border-radius: 13px; padding: 0 14px; background: white; color: var(--ink); font-size: 16px; font-weight: 550; }
 .person-form input::placeholder { color: #9aa2af; font-weight: 450; }
+.bulgarian-keyboard { min-width: 0; margin: 0; padding: 12px; border: 1px solid #d4d8df; border-radius: 14px; }
+.bulgarian-keyboard legend { padding: 0 6px; color: #374151; font-size: 12px; font-weight: 850; }
+.bulgarian-keyboard > p { margin: 0 0 9px; color: #6b7280; font-size: 11px; }
+.bulgarian-keyboard-letters, .bulgarian-keyboard-actions { display: grid; gap: 5px; }
+.bulgarian-keyboard-letters { grid-template-columns: repeat(10, minmax(0, 1fr)); }
+.bulgarian-keyboard-actions { grid-template-columns: repeat(5, minmax(0, 1fr)); margin-top: 7px; }
+.bulgarian-keyboard button { min-width: 0; min-height: 44px; border: 1px solid #c7ccd4; border-radius: 10px; background: #f8fafc; color: var(--ink); font-weight: 800; }
+.bulgarian-keyboard-actions button { padding: 4px; font-size: 11px; }
+.chart-alphabet { font-size: 12px; font-weight: 750; }
 .optional { margin-left: 5px; color: #8a93a2; font-weight: 500; }
 .form-error { margin: 0; padding: 10px 12px; border-radius: 11px; background: #fff1f2; color: #9f1239; font-size: 12px; }
 .install-steps { display: grid; gap: 12px; margin-top: 20px; }
@@ -264,6 +273,10 @@ code, .number-grid, .month-grid { font-family: "Courier New", Courier, monospace
   .month-card { flex-basis: 390px; }
   .modal-backdrop { align-items: center; }
   .sheet { border-radius: 24px; }
+}
+
+@media (max-width: 420px) {
+  .bulgarian-keyboard-letters { grid-template-columns: repeat(6, minmax(0, 1fr)); }
 }
 
 @media (min-width: 1080px) {
@@ -413,9 +426,9 @@ code, .number-grid, .month-grid { font-family: "Courier New", Courier, monospace
       radial-gradient(circle at 16% 58%, rgba(111, 69, 175, 0.12), transparent 34%),
       linear-gradient(180deg, #050b16 0%, #020711 48%, #030914 100%);
   }
-  button, input { transition: border-color 180ms ease, background 180ms ease, color 180ms ease, transform 180ms ease, box-shadow 180ms ease; }
+  button, input, select { transition: border-color 180ms ease, background 180ms ease, color 180ms ease, transform 180ms ease, box-shadow 180ms ease; }
   button:active { transform: scale(0.985); }
-  button:focus-visible, input:focus-visible, .chart-scroll:focus-visible, .original-profile-scroll:focus-visible, .month-band:focus-visible { outline-color: rgba(231, 192, 116, 0.75); }
+  button:focus-visible, input:focus-visible, select:focus-visible, .chart-scroll:focus-visible, .original-profile-scroll:focus-visible, .month-band:focus-visible { outline-color: rgba(231, 192, 116, 0.75); }
   .app-shell { position: relative; isolation: isolate; min-height: 100dvh; background: transparent; }
   .cosmic-glyphs { position: fixed; z-index: -1; inset: 0; overflow: hidden; pointer-events: none; color: rgba(218, 175, 91, 0.08); font: 300 clamp(56px, 8vw, 130px)/1 Georgia, serif; }
   .cosmic-glyphs span { position: absolute; filter: drop-shadow(0 0 22px rgba(58, 152, 255, 0.18)); }
@@ -528,8 +541,12 @@ code, .number-grid, .month-grid { font-family: "Courier New", Courier, monospace
   .sheet { background: linear-gradient(160deg, #0c1a2e, #040b16); border: 1px solid rgba(112,142,182,0.35); color: #eef4fc; }
   .sheet-handle { background: #62728a; }
   .person-form label { color: #c2cede; }
-  .person-form input { border-color: rgba(103,134,176,0.48); background: rgba(2,9,20,0.76); color: #f1f5fb; }
+  .person-form input, .person-form select { border-color: rgba(103,134,176,0.48); background: rgba(2,9,20,0.76); color: #f1f5fb; }
   .person-form input::placeholder { color: #6f7d91; }
+  .bulgarian-keyboard { border-color: rgba(103,134,176,0.48); }
+  .bulgarian-keyboard legend { color: #c2cede; }
+  .bulgarian-keyboard > p { color: #91a1b8; }
+  .bulgarian-keyboard button { border-color: rgba(103,134,176,0.48); background: rgba(12,26,46,0.92); color: #f1f5fb; }
   .install-steps > div { background: rgba(10,25,45,0.82); }
 }
 

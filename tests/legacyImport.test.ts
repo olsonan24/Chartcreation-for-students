@@ -18,7 +18,7 @@ describe("legacy local-data import", () => {
     localStorage.setItem("pass7-mobile-clients-v1", raw);
 
     const result = inspectLegacyPeople(localStorage.getItem("pass7-mobile-clients-v1"));
-    expect(result.valid).toEqual([{ fullName: "Roman Peter Vaughan", calledName: "", dob: "24/05/1992" }]);
+    expect(result.valid).toEqual([{ fullName: "Roman Peter Vaughan", calledName: "", dob: "24/05/1992", nameAlphabetMode: "latin" }]);
     expect(result.invalidCount).toBe(1);
     expect(localStorage.getItem("pass7-mobile-clients-v1")).toBe(raw);
   });
@@ -34,14 +34,14 @@ describe("legacy local-data import", () => {
   });
 
   it("prevents duplicates against cloud records and within the legacy batch", () => {
-    const existing = [{ id: "1", fullName: "Roman Peter Vaughan", calledName: "", dob: "24/05/1992" }];
+    const existing = [{ id: "1", fullName: "Roman Peter Vaughan", calledName: "", dob: "24/05/1992", nameAlphabetMode: "latin" as const }];
     const plan = planLegacyImport([
-      { fullName: " roman peter vaughan ", calledName: "", dob: "24/05/1992" },
-      { fullName: "New Person", calledName: "New", dob: "01/01/2000" },
-      { fullName: "new person", calledName: "new", dob: "01/01/2000" },
+      { fullName: " roman peter vaughan ", calledName: "", dob: "24/05/1992", nameAlphabetMode: "latin" },
+      { fullName: "New Person", calledName: "New", dob: "01/01/2000", nameAlphabetMode: "latin" },
+      { fullName: "new person", calledName: "new", dob: "01/01/2000", nameAlphabetMode: "latin" },
     ], existing);
 
-    expect(plan.importable).toEqual([{ fullName: "New Person", calledName: "New", dob: "01/01/2000" }]);
+    expect(plan.importable).toEqual([{ fullName: "New Person", calledName: "New", dob: "01/01/2000", nameAlphabetMode: "latin" }]);
     expect(plan.duplicateCount).toBe(2);
   });
 

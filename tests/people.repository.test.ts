@@ -18,9 +18,10 @@ describe("people repository", () => {
     let inserted: unknown;
     const createdRow = {
       id: "0ad275b0-818f-4424-87eb-a3089fa458ff",
+      name_alphabet_mode: "bulgarian-cyrillic",
       user_id: userId,
-      full_name: "Roman Peter Vaughan",
-      called_name: "Roman",
+      full_name: "Александър Анков Котзев",
+      called_name: "Александър",
       date_of_birth: "1992-05-24",
       created_at: "2026-07-31T00:00:00Z",
       updated_at: "2026-07-31T00:00:00Z",
@@ -32,15 +33,22 @@ describe("people repository", () => {
     };
     const repository = createPeopleRepository(authClient(vi.fn(() => chain)));
 
-    const result = await repository.createPerson({ fullName: " Roman  Peter Vaughan ", calledName: " Roman ", dob: "24/05/1992" });
+    const result = await repository.createPerson({
+      fullName: "Александър Анков Котзев",
+      calledName: "Александър",
+      dob: "24/05/1992",
+      nameAlphabetMode: "bulgarian-cyrillic",
+    });
 
     expect(inserted).toEqual({
       user_id: userId,
-      full_name: "Roman Peter Vaughan",
-      called_name: "Roman",
+      full_name: "Александър Анков Котзев",
+      called_name: "Александър",
       date_of_birth: "1992-05-24",
+      name_alphabet_mode: "bulgarian-cyrillic",
     });
     expect(result.dob).toBe("24/05/1992");
+    expect(result.nameAlphabetMode).toBe("bulgarian-cyrillic");
   });
 
   it("propagates a useful typed list failure", async () => {

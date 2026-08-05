@@ -9,6 +9,131 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
+      app_roles: {
+        Row: {
+          granted_at: string
+          granted_by: string | null
+          reason: string
+          role: Database["public"]["Enums"]["owner_role"]
+          user_id: string
+        }
+        Insert: {
+          granted_at?: string
+          granted_by?: string | null
+          reason?: string
+          role: Database["public"]["Enums"]["owner_role"]
+          user_id: string
+        }
+        Update: {
+          granted_at?: string
+          granted_by?: string | null
+          reason?: string
+          role?: Database["public"]["Enums"]["owner_role"]
+          user_id?: string
+        }
+        Relationships: []
+      }
+      entitlement_history: {
+        Row: {
+          action: string
+          capability: Database["public"]["Enums"]["entitlement_capability"]
+          entitlement_id: string
+          expires_at: string | null
+          id: number
+          is_permanent: boolean | null
+          metadata: Json
+          new_status: Database["public"]["Enums"]["entitlement_status"] | null
+          old_status: Database["public"]["Enums"]["entitlement_status"] | null
+          performed_at: string
+          performed_by: string
+          reason: string
+          user_id: string
+        }
+        Insert: {
+          action: string
+          capability: Database["public"]["Enums"]["entitlement_capability"]
+          entitlement_id: string
+          expires_at?: string | null
+          id?: number
+          is_permanent?: boolean | null
+          metadata?: Json
+          new_status?: Database["public"]["Enums"]["entitlement_status"] | null
+          old_status?: Database["public"]["Enums"]["entitlement_status"] | null
+          performed_at?: string
+          performed_by: string
+          reason?: string
+          user_id: string
+        }
+        Update: {
+          action?: string
+          capability?: Database["public"]["Enums"]["entitlement_capability"]
+          entitlement_id?: string
+          expires_at?: string | null
+          id?: number
+          is_permanent?: boolean | null
+          metadata?: Json
+          new_status?: Database["public"]["Enums"]["entitlement_status"] | null
+          old_status?: Database["public"]["Enums"]["entitlement_status"] | null
+          performed_at?: string
+          performed_by?: string
+          reason?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "entitlement_history_entitlement_id_fkey"
+            columns: ["entitlement_id"]
+            isOneToOne: false
+            referencedRelation: "entitlements"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      entitlements: {
+        Row: {
+          capability: Database["public"]["Enums"]["entitlement_capability"]
+          expires_at: string | null
+          granted_at: string
+          granted_by: string
+          id: string
+          is_permanent: boolean
+          reason: string
+          revoke_reason: string
+          revoked_at: string | null
+          revoked_by: string | null
+          status: Database["public"]["Enums"]["entitlement_status"]
+          user_id: string
+        }
+        Insert: {
+          capability: Database["public"]["Enums"]["entitlement_capability"]
+          expires_at?: string | null
+          granted_at?: string
+          granted_by: string
+          id?: string
+          is_permanent?: boolean
+          reason?: string
+          revoke_reason?: string
+          revoked_at?: string | null
+          revoked_by?: string | null
+          status?: Database["public"]["Enums"]["entitlement_status"]
+          user_id: string
+        }
+        Update: {
+          capability?: Database["public"]["Enums"]["entitlement_capability"]
+          expires_at?: string | null
+          granted_at?: string
+          granted_by?: string
+          id?: string
+          is_permanent?: boolean
+          reason?: string
+          revoke_reason?: string
+          revoked_at?: string | null
+          revoked_by?: string | null
+          status?: Database["public"]["Enums"]["entitlement_status"]
+          user_id?: string
+        }
+        Relationships: []
+      }
       people: {
         Row: {
           called_name: string
@@ -16,6 +141,7 @@ export type Database = {
           date_of_birth: string
           full_name: string
           id: string
+          name_alphabet_mode: string
           updated_at: string
           user_id: string
         }
@@ -25,6 +151,7 @@ export type Database = {
           date_of_birth: string
           full_name: string
           id?: string
+          name_alphabet_mode?: string
           updated_at?: string
           user_id: string
         }
@@ -34,6 +161,7 @@ export type Database = {
           date_of_birth?: string
           full_name?: string
           id?: string
+          name_alphabet_mode?: string
           updated_at?: string
           user_id?: string
         }
@@ -44,10 +172,25 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      has_active_entitlement: {
+        Args: {
+          p_capability: Database["public"]["Enums"]["entitlement_capability"]
+          p_user_id: string
+        }
+        Returns: boolean
+      }
+      is_owner_or_admin: { Args: { p_user_id: string }; Returns: boolean }
     }
     Enums: {
-      [_ in never]: never
+      entitlement_capability:
+        | "chart_access"
+        | "timeline_access"
+        | "timeline_descriptions"
+        | "comparisons"
+        | "print_export"
+        | "advanced_insights"
+      entitlement_status: "active" | "revoked" | "suspended" | "expired"
+      owner_role: "owner" | "admin"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -174,6 +317,17 @@ export type CompositeTypes<
 
 export const Constants = {
   public: {
-    Enums: {},
+    Enums: {
+      entitlement_capability: [
+        "chart_access",
+        "timeline_access",
+        "timeline_descriptions",
+        "comparisons",
+        "print_export",
+        "advanced_insights",
+      ],
+      entitlement_status: ["active", "revoked", "suspended", "expired"],
+      owner_role: ["owner", "admin"],
+    },
   },
 } as const

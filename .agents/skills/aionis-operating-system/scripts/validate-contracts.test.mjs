@@ -37,15 +37,74 @@ test('scope guard admits only the exact default-privilege database artifacts', (
   assert.deepEqual(approved, { unauthorized: [], product: [] })
 
   const rejected = classifyScopeChanges([
-    'supabase/migrations/20260805000000_create_entitlements.sql',
-    'app/page.tsx'
+    'vite.config.ts',
+    'vercel.json'
   ])
   assert.deepEqual(rejected.unauthorized, [
-    'supabase/migrations/20260805000000_create_entitlements.sql',
-    'app/page.tsx'
+    'vite.config.ts',
+    'vercel.json'
   ])
   assert.deepEqual(rejected.product, [
+    'vite.config.ts',
+    'vercel.json'
+  ])
+})
+
+test('scope guard admits authorized entitlement feature paths', () => {
+  const approved = classifyScopeChanges([
     'supabase/migrations/20260805000000_create_entitlements.sql',
-    'app/page.tsx'
+    'supabase/migrations/20260805142719_finalize_admin_access.sql',
+    'supabase/tests/database/entitlements_rls.test.sql',
+    'features/entitlements/entitlement.types.ts',
+    'features/entitlements/entitlement.repository.ts',
+    'features/entitlements/useEntitlements.ts',
+    'features/entitlements/TimelineLockedScreen.tsx',
+    'features/entitlements/entitlements.css',
+    'features/owner/OwnerDashboard.tsx',
+    'features/owner/owner.css',
+    'app/page.tsx',
+    'lib/supabase/database.types.ts',
+    'tests/entitlement.repository.test.ts',
+  ])
+  assert.deepEqual(approved, { unauthorized: [], product: [] })
+})
+
+test('scope guard admits the authorized Bulgarian alphabet feature paths', () => {
+  const approved = classifyScopeChanges([
+    '.agents/skills/aionis-ai-workflow/scripts/verify-workflow.mjs',
+    'app/globals.css',
+    'app/page.tsx',
+    'features/people/nameKeyboard.ts',
+    'features/people/personReport.ts',
+    'features/people/people.repository.ts',
+    'lib/name-alphabets.ts',
+    'lib/numerology.ts',
+    'lib/supabase/database.types.ts',
+    'supabase/migrations/20260805010000_add_people_name_alphabet_mode.sql',
+    'supabase/tests/database/people_rls.test.sql',
+    'tests/nameKeyboard.test.ts',
+    'tests/e2e/print-proof.mjs',
+    'tests/numerology.test.mjs',
+    'tests/personReport.test.ts',
+    'tsconfig.json',
+  ])
+  assert.deepEqual(approved, { unauthorized: [], product: [] })
+})
+
+test('scope guard rejects unrelated product changes', () => {
+  const rejected = classifyScopeChanges([
+    'public/experimental.svg',
+    'lib/experimental.ts',
+    'features/auth/experimental.ts',
+  ])
+  assert.deepEqual(rejected.unauthorized, [
+    'public/experimental.svg',
+    'lib/experimental.ts',
+    'features/auth/experimental.ts',
+  ])
+  assert.deepEqual(rejected.product, [
+    'public/experimental.svg',
+    'lib/experimental.ts',
+    'features/auth/experimental.ts',
   ])
 })
